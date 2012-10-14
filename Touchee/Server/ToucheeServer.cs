@@ -58,6 +58,7 @@ namespace Touchee.Server {
 
             // Start HTTP server
             try {
+                Log("Starting HTTP server on port " + _httpServerPort.ToString());
                 _httpServer.Start();
                 Log("HTTP server started");
             }
@@ -67,10 +68,10 @@ namespace Touchee.Server {
             }
 
             // Start websocket server
-            try
-            {
+            try {
+                Log("Starting websocket server on port " + _websocketPort.ToString());
                 _websocketServer.Start();
-                Logger.Log("Websocket server started");
+                Log("Websocket server started");
             }
             catch (Exception e)
             {

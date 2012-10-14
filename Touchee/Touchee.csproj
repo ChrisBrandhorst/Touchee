@@ -77,522 +77,533 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\app\app.js">
+    <Content Include="web\app\app.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\arrow_next%402x.png">
+    <Content Include="web\app\assets\images\arrow_next%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\arrow_next.png">
+    <Content Include="web\app\assets\images\arrow_next.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\arrow_next_selected%402x.png">
+    <Content Include="web\app\assets\images\arrow_next_selected%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\arrow_next_selected.png">
+    <Content Include="web\app\assets\images\arrow_next_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\large\album.png">
+    <Content Include="web\app\assets\images\artwork\large\album.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\large\artist.png">
+    <Content Include="web\app\assets\images\artwork\large\artist.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\large\empty.png">
+    <Content Include="web\app\assets\images\artwork\large\empty.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\medium\album.png">
+    <Content Include="web\app\assets\images\artwork\medium\album.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\medium\artist.png">
+    <Content Include="web\app\assets\images\artwork\medium\artist.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\medium\unknown.png">
+    <Content Include="web\app\assets\images\artwork\medium\unknown.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\medium\webcast.png">
+    <Content Include="web\app\assets\images\artwork\medium\webcast.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\small\album.png">
+    <Content Include="web\app\assets\images\artwork\small\album.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\small\artist.png">
+    <Content Include="web\app\assets\images\artwork\small\artist.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\artwork\small\empty.png">
+    <Content Include="web\app\assets\images\artwork\small\empty.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_black%402x.png">
+    <Content Include="web\app\assets\images\button_back_black%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_black.png">
+    <Content Include="web\app\assets\images\button_back_black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_black_active%402x.png">
+    <Content Include="web\app\assets\images\button_back_black_active%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_black_active.png">
+    <Content Include="web\app\assets\images\button_back_black_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_gray.png">
+    <Content Include="web\app\assets\images\button_back_gray.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\button_back_gray_active.png">
+    <Content Include="web\app\assets\images\button_back_gray_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_off%402x.png">
+    <Content Include="web\app\assets\images\check_off%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_off.png">
+    <Content Include="web\app\assets\images\check_off.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_on.png">
+    <Content Include="web\app\assets\images\check_on.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_on.png%402x.png">
+    <Content Include="web\app\assets\images\check_on.png%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_on_active%402x.png">
+    <Content Include="web\app\assets\images\check_on_active%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\check_on_active.png">
+    <Content Include="web\app\assets\images\check_on_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\disc.png">
+    <Content Include="web\app\assets\images\connecting.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\disc_selected.png">
+    <Content Include="web\app\assets\images\containers\disc.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\film.png">
+    <Content Include="web\app\assets\images\containers\disc_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\film_selected.png">
+    <Content Include="web\app\assets\images\containers\film.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\folder.png">
+    <Content Include="web\app\assets\images\containers\film_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\folder_selected.png">
+    <Content Include="web\app\assets\images\containers\folder.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\music.png">
+    <Content Include="web\app\assets\images\containers\folder_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\music_selected.png">
+    <Content Include="web\app\assets\images\containers\music.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\playlist.png">
+    <Content Include="web\app\assets\images\containers\music_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\playlist_selected.png">
+    <Content Include="web\app\assets\images\containers\playlist.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\radio.png">
+    <Content Include="web\app\assets\images\containers\playlist_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\radio_selected.png">
+    <Content Include="web\app\assets\images\containers\radio.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\root.png">
+    <Content Include="web\app\assets\images\containers\radio_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\tv.png">
+    <Content Include="web\app\assets\images\containers\root.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\tv_selected.png">
+    <Content Include="web\app\assets\images\containers\tv.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\video.png">
+    <Content Include="web\app\assets\images\containers\tv_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\video_selected.png">
+    <Content Include="web\app\assets\images\containers\video.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\web.png">
+    <Content Include="web\app\assets\images\containers\video_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\containers\web_selected.png">
+    <Content Include="web\app\assets\images\containers\web.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\contents_loading.gif">
+    <Content Include="web\app\assets\images\containers\web_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\contents_shuffle%402x.png">
+    <Content Include="web\app\assets\images\contents_loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\contents_shuffle.png">
+    <Content Include="web\app\assets\images\contents_shuffle%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\contents_shuffle_selected%402x.png">
+    <Content Include="web\app\assets\images\contents_shuffle.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\contents_shuffle_selected.png">
+    <Content Include="web\app\assets\images\contents_shuffle_selected%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\back.png">
+    <Content Include="web\app\assets\images\contents_shuffle_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\list.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\back.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\next.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\list.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\pause.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\next.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\play.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\black\prev.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\play.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\next.png">
+    <Content Include="web\app\assets\images\controls\buttons\black\prev.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\next_active.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\next.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\pause.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\next_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\pause_active.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\pause.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\play.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\pause_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\play_active.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\play.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\prev.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\play_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\buttons\gray\prev_active.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\prev.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\position_knob_round.png">
+    <Content Include="web\app\assets\images\controls\buttons\gray\prev_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\position_knob_square.png">
+    <Content Include="web\app\assets\images\controls\position_knob_round.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\repeat_off.png">
+    <Content Include="web\app\assets\images\controls\position_knob_square.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\repeat_on.png">
+    <Content Include="web\app\assets\images\controls\repeat_off.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\repeat_on_1.png">
+    <Content Include="web\app\assets\images\controls\repeat_on.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\shuffle_off.png">
+    <Content Include="web\app\assets\images\controls\repeat_on_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\shuffle_on.png">
+    <Content Include="web\app\assets\images\controls\shuffle_off.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_button_0.png">
+    <Content Include="web\app\assets\images\controls\shuffle_on.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_button_1.png">
+    <Content Include="web\app\assets\images\controls\volume_button_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_button_2.png">
+    <Content Include="web\app\assets\images\controls\volume_button_1.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_button_3.png">
+    <Content Include="web\app\assets\images\controls\volume_button_2.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_knob.png">
+    <Content Include="web\app\assets\images\controls\volume_button_3.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\controls\volume_knob_black.png">
+    <Content Include="web\app\assets\images\controls\volume_knob.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\nav_loading.gif">
+    <Content Include="web\app\assets\images\controls\volume_knob_black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_blue%402x.png">
+    <Content Include="web\app\assets\images\nav_loading.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_blue.png">
+    <Content Include="web\app\assets\images\playing_blue%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_blue_selected%402x.png">
+    <Content Include="web\app\assets\images\playing_blue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_blue_selected.png">
+    <Content Include="web\app\assets\images\playing_blue_selected%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_gray%402x.png">
+    <Content Include="web\app\assets\images\playing_blue_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_gray.png">
+    <Content Include="web\app\assets\images\playing_gray%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_gray_selected%402x.png">
+    <Content Include="web\app\assets\images\playing_gray.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\playing_gray_selected.png">
+    <Content Include="web\app\assets\images\playing_gray_selected%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\quickscroll_dot_large%402x.png">
+    <Content Include="web\app\assets\images\playing_gray_selected.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\quickscroll_dot_large.png">
+    <Content Include="web\app\assets\images\quickscroll_dot_large%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\quickscroll_dot_small%402x.png">
+    <Content Include="web\app\assets\images\quickscroll_dot_large.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\quickscroll_dot_small.png">
+    <Content Include="web\app\assets\images\quickscroll_dot_small%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\search_loupe%402x.png">
+    <Content Include="web\app\assets\images\quickscroll_dot_small.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\search_loupe.png">
+    <Content Include="web\app\assets\images\search_loupe%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\settings.png">
+    <Content Include="web\app\assets\images\search_loupe.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\speaker.png">
+    <Content Include="web\app\assets\images\settings.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\switch_amp.png">
+    <Content Include="web\app\assets\images\speaker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\switch_speaker.png">
+    <Content Include="web\app\assets\images\switch_amp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\switch_tv.png">
+    <Content Include="web\app\assets\images\switch_speaker.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\tracks_bg.png">
+    <Content Include="web\app\assets\images\switch_tv.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\trans.png">
+    <Content Include="web\app\assets\images\tracks_bg.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\_button_back_black.png">
+    <Content Include="web\app\assets\images\trans.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\images\_button_back_black_active.png">
+    <Content Include="web\app\assets\images\_button_back_black.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\stylesheets\full.css">
+    <Content Include="web\app\assets\images\_button_back_black_active.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\assets\stylesheets\reset.css">
+    <Content Include="web\app\assets\stylesheets\full.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\communicator.js">
+    <Content Include="web\app\assets\stylesheets\reset.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\config.js">
+    <Content Include="web\app\communicator.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\backbone.amd.js">
+    <Content Include="web\app\config.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\backbone.extensions.js">
+    <Content Include="web\app\lib\backbone.amd.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\jquery.bufferedcontent.js">
+    <Content Include="web\app\lib\backbone.extensions.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\jquery.extensions.js">
+    <Content Include="web\app\lib\jquery.bufferedcontent.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\jquery.scrolllist.js">
+    <Content Include="web\app\lib\jquery.extensions.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\jquery.touchscrollselect.js">
+    <Content Include="web\app\lib\jquery.scrolllist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\js.extensions.js">
+    <Content Include="web\app\lib\jquery.touchscrollselect.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\touchee.module.js">
+    <Content Include="web\app\lib\js.extensions.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\lib\underscore.amd.js">
+    <Content Include="web\app\lib\touchee.contents_module.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\locales\en.js">
+    <Content Include="web\app\lib\touchee.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\logger.js">
+    <Content Include="web\app\lib\underscore.amd.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\main.js">
+    <Content Include="web\app\locales\en.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\collections\containers.js">
+    <Content Include="web\app\main.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\collections\media.js">
+    <Content Include="web\app\models\collections\containers.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\container.js">
+    <Content Include="web\app\models\collections\media.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\contents.js">
+    <Content Include="web\app\models\container.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\control_request.js">
+    <Content Include="web\app\models\contents.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\filter.js">
+    <Content Include="web\app\models\control_request.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\models\medium.js">
+    <Content Include="web\app\models\filter.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\listen_live\models\contents\channel.js">
+    <Content Include="web\app\models\medium.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\listen_live\models\contents\genre.js">
+    <Content Include="web\app\models\server_info.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\listen_live\module.js">
+    <Content Include="web\app\modules\listen_live\models\contents\channel.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\listen_live\views\contents\channel.js">
+    <Content Include="web\app\modules\listen_live\models\contents\genre.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\models\contents\album.js">
+    <Content Include="web\app\modules\listen_live\module.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\models\contents\artist.js">
+    <Content Include="web\app\modules\listen_live\views\contents\channel.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\models\contents\genre.js">
+    <Content Include="web\app\modules\music\models\contents\album.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\models\contents\track.js">
+    <Content Include="web\app\modules\music\models\contents\artist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\models\contents\webcast.js">
+    <Content Include="web\app\modules\music\models\contents\genre.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\module.js">
+    <Content Include="web\app\modules\music\models\contents\track.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\album.js">
+    <Content Include="web\app\modules\music\models\contents\webcast.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\album_track.html">
+    <Content Include="web\app\modules\music\module.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\album_track.js">
+    <Content Include="web\app\modules\music\views\contents\album.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\artist.js">
+    <Content Include="web\app\modules\music\views\contents\album_track.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\artist_track.js">
+    <Content Include="web\app\modules\music\views\contents\album_track.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\modules\music\views\contents\track.js">
+    <Content Include="web\app\modules\music\views\contents\artist.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\router.js">
+    <Content Include="web\app\modules\music\views\contents\artist_track.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\browser.js">
+    <Content Include="web\app\modules\music\views\contents\track.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\containers\list.html">
+    <Content Include="web\app\router.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\containers\list.js">
+    <Content Include="web\app\views\browser.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\base.js">
+    <Content Include="web\app\views\browser.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\grouped_table_base.html">
+    <Content Include="web\app\views\connecting.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\grouped_table_base.js">
+    <Content Include="web\app\views\connecting.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\list.js">
+    <Content Include="web\app\views\containers\list.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\quickscroll.html">
+    <Content Include="web\app\views\containers\list.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\quickscroll.js">
+    <Content Include="web\app\views\contents\base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\scrolllist_base.js">
+    <Content Include="web\app\views\contents\grouped_table_base.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\table_base.html">
+    <Content Include="web\app\views\contents\grouped_table_base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\table_base.js">
+    <Content Include="web\app\views\contents\list.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\tiles_base.html">
+    <Content Include="web\app\views\contents\quickscroll.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\contents\tiles_base.js">
+    <Content Include="web\app\views\contents\quickscroll.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\media\list.js">
+    <Content Include="web\app\views\contents\scrolllist_base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\media\show.html">
+    <Content Include="web\app\views\contents\table_base.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\media\show.js">
+    <Content Include="web\app\views\contents\table_base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\app\views\paged_view.js">
+    <Content Include="web\app\views\contents\tiles_base.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\favicon.ico">
+    <Content Include="web\app\views\contents\tiles_base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\index.html">
+    <Content Include="web\app\views\media\list.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\backbone-0.9.2.min.js">
+    <Content Include="web\app\views\media\show.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\fastclick.min.js">
+    <Content Include="web\app\views\media\show.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\jquery-1.7.1.min.js">
+    <Content Include="web\app\views\paged_view.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\order-1.0.5.min.js">
+    <Content Include="web\favicon.ico">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\require-1.0.7.js">
+    <Content Include="web\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\text-1.0.7.min.js">
+    <Content Include="web\lib\backbone-0.9.2.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="assets\lib\underscore-1.3.1.min.js">
+    <Content Include="web\lib\fastclick.min.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web\lib\jquery-1.8.2.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\lib\json-0.2.1.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\lib\require-2.1.0.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\lib\text-2.0.3.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\lib\underscore-1.4.2.min.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\NancyFx-Nancy-4d0cb1d\src\Nancy\Nancy.csproj">
-      <Project>{34576216-0dca-4b0f-a0dc-9075e75a676f}</Project>
-      <Name>Nancy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">
       <Project>{76b24f44-0f71-46f1-9d79-373ecfbc72bf}</Project>
       <Name>ToucheeLib</Name>
@@ -606,6 +617,9 @@
       <HintPath>..\ToucheeLib\lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Nancy">
+      <HintPath>..\packages\Nancy.0.12.1\lib\net40\Nancy.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy.Hosting.Self">
       <HintPath>..\packages\Nancy.Hosting.Self.0.12.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>

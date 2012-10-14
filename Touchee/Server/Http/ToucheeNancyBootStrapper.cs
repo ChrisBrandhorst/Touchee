@@ -35,6 +35,11 @@ namespace Touchee.Server.Http {
             conventions.StaticContentsConventions.Add(
                 StaticContentConventionBuilder.AddDirectory("", _rootPath)
             );
+            conventions.ViewLocationConventions.Add(
+                (viewName, model, context) => {
+                    return string.Concat(_rootPath + "/", viewName);
+                }
+            );
         }
 
         protected override DiagnosticsConfiguration DiagnosticsConfiguration {
@@ -44,8 +49,10 @@ namespace Touchee.Server.Http {
         protected override NancyInternalConfiguration InternalConfiguration {
             get {
                 // Insert at position 0 so it takes precedence over the built in one.
-                return NancyInternalConfiguration.WithOverrides(
-                        c => c.Serializers.Insert(0, typeof(JsonNetSerializer)));
+                return NancyInternalConfiguration.WithOverrides(c => {
+                    c.Serializers.Insert(0, typeof(JsonNetSerializer));
+                    //c.RoutePatternMatcher = typeof(ToucheeRoutePatternMatcher);
+                });
             }
         }
     }

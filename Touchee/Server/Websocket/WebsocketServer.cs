@@ -32,7 +32,6 @@ namespace Touchee.Server.Websocket {
         /// and disposes that Client when the connection is closed.
         /// </summary>
         public void Start() {
-            Log("Starting websocket server on port " + _port.ToString());
             _server.Start(socket => {
                 socket.OnOpen = () => {
                     new Client(socket).Save();

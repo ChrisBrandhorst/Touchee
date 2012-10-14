@@ -27,6 +27,7 @@ namespace Touchee.Server.Http {
 
             // Init the Nacny self host
             _host = new NancyHost(
+                //new Uri( String.Format("http://localhost:{0}/", port) ),
                 new ToucheeNancyBootStrapper(path),
                 this.CollectUris(port)
             );
@@ -54,13 +55,13 @@ namespace Touchee.Server.Http {
             var hostname = Dns.GetHostName().ToLower();
             addresses.Add(hostname);
             addresses.Add("localhost");
-            foreach(var addr in Dns.GetHostEntry(hostname).AddressList)
+            foreach (var addr in Dns.GetHostEntry(hostname).AddressList)
                 addresses.Add(addr.ToString());
 
             // Create valid Uris
             foreach (var a in addresses) {
                 Uri uri;
-                var valid = Uri.TryCreate( String.Format("http://{0}:{1}", a, port), UriKind.Absolute, out uri);
+                var valid = Uri.TryCreate(String.Format("http://{0}:{1}", a, port), UriKind.Absolute, out uri);
                 if (valid) uris.Add(uri);
             }
 

@@ -1,5 +1,4 @@
 ﻿using Nancy;
-using Touchee.Server.Responses;
 
 namespace Touchee.Server.Http.Modules {
 

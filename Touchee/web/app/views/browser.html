@@ -1,0 +1,62 @@
+<!-- Playback controls -->
+<header>
+  
+  <!-- Playback buttons -->
+  <a href="#" class="button transport small" data-button="prev"></a>
+  <button class="transport small" data-button="prev"></button><button class="transport" data-button="play"></button><button class="transport" data-button="pause"></button><button class="transport small" data-button="next"></button>
+  
+  <!-- Volume button -->
+  <button data-button="volume"></button>
+  
+  <!-- LCD -->
+  <div>
+    <span class="nowplaying_title"></span>
+    <span class="nowplaying_artist_collection"></span>
+    <div>
+      <span class="nowplaying_position"></span>
+      <div class="nowplaying_slider"><div></div></div>
+      <span class="nowplaying_duration"></span>
+    </div>
+  </div>
+  
+  <input type="search" placeholder="Search" />
+</header>
+
+<!-- Browser content -->
+<div>
+  <!-- Navigation bar -->
+  <nav id="navigation"></nav>
+</div>
+
+<!-- Viewmodes, now playing button -->
+<footer>
+  <button data-button="settings" onclick="window.location.replace('http://htpc/');"></button>
+  <span id="debug" style="position:absolute;top:13px;left:42px"></span>
+  <button data-button="nowplaying">Now Playing</button>
+</footer>
+
+<!-- Devices popup -->
+<section class="popup arrow top" id="devices_popup">
+  <span class="arrow"></span>
+  <div>
+    <div class="volume"><div></div></div>
+    <h1>
+      Speakers
+      <button class="glass black selected" data-button="mute">Mute</button>
+    </h1>
+    <ul id="speakers">
+      <li class="speaker" data-device="a">Speaker A</li>
+      <li class="speaker" data-device="b">Speaker B</li>
+      <li class="speaker" data-device="sub">Subwoofer</li>
+    </ul>
+    <h1>Devices</h1>
+    <ul id="devices">
+      <li class="amp onoff" data-device="amp">
+        Amplifier
+        <button class="off"></button>
+        <button class="on"></button>
+      </li>
+      <li class="tv" data-device="tv">TV</li>
+    </ul>
+  </div>
+</section>
