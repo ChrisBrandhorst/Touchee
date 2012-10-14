@@ -1,0 +1,187 @@
+// Playback controls
+#nowplaying_music header
+  border-top:     1px solid rgba(0,0,0,.79)
+  border-bottom:  1px solid rgba(3,3,3,.69)
+  background:     rgba(0,0,0,.79)
+  
+  // Transport
+  > div:first-child
+    // background:     rgba(0,0,0,.79)
+    border-top:     1px solid rgba(255,255,255,.15)
+    border-bottom:  1px solid rgba(255,255,255,.08)
+    
+    // Volume slider container
+    .volume
+      float:                left
+      width:                193px
+      height:               31px
+      border-radius:        16px
+      padding:              0 13px 0 15px
+      margin:               46px 5px 0 31px
+      background:           rgba(0,0,0,.5)
+      border:               1px solid rgba(255,255,255,.1)
+      border-top-color:     rgba(255,255,255,.08)
+      border-bottom-color:  rgba(255,255,255,.3)
+      -webkit-box-shadow:   inset 0 2px 8px black, 0 0 1px 0 rgba(255,255,255,.2)
+      
+      // Volume slider
+      > div
+        height:     28px
+        margin-top: 1px
+        position:   relative
+        
+        // Range
+        > div
+          position:           absolute
+          height:             100%
+          width:              40%
+          border-radius:      14px 0 0 14px
+          background:         -webkit-linear-gradient(#92918f, #474543 13px, black 13px, black)
+          margin-left:        -13px
+          padding-right:      13px
+          -webkit-box-sizing: content-box
+        
+        // Slider
+        > a
+          position:   absolute
+          width:      35px
+          height:     30px
+          left:       40%
+          background: url(../images/controls/volume_knob_black.png)
+          margin:     -2px 0 0 -17px
+          outline:    none
+    
+    // Now playing texts
+    > span
+      display:      block
+      height:       1em
+      color:        #aaa
+      font-weight:  600
+      text-align:   center
+      font-size:    110%
+      @include      ellipsis
+      &.nowplaying_artist
+        margin-top: 40px
+      &.nowplaying_title
+        color:      white
+    
+    // Transport buttons
+    button.transport
+      float:      right
+      width:      54px
+      height:     55px
+      margin-top: 38px
+      
+      &.small
+        width:  42px
+        height: 44px
+      &[data-button=prev]
+        margin: 44px 4px 0 61px
+      &[data-button=next]
+        margin: 44px 21px 0 5px
+      &[data-button=pause]
+        display: none
+      @include transport_button(prev, black, inset)
+      @include transport_button(pause, black, inset)
+      @include transport_button(play, black, inset)
+      @include transport_button(next, black, inset)
+  
+  
+  // Repeat, position, shuffle
+  > div:last-child
+    // background:     rgba(0,0,0,.79)
+    border-top:     1px solid rgba(3,3,3,.69)
+    border-bottom:  1px solid rgba(255,255,255,.08)
+    
+    // Repeat & shuffle buttons
+    button
+      position: relative
+      width:    25px
+      height:   21px
+      &:active:before
+        content:        ''
+        position:       absolute
+        width:          0px
+        height:         0px
+        left:           12px
+        top:            10px
+        border-radius:  5px
+        background:     white
+        box-shadow:     0 0 12px 12px white
+      &[data-button=repeat]
+        float: left
+        margin: 6px 0 0 10px
+        background: url(../images/controls/repeat_off.png)
+        &.on
+          background: url(../images/controls/repeat_on.png)
+        &.on_1
+          background: url(../images/controls/repeat_on_1.png)
+      &[data-button=shuffle]
+        float: right
+        margin: 6px 10px 0 0
+        background: url(../images/controls/shuffle_off.png)
+        &.on
+          background: url(../images/controls/shuffle_on.png)
+    
+    span
+      color:  white
+      font-size:  95%
+      line-height:  21px
+      margin: 6px 0 0 0
+      width:  43px
+      
+      &.nowplaying_position
+        float: left
+        text-align: right
+      &.nowplaying_duration
+        float: right
+      
+    .nowplaying_slider
+      background:     rgba(255,255,255,.2)
+      height:         11px
+      margin:         10px 84px 0 84px
+      border-radius:  6px
+      padding:        0 5px
+      > div
+        position: relative
+        height:   100%
+        > div
+          height:         100%
+          border-radius:  6px 0 0 6px
+          background:     rgba(255,255,255,.4)
+          margin-left: -5px
+        > a
+          position:   absolute
+          width:      17px
+          height:     18px
+          top:        -2px
+          margin-left:  -8px
+          background: url(../images/controls/position_knob_round.png)
+
+// Portrait mode
+@media screen and (max-width: 900px)
+  #nowplaying_music header
+    border-top:           none
+    border-bottom-color:  black
+    > div:first-child
+      background:           -webkit-linear-gradient(#434343, #262626 52px, black 52px, black)
+      border-top-color:     #626262
+      border-bottom-color:  #2e2e2e
+      border-radius:        5px 5px 0 0
+      > .volume
+        margin-top: 38px
+      > span.nowplaying_artist
+        margin-top: 31px
+      button.transport
+        margin-top: 27px
+        &.small
+          margin-top: 32px
+        &[data-button=prev]
+          margin-left:  28px
+        &[data-button=next]
+          margin-right: 58px
+    > div:last-child
+      border-top:           none
+      border-bottom-color:  #2e2e2e
+      overflow:             auto
+      

@@ -1,0 +1,47 @@
+#nowplaying_music > div #nowplaying_music_album
+  display:            -webkit-box
+  -webkit-box-orient: vertical
+  
+  &:before
+    content:        ''
+    display:        block
+    height:         43px
+    border-bottom:  1px solid #414141
+    background:     -webkit-linear-gradient(black, #2d2d2d)
+  
+  > div 
+    -webkit-box-flex: 1
+    background:       -webkit-gradient(radial, center -230, 280, center -230, 700, from(#242424), to(#0d0d0d))
+    
+    table
+      margin-top: 1px
+      width:      100%
+      color:      white
+      font-size:  135%
+      tr
+        border-bottom: 1px solid #414038
+        td
+          border-left:  1px solid #414038
+          padding:      13px 10px
+          @include      ellipsis
+          &:first-child
+            width:        45px
+            border-left:  none
+            font-weight:  bold
+            &:after
+              content: '.'
+          &:nth-child(3)
+            width:  240px
+          &:last-child
+            width:  103px
+            padding-right:  25px
+            text-align: right
+        
+        &:nth-child(even) td
+          background-color: rgba(0,0,0,.27)
+        &.playing
+          td:first-child
+            text-indent:  -1000em
+            // background:   url(../images/playing_blue.png) no-repeat 10px center
+          // &.selected td:first-child
+          //   background-image: url(../images/playing_blue_selected.png)

@@ -1,0 +1,74 @@
+a
+  text-decoration:  none
+  color:            inherit
+h1
+  font-weight:  bold
+
+table
+  border-collapse: collapse
+  
+button, .button
+  display:          inline-block
+  border:           none
+  background-color: transparent
+  margin:           0
+  padding:          0
+  font-size:        12px !important
+  font-weight:      bold
+  
+  &.glass
+    line-height:    27px
+    padding:        0 10px
+    border:         1px solid
+    border-radius:  6px
+    box-shadow:     0 1px 0 rgba(255,255,255,.32), inset 0 1px 0 rgba(0,0,0,.1)
+    position:       relative
+    
+    &:active
+      &:before
+        position: absolute
+        content:  ''
+        top:      0
+        left:     0
+        bottom:   0
+        right:    0
+        background: rgba(0,0,0,.2)
+        box-shadow: inset 0 1px 2px 0 black
+        border-radius: 5px
+    
+    &.black
+      border-top-color:     #333
+      border-right-color:   #383838
+      border-bottom-color:  #363636
+      border-left-color:    #383838
+      background:           -webkit-linear-gradient(#999, #565656 50%, #414141 50%, #444)
+      color:                white
+    
+    &.selected
+      background:           -webkit-linear-gradient(#87B2EA, #5191E3 50%, #3280DF 50%, #3682DF)
+      border-top-color:     #2a354b
+      border-bottom-color:  #1F273A
+      text-shadow:          #345394 0 -1px 1px
+  
+  &.rendered
+    height:       30px
+    line-height:  30px
+    &.black, &.gray
+      color:        white
+      text-shadow:  rgba(0, 0, 0, 0.6) 0px -1px 0px
+    &.back
+      padding:      0 3px 0 0
+      &.black
+        border-width: 0 5px 0 13px
+        -webkit-border-image: url(../images/button_back_black.png) 0 5 0 13
+        &:active
+          -webkit-border-image: url(../images/button_back_black_active.png) 0 5 0 13
+      &.gray
+        border-width: 0 4px 0 12px
+        -webkit-border-image: url(../images/button_back_gray.png) 0 4 0 12
+        &:active
+          -webkit-border-image: url(../images/button_back_gray_active.png) 0 4 0 12
+.left
+  float: left
+.right
+  float: right

@@ -1,0 +1,54 @@
+.quickscroll
+
+  position:       absolute
+  top:            4px
+  right:          4px
+  bottom:         4px
+  width:          23px
+  border-radius:  20px
+  padding:        13px 0
+  z-index:        3
+  
+  background: url(../images/quickscroll_dot_large.png) no-repeat 9px 11px
+  &:before
+    content:  ''
+    position:   absolute
+    background: url(../images/quickscroll_dot_large.png)
+    width:      5px
+    height:     5px
+    bottom:     11px
+    left:       9px
+  &:after
+    content:    ''
+    position:   absolute
+    background: url(../images/quickscroll_dot_small.png) repeat-y center -9px
+    top:        17px
+    bottom:     20px
+    left:       10px
+    width:      3px
+  
+  &.alpha
+    background:     none
+    top:            6px
+    width:          auto
+    padding:        3px 0
+    text-transform: uppercase
+    font-weight:    bold
+    font-size:      85%
+    text-align:     center
+    color:          #6A737D
+    line-height:    23px
+    &:before, &:after
+      display:  none
+    li
+      padding:  0 8px
+    
+  &:active
+    background-color: rgba(142, 148, 155, .8)
+    
+header ~ .quickscroll
+  top:  4px + $browserRowHeight !important
+  &.alpha
+    line-height:  21px
+    li:nth-child(odd)
+      line-height:    22px

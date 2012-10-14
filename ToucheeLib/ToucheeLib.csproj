@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{76B24F44-0F71-46F1-9D79-373ECFBC72BF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Touchee</RootNamespace>
+    <AssemblyName>ToucheeLib</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\ToucheeLib.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="ArtworkHelper.cs" />
+    <Compile Include="Base.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="Extensions.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Media\Collectable.cs" />
+    <Compile Include="Media\IAudioItem.cs" />
+    <Compile Include="Media\IFileTrack.cs" />
+    <Compile Include="Media\IItem.cs" />
+    <Compile Include="Media\IPlaylist.cs" />
+    <Compile Include="Media\ITrack.cs" />
+    <Compile Include="Media\IWebcast.cs" />
+    <Compile Include="Meta\IMovieInfo.cs" />
+    <Compile Include="Meta\StreamInfo.cs" />
+    <Compile Include="Organizing\Container.cs" />
+    <Compile Include="Organizing\DriveMediaWatcher.cs" />
+    <Compile Include="Organizing\IContainer.cs" />
+    <Compile Include="Organizing\IMediaWatcher.cs" />
+    <Compile Include="Organizing\IMediumWatcher.cs" />
+    <Compile Include="Organizing\Medium.cs" />
+    <Compile Include="Playback\BassNetPlayer.cs" />
+    <Compile Include="Playback\IAudioPlayer.cs" />
+    <Compile Include="Playback\IPlayer.cs" />
+    <Compile Include="Playback\IVisualPlayer.cs" />
+    <Compile Include="Playback\Player.cs" />
+    <Compile Include="Playback\Queue.cs" />
+    <Compile Include="Playback\RepeatMode.cs" />
+    <Compile Include="Plugins\IArtworkService.cs" />
+    <Compile Include="Plugins\IContentsPlugin.cs" />
+    <Compile Include="Plugins\IMovieInfoService.cs" />
+    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Plugins\Plugins.cs" />
+    <Compile Include="Plugins\ServiceResultStatus.cs" />
+    <Compile Include="Types\Contents.cs" />
+    <Compile Include="Types\Message.cs" />
+    <Compile Include="Types\Options.cs" />
+    <Compile Include="Util.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\Bass.Net\bass.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\bassmix.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\basscd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\bassflac.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\basswma.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\bass_aac.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\bass_ac3.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\bass_alac.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="lib\Bass.Net\plugins\tags.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Bass.Net">
+      <HintPath>lib\Bass.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="HtmlAgilityPack">
+      <HintPath>lib\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+    <Reference Include="YaTools.Abstract.Net4">
+      <HintPath>lib\YaTools.Abstract.Net4.dll</HintPath>
+    </Reference>
+    <Reference Include="YaTools.Yaml.Core.Net4">
+      <HintPath>lib\YaTools.Yaml.Core.Net4.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
