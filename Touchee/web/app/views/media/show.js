@@ -4,56 +4,95 @@ define([
   'Backbone',
   'models/collections/media',
   'text!views/media/show.html',
-  'views/containers/list'
-], function($, _, Backbone, Media, showTemplate, ContainersListView) {
+  'text!views/media/show_header.html',
+  'text!views/media/show_containers.html'
+], function($, _, Backbone, Media, showTemplate, showHeaderTemplate, showContainersTemplate) {
   showTemplate = _.template(showTemplate);
+  showHeaderTemplate = _.template(showHeaderTemplate);
+  showContainersTemplate = _.template(showContainersTemplate);
   
   var MediumShow = Backbone.View.extend({
+    
     
     // Constructor
     initialize: function(options) {
       this.contentType = options.contentType;
-      this.isRootView = this.model.isLocal() && !this.contentType;
       
-      // Build empty template
-      this.$el = $(showTemplate(
-        _.extend(this.model, {contentType:this.contentType})
-      ));
-      this.el = this.$el[0];
+      // Check if this is the root view
+      this.root = this.model.isLocal() && !this.contentType;
       
-      // Build inner containers list
-      this.containersList = new ContainersListView({
-        collection:   this.model.containers,
-        contentType:  this.contentType
-      });
-      this.$el.append(this.containersList.$el);
+      // Direct renderen
+      this.render();
       
-      // Render page if model is changed
-      this.model.on('change', this.render, this);
+      // Bind on medium and/or media changes
+      this.model.on('change', this.renderMediumInfo, this);
+      (this.root ? this.model.collection : this.model).on('reset:containers update:containers', this.renderContainers, this);
       
-      // Render local medium collection list if some items are removed from the collection
-      if (this.isRootView)
-        this.model.collection.on('remove', this.renderContainersList, this);
     },
     
-    // Renders the medium show, including containers list
+    
+    // Renders the medium
     render: function() {
-      this.$el.contents().first().text( this.contentType ? this.contentType.toTitleCase() : this.model.name );
-      this.containersList.render();
+      
+      // Render it
+      this.$el
+        .toggleClass( 'root', this.root )
+        .html( showTemplate(this) );
+      
+      // Set scrolling select
+      this.$el.touchscrollselect();
+      
+      // Collect elements
+      this.$header = this.$('h1');
+      this.$containers = this.$('.scrollable');
+      
+      // Render parts
+      this.renderMediumInfo();
+      this.renderContainers();
+      
       return this;
     },
     
-    // Render only the containers list
-    renderContainersList: function() {
-      this.containersList.render();
+    
+    // Render the info of the medium (the header)
+    renderMediumInfo: function() {
+      this.$header.html( showHeaderTemplate(this) );
     },
+    
+    
+    // Render the contents of the medium
+    renderContainers: function() {
+      
+      // Collect containers and/or groups
+      if (this.contentType) {
+        this.containers = this.model.containers.getByContentType(this.contentType);
+        this.groups = [];
+      }
+      else {
+        this.groups = this.model.containers.groupByContentType();
+        if (this.groups.length == 1 && !this.model.isLocal())
+          this.containers = groups[0].members;
+        else
+          this.containers = null;
+      }
+      
+      // Render the list while keeping the scroll position
+      var $oldItems   = this.$containers.children(),
+          $selected   = $oldItems.filter('.selected'),
+          $newItems   = $( showContainersTemplate(this) );
+      
+      this.$containers.append($newItems);
+      $oldItems.remove();
+      
+      if ($selected.length)
+        this.$containers.find('[href=' + $selected.attr('href') + ']').addClass('selected');
+    },
+    
     
     // Releases events
     onDispose: function() {
-      this.containersList.dispose();
-      this.model.off('change', this.render);
-      if (this.isRootView)
-        this.model.collection.off('remove', this.renderContainersList);
+      this.model.off('change', this.renderMediumInfo);
+      (this.root ? this.model.collection : this.model).off('reset:containers update:containers', this.renderContainers);
     }
     
   });

@@ -1,0 +1,30 @@
+<% if (containers) {
+  
+  _.each(containers, function(c){ %>
+    <a href="#media/<%=model.id%>/containers/<%=c.id%>/contents" class="<%=c.get('type')%> <%=c.get('contentType')%>"><%=c.get('name')%></a>
+  <% })
+  
+} else {
+  
+  _.each(groups, function(group){
+    if (group.members.length > 1) { %>
+      <a href="#media/<%=model.id%>/groups/<%=group.key%>/containers" class="more <%=group.key%>"><%=group.key.toTitleCase()%></a>
+    <% } else {
+      var c = group.members[0]; %>
+      <a href="#media/<%=model.id%>/containers/<%=c.id%>/contents" class="<%=c.get('type')%> <%=c.get('contentType')%>"><%=group.key.toTitleCase()%></a>
+    <% }
+  })
+  
+} %>
+
+
+<% if (model.isLocal() && !containers) {
+  model.collection.each(function(m){
+    if (m.isLocal() || m.containers.length == 0) return;
+    if (m.containers.length > 1) { %>
+      <a href="#media/<%=m.id%>/containers" class="more <%=m.get('type')%>"><%=m.get('name')%></a>
+    <% } else { var c = m.containers.first();if (c.isNew()) return; %>
+      <a href="#media/<%=m.id%>/containers/<%=c.id%>/contents" class="<%=c.get('type')%> <%=c.get('contentType')%>"><%=c.get('name')%></a>
+    <% }
+  })
+} %>

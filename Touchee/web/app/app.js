@@ -4,12 +4,13 @@ define([
   'Backbone',
   'communicator',
   'router',
+  'library',
   'models/server_info',
   'models/collections/media',
   'views/connecting',
   'views/browser'
 ], function($, _, Backbone,
-            Communicator, Router,
+            Communicator, Router, Library,
             ServerInfo, Media,
             ConnectingView, BrowserView) {
   
@@ -20,7 +21,10 @@ define([
     // Whether the client has once been connected this session
     wasConnected:     false,
     
+    
+    // Internal counter for the amount of connection tries
     connectionTries:  0,
+    
     
     // Init the app
     initialize: function(options) {
@@ -47,6 +51,7 @@ define([
       // Set texts and show connecting view
       var connectionStatus = this.connectionTries > 1 ? T.T.connecting.retry : T.T.connecting.connecting;
       if (this.connectionTries > 2) connectionStatus += ' (' + this.connectionTries + ')';
+      
       ConnectingView.setStatus(
         connectionStatus,
         this.wasConnected ? T.T.connecting.lost : null
@@ -87,13 +92,16 @@ define([
       // Link the websocket and HTTP session
       Communicator.send("IDENTIFY", this.sessionID);
       
-      // Start the router
-      // Router.initialize();
-      
-      // Show browser
-      if (!this.wasConnected)
+      // First-time init
+      if (!this.wasConnected) {
+        Library.initialize();
         BrowserView.show();
-        
+        Router.initialize();
+      }
+      
+      // (re)Load the library
+      Library.load(this.wasConnected);
+      
       // Set that we have connected one time
       this.wasConnected = true;
     },
@@ -109,6 +117,9 @@ define([
     
     // Called when a message was received over the websocket
     responseReceived: function(response) {
+      
+      
+      return;
       
       if (response.media)
         Media.updateAll(response.media.items);

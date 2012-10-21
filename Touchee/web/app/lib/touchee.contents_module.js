@@ -125,7 +125,7 @@ define([
     setContentsView: function(containerView, itemView) {
       itemView.render();
       containerView.storePage(itemView.contents.filter.toString(), itemView);
-      containerView.activate(itemView);
+      containerView.activatePage(itemView);
     }
     
     

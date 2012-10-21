@@ -2,33 +2,54 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/collections/media',
+  'views/media/list',
   'views/contents/list',
   'text!views/browser.html'
-], function($, _, Backbone, ContentsListView, browserTemplate) {
+], function($, _, Backbone,
+            Media,
+            MediaListView, ContentsListView,
+            browserTemplate) {
+  
   browserTemplate = _.template(browserTemplate);
+  
   
   var BrowserView =  Backbone.View.extend({
     
     
+    // Backbone view options
     tagName:    'section',
     id:         "browser",
     className:  'hidden',
     
     
+    // Events
+    events: {
+      'touchstart [data-ontouchstart]': 'followOnDown',
+      'mousedown [data-ontouchstart]':  'followOnDown',
+      'click [data-href]':              'followNonAnchor',
+      // 'click [data-button]':            'button'
+    },
+    
+    
+    // Internal list of container views
     containerViews: {},
     
     
-    events: {
-      'touchstart [data-ontouchstart]': 'followOnDown',
-      'click [data-href]':              'followNonAnchor',
-      'click [data-button]':            'button'
-    },
-    
-    
+    // Constructor
     initialize: function(params) {
+      
+      // Immediately render
+      this.render();
+      
+      // Init media list view
+      this.mediaListView = new MediaListView({el:this.$('#navigation')[0]});
+      
+      
     },
     
     
+    // Render browser view
     render: function() {
       this.$el.html(
         browserTemplate()
@@ -38,30 +59,30 @@ define([
     },
     
     
+    // Show the browser view
     show: function() {
-      var $el = this.$el;
-      if (!$el.is(':visible')) {
-        this.render();
-        _.defer(function(){
-          $el.removeClass('hidden');
-        });
-      }
+      this.$el.removeClass('hidden');
       return this;
     },
     
     
-    hasViews: function(container) {
-      var views = this.containerViews[container.id];
-      return views ? _.isEmpty(views) : false;
+    // Navigate the media list
+    navigate: function(medium, group) {
+      this.mediaListView.navigate(medium, group);
     },
     
     
+    
+    // === Container view handling ===
+    
+    // Gets the container view for the given container and content type
     getContainerView: function(container, type) {
       var views = this.containerViews[container.id];
       return views ? views[type] : null;
     },
     
     
+    // Gets or creates the container view for the given container and content type
     getOrCreateContainerView: function(container, type) {
       var views = this.containerViews[container.id];
       if (!views)
@@ -77,16 +98,26 @@ define([
     },
     
     
+    // Activates the given container view
     activateContainerView: function(view) {
+      if (!this.containerViews[view.container.id])
+        view = this.getOrCreateContainerView(view.container, view.container.type);
       if (!view.$el.parent().length)
         this.$containersViews.append(view.$el);
+      
       // We add class hidden instead of hide/show, because the scroll positions are lost otherwise...
       view.$el.removeClass('hidden').siblings('.contents').addClass('hidden');
       this.setViewButtons(view);
       this.activeContainerView = view;
     },
     
+    // === / ===
     
+    
+    
+    // === Buttons ===
+    
+    // Sets the view buttons for the given view
     setViewButtons: function(view) {
       if (view == this.activeContainerView) return;
       this.activeContainerView = view;
@@ -111,6 +142,7 @@ define([
     },
     
     
+    // Handles buttons / links which should be called on mousedown / touchstart
     followOnDown: function(ev) {
       var $button = $(ev.target).closest('[data-href], [href]');
       Backbone.history.loadUrl(
@@ -120,6 +152,7 @@ define([
     },
     
     
+    // Handles tags which are not anchors, but do have a data-href which should be handled
     followNonAnchor: function(ev) {
       Backbone.history.loadUrl(
         $(ev.target).closest('[data-href]').attr('data-href')
@@ -127,12 +160,17 @@ define([
     },
     
     
-    button: function(ev) {
-      var button = $(ev.target).closest('[data-button]').attr('data-button')
-      if (_.isFunction(this[button]))
-        this[button].apply(this, arguments);
-    },
+    // button: function(ev) {
+    //   var button = $(ev.target).closest('[data-button]').attr('data-button')
+    //   if (_.isFunction(this[button]))
+    //     this[button].apply(this, arguments);
+    // },
     
+    // === / ===
+    
+    
+    
+    // === Transport ===
     
     prev:   function() { Backbone.history.loadUrl("queue/" + 1 + "/prev"); },
     next:   function() { Backbone.history.loadUrl("queue/" + 1 + "/next"); },
@@ -144,7 +182,9 @@ define([
       // $('#devices_popup').withOverlay();
     }
     
+    // === / ===
+    
   });
   
-  return new BrowserView();
+  return new BrowserView;
 });

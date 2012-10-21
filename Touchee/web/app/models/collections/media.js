@@ -8,7 +8,7 @@ define([
     
     model:  Medium,
     url:    "media",
-    sync:   Backbone.readOnlySync,
+    // sync:   Backbone.readOnlySync,
     
     parse:  function(response) {
       return response.items;

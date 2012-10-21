@@ -7,12 +7,12 @@ define([
   
   var ContentsList = PagedView.extend({
     
+    className:  'contents',
+    
     // Constructor
     initialize: function(params) {
       this.container = params.container;
       this.type = params.type;
-      this.$el = $('<div class="contents"/>');
-      this.el = this.$el[0];
       PagedView.prototype.initialize.apply(this, arguments);
     }
     

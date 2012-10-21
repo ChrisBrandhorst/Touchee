@@ -41,8 +41,15 @@ define([
   };
   
   $.fn.getAnimDuration = function() {
-    var val = this.css('-webkit-transition-duration');
-    return val ? Number( val.replace(/[^\d\.]/, "") ) * 1000 : 0;
+    var durationStr = this.css('-webkit-transition-duration'), duration = 0;
+    
+    if (durationStr) {
+      var match = durationStr.match(/[\d.]*/);
+      if (match && match[0])
+        duration = Number((Number(match[0]) * 1000).toFixed(0));
+    }
+    
+    return duration;
   };
   
 });

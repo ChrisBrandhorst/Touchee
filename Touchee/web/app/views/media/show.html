@@ -1,9 +1,5 @@
-<%
-  var root = isLocal() && !contentType,
-      back = !isLocal() || contentType;
-  if (back)
-    var href = (contentType && !isLocal() ? "media/" + id + "/containers" : "");
-%>
-<div<%if(root){%> class="root"<%}%>>
-  <h1><%if(back){%><a href="#<%=href%>" class="button rendered back black">Back</a><%}%><%=contentType ? contentType.toTitleCase() : get('name')%></h1>
+<h1>
+</h1>
+
+<div class="scrollable">
 </div>

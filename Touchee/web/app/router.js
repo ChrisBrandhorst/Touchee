@@ -10,13 +10,11 @@ define([
   'models/filter',
   'models/control_request',
   
-  'views/media/list',
-  'views/media/show',
   'views/browser'
 ], function($, _, Backbone,
             Media, Containers,
             Contents, Filter, ControlRequest,
-            MediaListView, MediumShowView, BrowserView
+            BrowserView
 ){
   
   var AppRouter = Backbone.Router.extend({
@@ -35,34 +33,22 @@ define([
     
     initialize: function() {
       
-      // Build media view list
-      this.mediaListView = new MediaListView({collection:Media});
-      
-      // Get all media, redirecting to the local medium on success
-      var _this = this;
-      Media.fetch({success:function(){
-        var localMedium = Media.getLocal();
-        if (localMedium)
-          _this.navigate("media/" + localMedium.id + "/containers", true);
-      }});
-      
       // Bind global navigate event
-      _.extend(window, Backbone.Events);
-      window.on('navigate', function(url){
-        if (typeof url == 'string')
-          this.navigate(url, {trigger:true});
-      }, this);
+      // _.extend(window, Backbone.Events);
+      // window.on('navigate', function(url){
+      //   if (typeof url == 'string')
+      //     this.navigate(url, {trigger:true});
+      // }, this);
       
       // Always go to root
-      // this.navigate("");
       window.location.hash = "";
     },
     
     
     // Root method
     root: function() {
-      if (!this.mediaListView.isEmpty())
-        this.mediaListView.activate('first');
+      if (!BrowserView.mediaListView.isEmpty())
+        BrowserView.mediaListView.activatePage('first');
     },
     
     
@@ -70,14 +56,7 @@ define([
     containers: function(mediumID, group) {
       var medium = this.getMedium(mediumID);
       if (!medium) return;
-      
-      var key = [medium.id, group].join("_"),
-          view = _.bind(this.mediaListView.getPage, this.mediaListView, key)();
-      if (!view) {
-        view = new MediumShowView({model:medium,contentType:group});
-        this.mediaListView.storePage(key, view);
-      }
-      this.mediaListView.activate(view);
+      BrowserView.navigate(medium, group);
     },
     
     
@@ -100,6 +79,13 @@ define([
       var type = filter.get('type') || container.get('viewTypes')[0];
       if (!type)
         return this.Log.error("No type specified for container " + containerID);
+      
+      
+      
+      
+      
+      
+      
       
       // Check if any attributes other then type was in the filter
       filter.unset('type');
@@ -124,7 +110,7 @@ define([
       // If we already have a view for the given filter, activate that page
       var existingPage;
       if (existingPage = containerView.getPage( filter.toString() ))
-        return containerView.activate(existingPage);
+        return containerView.activatePage(existingPage);
       
       // Check which module we must load
       var module = container.get('module');

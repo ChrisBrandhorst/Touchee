@@ -6,6 +6,8 @@ define([
   
   var PagedView = Backbone.View.extend({
     
+    
+    // Events
     events: {
       'click button.back, .button.back': 'back'
     },
@@ -51,7 +53,7 @@ define([
     
     
     // Activates the given view
-    activate: function(view, animate) {
+    activatePage: function(view, animate) {
       var $pages      = this.$el.children(),
           $firstPage  = $pages.first(),
           _this       = this,
@@ -74,7 +76,7 @@ define([
       if (this.activePage == view) return;
       
       // Get animation duration
-      var duration = parseFloat($page.css('-webkit-transition-duration')) * 1000;
+      var duration = $page.getAnimDuration();
       
       // Check if page already is present in DOM, so we can go back to it
       if ($page.parent().length) {
@@ -115,7 +117,7 @@ define([
     
     // Goes back one page
     back: function() {
-      this.activate('back');
+      this.activatePage('back');
     },
     
     
@@ -129,7 +131,7 @@ define([
             model = view.model;
         
         if (!model.collection) {
-          this.activate(lastView);
+          this.activatePage(lastView);
           break;
         }
         
@@ -137,6 +139,7 @@ define([
       }
       
     }
+    
     
   });
   
