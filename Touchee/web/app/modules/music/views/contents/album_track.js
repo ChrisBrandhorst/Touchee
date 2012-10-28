@@ -9,13 +9,16 @@ define([
   
   var AlbumPopup = ContentsBase.extend({
     
+    
     // View classname
     className: 'album_track',
+    
     
     // Events
     events: {
       'click tr': 'clickedRow'
     },
+    
     
     // 
     initialize: function() {

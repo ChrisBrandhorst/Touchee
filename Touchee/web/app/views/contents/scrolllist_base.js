@@ -14,6 +14,10 @@ define([
     touchScrollOptions:   {},
     
     
+    // Whether alpha numerical sorting should be used
+    alphaNum:             false,
+    
+    
     // Renders the base of a scroll list view
     render: function() {
       
@@ -44,7 +48,7 @@ define([
         // Set quickscroll
         if (typeof this.quickscroll == 'function') {
           var qs = new Quickscroll({
-            alpha:    this.contents.meta && this.contents.meta.sortedByAlpha,
+            alpha:    this.alphaNum,
             callback: _.bind(this.quickscroll, this)
           });
           qs.render();

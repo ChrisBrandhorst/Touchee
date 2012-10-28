@@ -7,6 +7,11 @@ define([
   
   var TracksList = TableBase.extend({
     
+    
+    // Tracks are sorted by alpha num
+    alphaNum: true,
+    
+    
     // Constructor
     initialize: function(options) {
       

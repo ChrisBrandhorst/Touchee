@@ -7,9 +7,16 @@ define([
   
   var ArtistsList = TableBase.extend({
     
+    
+    // Artists are sorted by alpha num
+    alphaNum: true,
+    
+    
+    // Events
     events: _.extend({}, TableBase.prototype.events, {
       'click .action.albums': 'clickedAllAlbums'
     }),
+    
     
     // Constructor
     initialize: function(options) {

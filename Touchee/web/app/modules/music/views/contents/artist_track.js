@@ -7,11 +7,17 @@ define([
   
   var ArtistTracksList = GroupedTableBase.extend({
     
+    
+    // Artist album are sorted by alpha num
+    alphaNum: true,
+    
+    
     // Update the view
     update: function() {
       this.groupKey = [this.contents.keys.albumArtist, this.contents.keys.album];
       GroupedTableBase.prototype.update.apply(this, arguments);
     },
+    
     
     // Functions for retrieving implementation specific data
     getGroupImage: function(group) {
@@ -34,6 +40,7 @@ define([
         '</td></tr>'
       ];
     }
+    
     
   });
   

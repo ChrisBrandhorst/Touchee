@@ -7,11 +7,16 @@ define([
   var Contents = Backbone.Model.extend({
     
     
+    // URL
     url: function() { return this.container.url() + '/contents'; },
     
     
     // Attribute to use for generating URLs of items within these contents
     idAttribute: 'id',
+    
+    
+    // Whether the content can be shuffled
+    shuffable: false,
     
     
     // Constructor

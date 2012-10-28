@@ -215,12 +215,7 @@ namespace ListenLive {
             var contents = new Contents(channelsContainer);
 
             var type = (filter.ContainsKey("type") ? filter["type"] : channelsContainer.ViewTypes.FirstOrDefault()) ?? Types.Channel;
-
-            // Set meta data
-            dynamic meta = new ExpandoObject();
-            contents.Meta = meta;
-            meta.SortedByAlpha = true;
-
+            
             // Get the data for the given type
             switch (type) {
                 case Types.Channel:

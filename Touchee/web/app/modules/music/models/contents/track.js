@@ -10,6 +10,9 @@ define([
     idAttribute: 'index',
     
     
+    shuffable: true,
+    
+    
     getUrl: function(id) {
       var filter = {};
       filter[this.idAttribute] = id;
