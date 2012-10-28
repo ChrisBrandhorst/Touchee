@@ -46,7 +46,7 @@ define([
     // Connect to the server
     connect: function() {
       this.connectionTries += 1;
-      T.Log.debug("Application:: connecting...")
+      T.Log.info("Application:: connecting...")
       
       // Set texts and show connecting view
       var connectionStatus = this.connectionTries > 1 ? T.T.connecting.retry : T.T.connecting.connecting;
@@ -58,7 +58,7 @@ define([
       ).show();
       
       // Get server info
-      T.Log.debug("Application:: getting server info...");
+      T.Log.info("Application:: getting server info...");
       ServerInfo.fetch({
         success: function() {
           Communicator.connect(window.location.hostname, ServerInfo.get('websocketPort'));

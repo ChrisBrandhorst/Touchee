@@ -81,7 +81,8 @@ define([
     // 
     clickedTile: function(ev) {
       var id = $(ev.target).closest('li').attr('data-' + this.contents.idAttribute);
-      if (typeof id != 'undefined') Backbone.history.loadUrl(this.contents.getUrl(id) );
+      if (typeof id != 'undefined')
+        Backbone.history.navigate(this.contents.getUrl(id), {trigger:true});
     }
     
     

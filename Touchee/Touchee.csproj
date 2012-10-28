@@ -398,6 +398,9 @@
     <Content Include="web\app\config.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web\app\library.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="web\app\lib\backbone.amd.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -417,9 +420,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\app\lib\js.extensions.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\app\lib\touchee.contents_module.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\app\lib\touchee.js">
@@ -458,16 +458,7 @@
     <Content Include="web\app\models\server_info.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\app\modules\listen_live\models\contents\channel.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\app\modules\listen_live\models\contents\genre.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\app\modules\listen_live\module.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\app\modules\listen_live\views\contents\channel.js">
+    <Content Include="web\app\modules\base\module.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\app\modules\music\models\contents\album.js">
@@ -521,12 +512,6 @@
     <Content Include="web\app\views\connecting.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="web\app\views\containers\list.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="web\app\views\containers\list.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="web\app\views\contents\base.js">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -567,6 +552,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\app\views\media\show.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\app\views\media\show_containers.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="web\app\views\media\show_header.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="web\app\views\paged_view.js">
@@ -647,7 +638,8 @@
 
 del "$(TargetDir)ToucheeLib.*"
 
-xcopy /Y "$(SolutionDir)ListenLive\bin\Debug\ListenLive.dll" "$(TargetDir)plugins\"</PostBuildEvent>
+xcopy /Y "$(SolutionDir)ListenLive\bin\Debug\ListenLive.dll" "$(TargetDir)plugins\ListenLive\"
+xcopy /Y /S "$(SolutionDir)ListenLive\bin\Debug\web" "$(TargetDir)plugins\ListenLive\web\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

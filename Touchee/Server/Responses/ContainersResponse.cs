@@ -28,7 +28,7 @@ namespace Touchee.Server.Responses {
                 this.Type = container.Type.ToString();
                 this.ContentType = container.ContentType.ToString();
                 this.ViewTypes = container.ViewTypes;
-                this.Plugin = container.GetType().Assembly.GetName().Name.ToUnderscore();
+                this.Plugin = container.GetType().Assembly.GetName().Name;
             }
         }
 

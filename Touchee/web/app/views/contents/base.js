@@ -26,12 +26,17 @@ define([
       
       this.$el.addClass('type-' + this.contents.getViewType());
       this.contentsHasBeenUpdated = false;
+      
+      var $el = this.$el;
+      this.loadingTimeout = setTimeout(function(){
+        $el.addClass('loading');
+      }, 1000);
     },
     
     
     // Release events
     onDispose: function() {
-      this.contents.off('change', this.render);
+      this.contents.off('change', this.update);
       this.off('activated', this.activated);
     },
     
@@ -45,6 +50,8 @@ define([
     
     // When the contents is updated
     update: function() {
+      clearTimeout(this.loadingTimeout);
+      this.$el.removeClass('loading');
       this.collectIndices();
     },
     
@@ -64,7 +71,8 @@ define([
     
     // Called when this view / page is activated
     activated: function() {
-      Backbone.history.navigate(this.fragment);
+      if (this.fragment != Backbone.history.fragment)
+        Backbone.history.navigate(this.fragment);
     }
     
     

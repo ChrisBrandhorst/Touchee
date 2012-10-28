@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using System.Reflection;
 
@@ -17,11 +18,22 @@ namespace Touchee {
 
 
         /// <summary>
+        /// Internal list of contents plugins that have  a custom frontend
+        /// </summary>
+        public readonly static List<IContentsPlugin> CustomFrontendPlugins = new List<IContentsPlugin>();
+
+
+        /// <summary>
         /// Adds the given plugin to the plugins collection
         /// </summary>
         /// <param name="plugin">Plugin to add</param>
         public static void Add(IPlugin plugin) {
             _plugins.Add(plugin);
+            if (plugin is IContentsPlugin) {
+                var dir = new FileInfo(plugin.GetType().Assembly.Location).DirectoryName;
+                if (File.Exists(Path.Combine(dir, "web", "plugin.js")))
+                    CustomFrontendPlugins.Add((IContentsPlugin)plugin);
+            }
         }
 
 
@@ -65,6 +77,8 @@ namespace Touchee {
         public static IEnumerable<T> Get<T>() {
             return _plugins.Where(p => typeof(T).IsAssignableFrom(p.GetType())).Cast<T>();
         }
+
+
 
     }
 

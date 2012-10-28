@@ -30,10 +30,9 @@ namespace Touchee.Server {
         /// <summary>
         /// Initialises a new server instance
         /// </summary>
-        /// <param name="documentRoot">The document root of the HTTP server</param>
         /// <param name="httpServerPort">The port at which the HTTP server should run</param>
         /// <param name="websocketPort">The port at which the websocket server should run</param>
-        public ToucheeServer(string documentRoot, int httpServerPort = 80, int websocketPort = 81) {
+        public ToucheeServer(int httpServerPort = 80, int websocketPort = 81) {
 
             // Set local parameters
             _httpServerPort = httpServerPort;
@@ -43,7 +42,7 @@ namespace Touchee.Server {
             _serializer = new Http.JsonNetSerializer();
 
             // Init HTTP server
-            _httpServer = new Server.Http.HttpServer(documentRoot, httpServerPort);
+            _httpServer = new Server.Http.HttpServer(httpServerPort);
 
             // Init websocket server
             _websocketServer = new Server.Websocket.WebsocketServer(websocketPort);
@@ -119,7 +118,7 @@ namespace Touchee.Server {
                 UtcTime         = (long)now.TimeStamp(),
                 UtcOffset       = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMilliseconds,
                 Devices         = Program.Config.GetValue("devices", null),
-                Plugins         = Plugins.Get<IContentsPlugin>().Select(p => p.GetType().Name.ToUnderscore()).ToArray()
+                Plugins         = Plugins.CustomFrontendPlugins.Select(p => p.GetType().Name).ToArray()
             };
         } }
 

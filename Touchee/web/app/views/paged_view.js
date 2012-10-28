@@ -9,7 +9,7 @@ define([
     
     // Events
     events: {
-      'click button.back, .button.back': 'back'
+      'click button.back, .button.back, [data-button=back]': 'back'
     },
     
     
@@ -62,7 +62,7 @@ define([
       
       // Get page
       if (view == 'first')      $page = $firstPage;
-      else if (view == 'back')  $page = $pages.filter(':not(.prev, .next)').prev();
+      else if (view == 'back')  $page = this.activePage.$el.prev();//$pages.filter(':not(.prev, .next)').prev();
       else if (view.$el)        $page = view.$el;
       
       // Check if we have a valid page
@@ -91,11 +91,11 @@ define([
       // Else, if we have no pages, simply add it without animation
       else if (!$pages.length) {
         this.$el.append($page);
+        view.render();
       }
       
       // Else, add it as next item
       else {
-        view.render();
         $page
           .addClass('next')
           .appendTo(this.$el);
@@ -107,6 +107,7 @@ define([
             .find('.selected')
             .removeClass('selected');
         }, duration);
+        view.render();
         
       }
       
@@ -116,8 +117,10 @@ define([
     
     
     // Goes back one page
-    back: function() {
+    back: function(ev) {
       this.activatePage('back');
+      ev.preventDefault();
+      return false;
     },
     
     
@@ -139,7 +142,6 @@ define([
       }
       
     }
-    
     
   });
   

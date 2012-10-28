@@ -15,7 +15,7 @@ define([
       if (item) delete options.item;
       
       options = $.param(options);
-      return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForFilter(item) : ""].join("");
+      return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForFilter(item) : ""].join('');
     }
     
   });

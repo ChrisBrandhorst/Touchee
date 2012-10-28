@@ -2,6 +2,11 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'Touchee', 
+  
+  'modules/base/module',
+  
+  'models/server_info',
   
   'models/collections/media',
   'models/collections/containers',
@@ -11,7 +16,9 @@ define([
   'models/control_request',
   
   'views/browser'
-], function($, _, Backbone,
+], function($, _, Backbone, Touchee,
+            BaseModule,
+            ServerInfo,
             Media, Containers,
             Contents, Filter, ControlRequest,
             BrowserView
@@ -21,7 +28,7 @@ define([
     
     
     routes: {
-      "":                                             "root",
+      // "":                                             "root",
       "media/:mid/containers":                        "containers",
       "media/:mid/groups/:group/containers":          "containers",
       "media/:mid/containers/:cid/contents":          "container",
@@ -40,23 +47,26 @@ define([
       //     this.navigate(url, {trigger:true});
       // }, this);
       
+      // Create base module instance
+      this.baseModule = new BaseModule;
+      
       // Always go to root
       window.location.hash = "";
     },
     
     
     // Root method
-    root: function() {
-      if (!BrowserView.mediaListView.isEmpty())
-        BrowserView.mediaListView.activatePage('first');
-    },
+    // root: function() {
+    //   if (!BrowserView.mediaListView.isEmpty())
+    //     BrowserView.mediaListView.activatePage('first');
+    // },
     
     
     // A medium was selected from the nav list
     containers: function(mediumID, group) {
       var medium = this.getMedium(mediumID);
       if (!medium) return;
-      BrowserView.navigate(medium, group);
+      BrowserView.navigate(medium, group, Backbone.history.fragment);
     },
     
     
@@ -80,52 +90,48 @@ define([
       if (!type)
         return this.Log.error("No type specified for container " + containerID);
       
-      
-      
-      
-      
-      
-      
-      
-      // Check if any attributes other then type was in the filter
+      // Check if we navigated from within a container view or from the media list or view type buttons
       filter.unset('type');
-      var filterBesidesType = _.keys(filter.attributes).length > 0;
+      var internal = filter.count > 0;
+      
+      // Explicitly set the type in the filter and update the fragment
       filter.set('type', type);
+      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+\/contents/)[0], "/", filter.toString()].join('');
+      Backbone.history.navigate(fragment, {replace:true});
       
-      // Store container view
-      var containerView;
-      
-      // If this is the first view we open for this container
-      if (!filterBesidesType) {
-        // Get or create the view which contains the contents pages for this container / type combo
-        containerView = BrowserView.getOrCreateContainerView(container, type);
-        // Activate it
+      // Get or create the container view
+      var containerView = internal ? BrowserView.activeContainerView : BrowserView.getOrCreateContainerView(container, type);
+      if (!internal)
         BrowserView.activateContainerView(containerView);
-      }
       
-      // Else, get the currently active view
-      else
-        containerView = BrowserView.activeContainerView;
-      
-      // If we already have a view for the given filter, activate that page
+      // If we already have a view for the current fragment, activate that page
       var existingPage;
-      if (existingPage = containerView.getPage( filter.toString() ))
+      if (existingPage = containerView.getPage(fragment))
         return containerView.activatePage(existingPage);
       
-      // Check which module we must load
-      var module = container.get('module');
-      if (!module) {
-        var contentType = container.get('contentType');
-        if (_.include(Touchee.knownContentTypes, contentType))
-          module = contentType
-      }
-      var modulePath = module ? 'modules/' + module + '/module' : 'lib/touchee.module';
+      // Get the module for this container
+      var plugin = ServerInfo.getPlugin(container.get('plugin')),
+          module = (plugin && plugin.module) || BaseModule;
       
-      // Get the processing module
-      require([modulePath], function(Module){
-        Module.name = module;
-        Module.setContentPage(containerView, type, filter);
+      // Create the contents object instance
+      var contents = new (module.getContentsModel(type))({
+        container:  container,
+        type:       type,
+        filter:     filter
       });
+      
+      // Initialize the view
+      var contentsView = new (module.getContentsView(type, contents))({
+        contents: contents,
+        back:     containerView.isEmpty() ? false : containerView.activePage.contents.getTitle(),
+        fragment: fragment
+      });
+      
+      // Set the view
+      module.setContentsView(containerView, contentsView);
+      
+      // Load the content
+      contents.fetch();
       
     },
     
@@ -153,7 +159,7 @@ define([
     getMedium: function(mediumID) {
       var medium = Media.get(mediumID);
       if (!medium) {
-        this.navigate("", {trigger:true});
+        this.navigate("", {replace:true,trigger:true});
         this.Log.error("Medium with id " + mediumID + " cannot be found. Removed? Going back to root");
         return false;
       }

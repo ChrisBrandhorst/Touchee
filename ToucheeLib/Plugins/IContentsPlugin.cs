@@ -9,7 +9,6 @@ using Touchee.Artwork;
 namespace Touchee {
 
     public interface IContentsPlugin {
-        bool CustomFrontend { get; }
         IEnumerable<IItem> GetItems(IContainer container, Options filter);
         Contents GetContents(IContainer container, Options filter);
         ArtworkStatus GetArtwork(IContainer container, IItem item, out Image artwork);

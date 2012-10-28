@@ -1,8 +1,9 @@
 define([
   'jquery',
   'underscore',
-  'Backbone'
-], function($, _, Backbone){
+  'Backbone',
+  'Touchee'
+], function($, _, Backbone, Touchee){
   
   var Log = Touchee.Log;
   

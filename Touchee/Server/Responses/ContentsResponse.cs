@@ -13,7 +13,7 @@
             this.Keys = contents.Keys;
             this.Data = contents.Data;
             this.Meta = contents.Meta;
-            this.Plugin = container.GetType().Assembly.GetName().Name.ToUnderscore();
+            this.Plugin = container.GetType().Assembly.GetName().Name;
         }
 
     }

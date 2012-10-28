@@ -26,7 +26,6 @@ define([
     // Events
     events: {
       'touchstart [data-ontouchstart]': 'followOnDown',
-      'mousedown [data-ontouchstart]':  'followOnDown',
       'click [data-href]':              'followNonAnchor',
       // 'click [data-button]':            'button'
     },
@@ -67,8 +66,8 @@ define([
     
     
     // Navigate the media list
-    navigate: function(medium, group) {
-      this.mediaListView.navigate(medium, group);
+    navigate: function(medium, group, fragment) {
+      this.mediaListView.navigate(medium, group, fragment);
     },
     
     
@@ -100,6 +99,8 @@ define([
     
     // Activates the given container view
     activateContainerView: function(view) {
+      if (view == this.activeContainerView)
+        return;
       if (!this.containerViews[view.container.id])
         view = this.getOrCreateContainerView(view.container, view.container.type);
       if (!view.$el.parent().length)
@@ -142,11 +143,12 @@ define([
     },
     
     
-    // Handles buttons / links which should be called on mousedown / touchstart
+    // Handles buttons / links which should be called on touchstart
     followOnDown: function(ev) {
       var $button = $(ev.target).closest('[data-href], [href]');
-      Backbone.history.loadUrl(
-        $button.attr('data-href') || $button.attr('href')
+      Backbone.history.navigate(
+        $button.attr('data-href') || $button.attr('href'),
+        {trigger:true}
       );
       return false;
     },
@@ -154,8 +156,9 @@ define([
     
     // Handles tags which are not anchors, but do have a data-href which should be handled
     followNonAnchor: function(ev) {
-      Backbone.history.loadUrl(
-        $(ev.target).closest('[data-href]').attr('data-href')
+      Backbone.history.navigate(
+        $(ev.target).closest('[data-href]').attr('data-href'),
+        {trigger:true}
       );
     },
     

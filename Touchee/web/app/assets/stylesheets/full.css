@@ -635,12 +635,16 @@ body > section {
 #navigation h1 .back {
   margin: -3px 7px 0 0;
   vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8em;
 }
-/* line 95, ../sass/full/browser/_navigation.sass */
+/* line 99, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable::-webkit-scrollbar-thumb {
   background-color: #dadfe6;
 }
-/* line 99, ../sass/full/browser/_navigation.sass */
+/* line 103, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a {
   display: block;
   height: 44px;
@@ -652,7 +656,7 @@ body > section {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 117, ../sass/full/browser/_navigation.sass */
+/* line 121, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a:before {
   display: inline-block;
   width: 29px;
@@ -660,34 +664,34 @@ body > section {
   content: url(../images/containers/folder.png);
   vertical-align: middle;
 }
-/* line 131, ../sass/full/browser/_navigation.sass */
+/* line 135, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.more, #navigation div.scrollable a.loading {
   padding-right: 20px;
 }
-/* line 135, ../sass/full/browser/_navigation.sass */
+/* line 139, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.more:after, #navigation div.scrollable a.loading:after {
   float: left;
   margin-top: -29px;
   margin-left: 197px;
 }
-/* line 145, ../sass/full/browser/_navigation.sass */
+/* line 149, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.more:after {
   content: url(../images/arrow_next.png);
 }
-/* line 149, ../sass/full/browser/_navigation.sass */
+/* line 153, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.loading:after {
   content: url(../images/nav_loading.gif);
 }
-/* line 155, ../sass/full/browser/_navigation.sass */
+/* line 159, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.selected {
   background: -webkit-linear-gradient(#058cf5, #015de6);
   color: white;
 }
-/* line 161, ../sass/full/browser/_navigation.sass */
+/* line 165, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.selected:before {
   content: url(../images/containers/folder_selected.png);
 }
-/* line 165, ../sass/full/browser/_navigation.sass */
+/* line 169, ../sass/full/browser/_navigation.sass */
 #navigation div.scrollable a.selected.more:after {
   content: url(../images/arrow_next_selected.png);
 }
@@ -872,10 +876,6 @@ body > section {
   overflow: hidden;
 }
 /* line 19, ../sass/full/browser/_contents.sass */
-.contents.loading {
-  background-image: url(../images/contents_loading.gif) no-repeat center center;
-}
-/* line 25, ../sass/full/browser/_contents.sass */
 .contents.hidden {
   position: absolute;
   left: -200%;
@@ -883,7 +883,7 @@ body > section {
   height: 0;
   width: 0;
 }
-/* line 39, ../sass/full/browser/_contents.sass */
+/* line 33, ../sass/full/browser/_contents.sass */
 .contents:before {
   content: "";
   position: absolute;
@@ -894,11 +894,11 @@ body > section {
   background: -webkit-linear-gradient(#c0c3c9, #9499a2);
   border-bottom: 1px solid #191c1f;
 }
-/* line 59, ../sass/full/browser/_contents.sass */
+/* line 53, ../sass/full/browser/_contents.sass */
 .contents > section {
   overflow: hidden;
 }
-/* line 63, ../sass/full/browser/_contents.sass */
+/* line 57, ../sass/full/browser/_contents.sass */
 .contents > section > header {
   position: relative;
   padding: 7px;
@@ -906,7 +906,7 @@ body > section {
   border-bottom: 1px solid #191c1f;
   z-index: 2;
 }
-/* line 75, ../sass/full/browser/_contents.sass */
+/* line 69, ../sass/full/browser/_contents.sass */
 .contents > section > header h1 {
   text-align: center;
   line-height: 29px;
@@ -915,7 +915,13 @@ body > section {
   font-size: 140%;
   padding: 0 150px;
 }
-/* line 91, ../sass/full/browser/_contents.sass */
+/* line 85, ../sass/full/browser/_contents.sass */
+.contents > section.loading {
+  background-image: url(../images/contents_loading.gif);
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+/* line 95, ../sass/full/browser/_contents.sass */
 .contents > section .action {
   border-bottom: 1px solid #c1c1c1;
   line-height: 43px;
@@ -924,7 +930,7 @@ body > section {
   background-color: white;
   font-size: 110%;
 }
-/* line 107, ../sass/full/browser/_contents.sass */
+/* line 111, ../sass/full/browser/_contents.sass */
 .contents > section .action.shuffle:after {
   content: "";
   display: inline-block;
@@ -933,23 +939,23 @@ body > section {
   margin: 0 0 -1px 10px;
   background: url(../images/contents_shuffle.png) no-repeat center right;
 }
-/* line 123, ../sass/full/browser/_contents.sass */
+/* line 127, ../sass/full/browser/_contents.sass */
 .contents > section .action.selected {
   background: -webkit-linear-gradient(#058cf5, #015de6);
   color: white;
 }
-/* line 129, ../sass/full/browser/_contents.sass */
+/* line 133, ../sass/full/browser/_contents.sass */
 .contents > section .action.selected.shuffle:after {
   background-image: url(../images/contents_shuffle_selected.png);
 }
-/* line 135, ../sass/full/browser/_contents.sass */
+/* line 139, ../sass/full/browser/_contents.sass */
 .contents > section .count {
   line-height: 43px;
   text-align: center;
   color: #777777;
   font-size: 125%;
 }
-/* line 147, ../sass/full/browser/_contents.sass */
+/* line 151, ../sass/full/browser/_contents.sass */
 .contents > section .index {
   line-height: 21px;
   text-transform: capitalize;
@@ -961,7 +967,7 @@ body > section {
   background: -webkit-linear-gradient(#a5b1ba 1px, #909faa 1px, #b8c1c8);
   border-bottom: 1px solid #999fa5;
 }
-/* line 169, ../sass/full/browser/_contents.sass */
+/* line 173, ../sass/full/browser/_contents.sass */
 .contents > section > .index {
   font-size: 140%;
 }

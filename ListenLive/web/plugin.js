@@ -1,9 +1,26 @@
-﻿require([
-  'Underscore',
-  'Backbone'
-], function(_, Backbone){
+﻿define([
+  'underscore',
+  'Touchee',
+  './module.js'
+], function(_, Touchee, ListenLiveModule) {
 
-	var Plugin = _.extend(Touchee.
-	alert('Plugin loaded');
-	
+
+  // TODO: in seperate file
+  _.extend(T.T.items, {
+    channel: {
+      one:    'channel',
+      more:   'channels'
+    }
+  });
+  
+  
+  var ListenLivePlugin = Touchee.Plugin.extend({
+    
+    name:   "ListenLive.eu",
+    module: new ListenLiveModule
+    
+  });
+  
+  return new ListenLivePlugin;
+  
 });

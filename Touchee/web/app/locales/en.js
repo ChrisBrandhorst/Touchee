@@ -1,4 +1,4 @@
-Touchee.T = {
+T.T = {
   
   unknown:  "Unknown",
   back:     "Back",
@@ -61,8 +61,8 @@ Touchee.T = {
 };
 
 
-Touchee.t = function(item, options) {
-  var trans = eval('Touchee.T.' + item);
+T.t = function(item, options) {
+  var trans = eval('T.T.' + item);
   
   if (typeof options.count == 'number')
     trans = trans[options.count == 1 ? 'one' : 'more'];

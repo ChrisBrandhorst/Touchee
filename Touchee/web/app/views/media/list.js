@@ -48,19 +48,13 @@ define([
     
     
     // Navigate to the given medium and group
-    navigate: function(medium, group) {
-      
-      // Generate key and try to get the corresponding view
-      var key   = [medium.id, group].join("_"),
-          view  = this.getPage(key);
-      
-      // No view? Build it!
+    navigate: function(medium, group, fragment) {
+      var view = this.getPage(fragment);
       if (!view) {
         view = new MediumShowView({model:medium,contentType:group});
-        this.storePage(key, view);
+        this.storePage(fragment, view);
       }
       this.activatePage(view);
-      
     }
     
     

@@ -1,7 +1,6 @@
 <%
-if (!root) {
-  var backHref = (contentType && !model.isLocal() ? "media/" + model.id + "/containers" : "");
-  %><a href="#<%= backHref %>" class="button rendered back black">Back</a><%
-}
-print( contentType ? contentType.toTitleCase() : model.get('name') );
+if (!root) { %>
+  <a href="#" class="button rendered back black"><%= getPreviousPageTitle() %></a>
+<% }
+print( getTitle() );
 %>

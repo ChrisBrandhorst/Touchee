@@ -19,9 +19,7 @@ namespace Touchee.Server.Http {
 
         string _rootPath;
 
-        public ToucheeNancyBootStrapper(string rootPath = "content") {
-            _rootPath = rootPath;
-        }
+        //public ToucheeNancyBootStrapper() { }
 
         //protected override void ApplicationStartup(TinyIoC.TinyIoCContainer container, IPipelines pipelines) {
         //    base.ApplicationStartup(container, pipelines);
@@ -33,11 +31,14 @@ namespace Touchee.Server.Http {
             base.ConfigureConventions(conventions);
 
             conventions.StaticContentsConventions.Add(
-                StaticContentConventionBuilder.AddDirectory("", _rootPath)
+                StaticContentConventionBuilder.AddDirectory("plugins", "plugins")
+            );
+            conventions.StaticContentsConventions.Add(
+                StaticContentConventionBuilder.AddDirectory("", "web")
             );
             conventions.ViewLocationConventions.Add(
                 (viewName, model, context) => {
-                    return string.Concat(_rootPath + "/", viewName);
+                    return string.Concat("web/", viewName);
                 }
             );
         }

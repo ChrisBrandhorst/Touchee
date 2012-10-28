@@ -7,9 +7,6 @@ $headerBackground: -webkit-linear-gradient(#c0c3c9, #9499a2)
   position:   relative
   overflow:   hidden
   
-  &.loading
-    background-image:   url(../images/contents_loading.gif) no-repeat center center
-  
   &.hidden
     position: absolute
     left:     -200%
@@ -42,6 +39,11 @@ $headerBackground: -webkit-linear-gradient(#c0c3c9, #9499a2)
         text-shadow:  0 -1px 0 #76787C
         font-size:    140%
         padding:      0 150px
+    
+    &.loading
+      background-image:     url(../images/contents_loading.gif)
+      background-repeat:    no-repeat
+      background-position:  center center
     
     .action
       border-bottom:    1px solid #c1c1c1

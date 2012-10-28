@@ -21,14 +21,13 @@ namespace Touchee.Server.Http {
         /// <summary>
         /// Initialises a new HttpServer.
         /// </summary>
-        /// <param name="path"></param>
         /// <param name="port"></param>
-        public HttpServer(string path, int port = 80) {
+        public HttpServer(int port = 80) {
 
             // Init the Nacny self host
             _host = new NancyHost(
                 //new Uri( String.Format("http://localhost:{0}/", port) ),
-                new ToucheeNancyBootStrapper(path),
+                new ToucheeNancyBootStrapper(),
                 this.CollectUris(port)
             );
             

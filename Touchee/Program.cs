@@ -69,7 +69,7 @@ namespace Touchee {
                 Logger.Log("Could not parse a valid value for mediaPollingInterval setting. Using default: " + mediaPollingInterval.ToString(), Logger.LogLevel.Warn);
 
             // Init the server
-            var server = new Server.ToucheeServer("web", httpPort, websocketPort);
+            var server = new Server.ToucheeServer(httpPort, websocketPort);
 
 
             // Init the library
@@ -152,13 +152,14 @@ namespace Touchee {
             // Look for plugins in a subfolder
             try {
                 foreach (var d in Directory.GetDirectories(pluginsPath)) {
-                    var dirInfo = new DirectoryInfo(d);
-                    // Find the dll with the same name as the folder
-                    var pluginFile = Path.Combine(d, dirInfo.Name + ".dll");
-                    if (File.Exists(pluginFile))
-                        pluginFiles.Add(pluginFile);
-                    else
-                        Logger.Log(String.Format("Invalid plugin: {0}.dll not found in {1}", dirInfo.Name, d), Logger.LogLevel.Error);
+                    pluginFiles.AddRange(Directory.GetFiles(d, "*.dll"));
+                    //// Find the dll with the same name as the folder
+                    //var dirInfo = new DirectoryInfo(d);
+                    //var pluginFile = Path.Combine(d, dirInfo.Name + ".dll");
+                    //if (File.Exists(pluginFile))
+                    //    pluginFiles.Add(pluginFile);
+                    //else
+                    //    Logger.Log(String.Format("Invalid plugin: {0}.dll not found in {1}", dirInfo.Name, d), Logger.LogLevel.Error);
                 }
 
             }

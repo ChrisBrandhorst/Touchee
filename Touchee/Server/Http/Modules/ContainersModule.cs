@@ -20,7 +20,7 @@ namespace Touchee.Server.Http.Modules {
 
         public ContainersModule() : base("/media/{mediaId}/containers") {
             Get["/"] = x => Index(x);
-            Get["/{containerId}/contents"] = x => GetContainer(x);
+            Get["/{containerId}/contents"] = x => GetContents(x);
             Get["/{containerId}/artwork"] = x => GetArtwork(x);
         }
 
@@ -42,15 +42,13 @@ namespace Touchee.Server.Http.Modules {
         /// <summary>
         /// Gets the contents of the given container
         /// </summary>
-        public Response GetContainer(dynamic parameters) {
+        public Response GetContents(dynamic parameters) {
             var container = GetContainerFromParams(parameters);
             if (container == null) return null;
 
-            string filter = parameters.filter;
-
             ContentsResponse contents = Library.GetContents(
                 container,
-                Touchee.Options.Build(filter)
+                Touchee.Options.Build(Request.Query["filter"])
             );
 
             return Response.AsJson(contents);

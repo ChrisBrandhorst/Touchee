@@ -123,13 +123,6 @@ namespace ListenLive {
 
 
         /// <summary>
-        /// Whether the data this plugin serves requires a custom frontend, or the default frontend
-        /// for the different containers.
-        /// </summary>
-        public bool CustomFrontend { get { return true; } }
-
-
-        /// <summary>
         /// Gets the items collection for the given parameters
         /// </summary>
         /// <param name="container">The container for which the items should be retreived</param>

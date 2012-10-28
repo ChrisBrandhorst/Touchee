@@ -2,11 +2,13 @@
 // There usage will become more apparent futher along in the tutorial.
 require.config({
   
-  urlArgs: "_=" + (new Date()).getTime(),
+  urlArgs:      "_=" + (new Date()).getTime(),
+  waitSeconds:  1,
   
   paths: {
     underscore: 'lib/underscore.amd',
     Backbone:   'lib/backbone.amd',
+    Touchee:    'lib/touchee',
     text:       '../lib/text-2.0.3',
     jquery:     '../lib/jquery-1.8.2.min'
   },
@@ -32,7 +34,7 @@ require([
   'jquery',
   
   // Backbone extensions
-  'lib/touchee',
+  'Touchee',
   'lib/backbone.extensions',
   
   // jQuery extensions & plugins
@@ -46,11 +48,14 @@ require([
   
 ], function(config, Backbone, $, Touchee){
   
+  Touchee.noConflict();
+  
   // Set Touchee shortcut
   this.T = Touchee;
   
   // Set config
-  T.Config.set( eval('(' + config + ')') );
+  // TODO: eval is evil
+  Touchee.Config.set( eval('(' + config + ')') );
   
   // Boot fastclick
   new FastClick(document.body);
@@ -58,7 +63,7 @@ require([
   // Then, load the app
   require([
     'app',
-    'locales/' + T.Config.get('locale')
+    'locales/' + Touchee.Config.get('locale')
   ], function(App){
     
     App.initialize();

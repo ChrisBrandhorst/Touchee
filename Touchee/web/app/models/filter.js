@@ -32,9 +32,14 @@ define([
   var Filter = Backbone.Model.extend({
     
     
+    // Key counter
+    count: 0,
+    
+    
     // Constructor
     initialize: function(filter) {
       this.set(filter || {});
+      this.on('change', this.recount, this);
     },
     
     
@@ -64,6 +69,12 @@ define([
         ).join(',');
       
       return f;
+    },
+    
+    
+    // 
+    recount: function() {
+      this.count = _.keys(this.attributes).length;
     }
     
     

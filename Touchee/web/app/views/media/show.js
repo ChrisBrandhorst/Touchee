@@ -21,9 +21,6 @@ define([
       // Check if this is the root view
       this.root = this.model.isLocal() && !this.contentType;
       
-      // Direct renderen
-      this.render();
-      
       // Bind on medium and/or media changes
       this.model.on('change', this.renderMediumInfo, this);
       (this.root ? this.model.collection : this.model).on('reset:containers update:containers', this.renderContainers, this);
@@ -56,12 +53,13 @@ define([
     
     // Render the info of the medium (the header)
     renderMediumInfo: function() {
-      this.$header.html( showHeaderTemplate(this) );
+      this.$header && this.$header.html( showHeaderTemplate(this) );
     },
     
     
     // Render the contents of the medium
     renderContainers: function() {
+      if (!this.$containers) return;
       
       // Collect containers and/or groups
       if (this.contentType) {
@@ -86,6 +84,19 @@ define([
       
       if ($selected.length)
         this.$containers.find('[href=' + $selected.attr('href') + ']').addClass('selected');
+    },
+    
+    
+    // Returns the title for this view
+    getTitle: function() {
+      return this.contentType ? this.contentType.toTitleCase() : this.model.get('name');
+    },
+    
+    
+    // Gets the title for the previous page
+    getPreviousPageTitle: function() {
+      var $prev = this.$el.prev();
+      return $prev.length ? $prev[0]._view.getTitle() : null;
     },
     
     

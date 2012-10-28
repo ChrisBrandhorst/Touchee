@@ -16,7 +16,7 @@ define([
     load: function(connectedBefore) {
       
       // Get all media
-      Media.fetch();
+      Media.fetch({update:true});
       
     }
     
