@@ -9,7 +9,7 @@ define([
     getUrl: function(id) {
       var filter = {};
       filter[this.idAttribute] = id;
-      return ["play", "container", this.container.id, this.filter.toString(filter)].join("/");
+      return this.url().replace(/contents$/, "play/" + this.filter.toString(filter));
     }
     
   });

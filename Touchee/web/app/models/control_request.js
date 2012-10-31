@@ -13,21 +13,22 @@ define([
     
     // Constructor
     initialize: function(params) {
-      this.filter = params.filter;
-      this.id = 0;
+      // this.id = 0;
     },
     
     
     // 
     save: function(attributes, options) {
-      var data = this.toJSON();
-      if (this.filter)
-        data.filter = this.filter.toString();
+      var data    = this.toJSON(),
+          filter  = this.get('filter');
+      if (filter)
+        data.filter = filter.toString();
       
       options = _.extend({}, options, {
         data:         data,
         processData:  true
       });
+      
       Backbone.Model.prototype.save.apply(this, [attributes, options]);
     }
     

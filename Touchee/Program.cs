@@ -128,7 +128,7 @@ namespace Touchee {
             // First, process plugins in the app and main lib assembly
             try {
                 LoadPlugins(Assembly.GetExecutingAssembly(), pluginsConfig);
-                LoadPlugins(Assembly.Load("Touchee"), pluginsConfig);
+                LoadPlugins(Assembly.Load("ToucheeLib"), pluginsConfig);
             }
             catch (Exception e) {
                 Logger.Log("Some internal plugin failed to load: " + e.Message, Logger.LogLevel.Error);

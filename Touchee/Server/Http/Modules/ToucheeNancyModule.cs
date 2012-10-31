@@ -44,14 +44,15 @@ namespace Touchee.Server.Http.Modules {
         /// <summary>
         /// Retrieve the Container from the given parameters
         /// </summary>
-        /// <param name="parameters">The parameters which may contain a containerId param</param>
+        /// <param name="parameters">The parameters which may contain a containerID param</param>
         /// <returns>The matched Container, otherwise null</returns>
         public Container GetContainerFromParams(dynamic parameters) {
             Container container = null;
-
-            int containers_id = parameters.containerId;
-            if (containers_id > 0 && Container.Exists(containers_id))
-                container = Container.Find(containers_id);
+            if (parameters.containerID != null) {
+                int containerID = parameters.containerID;
+                if (Container.Exists(containerID))
+                    container = Container.Find(containerID);
+            }
             return container;
         }
 

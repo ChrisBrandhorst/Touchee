@@ -7,21 +7,22 @@ namespace Touchee.Server.Http.Modules {
 
     public class ControlModule : ToucheeNancyModule {
 
-        public ControlModule() : base("/") {
-            Get["/play/containers/{containerId}/{filter}"] = x => StartPlayback(x);
-            Get["/queues/{queueId}/play"] = x => Play(x);
-            Get["/queues/{queueId}/pause"] = x => Pause(x);
-            Get["/queues/{queueId}/prev"] = x => Prev(x);
-            Get["/queues/{queueId}/next"] = x => Next(x);
+        public ControlModule() : base("/control") {
+            //Get["/media/{mediaID}/containers/{containerID}/play/{filter}"] = _ => StartPlayback(_);
+            Post["/play"] = _ => StartPlayback(_);
+            Get["/queues/{queueId}/play"] = _ => Play(_);
+            Get["/queues/{queueId}/pause"] = _ => Pause(_);
+            Get["/queues/{queueId}/prev"] = _ => Prev(_);
+            Get["/queues/{queueId}/next"] = _ => Next(_);
         }
 
         public Response StartPlayback(dynamic parameters) {
             // Get the container
-            var container = GetContainerFromParams(parameters);
+            var container = GetContainerFromParams(Request.Form);
             if (container == null) return null;
 
             // Build the filter
-            var filter = Touchee.Options.Build(parameters.filter);
+            var filter = Touchee.Options.Build(Request.Form.filter);
 
             // Play it
             Library.Play(container, filter);

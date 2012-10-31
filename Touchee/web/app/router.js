@@ -33,7 +33,7 @@ define([
       "media/:mid/groups/:group/containers":          "containers",
       "media/:mid/containers/:cid/contents":          "container",
       "media/:mid/containers/:cid/contents/*filter":  "container",
-      "play/container/:cid/*filter":                  "play",
+      "media/:mid/containers/:cid/play/*filter":      "play",
       "queue/:qid/:command":                          "control"
     },
     
@@ -73,14 +73,9 @@ define([
     // Show the contents of a single container 
     container: function(mediumID, containerID, filter) {
       
-      // Get the medium
-      var medium = this.getMedium(mediumID);
-      if (!medium) return;
-      
       // Get the container
-      var container = medium.containers.get(containerID);
-      if (!container)
-        return this.Log.error("Container with id " + containerID + " cannot be found. Removed?");
+      var container = this.getContainer(mediumID, containerID);
+      if (!container) return;
       
       // Build filter object
       filter = new Filter(decodeURIComponent(filter || ""));
@@ -137,12 +132,18 @@ define([
     
     
     // Send a play command to the server
-    play: function(containerID, filter) {
+    play: function(mediumID, containerID, filter) {
+      
+      // Get the container
+      var container = this.getContainer(mediumID, containerID);
+      if (!container) return;
+      
       new ControlRequest({
-        command:    'play',
-        container:  containerID,
-        filter:     new Filter(filter || "")
+        command:      'play',
+        containerID:  containerID,
+        filter:       new Filter(filter || "")
       }).save();
+      
     },
     
     
@@ -161,9 +162,23 @@ define([
       if (!medium) {
         this.navigate("", {replace:true,trigger:true});
         this.Log.error("Medium with id " + mediumID + " cannot be found. Removed? Going back to root");
-        return false;
+        return null;
       }
       return medium;
+    },
+    
+    
+    // Safely get the container with the given ID from the medium with the given ID
+    getContainer: function(mediumID, containerID) {
+      var medium = this.getMedium(mediumID);
+      if (!medium) return medium;
+      var container = medium.containers.get(containerID);
+      if (!container) {
+        this.navigate("", {replace:true,trigger:true});
+        this.Log.error("Container with id " + containerID + " cannot be found. Removed? Going back to root");
+        return null;
+      }
+      return container;
     }
     
     

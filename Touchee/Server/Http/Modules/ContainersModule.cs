@@ -18,10 +18,10 @@ namespace Touchee.Server.Http.Modules {
 
     public class ContainersModule : ToucheeNancyModule {
 
-        public ContainersModule() : base("/media/{mediaId}/containers") {
-            Get["/"] = x => Index(x);
-            Get["/{containerId}/contents"] = x => GetContents(x);
-            Get["/{containerId}/artwork"] = x => GetArtwork(x);
+        public ContainersModule() : base("/media/{mediaID}/containers") {
+            Get["/"] = _ => Index(_);
+            Get["/{containerID}/contents"] = _ => GetContents(_);
+            Get["/{containerID}/artwork"] = _ => GetArtwork(_);
         }
 
 
@@ -29,10 +29,10 @@ namespace Touchee.Server.Http.Modules {
         /// Get the list of all containers
         /// </summary>
         public Response Index(dynamic parameters) {
-            int media_id = parameters.mediaId;
-            if (media_id == 0) return null;
-            
-            var medium = Medium.Find(media_id);
+            int mediaID = parameters.mediaID;
+            if (mediaID == 0) return null;
+
+            var medium = Medium.Find(mediaID);
             return Response.AsJson(
                 Library.GetContainers(medium)
             );

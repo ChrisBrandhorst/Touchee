@@ -61,7 +61,9 @@ define([
     
     // Build the URL for the given item
     getUrl: function(id) {
-      return [this.url(), 'item', id].join("/");
+      var filter = {};
+      filter[this.idAttribute] = id;
+      return this.url().replace(/contents$/, "play/" + this.filter.toString(filter));
     },
     
     
