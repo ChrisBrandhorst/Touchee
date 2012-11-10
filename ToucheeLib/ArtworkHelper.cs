@@ -5,7 +5,8 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 
-using Touchee.Service;
+using Touchee.Plugins;
+using Touchee.Components.Services;
 
 namespace Touchee.Artwork {
 
@@ -119,7 +120,7 @@ namespace Touchee.Artwork {
 
             // Track: get album artwork from services until one is found
             if (item is ITrack)
-                result = GetFromPlugins<Service.IAlbumArtworkService>(ArtworkType.Album, new object[] { (ITrack)item });
+                result = GetFromComponents<IAlbumArtworkService>(ArtworkType.Album, new object[] { (ITrack)item });
 
             // Set result object
             if (result.Type == ArtworkType.Unknown)
@@ -142,11 +143,11 @@ namespace Touchee.Artwork {
 
                 // Also album: get album
                 if (filter.ContainsKey("album"))
-                    result = GetFromPlugins<Service.IAlbumArtworkService>(ArtworkType.Album, new object[] { artist, filter["album"].ToLower() });
+                    result = GetFromComponents<IAlbumArtworkService>(ArtworkType.Album, new object[] { artist, filter["album"].ToLower() });
 
                 // Get artist
                 else
-                    result = GetFromPlugins<Service.IArtistArtworkService>(ArtworkType.Artist, new object[] { artist });
+                    result = GetFromComponents<IArtistArtworkService>(ArtworkType.Artist, new object[] { artist });
             }
 
             // Set result object
@@ -158,16 +159,16 @@ namespace Touchee.Artwork {
 
 
         /// <summary>
-        /// Gets artwork from the plugins of the given type
+        /// Gets artwork from the components of the given type
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="type"></param>
         /// <param name="parameters"></param>
         /// <returns></returns>
-        static ArtworkResult GetFromPlugins<T>(string type, object[] parameters) {
+        static ArtworkResult GetFromComponents<T>(string type, object[] parameters) where T : IArtworkService {
 
             // Set vars
-            var plugins = Plugins.Get<T>();
+            var components = PluginManager.GetComponent<T>();
             var statuses = new List<ServiceResultStatus>();
             var args = new object[parameters.Length + 1];
             Array.Copy(parameters, args, parameters.Length);
@@ -176,12 +177,12 @@ namespace Touchee.Artwork {
             var types = args.Select(t => t == null ? Type.GetType(imageType) : t.GetType()).ToArray();
 
             // Loop through plugins
-            foreach (var plugin in plugins) {
+            foreach (var component in components) {
 
                 // Get image from plugin
-                var method = plugin.GetType().GetMethod("Get" + type.ToCamelCase() + "Artwork", types);
+                var method = component.GetType().GetMethod("Get" + type.ToCamelCase() + "Artwork", types);
                 if (method == null) continue;
-                var status = (ServiceResultStatus)method.Invoke(plugin, args);
+                var status = (ServiceResultStatus)method.Invoke(component, args);
                 
                 // Check for corruption
                 artwork = (Image)args[parameters.Length];

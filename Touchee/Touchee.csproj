@@ -122,6 +122,9 @@
     <Content Include="web\app\assets\images\artwork\small\empty.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="web\app\assets\images\artwork\small\webcast.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="web\app\assets\images\button_back_black%402x.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -609,13 +612,16 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Nancy">
-      <HintPath>..\packages\Nancy.0.12.1\lib\net40\Nancy.dll</HintPath>
+      <HintPath>..\packages\Nancy.0.13.0\lib\net40\Nancy.dll</HintPath>
     </Reference>
     <Reference Include="Nancy.Hosting.Self">
-      <HintPath>..\packages\Nancy.Hosting.Self.0.12.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+      <HintPath>..\packages\Nancy.Hosting.Self.0.13.0\lib\net40\Nancy.Hosting.Self.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="policy.2.0.taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -625,7 +631,7 @@
     <Reference Include="System.XML" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="taglib-sharp">
-      <HintPath>lib\taglib-sharp.dll</HintPath>
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -634,12 +640,18 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>move "$(TargetDir)*.dll" "$(TargetDir)lib\"
+    <PostBuildEvent>mkdir "$(TargetDir)lib\"
+move "$(TargetDir)*.dll" "$(TargetDir)lib\"
 
 del "$(TargetDir)ToucheeLib.*"
 
+xcopy /Y "$(SolutionDir)BassNetPlayer\bin\Debug\BassNetPlayer.dll" "$(TargetDir)plugins\BassNetPlayer\"
+xcopy /Y /S "$(SolutionDir)BassNetPlayer\bin\Debug\lib" "$(TargetDir)plugins\BassNetPlayer\lib\"
+
 xcopy /Y "$(SolutionDir)ListenLive\bin\Debug\ListenLive.dll" "$(TargetDir)plugins\ListenLive\"
-xcopy /Y /S "$(SolutionDir)ListenLive\bin\Debug\web" "$(TargetDir)plugins\ListenLive\web\"</PostBuildEvent>
+xcopy /Y /S "$(SolutionDir)ListenLive\bin\Debug\web" "$(TargetDir)plugins\ListenLive\web\"
+
+copy  "$(SolutionDir)Music\bin\Debug\Music.dll" "$(TargetDir)plugins\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

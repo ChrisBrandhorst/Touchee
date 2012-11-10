@@ -180,6 +180,25 @@ namespace Touchee {
             }
         }
 
+        public bool TryGetStringArray(string key, out string[] result) {
+            object value = null;
+            TryGetValue(key, out value);
+
+            if (value is IEnumerable) {
+                result = ((IEnumerable)value).Cast<string>().ToArray();
+                return true;
+            }
+            else if (value is string) {
+                result = new string[] { (string)value };
+                return true;
+            }
+            else {
+                result = new string[0];
+                return false;
+            }
+
+        }
+
 
         public object GetValue(string key, object defaultValue = null) {
             if (defaultValue == null)
@@ -219,6 +238,12 @@ namespace Touchee {
                 TryGetInt(key, out value, (int)defaultValue);
                 return value;
             }
+        }
+
+        public string[] GetStringArray(string key) {
+            string[] value;
+            TryGetStringArray(key, out value);
+            return value;
         }
 
     }

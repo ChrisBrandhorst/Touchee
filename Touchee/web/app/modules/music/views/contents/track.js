@@ -21,12 +21,13 @@ define([
       // Filter out number data
       options.scrolllistOptions = {
         data:   function(el, elI, first, last) {
-          data = $.extend(true, [], typeof last != 'number'
+          var lastIsNumber = _.isNumber(last);
+          data = $.extend(true, [], !lastIsNumber
             ? contents.get('data')[first]
             : contents.get('data').slice(first, last + 1)
           );
           
-          if (typeof last != 'number') {
+          if (!lastIsNumber) {
             data.splice(_this.contents.keys.number,1);
             data.splice(_this.contents.keys.albumArtist,1);
           }

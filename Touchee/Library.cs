@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using System.Drawing;
+using System.IO;
+using System.Threading;
+
 using Touchee.Server;
 using Touchee.Server.Responses;
 using Touchee.Artwork;
 using Touchee.Playback;
-
-using System.Drawing;
-using System.IO;
-using System.Threading;
+using Touchee.Components.Content;
+using Touchee.Components.Media;
+using Touchee.Components.Playback;
+using Touchee.Plugins;
 
 namespace Touchee {
 
@@ -77,7 +81,7 @@ namespace Touchee {
 
             // Instantiate all available MediumWatchers
             // These watch the Medium instances and generate Containers
-            _mediumWatchers = Util.InstantiateAllImplementations<IMediumWatcher>();
+            _mediumWatchers = PluginManager.GetComponent<IMediumWatcher>().ToList();
             Medium.AfterCreate += new Collectable<Medium>.ItemEventHandler(Medium_AfterCreate);
             Medium.AfterDispose += new Collectable<Medium>.ItemEventHandler(Medium_AfterDispose);
 
@@ -93,7 +97,8 @@ namespace Touchee {
             
             // Instantiate all available MediaWatchers
             // These generate Medium instances
-            _mediaWatchers = Util.InstantiateAllImplementations<IMediaWatcher>();
+            PluginManager.Register(new DriveMediaWatcher());
+            _mediaWatchers = PluginManager.GetComponent<IMediaWatcher>().ToList();
 
             // Start media detection
             _mediaWatchers.ForEach(w => w.Watch(mediaWatcherPollingInterval));
@@ -240,10 +245,10 @@ namespace Touchee {
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
         public ContentsResponse GetContents(Container container, Options filter) {
-            var contentsPlugin = Plugins.GetContentsPluginFor(container);
-            if (contentsPlugin == null) return null;
+            var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
+            if (contentProvider == null) return null;
 
-            var contents = contentsPlugin.GetContents(container, filter);
+            var contents = contentProvider.GetContent(container, filter);
 
             return contents == null ? null : new ContentsResponse(container, contents);
         }
@@ -418,10 +423,10 @@ namespace Touchee {
                 }
 
                 // Get the image from the plugin
-                var plugin = Plugins.GetContentsPluginFor(container);
-                if (plugin != null) {
+                var contentArtworkProvider = PluginManager.GetComponent<IContentArtworkProvider>(container);
+                if (contentArtworkProvider != null) {
                     Image artwork;
-                    result.Status = filter == null ? plugin.GetArtwork(container, item, out artwork) : plugin.GetArtwork(container, filter, out artwork);
+                    result.Status = filter == null ? contentArtworkProvider.GetArtwork(container, item, out artwork) : contentArtworkProvider.GetArtwork(container, filter, out artwork);
                     result.Artwork = artwork;
                 }
 
@@ -483,11 +488,11 @@ namespace Touchee {
         public Queue Play(Container container, Options filter) {
 
             // Get the plugin for the container
-            var contentsPlugin = Plugins.GetContentsPluginFor(container);
-            if (contentsPlugin == null) return null;
+            var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
+            if (contentProvider == null) return null;
 
             // Get the items for this container / filter combination
-            var items = contentsPlugin.GetItems(container, filter);
+            var items = contentProvider.GetItems(container, filter);
 
             // Bail out if no items
             if (items.Count() == 0) return null;
@@ -572,7 +577,7 @@ namespace Touchee {
         /// <param name="item">The item to play</param>
         /// <returns>The corresponding IPlayer</returns>
         IPlayer GetPlayerForItem(IItem item) {
-            return Plugins.Get<IPlayer>().FirstOrDefault(p => p.CanPlay(item));
+            return PluginManager.GetComponent<IPlayer>().FirstOrDefault(p => p.CanPlay(item));
         }
 
 

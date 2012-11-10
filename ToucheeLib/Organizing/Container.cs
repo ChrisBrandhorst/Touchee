@@ -18,7 +18,7 @@ namespace Touchee {
 
 
     /// <summary>
-    /// String constants for container content type
+    /// String constants for container type
     /// </summary>
     public class ContainerType {
         public const string Unknown = "unknown";

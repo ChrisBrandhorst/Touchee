@@ -7,13 +7,15 @@ using TagLib;
 using System.Drawing;
 using System.IO;
 
-namespace Touchee.Service {
+using Touchee.Components.Services;
+
+namespace Touchee.Plugins {
 
 
     /// <summary>
     /// Gets album artwork from MP3, OGG, FLAC, MPC, Speex, WavPack TrueAudio, WAV, AIFF, MP4 and ASF files.
     /// </summary>
-    public class FileTagArtworkService : Base, IPlugin, Service.IAlbumArtworkService {
+    public class FileTagArtworkService : Base, IPlugin, IAlbumArtworkService {
 
 
         #region IPlugin implementation
@@ -23,20 +25,36 @@ namespace Touchee.Service {
         /// </summary>
         public string Name { get { return "FileTag Artwork"; } }
 
+
+        /// <summary>
+        /// The description of this plugin
+        /// </summary>
+        public string Description { get { return "Retrieves album artwork embedded in files."; } }
+
+
+        /// <summary>
+        /// The version of this plugin
+        /// </summary>
+        public Version Version { get { return new Version(1, 0, 0, 0); } }
+
+
         /// <summary>
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
         /// <returns>True</returns>
-        public bool Start(dynamic config) {
+        public bool StartPlugin(dynamic config) {
+            PluginManager.Register((IAlbumArtworkService)this);
             return true;
         }
+
 
         /// <summary>
         /// Stops this plugin
         /// </summary>
         /// <returns>True</returns>
-        public bool Shutdown() {
+        public bool StopPlugin() {
+            PluginManager.Unregister((IAlbumArtworkService)this);
             return true;
         }
 

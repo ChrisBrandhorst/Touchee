@@ -2359,9 +2359,24 @@ section.album_track.flip {
   -webkit-perspective: 2000px;
 }
 
-/* line 7, ../sass/full/modules/listen_live/contents/_channel.sass */
-.contents > .type-channel > div.scrollable li {
+/* line 9, ../sass/full/modules/listen_live/contents/_channel.sass */
+.contents > .type-channel > div.scrollable td:first-child {
+  width: 43px;
+  padding: 0;
+  vertical-align: top;
   background-image: url(../images/artwork/medium/webcast.png);
+  background-size: 43px;
+}
+/* line 21, ../sass/full/modules/listen_live/contents/_channel.sass */
+.contents > .type-channel > div.scrollable td:first-child img {
+  height: 43px;
+  width: 43px;
+  display: none;
+}
+/* line 29, ../sass/full/modules/listen_live/contents/_channel.sass */
+.contents > .type-channel > div.scrollable td:first-child + td {
+  border-left: none;
+  font-weight: bold;
 }
 
 /* line 69, ../sass/full.sass */

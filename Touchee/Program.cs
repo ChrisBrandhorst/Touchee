@@ -8,6 +8,8 @@ using System.IO;
 using System.Reflection;
 using System.Collections;
 
+using Touchee.Plugins;
+
 namespace Touchee {
 
     /// <remarks>
@@ -206,34 +208,36 @@ namespace Touchee {
             }
             
             // Go through all plugins
+            var thisAssembly = Assembly.GetExecutingAssembly();
             foreach (var type in types) {
                 bool ok = true;
                 IPlugin plugin;
 
                 // Get the configuration
                 dynamic pluginConfig = null;
+                var name = type.Assembly == thisAssembly ? type.Name : type.Assembly.GetName().Name;
                 if (pluginsConfig != null)
-                    pluginsConfig.TryGetValue(type.Name, out pluginConfig);
+                    pluginsConfig.TryGetValue(name, out pluginConfig);
 
                 // Create instance of plugin
                 try {
                     plugin = (IPlugin)Activator.CreateInstance(type);
                 }
                 catch (Exception e) {
-                    Logger.Log("Cannot instantiate plugin: " + type.Name + " : " + e.Message, Logger.LogLevel.Error);
+                    Logger.Log("Cannot instantiate plugin: " + name + " : " + e.Message, Logger.LogLevel.Error);
                     continue;
                 }
 
                 // Boot the plugin
-                ok = plugin.Start(pluginConfig);
+                ok = plugin.StartPlugin(pluginConfig);
 
                 // Store plugin if successfull
                 if (ok) {
-                    Plugins.Add(plugin);
+                    PluginManager.Register(plugin);
                     Logger.Log("Plugin loaded: " + plugin.Name);
                 }
                 else {
-                    Logger.Log("Start of plugin failed: " + type.Name, Logger.LogLevel.Error);
+                    Logger.Log("Start of plugin failed: " + name, Logger.LogLevel.Error);
                 }
             }
         }
@@ -254,7 +258,7 @@ namespace Touchee {
         /// </summary>
         /// <returns>true if the shutdown was successfull, otherwise false.</returns>
         public static bool Shutdown() {
-            Plugins.ShutdownAll();
+            PluginManager.UnregisterAll();
             Environment.Exit(1);
             return true;
         }

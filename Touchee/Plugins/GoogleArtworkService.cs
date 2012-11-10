@@ -6,10 +6,14 @@ using System.Text;
 using System.Drawing;
 using System.Net;
 using System.Web;
-using HtmlAgilityPack;
 using System.IO;
 
-namespace Touchee.Service {
+using HtmlAgilityPack;
+
+using Touchee.Components;
+using Touchee.Components.Services;
+
+namespace Touchee.Plugins {
 
     /// <summary>
     /// Service that uses the Google Images website to get artwork for albums, artists, movies and series
@@ -75,17 +79,31 @@ namespace Touchee.Service {
 
         #region IPlugin implementation
 
+
         /// <summary>
         /// The name of this plugin
         /// </summary>
-        public string Name { get { return "Google Images Artwork Scraper"; } }
+        public string Name { get { return "Google Images"; } }
+
+
+        /// <summary>
+        /// The description of this plugin
+        /// </summary>
+        public string Description { get { return "Retrieves album, artist, movie, series and custom artwork from Google Images."; } }
+
+
+        /// <summary>
+        /// The version of this plugin
+        /// </summary>
+        public Version Version { get { return new Version(1, 0, 0, 0); } }
+
 
         /// <summary>
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
         /// <returns>False if no valid URL was given in the config, otherwise true</returns>
-        public bool Start(dynamic config) {
+        public bool StartPlugin(dynamic config) {
             
             // No config, no dice...
             if (config == null || config.GetType() != typeof(ConfigObject)) {
@@ -97,14 +115,21 @@ namespace Touchee.Service {
             config.TryGetString("url", out _url);
 
             // OK if we now have a url
-            return _url != null;
+            var ok = _url != null;
+
+            // Register components if ok
+            if (ok)
+                PluginManager.Register((IArtworkService)this);
+
+            return ok;
         }
 
         /// <summary>
         /// Stops this plugin
         /// </summary>
         /// <returns>True</returns>
-        public bool Shutdown() {
+        public bool StopPlugin() {
+            PluginManager.Unregister((IArtworkService)this);
             return true;
         }
 

@@ -25,9 +25,10 @@ namespace Touchee.Server.Http {
         public HttpServer(int port = 80) {
 
             // Init the Nacny self host
+            var bootstrapper = new ToucheeNancyBootStrapper();
             _host = new NancyHost(
                 //new Uri( String.Format("http://localhost:{0}/", port) ),
-                new ToucheeNancyBootStrapper(),
+                bootstrapper,
                 this.CollectUris(port)
             );
             

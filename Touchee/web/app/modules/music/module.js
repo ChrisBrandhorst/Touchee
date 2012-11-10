@@ -11,20 +11,9 @@ define([
   var MusicModule = BaseModule.extend({
     
     
-    initialize: function() {
-    },
-    
     // Get the Contents model for the given type
     getContentsModel: function(type) {
       return require('./models/contents/' + type);
-    },
-    
-    
-    
-    // Only the genre view is inherited
-    inheritedTypes: {
-      genre:    {view: true},
-      webcast:  {view: true}
     },
     
     

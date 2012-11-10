@@ -44,7 +44,7 @@ define([
           return view.indices;
         },
         data:   function(el, elI, first, last) {
-          return $.extend(true, [], typeof last != 'number'
+          return $.extend(true, [], !_.isNumber(last)
             ? contents.get('data')[first]
             : contents.get('data').slice(first, last + 1)
           );

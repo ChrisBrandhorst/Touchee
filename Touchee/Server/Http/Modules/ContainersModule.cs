@@ -133,7 +133,7 @@ namespace Touchee.Server.Http.Modules {
                 // Get some vars
                 var unavailable = result.Status == ArtworkStatus.Unavailable;
                 var type = result.Type;
-                var imagePath = String.Format("/assets/app/assets/images/artwork/{0}/{1}.png", size.ToString().ToLower(), type);
+                var imagePath = String.Format("/web/app/assets/images/artwork/{0}/{1}.png", size.ToString().ToLower(), type);
 
                 // We actually just want to do a redirect here, but Webkit browsers seem to cache 307 responses (which they shouldn't accoring to HTTP spec)
                 //Response.Status = unavailable ? System.Net.HttpStatusCode.MovedPermanently : System.Net.HttpStatusCode.TemporaryRedirect;

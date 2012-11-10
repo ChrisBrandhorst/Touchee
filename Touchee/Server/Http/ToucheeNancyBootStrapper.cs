@@ -17,8 +17,6 @@ namespace Touchee.Server.Http {
     /// </summary>
     public class ToucheeNancyBootStrapper : DefaultNancyBootstrapper {
 
-        string _rootPath;
-
         //public ToucheeNancyBootStrapper() { }
 
         //protected override void ApplicationStartup(TinyIoC.TinyIoCContainer container, IPipelines pipelines) {

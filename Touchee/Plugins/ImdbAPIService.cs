@@ -7,11 +7,12 @@ using System.Drawing;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Net;
-using Touchee.Service;
 
 using Touchee.Artwork;
+using Touchee.Components;
+using Touchee.Components.Services;
 
-namespace Touchee.Service {
+namespace Touchee.Plugins {
 
     /// <summary>
     /// Service that uses the IMDbAPI service for downloading movie data and artwork
@@ -38,14 +39,27 @@ namespace Touchee.Service {
         /// <summary>
         /// The name of this plugin
         /// </summary>
-        public string Name { get { return "IMDb API Service for movie & series info and artwork"; } }
+        public string Name { get { return "IMDb API Service"; } }
+        
+
+        /// <summary>
+        /// The description of this plugin
+        /// </summary>
+        public string Description { get { return "Retrieves info and artwork for amovies from the IMDB API."; } }
+
+
+        /// <summary>
+        /// The version of this plugin
+        /// </summary>
+        public Version Version { get { return new Version(1, 0, 0, 0); } }
+
 
         /// <summary>
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
         /// <returns>False if no valid URL was given in the config, otherwise true</returns>
-        public bool Start(dynamic config) {
+        public bool StartPlugin(dynamic config) {
 
             // No config, no dice...
             if (config == null || config.GetType() != typeof(ConfigObject)) {
@@ -57,14 +71,21 @@ namespace Touchee.Service {
             config.TryGetString("url", out _url);
 
             // OK if we now have a url
-            return _url != null;
+            var ok = _url != null;
+
+            // Register components if ok
+            if (ok)
+                PluginManager.Register((IComponent)this);
+
+            return ok;
         }
 
         /// <summary>
         /// Stops this plugin
         /// </summary>
         /// <returns>True</returns>
-        public bool Shutdown() {
+        public bool StopPlugin() {
+            PluginManager.Unregister((IComponent)this);
             return true;
         }
 

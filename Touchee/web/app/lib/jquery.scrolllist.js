@@ -407,22 +407,26 @@
               var id = data.options.showID || r.length == 1 ? r[0] : r.shift();
               
               // Put HTML
-              html = html.concat(
-                data.customItem
-                  ? data.options.renderItem.call(this, id, r, odd)
-                  : [
-                      '<tr ',
-                      (odd ? 'class="odd" ' : ''),
-                      'data-id="', id,
-                      '" data-index="', items.first+j*1,
-                      '">',
-                      $.map(r, function(d){
-                        return ['<td>', d ? d.toString().htmlEncode() : "", '</td>'].join('');
-                      }).join(''),
-                      '</tr>'
-                    ]
-                  
-              );
+              var addHTML;
+              // Custom item rendering
+              if (data.customItem) {
+                addHTML = data.options.renderItem.call(this, id, r, odd);
+                if (typeof addHTML == 'string') addHTML = [addHTML];
+              }
+              else {
+                addHTML = [
+                  '<tr ',
+                  (odd ? 'class="odd" ' : ''),
+                  'data-id="', id,
+                  '" data-index="', items.first+j*1,
+                  '">'
+                ];
+                for (i in r) {
+                  addHTML.push('<td>', r[i] ? r[i].toString().htmlEncode() : "", '</td>');
+                }
+              }
+              
+              html = html.concat(addHTML);
               odd = !odd;
             }
             
@@ -431,7 +435,10 @@
           }
           
         }
+        
+        // DEBUG
         $('#debug').text("rendered in " + (new Date() - start) + " ms");
+        
         // Set the HTML
         this.innerHTML = html;
         

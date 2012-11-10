@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web;
+using System.IO;
 
 using Touchee.Server;
 using Touchee.Server.Responses;
-using System.Web;
-using System.IO;
+using Touchee.Plugins;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -118,7 +120,7 @@ namespace Touchee.Server {
                 UtcTime         = (long)now.TimeStamp(),
                 UtcOffset       = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMilliseconds,
                 Devices         = Program.Config.GetValue("devices", null),
-                Plugins         = Plugins.CustomFrontendPlugins.Select(p => p.GetType().Name).ToArray()
+                Plugins         = PluginManager.GetComponent<Components.Content.IContentProvider>().Where(c => c.ProvidesFrontend).Select(p => p.GetType().Assembly.GetName().Name).ToArray()
             };
         } }
 

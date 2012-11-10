@@ -8,7 +8,10 @@ using System.Xml.Linq;
 using System.Net;
 using System.Xml.XPath;
 
-namespace Touchee.Service {
+using Touchee.Components;
+using Touchee.Components.Services;
+
+namespace Touchee.Plugins {
 
     /// <summary>
     /// Service using Last.FM API for retrieving album and artist artwork
@@ -38,17 +41,31 @@ namespace Touchee.Service {
 
         #region IPlugin implementation
 
+
         /// <summary>
         /// The name of this plugin
         /// </summary>
         public string Name { get { return "Last.FM API Artwork Service"; } }
+
+
+        /// <summary>
+        /// The description of this plugin
+        /// </summary>
+        public string Description { get { return "Retrieves artwork for albums and artists from the Last.FM API."; } }
+
+
+        /// <summary>
+        /// The version of this plugin
+        /// </summary>
+        public Version Version { get { return new Version(1, 0, 0, 0); } }
+
 
         /// <summary>
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
         /// <returns>False if no valid URL, key or secret was given in the config, otherwise true</returns>
-        public bool Start(dynamic config) {
+        public bool StartPlugin(dynamic config) {
 
             // No config, no dice...
             if (config == null || config.GetType() != typeof(ConfigObject)) {
@@ -75,15 +92,18 @@ namespace Touchee.Service {
                 Log("Wrong LastFMService config: " + String.Join(", ", errors));
                 return false;
             }
-            else
+            else {
+                PluginManager.Register((IArtworkService)this);
                 return true;
+            }
         }
 
         /// <summary>
         /// Stops this plugin
         /// </summary>
         /// <returns>True</returns>
-        public bool Shutdown() {
+        public bool StopPlugin() {
+            PluginManager.Unregister((IArtworkService)this);
             return true;
         }
 
@@ -334,6 +354,7 @@ namespace Touchee.Service {
         }
 
         #endregion
+
 
     }
 
