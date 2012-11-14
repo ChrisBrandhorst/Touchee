@@ -1,21 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
-namespace Touchee {
+namespace Touchee.Media.Music {
 
+
+    /// <summary>
+    /// Respresents a webcast
+    /// </summary>
     public interface IWebcast : IAudioItem {
 
         /// <summary>
         /// The title of this stream
         /// </summary>
-        string Name { get; }
+        string Title { get; }
 
         /// <summary>
         /// The sorted title of this stream
         /// </summary>
-        string SortName { get; }
+        string TitleSort { get; }
 
         /// <summary>
         /// The genre of this stream
@@ -25,7 +26,7 @@ namespace Touchee {
         /// <summary>
         /// The streams from which this webcast can be streamed
         /// </summary>
-        ISet<StreamInfo> Streams { get; }
+        ISet<IWebcastStream> Streams { get; }
 
         /// <summary>
         /// The meta-text for this stream

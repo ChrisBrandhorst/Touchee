@@ -39,19 +39,22 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Components\FileSystem\DirectoriesWatcher.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />
     <Compile Include="Media\IAudioItem.cs" />
-    <Compile Include="Media\IFileTrack.cs" />
+    <Compile Include="Media\Music\IFileTrack.cs" />
     <Compile Include="Media\IItem.cs" />
-    <Compile Include="Media\IPlaylist.cs" />
-    <Compile Include="Media\ITrack.cs" />
-    <Compile Include="Media\IWebcast.cs" />
+    <Compile Include="Media\Music\IPlaylist.cs" />
+    <Compile Include="Media\Music\ITrack.cs" />
+    <Compile Include="Media\Music\IWebcast.cs" />
+    <Compile Include="Media\Music\IWebcastStream.cs" />
+    <Compile Include="Media\Music\StreamEncoding.cs" />
     <Compile Include="Meta\IMovieInfo.cs" />
-    <Compile Include="Meta\StreamInfo.cs" />
+    <Compile Include="Media\Music\WebcastStream.cs" />
     <Compile Include="Organizing\Container.cs" />
     <Compile Include="Components\Media\DriveMediaWatcher.cs" />
     <Compile Include="Organizing\IContainer.cs" />

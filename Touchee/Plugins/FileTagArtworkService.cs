@@ -8,6 +8,7 @@ using System.Drawing;
 using System.IO;
 
 using Touchee.Components.Services;
+using Touchee.Media.Music;
 
 namespace Touchee.Plugins {
 

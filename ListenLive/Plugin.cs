@@ -17,6 +17,7 @@ using Touchee.Components;
 using Touchee.Components.Media;
 using Touchee.Components.Content;
 using Touchee.Components.Services;
+using Touchee.Media.Music;
 
 namespace ListenLive {
 
@@ -232,7 +233,7 @@ namespace ListenLive {
                         break;
 
                     case "query":
-                        channels = channels.Where(t => t.Name.Matches(value));
+                        channels = channels.Where(t => t.Title.Matches(value));
                         break;
 
                 }
@@ -282,8 +283,8 @@ namespace ListenLive {
             return channels
                 .Select(c => new object[]{
                     c.ID,
-                    c.Name,
-                    Util.GetIndex(c.SortName)
+                    c.Title,
+                    Util.GetIndex(c.TitleSort)
                 });
         }
 
@@ -320,7 +321,7 @@ namespace ListenLive {
 
             // Get query
             var channel = (RadioChannel)item;
-            var query = Regex.Replace(channel.Website ?? "", @"^(http:\/\/)?(www.)?", "", RegexOptions.Compiled) + " \"" + channel.Name + "\"";
+            var query = Regex.Replace(channel.Website ?? "", @"^(http:\/\/)?(www.)?", "", RegexOptions.Compiled) + " \"" + channel.Title + "\"";
 
             // Get plugins for artwork retrieval
             var plugins = PluginManager.GetComponent<ICustomArtworkService>();
@@ -441,7 +442,7 @@ namespace ListenLive {
                     // Get encoding enum
                     StreamEncoding streamEncoding;
                     switch (encodingString) {
-                        case "windows media": streamEncoding = StreamEncoding.WindowsMedia; break;
+                        case "windows media": streamEncoding = StreamEncoding.WindowsMediaAudio; break;
                         case "aacplus": streamEncoding = StreamEncoding.HEAAC; break;
                         case "mp3": streamEncoding = StreamEncoding.MP3; break;
                         default: continue;
@@ -461,7 +462,7 @@ namespace ListenLive {
                     try {
                         streamHref = lastStreamNode.GetAttributeValue("href", "");
                         var streamUri = new Uri(streamHref);
-                        var stream = new StreamInfo(streamUri, streamEncoding);
+                        var stream = new WebcastStream(streamUri, streamEncoding);
                         channel.Streams.Add(stream);
                     }
                     catch (Exception) {

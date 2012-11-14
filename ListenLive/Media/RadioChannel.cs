@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Touchee;
+using Touchee.Media.Music;
 
 namespace ListenLive {
 
@@ -23,7 +24,7 @@ namespace ListenLive {
         /// <param name="website">The website of the channel</param>
         /// <returns>The found or created radio channel</returns>
         public static RadioChannel FindOrCreateByName(string name, string genre, string website) {
-            var channel = RadioChannel.FirstOrDefault(c => c.Name == name);
+            var channel = RadioChannel.FirstOrDefault(c => c.Title == name);
             return channel ?? new RadioChannel(name, genre, website);
         }
 
@@ -35,7 +36,7 @@ namespace ListenLive {
         /// <summary>
         /// The streams which are available for this channel
         /// </summary>
-        ISet<StreamInfo> _streams = new SortedSet<StreamInfo>();
+        ISet<IWebcastStream> _streams = new SortedSet<IWebcastStream>();
 
         #endregion
 
@@ -49,8 +50,8 @@ namespace ListenLive {
         /// <param name="genre">The genre of the channel</param>
         /// <param name="website">The website of the channel</param>
         public RadioChannel(string name, string genre, string website) {
-            this.Name = name;
-            this.SortName = Util.ToSortName(name);
+            this.Title = name;
+            this.TitleSort = Util.ToSortName(name);
             this.Genre = genre;
             this.Website = website;
         }
@@ -63,12 +64,12 @@ namespace ListenLive {
         /// <summary>
         /// The title of this stream
         /// </summary>
-        public string Name { get; protected set; }
+        public string Title { get; protected set; }
 
         /// <summary>
         /// The sorted title of this stream
         /// </summary>
-        public string SortName { get; protected set; }
+        public string TitleSort { get; protected set; }
 
         /// <summary>
         /// The genre of this stream
@@ -88,7 +89,7 @@ namespace ListenLive {
         /// <summary>
         /// The streams from which this webcast can be streamed
         /// </summary>
-        public ISet<StreamInfo> Streams { get { return _streams; } }
+        public ISet<IWebcastStream> Streams { get { return _streams; } }
 
         #endregion
 
@@ -98,7 +99,7 @@ namespace ListenLive {
         /// <summary>
         /// The application-wide, unique key string for this item
         /// </summary>
-        public string UniqueKey { get { return "radiochannel=" + this.Name; } }
+        public string UniqueKey { get { return "radiochannel=" + this.Title; } }
 
         #endregion
 
@@ -109,7 +110,7 @@ namespace ListenLive {
         /// Comparetor
         /// </summary>
         public int CompareTo(object obj) {
-            return this.SortName.CompareToCustom(((IWebcast)obj).SortName);
+            return this.TitleSort.CompareToCustom(((IWebcast)obj).TitleSort);
         }
 
         #endregion

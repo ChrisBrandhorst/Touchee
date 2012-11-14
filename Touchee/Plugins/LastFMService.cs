@@ -10,6 +10,7 @@ using System.Xml.XPath;
 
 using Touchee.Components;
 using Touchee.Components.Services;
+using Touchee.Media.Music;
 
 namespace Touchee.Plugins {
 
@@ -119,7 +120,7 @@ namespace Touchee.Plugins {
         /// <param name="artwork">The reference object to store the resulting artwork in</param>
         /// <returns>The result status code for this service call</returns>
         public ServiceResultStatus GetAlbumArtwork(ITrack track, out Image artwork) {
-            return GetAlbumArtwork(track.Artist, track.Album, out artwork);
+            return GetAlbumArtwork(track.FirstArtist, track.Album, out artwork);
         }
 
         /// <summary>
@@ -170,7 +171,7 @@ namespace Touchee.Plugins {
         /// <param name="track">A track of the requested artist</param>
         /// <returns>An Image object containing the artwork, or null if none found</returns>
         public ServiceResultStatus GetArtistArtwork(ITrack track, out Image artwork) {
-            return GetArtistArtwork(track.Artist, out artwork);
+            return GetArtistArtwork(track.FirstArtist, out artwork);
         }
 
         /// <summary>

@@ -50,11 +50,16 @@ namespace Touchee.Components.FileSystem {
         public SearchOption SearchOption { get; set; }
 
 
-
         /// <summary>
         /// Whether a collection has been run on this watcher
         /// </summary>
         public bool Collected { get; protected set; }
+
+
+        /// <summary>
+        /// Whether the watcher is currently busy collecting
+        /// </summary>
+        public bool Collecting { get; protected set; }
 
 
         #endregion
@@ -72,13 +77,29 @@ namespace Touchee.Components.FileSystem {
 
 
         /// <summary>
+        /// Constructs a new DirectoryWatcher for the given path
+        /// </summary>
+        /// <param name="path">The path of the directory to watch</param>
+        /// <param name="extensions">The extensions to watch for</param>
+        public DirectoryWatcher(string path, IEnumerable<string> extensions) : this(new DirectoryInfo(path), extensions) { }
+
+
+        /// <summary>
         /// Constructs a new DirectoryWatcher for the given directory
         /// </summary>
-        /// <param name="directoryInfo">The DirectoryInfo instance foe the directory to watch</param>
-        public DirectoryWatcher(DirectoryInfo directoryInfo) {
+        /// <param name="directoryInfo">The DirectoryInfo instance for the directory to watch</param>
+        public DirectoryWatcher(DirectoryInfo directoryInfo) : this(directoryInfo, new List<string>()) { }
+
+
+        /// <summary>
+        /// Constructs a new DirectoryWatcher for the given directory
+        /// </summary>
+        /// <param name="directoryInfo">The DirectoryInfo instance for the directory to watch</param>
+        /// <param name="extensions">The extensions to watch for</param>
+        public DirectoryWatcher(DirectoryInfo directoryInfo, IEnumerable<string> extensions) {
             this.Directory = directoryInfo;
             this.SearchOption = SearchOption.AllDirectories;
-            this.Extensions = new List<string>();
+            this.Extensions = extensions;
 
             _watcher = new FileSystemWatcher(this.Directory.FullName, "*.*");
             _watcher.IncludeSubdirectories = true;
@@ -103,7 +124,8 @@ namespace Touchee.Components.FileSystem {
         public void Collect() {
             if (this.Directory == null)
                 throw new ArgumentNullException("Directory", "Directory is not set. Use the correct constructor.");
-            new Thread(() => CollectThread()).Start();
+            else if (!this.Collected && !Collecting)
+                new Thread(() => CollectThread()).Start();
         }
 
 
@@ -111,6 +133,7 @@ namespace Touchee.Components.FileSystem {
         /// Collect all currently existing files
         /// </summary>
         void CollectThread() {
+            this.Collecting = true;
 
             // Get all files
             var files = this.Directory.EnumerateFiles("*.*", SearchOption.AllDirectories);
@@ -130,17 +153,16 @@ namespace Touchee.Components.FileSystem {
 
             // Completed callback
             Log(count.ToString() + " files found");
-            if (this.FileCollectingCompleted != null) {
-                this.Collected = true;
+            this.Collected = this.Collecting = true;
+            if (this.FileCollectingCompleted != null)
                 this.FileCollectingCompleted.Invoke(this, count);
-            }
         }
 
 
         /// <summary>
         /// Start watching the directory
         /// </summary>
-        public void Watch() {
+        public void Start() {
             if (this.Directory == null)
                 throw new ArgumentNullException("Directory", "Directory is not set. Use the correct constructor.");
             _watcher.EnableRaisingEvents = true;
@@ -150,7 +172,7 @@ namespace Touchee.Components.FileSystem {
         /// <summary>
         /// Stop watching the directory
         /// </summary>
-        public void StopWatching() {
+        public void Stop() {
             if (this.Directory == null)
                 throw new ArgumentNullException("Directory", "Directory is not set. Use the correct constructor.");
             _watcher.EnableRaisingEvents = false;

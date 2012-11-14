@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using Touchee.Artwork;
+using Touchee.Media.Music;
 
 namespace Touchee.Components.Services {
 

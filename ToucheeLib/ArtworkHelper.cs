@@ -7,6 +7,7 @@ using System.IO;
 
 using Touchee.Plugins;
 using Touchee.Components.Services;
+using Touchee.Media.Music;
 
 namespace Touchee.Artwork {
 
@@ -27,7 +28,7 @@ namespace Touchee.Artwork {
             // Track
             if (item is ITrack) {
                 var track = (ITrack)item;
-                identifier = track.AlbumArtist + "=" + track.Album;
+                identifier = track.AlbumArtists[0] + "=" + track.Album;
             }
             else
                 identifier = item.UniqueKey;

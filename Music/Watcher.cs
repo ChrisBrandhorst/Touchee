@@ -76,7 +76,7 @@ namespace Music {
                 
                 // TODO: stop directorywatchers, clear contents
                 foreach (var dw in _directoryWatchers)
-                    dw.StopWatching();
+                    dw.Stop();
 
                 return true;
             }
@@ -114,8 +114,7 @@ namespace Music {
             if (exists) return;
 
             // Create watcher, set extensions
-            var directoryWatcher = new DirectoryWatcher(directoryInfo);
-            directoryWatcher.Extensions = _extensions;
+            var directoryWatcher = new DirectoryWatcher(directoryInfo, _extensions);
             _directoryWatchers.Add(directoryWatcher);
 
             // Set events
@@ -128,13 +127,13 @@ namespace Music {
             // If we already received a local medium, collect and start watching
             if (_localMedium != null) {
                 directoryWatcher.Collect();
-                directoryWatcher.Watch();
+                directoryWatcher.Start();
             }
         }
 
 
         /// <summary>
-        /// Initializes directory watchers for thefgiven folders
+        /// Initializes directory watchers for the given folders
         /// </summary>
         /// <param name="folders">The folders to watch</param>
         public void AddFolders(IEnumerable<string> folders) {
@@ -158,15 +157,16 @@ namespace Music {
 
             // Start collecting and watching
             directoryWatcher.Collect();
-            directoryWatcher.Watch();
+            directoryWatcher.Start();
         }
-
         void directoryWatcher_FileCollectingCompleted(DirectoryWatcher watcher, int count) {
             watcher.FileCollectingCompleted -= directoryWatcher_FileCollectingCompleted;
             this.StartDirectoryWatcher();
         }
 
+
         #endregion
+
 
 
         #region Watcher callbacks
@@ -176,6 +176,7 @@ namespace Music {
 
             try {
                 var tag = TagLib.File.Create(file.FullName);
+                //tag.Tag.
             }
             catch (Exception e) {
                 Log(e.Message, Logger.LogLevel.Error);
