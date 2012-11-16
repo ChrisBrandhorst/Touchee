@@ -145,7 +145,7 @@ namespace Touchee.Plugins {
         /// <param name="artwork">The reference object to store the resulting artwork in</param>
         /// <returns>The result status code for this service call</returns>
         public ServiceResultStatus GetAlbumArtwork(ITrack track, out Image artwork) {
-            return GetAlbumArtwork(track.FirstArtist, track.Album, out artwork);
+            return GetAlbumArtwork(track.Artist, track.Album, out artwork);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Touchee.Plugins {
         /// <param name="artwork">The reference object to store the resulting artwork in</param>
         /// <returns>The result status code for this service call</returns>
         public ServiceResultStatus GetArtistArtwork(ITrack track, out Image artwork) {
-            return GetArtistArtwork(track.FirstArtist, out artwork);
+            return GetArtistArtwork(track.Artist, out artwork);
         }
 
         /// <summary>

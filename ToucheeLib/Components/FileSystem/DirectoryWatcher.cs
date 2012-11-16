@@ -102,6 +102,7 @@ namespace Touchee.Components.FileSystem {
             this.Extensions = extensions;
 
             _watcher = new FileSystemWatcher(this.Directory.FullName, "*.*");
+            _watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Size | NotifyFilters.LastWrite;
             _watcher.IncludeSubdirectories = true;
             _watcher.Deleted += FileSystemWatcherDeleted;
             _watcher.Changed += FileSystemWatcherChanged;

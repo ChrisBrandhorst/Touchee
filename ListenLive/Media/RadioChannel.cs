@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Touchee;
+using Touchee.Media;
 using Touchee.Media.Music;
 
 namespace ListenLive {

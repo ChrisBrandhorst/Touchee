@@ -101,6 +101,16 @@ namespace Music {
 
 
         /// <summary>
+        /// The locatio of the XML cache for the plugin
+        /// </summary>
+        string CachePath {
+            get {
+                return Path.Combine(new FileInfo(this.GetType().Assembly.Location).DirectoryName, "cache.xml");
+            }
+        }
+
+
+        /// <summary>
         /// Intializes a directory watcher for the given folder
         /// </summary>
         /// <param name="folder">The folder to watch</param>
@@ -156,11 +166,18 @@ namespace Music {
             directoryWatcher.FileCollectingCompleted += directoryWatcher_FileCollectingCompleted;
 
             // Start collecting and watching
-            directoryWatcher.Collect();
+            if (System.IO.File.Exists(CachePath)) {
+                Media.Track.Load(CachePath);
+                Log(String.Format("Loaded {0} tracks from cache", Media.Track.All().Count()));
+            }
+            else
+                directoryWatcher.Collect();
             directoryWatcher.Start();
         }
         void directoryWatcher_FileCollectingCompleted(DirectoryWatcher watcher, int count) {
+            Log(String.Format("Loaded {0} tracks", count));
             watcher.FileCollectingCompleted -= directoryWatcher_FileCollectingCompleted;
+            Media.Track.Serialize(CachePath);
             this.StartDirectoryWatcher();
         }
 
@@ -173,30 +190,33 @@ namespace Music {
 
 
         void FileCollected(DirectoryWatcher watcher, FileInfo file, int count) {
-
-            try {
-                var tag = TagLib.File.Create(file.FullName);
-                //tag.Tag.
-            }
-            catch (Exception e) {
-                Log(e.Message, Logger.LogLevel.Error);
-            }
+            var track = new Media.Track(file);
+            track.Save();
         }
 
         void FileCreated(DirectoryWatcher watcher, FileInfo file) {
-            var i = 0;
+            var track = new Media.Track(file);
+            track.Save();
         }
 
         void FileChanged(DirectoryWatcher watcher, FileInfo file) {
-            var i = 0;
+            var track = Media.Track.GetByPath(file.FullName);
+            if (track != null)
+                track.Update(file);
         }
 
         void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e) {
-            var i = 0;
+            var track = Media.Track.GetByPath(e.OldFullPath);
+            if (track == null)
+                FileCreated(watcher, file);
+            else
+                track.Update(file);
         }
 
         void FileDeleted(DirectoryWatcher watcher, FileInfo file) {
-            var i = 0;
+            var track = Media.Track.GetByPath(file.FullName);
+            if (track != null)
+                track.Dispose();
         }
 
 

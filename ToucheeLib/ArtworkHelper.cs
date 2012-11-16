@@ -28,7 +28,7 @@ namespace Touchee.Artwork {
             // Track
             if (item is ITrack) {
                 var track = (ITrack)item;
-                identifier = track.AlbumArtists[0] + "=" + track.Album;
+                identifier = track.AlbumArtist[0] + "=" + track.Album;
             }
             else
                 identifier = item.UniqueKey;

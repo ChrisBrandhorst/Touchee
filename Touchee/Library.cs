@@ -15,6 +15,7 @@ using Touchee.Components.Content;
 using Touchee.Components.Media;
 using Touchee.Components.Playback;
 using Touchee.Plugins;
+using Touchee.Media;
 
 namespace Touchee {
 

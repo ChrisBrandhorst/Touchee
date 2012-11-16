@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Touchee.Media;
 using Touchee.Components.Playback;
 
 namespace Touchee.Playback {

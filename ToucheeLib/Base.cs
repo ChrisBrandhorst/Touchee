@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Runtime.Serialization;
 
 namespace Touchee {
 
     /// <remarks>
     /// Base class for all Touchee objects. For now, only takes care of logging.
     /// </remarks>
+    [DataContract]
     public abstract class Base {
-
+        
         public string LastLogMessage { get; protected set; }
 
         public virtual void Log(string message, Logger.LogLevel level = Logger.LogLevel.Info) {

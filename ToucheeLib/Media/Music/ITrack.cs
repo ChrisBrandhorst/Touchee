@@ -17,25 +17,17 @@ namespace Touchee.Media.Music {
         /// </summary>
         string Title { get; }
         /// <summary>
-        /// The performing artists of this track
+        /// The performing artist of this track
         /// </summary>
-        string[] Artists { get; }
-        /// <summary>
-        /// The first performing artist of this track
-        /// </summary>
-        string FirstArtist { get; }
+        string Artist { get; }
         /// <summary>
         /// The album this track appears on
         /// </summary>
         string Album { get; }
         /// <summary>
-        /// The artists of the album this track is on
+        /// The artist of the album this track is on
         /// </summary>
-        string AlbumArtists { get; }
-        /// <summary>
-        /// The first album artist of this track
-        /// </summary>
-        string FirstAlbumArtist { get; }
+        string AlbumArtist { get; }
 
 
         /// <summary>
@@ -43,17 +35,17 @@ namespace Touchee.Media.Music {
         /// </summary>
         string TitleSort { get; }
         /// <summary>
-        /// The sort value of the first performing artist of this track
+        /// The sort value of the performing artist of this track
         /// </summary>
-        string FirstArtistSort { get; }
+        string ArtistSort { get; }
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
         string AlbumSort { get; }
         /// <summary>
-        /// The sort value of the first album artist of this track
+        /// The sort value of the album artist of this track
         /// </summary>
-        string FirstAlbumArtistSort { get; }
+        string AlbumArtistSort { get; }
 
 
         /// <summary>
@@ -63,7 +55,7 @@ namespace Touchee.Media.Music {
         /// <summary>
         /// The publish year of this track
         /// </summary>
-        int Year { get; }
+        uint Year { get; }
 
 
         /// <summary>
@@ -73,11 +65,11 @@ namespace Touchee.Media.Music {
         /// <summary>
         /// The track number of this track
         /// </summary>
-        int TrackNumber { get; }
+        uint TrackNumber { get; }
         /// <summary>
         /// The disc number of this track
         /// </summary>
-        int DiscNumber { get; }
+        uint DiscNumber { get; }
 
         
         /// <summary>

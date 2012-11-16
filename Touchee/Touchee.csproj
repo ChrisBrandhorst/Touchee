@@ -651,7 +651,7 @@ xcopy /Y /S "$(SolutionDir)BassNetPlayer\bin\Debug\lib" "$(TargetDir)plugins\Bas
 xcopy /Y "$(SolutionDir)ListenLive\bin\Debug\ListenLive.dll" "$(TargetDir)plugins\ListenLive\"
 xcopy /Y /S "$(SolutionDir)ListenLive\bin\Debug\web" "$(TargetDir)plugins\ListenLive\web\"
 
-copy  "$(SolutionDir)Music\bin\Debug\Music.dll" "$(TargetDir)plugins\"</PostBuildEvent>
+xcopy /Y "$(SolutionDir)Music\bin\Debug\Music.dll" "$(TargetDir)plugins\Music\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

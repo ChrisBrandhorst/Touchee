@@ -1,7 +1,9 @@
-﻿ using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
+using System.Runtime.Serialization;
 
 namespace Touchee {
 
@@ -16,6 +18,7 @@ namespace Touchee {
     /// 
     /// </remarks>
     /// <typeparam name="T"></typeparam>
+    [DataContract]
     public abstract class Collectable<T> : Base, IDisposable {
 
 
@@ -338,6 +341,61 @@ namespace Touchee {
 
         #endregion
 
+
+        #region Serialization
+
+        public static DataContractSerializer GetSerializer() {
+            return new DataContractSerializer(typeof(List<T>));
+        }
+
+        public static void Serialize(Stream stream) {
+            var serializer = GetSerializer();
+            serializer.WriteObject(stream, Collectable<T>.All().ToList());
+        }
+
+        public static void Serialize(string path) {
+            using (var file = File.Open(path, FileMode.Create, FileAccess.Write)) {
+                Serialize(file);
+            }
+        }
+
+        public static List<T> Deserialize(Stream stream) {
+            var serializer = GetSerializer();
+            var result = serializer.ReadObject(stream);
+            return (List<T>)result;
+        }
+
+        public static List<T> Deserialize(string path) {
+            using (var file = File.Open(path, FileMode.Open, FileAccess.Read)) {
+                return Deserialize(file);
+            }
+        }
+
+        public static void Load(string path) {
+            using (var file = File.Open(path, FileMode.Open, FileAccess.Read)) {
+                Load(file);
+            }
+        }
+
+        public static void Load(Stream stream) {
+            var items = Deserialize(stream);
+
+            Clear();
+
+            foreach (var item in items.Cast<Collectable<T>>())
+                item.Save();
+        }
+
+        public static void Clear() {
+            foreach (var item in All().Cast<Collectable<T>>()) {
+                item.Dispose();
+            }
+            _table.Clear();
+            _sourceTable.Clear();
+            _nextID = 1;
+        }
+
+        #endregion
 
     }
 

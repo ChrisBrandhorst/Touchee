@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
+using Touchee.Media;
+
 namespace Touchee {
 
     /// <summary>
