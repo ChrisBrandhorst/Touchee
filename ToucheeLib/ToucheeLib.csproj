@@ -74,6 +74,7 @@
     <Compile Include="Components\IComponent.cs" />
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Components\Services\ServiceResultStatus.cs" />
+    <Compile Include="CacheObject.cs" />
     <Compile Include="Types\Contents.cs" />
     <Compile Include="Types\Message.cs" />
     <Compile Include="Types\Options.cs" />

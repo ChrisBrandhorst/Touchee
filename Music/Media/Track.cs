@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace Music.Media {
 
-    [DataContract(Name = "Track", Namespace = "http://www.chronoworx.nl")]
+    [DataContract(Namespace = "")]
     public class Track : Collectable<Track>, ITrack {
 
 
@@ -77,7 +77,7 @@ namespace Music.Media {
                 this.Album = tag.Album;
             if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
                 this.AlbumArtist = tag.JoinedAlbumArtists; // Also sets AlbumArtistSort
-            if (!String.IsNullOrEmpty(tag.Album))
+            if (!String.IsNullOrEmpty(tag.JoinedPerformers))
                 this.Artist = tag.JoinedPerformers;
             if (!String.IsNullOrEmpty(tag.JoinedPerformersSort))
                 this.ArtistSort = tag.JoinedPerformersSort;
@@ -119,7 +119,7 @@ namespace Music.Media {
         /// If TitleSort is null when this value is set, the TitleSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string Title {
             get { return _title; }
             set {
@@ -133,7 +133,7 @@ namespace Music.Media {
         /// If ArtistSort is null when this value is set, the ArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string Artist {
             get { return _artist; }
             set {
@@ -147,7 +147,7 @@ namespace Music.Media {
         /// If AlbumSort is null when this value is set, the AlbumSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string Album {
             get { return _album; }
             set {
@@ -161,7 +161,7 @@ namespace Music.Media {
         /// If AlbumArtistSort is null when this value is set, the AlbumArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string AlbumArtist {
             get { return _albumArtist; }
             set {
@@ -175,58 +175,58 @@ namespace Music.Media {
         /// <summary>
         /// The sorted title of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string TitleSort { get; protected set; }
         /// <summary>
         /// The sort value of the performing artist of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string ArtistSort { get; protected set; }
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string AlbumSort { get; protected set; }
         /// <summary>
         /// The sort value of the album artist of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string AlbumArtistSort { get; protected set; }
 
 
         /// <summary>
         /// The genre of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public string Genre { get; protected set; }
         /// <summary>
         /// The publish year of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public uint Year { get; protected set; }
 
 
         /// <summary>
         /// The duration of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public TimeSpan Duration { get; protected set; }
         /// <summary>
         /// The track number of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public uint TrackNumber { get; protected set; }
         /// <summary>
         /// The disc number of this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public uint DiscNumber { get; protected set; }
 
 
         /// <summary>
         /// The uri for this track
         /// </summary>
-        [DataMember]
+        [DataMember(EmitDefaultValue=false)]
         public Uri Uri { get; protected set; }
 
 

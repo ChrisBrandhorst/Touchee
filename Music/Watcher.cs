@@ -158,26 +158,41 @@ namespace Music {
         /// </summary>
         void StartDirectoryWatcher() {
 
-            // Get uncollected watcher
-            var directoryWatcher = _directoryWatchers.FirstOrDefault(dw => !dw.Collected);
-            if (directoryWatcher == null) return;
-
-            // Set callback when the collecting is complete
-            directoryWatcher.FileCollectingCompleted += directoryWatcher_FileCollectingCompleted;
-
-            // Start collecting and watching
+            // If we have a cache file
             if (System.IO.File.Exists(CachePath)) {
-                Media.Track.Load(CachePath);
+
+                // Load the cache
+                Cache.Deserialize(CachePath);
                 Log(String.Format("Loaded {0} tracks from cache", Media.Track.All().Count()));
+
+                // Start all watchers
+                foreach (var dw in _directoryWatchers)
+                    dw.Start();
             }
-            else
-                directoryWatcher.Collect();
-            directoryWatcher.Start();
+
+            // No cache, so collect files
+            else {
+
+                // Get uncollected watcher
+                var directoryWatcher = _directoryWatchers.FirstOrDefault(dw => !dw.Collected);
+
+                // No more watchers to go, so cache result
+                if (directoryWatcher == null) {
+                    Cache.Serialize(CachePath);
+                    Log(String.Format("Found {0} tracks", Media.Track.All().Count()));
+                }
+
+                // Else collect and start
+                else {
+                    directoryWatcher.FileCollectingCompleted += directoryWatcher_FileCollectingCompleted;
+                    directoryWatcher.Collect();
+                    directoryWatcher.Start();
+                }
+            }
+
         }
         void directoryWatcher_FileCollectingCompleted(DirectoryWatcher watcher, int count) {
-            Log(String.Format("Loaded {0} tracks", count));
             watcher.FileCollectingCompleted -= directoryWatcher_FileCollectingCompleted;
-            Media.Track.Serialize(CachePath);
             this.StartDirectoryWatcher();
         }
 
