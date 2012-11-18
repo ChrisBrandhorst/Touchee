@@ -106,7 +106,7 @@ define([
       
       // Get the module for this container
       var plugin = ServerInfo.getPlugin(container.get('plugin')),
-          module = (plugin && plugin.module) || BaseModule;
+          module = (plugin && plugin.module) || this.baseModule;
       
       // Create the contents object instance
       var contents = new (module.getContentsModel(type))({

@@ -42,6 +42,7 @@
     <Compile Include="Components\FileSystem\DirectoriesWatcher.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="Debouncer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />
@@ -85,11 +86,17 @@
       <HintPath>lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="policy.2.0.taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\policy.2.0.taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.XML" />
+    <Reference Include="taglib-sharp">
+      <HintPath>..\packages\taglib.2.1.0.0\lib\taglib-sharp.dll</HintPath>
+    </Reference>
     <Reference Include="YaTools.Abstract.Net4">
       <HintPath>lib\YaTools.Abstract.Net4.dll</HintPath>
     </Reference>
@@ -99,6 +106,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="lib\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

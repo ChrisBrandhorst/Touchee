@@ -1,12 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 
 using Touchee;
 using Touchee.Plugins;
 
 namespace Music {
+
+
+    /// <summary>
+    /// The viewtypes used
+    /// </summary>
+    public static class ViewTypes {
+        public const string Track = "track";
+        public const string Artist = "artist";
+        public const string Album = "album";
+        public const string Genre = "genre";
+    }
+
+
 
     /// <remarks>
     /// Local music plugin
@@ -14,11 +27,17 @@ namespace Music {
     public class Plugin : Base, IPlugin {
 
 
-        #region Privates
+        #region Statics
 
-        Watcher _watcher;
+
+        public static IEnumerable<string> TrackExtensions { get; protected set; }
+        public static IEnumerable<string> PlaylistExtensions { get; protected set; }
+        public static IEnumerable<string> Extensions { get; protected set; }
+        public static Watcher Watcher = Watcher.Instance;
+
 
         #endregion
+
 
 
         #region IPlugin implementation
@@ -50,21 +69,17 @@ namespace Music {
 
             // Get folders
             string[] folders = config.GetStringArray("folders");
-            if (folders.Length == 0) {
-                Log("No or invalid folder configuration value");
-                return false;
-            }
 
             // Get extensions
-            string[] extensions = config.GetStringArray("extensions");
-            if (extensions.Length == 0) {
-                Log("No or invalid extensions configuration value");
-                return false;
-            }
+            TrackExtensions = config.GetStringArray("extensions.tracks");
+            PlaylistExtensions = config.GetStringArray("extensions.playlists");
+            Extensions = TrackExtensions.Concat(PlaylistExtensions).ToArray();
 
-            _watcher = new Watcher(extensions);
-            _watcher.AddFolders(folders);
-            PluginManager.Register(_watcher);
+            // Create the watcher and add folders to it
+            Watcher.Init();
+            foreach(var f in folders)
+                Watcher.AddLocalFolder(f);
+            PluginManager.Register(Watcher);
 
             return true;
 
@@ -76,7 +91,16 @@ namespace Music {
         /// </summary>
         /// <returns>True</returns>
         public bool StopPlugin() {
-            PluginManager.Unregister(_watcher);
+
+            // Stop the watcher(s)
+            Watcher.UnWatchAll();
+
+            // Clear data
+            Media.Track.Clear();
+            Media.Playlist.Clear();
+
+            // Unregister plugin
+            PluginManager.Unregister(Watcher);
             return true;
         }
 

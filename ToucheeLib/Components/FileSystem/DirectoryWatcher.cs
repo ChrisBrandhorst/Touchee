@@ -7,7 +7,17 @@ using System.Threading;
 
 namespace Touchee.Components.FileSystem {
 
+
+    public enum CollectionState {
+        Uncollected,
+        CollectionRequired,
+        Collecting,
+        Collected
+    }
+
+
     public class DirectoryWatcher : Base {
+
 
 
         #region Privates
@@ -39,7 +49,7 @@ namespace Touchee.Components.FileSystem {
             get { return _extensions; }
             set {
                 _extensions = value;
-                _extensionsRegex = new Regex(String.Join("|", _extensions), RegexOptions.IgnoreCase);
+                _extensionsRegex = new Regex(@"^\.(" + String.Join("|", _extensions) + ")", RegexOptions.IgnoreCase);
             }
         }
 
@@ -51,15 +61,9 @@ namespace Touchee.Components.FileSystem {
 
 
         /// <summary>
-        /// Whether a collection has been run on this watcher
+        /// The state of the collecting
         /// </summary>
-        public bool Collected { get; protected set; }
-
-
-        /// <summary>
-        /// Whether the watcher is currently busy collecting
-        /// </summary>
-        public bool Collecting { get; protected set; }
+        public CollectionState CollectionState { get; protected set; }
 
 
         #endregion
@@ -100,6 +104,7 @@ namespace Touchee.Components.FileSystem {
             this.Directory = directoryInfo;
             this.SearchOption = SearchOption.AllDirectories;
             this.Extensions = extensions;
+            this.CollectionState = CollectionState.Uncollected;
 
             _watcher = new FileSystemWatcher(this.Directory.FullName, "*.*");
             _watcher.NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.Size | NotifyFilters.LastWrite;
@@ -120,13 +125,24 @@ namespace Touchee.Components.FileSystem {
 
 
         /// <summary>
+        /// Marks the current watcher as requiring collection
+        /// </summary>
+        public void MarkAsCollectionRequired() {
+            if (this.CollectionState != FileSystem.CollectionState.Collecting)
+                this.CollectionState = CollectionState.CollectionRequired;
+        }
+
+
+        /// <summary>
         /// Collect all currently existing files
         /// </summary>
         public void Collect() {
             if (this.Directory == null)
                 throw new ArgumentNullException("Directory", "Directory is not set. Use the correct constructor.");
-            else if (!this.Collected && !Collecting)
-                new Thread(() => CollectThread()).Start();
+            else {
+                if (this.CollectionState != CollectionState.Collected && this.CollectionState != CollectionState.Collecting)
+                    new Thread(() => CollectThread()).Start();
+            }
         }
 
 
@@ -134,7 +150,7 @@ namespace Touchee.Components.FileSystem {
         /// Collect all currently existing files
         /// </summary>
         void CollectThread() {
-            this.Collecting = true;
+            this.CollectionState = CollectionState.Collecting;
 
             // Get all files
             var files = this.Directory.EnumerateFiles("*.*", SearchOption.AllDirectories);
@@ -154,9 +170,9 @@ namespace Touchee.Components.FileSystem {
 
             // Completed callback
             Log(count.ToString() + " files found");
-            this.Collected = this.Collecting = true;
-            if (this.FileCollectingCompleted != null)
-                this.FileCollectingCompleted.Invoke(this, count);
+            this.CollectionState = CollectionState.Collected;
+            if (this.CollectingCompleted != null)
+                this.CollectingCompleted.Invoke(this, count);
         }
 
 
@@ -240,7 +256,7 @@ namespace Touchee.Components.FileSystem {
         public event FileRenamed FileRenamed;
         public event FileDeleted FileDeleted;
         public event FileCollected FileCollected;
-        public event FileCollectingCompleted FileCollectingCompleted;
+        public event CollectingCompleted CollectingCompleted;
         
         #endregion
 
@@ -253,7 +269,7 @@ namespace Touchee.Components.FileSystem {
     public delegate void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e);
     public delegate void FileDeleted(DirectoryWatcher watcher, FileInfo file);
     public delegate void FileCollected(DirectoryWatcher watcher, FileInfo file, int count);
-    public delegate void FileCollectingCompleted(DirectoryWatcher watcher, int count);
+    public delegate void CollectingCompleted(DirectoryWatcher watcher, int count);
 
 
 }

@@ -1,0 +1,32 @@
+@mixin ellipsis
+  overflow:       hidden
+  text-overflow:  ellipsis
+  white-space:    nowrap
+
+@mixin container_icon($type)
+  &.#{$type}
+    &:before
+      content: url(../images/containers/#{$type}.png)
+    &.selected:before
+      content: url(../images/containers/#{$type}_selected.png)
+
+@mixin transport_button($button, $color: gray, $active: image)
+  &[data-button=#{$button}]
+    background-image: url(../images/controls/buttons/#{$color}/#{$button}.png)
+    @if $active == image
+      &:active
+        background-image: url(../images/controls/buttons/#{$color}/#{$button}_active.png)
+    @else if $active == inset
+      position:   relative
+      &:before
+        position:         absolute
+        content:          ''
+        top:              0
+        right:            0
+        left:             0
+        bottom:           2px
+        border-radius:    26px
+        box-shadow:       0 1px 1px 0 rgba(255,255,255,.3)
+      &:active:before
+        background-color: rgba(0,0,0,.3)
+        box-shadow:       inset 0 0 6px black, 0 1px 1px 0 rgba(255,255,255,.3)

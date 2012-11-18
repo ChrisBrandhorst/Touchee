@@ -37,8 +37,10 @@ namespace Music.Media {
         /// <summary>
         /// Constructs a new Track object
         /// </summary>
+        /// <param name="medium">The medium this track is from</param>
         /// <param name="file">The FileInfo object of the music file</param>
-        public Track(FileInfo file) {
+        public Track(Medium medium, FileInfo file) {
+            this.Medium = medium;
             this.Update(file);
         }
 
@@ -113,6 +115,12 @@ namespace Music.Media {
 
 
         #region Properties
+
+
+        /// <summary>
+        /// The medium this track is on
+        /// </summary>
+        public Medium Medium { get; protected set; }
 
         /// <summary>
         /// Gets or sets the title of this track.
@@ -240,5 +248,8 @@ namespace Music.Media {
 
 
     }
+
+
+
 
 }

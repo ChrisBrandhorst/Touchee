@@ -1,0 +1,29 @@
+#connecting {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999999;
+  background: -webkit-radial-gradient(rgba(127, 127, 127, 0.5), rgba(127, 127, 127, 0.5) 35%, rgba(0, 0, 0, 0.7)); }
+  #connecting div.popup {
+    display: block;
+    color: white;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 50%;
+    width: 300px;
+    margin: -50px 0 0 -150px; }
+    #connecting div.popup p {
+      font-weight: bold; }
+    #connecting div.popup div {
+      padding: 1em; }
+      #connecting div.popup div span::before {
+        content: "";
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        background: url(../images/connecting.gif);
+        background-size: 16px;
+        margin: 0 1em -0.2em 0; }

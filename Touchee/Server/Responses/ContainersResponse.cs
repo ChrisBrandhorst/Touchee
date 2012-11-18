@@ -18,6 +18,7 @@ namespace Touchee.Server.Responses {
         public class ContainersItem {
             public int Id { get; protected set; }
             public string Name { get; protected set; }
+            public bool Loading { get; protected set; }
             public string Type { get; protected set; }
             public string ContentType { get; protected set; }
             public string Plugin { get; protected set; }
@@ -25,6 +26,7 @@ namespace Touchee.Server.Responses {
             public ContainersItem(Container container) {
                 this.Id = container.ID;
                 this.Name = container.Name;
+                this.Loading = container.Loading;
                 this.Type = container.Type.ToString();
                 this.ContentType = container.ContentType.ToString();
                 this.ViewTypes = container.ViewTypes;

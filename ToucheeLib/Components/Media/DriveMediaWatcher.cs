@@ -164,15 +164,15 @@ namespace Touchee.Components.Media {
                     
 
                     // TODO: remove this debugging stuff
-                    if (newDriveMedium.Type == MediumType.FileStorage) {
-                        new FilesystemMusicContainer("Music Everywhere", newDriveMedium).Save();
-                        new FilesystemMusicContainer("More Music", newDriveMedium).Save();
-                        new FilesystemVideosContainer("Videos", newDriveMedium).Save();
-                        new FilesystemPicturesContainer("Pictures", newDriveMedium).Save();
-                    }
-                    else if (newDriveMedium.Type == MediumType.AudioCD) {
-                        new DiscMusicContainer("Superstrings 2", newDriveMedium).Save();
-                    }
+                    //if (newDriveMedium.Type == MediumType.FileStorage) {
+                    //    new FilesystemMusicContainer("Music Everywhere", newDriveMedium).Save();
+                    //    new FilesystemMusicContainer("More Music", newDriveMedium).Save();
+                    //    new FilesystemVideosContainer("Videos", newDriveMedium).Save();
+                    //    new FilesystemPicturesContainer("Pictures", newDriveMedium).Save();
+                    //}
+                    //else if (newDriveMedium.Type == MediumType.AudioCD) {
+                    //    new DiscMusicContainer("Superstrings 2", newDriveMedium).Save();
+                    //}
                     // /TODO
 
                 }

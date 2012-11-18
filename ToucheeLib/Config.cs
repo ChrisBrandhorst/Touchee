@@ -199,6 +199,20 @@ namespace Touchee {
 
         }
 
+        public bool TryGetHashtable(string key, out Hashtable result) {
+            object value = null;
+            TryGetValue(key, out value);
+
+            if (value is Hashtable) {
+                result = (Hashtable)value;
+                return true;
+            }
+            else {
+                result = new Hashtable();
+                return false;
+            }
+        }
+
 
         public object GetValue(string key, object defaultValue = null) {
             if (defaultValue == null)
@@ -243,6 +257,12 @@ namespace Touchee {
         public string[] GetStringArray(string key) {
             string[] value;
             TryGetStringArray(key, out value);
+            return value;
+        }
+
+        public Hashtable GetHashtable(string key) {
+            Hashtable value;
+            TryGetHashtable(key, out value);
             return value;
         }
 

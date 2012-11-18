@@ -21,13 +21,14 @@ namespace Touchee {
     public abstract class Collectable<T> : Base, IDisposable {
 
 
+        #region ActiveRecord statics
+
+
         /// <summary>
         /// The storage 'table' for the base type
         /// </summary>
-        static Dictionary<int, object> _table = new Dictionary<int,object>();
+        static Dictionary<int, object> _table = new Dictionary<int, object>();
 
-
-        #region ActiveRecord statics
 
         /// <summary>
         /// Returns the element with the given ID of the base type
@@ -168,7 +169,21 @@ namespace Touchee {
         }
 
 
+        /// <summary>
+        /// Clear the collection
+        /// </summary>
+        public static void Clear() {
+            foreach (var item in All().Cast<Collectable<T>>())
+                item.Dispose();
+
+            _table.Clear();
+            _sourceTable.Clear();
+            _nextID = 1;
+        }
+
+
         #endregion
+
 
 
         #region Source ID
@@ -239,6 +254,7 @@ namespace Touchee {
         #endregion
 
 
+
         #region Events
 
         public delegate void ItemEventHandler(object sender, ItemEventArgs e);
@@ -260,6 +276,7 @@ namespace Touchee {
         public static event ItemEventHandler AfterDispose;
 
         #endregion
+
 
 
         #region Create, Update, Destroy
@@ -340,18 +357,6 @@ namespace Touchee {
 
         #endregion
 
-
-        /// <summary>
-        /// Clear the collection
-        /// </summary>
-        public static void Clear() {
-            foreach (var item in All().Cast<Collectable<T>>())
-                item.Dispose();
-            
-            _table.Clear();
-            _sourceTable.Clear();
-            _nextID = 1;
-        }
 
     }
 

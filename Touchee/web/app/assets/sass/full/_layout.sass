@@ -1,0 +1,34 @@
+*
+  -webkit-box-sizing: border-box
+  
+body
+  width:      100%
+  height:     100%
+  margin:     0
+  background: black
+  overflow:   hidden
+  
+  > section
+    width:  100%
+    height: 100%
+
+.scrollable
+  overflow:                   auto
+  overflow-x:                 hidden
+  -webkit-overflow-scrolling: touch
+  &::-webkit-scrollbar
+    width: 5px
+  &::-webkit-scrollbar-thumb
+    background-color: white
+    border-radius:    3px
+  &:hover
+    &::-webkit-scrollbar-thumb
+      background-color: #7f7f7f !important
+
+.overlay
+  position: absolute
+  top:      0
+  left:     0
+  width:    100%
+  height:   100%
+  -webkit-overflow-scrolling: touch

@@ -1,0 +1,92 @@
+$headerBackground: -webkit-linear-gradient(#c0c3c9, #9499a2)
+
+#browser > div
+  background: white
+  
+.contents
+  position:   relative
+  overflow:   hidden
+  
+  &.hidden
+    position: absolute
+    left:     -200%
+    top:      -200%
+    height:   0
+    width:    0
+  
+  &:before
+    content:        ''
+    position:       absolute
+    top:            0
+    right:          0
+    left:           0
+    height:         $browserRowHeight - 1px
+    background:     $headerBackground
+    border-bottom:  1px solid #191c1f
+    
+  > section
+    overflow:   hidden
+    > header
+      position:         relative
+      padding:          7px
+      background-image: $headerBackground
+      border-bottom:    1px solid #191c1f
+      z-index:          2
+      h1
+        text-align:   center
+        line-height:  $browserRowHeight - 1px - 14px
+        color:        white
+        text-shadow:  0 -1px 0 #76787C
+        font-size:    140%
+        padding:      0 150px
+    
+    &.loading
+      background-image:     url(../images/contents_loading.gif)
+      background-repeat:    no-repeat
+      background-position:  center center
+    
+    .action
+      border-bottom:    1px solid #c1c1c1
+      line-height:      $browserRowHeight - 1px
+      font-weight:      bold
+      padding-left:     12px
+      background-color: white
+      font-size:        110%
+    
+      &.shuffle:after
+        content:              ''
+        display:              inline-block
+        width:                20px
+        height:               15px
+        margin:               0 0 -1px 10px
+        background:           url(../images/contents_shuffle.png) no-repeat center right
+      
+      &.selected
+        background: $selectedRowGradient
+        color:      white
+        &.shuffle:after
+          background-image: url(../images/contents_shuffle_selected.png)
+    
+    .count
+      line-height:  $browserRowHeight - 1px
+      text-align:   center
+      color:        #777
+      font-size:    125%
+    
+    .index
+      line-height:    $browserRowHeight / 2 - 1px
+      text-transform: capitalize
+      padding-left:   12px
+      color:          white
+      font-weight:    bold
+      text-shadow:    0 1px .5px #646A6E
+      box-shadow:     0 -1px 0 0 #717D85
+      background:     -webkit-linear-gradient(#A5B1BA 1px, #909FAA 1px, #B8C1C8)
+      border-bottom:  1px solid #999FA5
+    
+    > .index
+      font-size:      140%
+    
+@import contents/table
+@import contents/tiles
+@import contents/grouped_table
