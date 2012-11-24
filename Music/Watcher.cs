@@ -45,7 +45,7 @@ namespace Music {
         #region Privates
 
 
-        // Media finders internal list
+        // Music finders internal list
         List<MediaFinder> _mediaFinders = new List<MediaFinder>();
 
         // Temporary list keeping local directories while the local medium has not yet been watched
@@ -233,7 +233,7 @@ namespace Music {
         void CreateMediaFinder(Medium medium, DirectoryInfo directoryInfo, bool collectionRequired) {
 
             // Create finder
-            var mediaFinder = new MediaFinder(medium, directoryInfo, collectionRequired);
+            var mediaFinder = new MusicFinder(medium, directoryInfo, Plugin.Extensions, collectionRequired);
             _mediaFinders.Add(mediaFinder);
 
             // Collect if required
@@ -308,7 +308,7 @@ namespace Music {
 
 
         /// <summary>
-        /// The locatio of the XML cache for the plugin
+        /// The location of the XML cache for the plugin
         /// </summary>
         string CachePath {
             get {
@@ -318,7 +318,6 @@ namespace Music {
 
 
         #endregion
-
 
 
         

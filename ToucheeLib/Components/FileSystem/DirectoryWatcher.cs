@@ -251,25 +251,26 @@ namespace Touchee.Components.FileSystem {
 
         #region Events
 
-        public event FileCreated FileCreated;
-        public event FileChanged FileChanged;
-        public event FileRenamed FileRenamed;
-        public event FileDeleted FileDeleted;
-        public event FileCollected FileCollected;
-        public event CollectingCompleted CollectingCompleted;
-        
+
+        public event FileCreatedHandler FileCreated;
+        public event FileChangedHandler FileChanged;
+        public event FileRenamedHandler FileRenamed;
+        public event FileDeletedHandler FileDeleted;
+        public event FileCollectedHandler FileCollected;
+        public event CollectingCompletedHandler CollectingCompleted;
+
+        public delegate void FileCreatedHandler(DirectoryWatcher watcher, FileInfo file);
+        public delegate void FileChangedHandler(DirectoryWatcher watcher, FileInfo file);
+        public delegate void FileRenamedHandler(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e);
+        public delegate void FileDeletedHandler(DirectoryWatcher watcher, FileInfo file);
+        public delegate void FileCollectedHandler(DirectoryWatcher watcher, FileInfo file, int count);
+        public delegate void CollectingCompletedHandler(DirectoryWatcher watcher, int count);
+
+
         #endregion
 
 
     }
-
-
-    public delegate void FileCreated(DirectoryWatcher watcher, FileInfo file);
-    public delegate void FileChanged(DirectoryWatcher watcher, FileInfo file);
-    public delegate void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e);
-    public delegate void FileDeleted(DirectoryWatcher watcher, FileInfo file);
-    public delegate void FileCollected(DirectoryWatcher watcher, FileInfo file, int count);
-    public delegate void CollectingCompleted(DirectoryWatcher watcher, int count);
 
 
 }

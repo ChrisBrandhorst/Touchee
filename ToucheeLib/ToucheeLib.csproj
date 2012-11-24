@@ -39,8 +39,8 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="Components\FileSystem\DirectoriesWatcher.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
+    <Compile Include="Components\FileSystem\MediaFinder.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Debouncer.cs" />
     <Compile Include="Extensions.cs" />
@@ -77,7 +77,6 @@
     <Compile Include="Components\Services\ServiceResultStatus.cs" />
     <Compile Include="CacheObject.cs" />
     <Compile Include="Types\Contents.cs" />
-    <Compile Include="Types\Message.cs" />
     <Compile Include="Types\Options.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

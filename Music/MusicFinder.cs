@@ -16,41 +16,7 @@ namespace Music {
     /// <summary>
     /// Finds music media in a folder and places it in the appropriate medium
     /// </summary>
-    public class MediaFinder {
-
-
-        #region Privates
-
-        // The directory watcher used internally
-        DirectoryWatcher _directoryWatcher;
-
-        #endregion
-
-
-
-        #region Properties
-
-
-        /// <summary>
-        /// The medium for this finder
-        /// </summary>
-        public Medium Medium { get; protected set; }
-
-
-        /// <summary>
-        /// The directory which is watched
-        /// </summary>
-        public DirectoryInfo Directory { get; protected set; }
-
-
-        /// <summary>
-        /// The collection state of the watcher
-        /// </summary>
-        public CollectionState CollectionState { get { return _directoryWatcher.CollectionState; } }
-
-
-        #endregion
-
+    public class MusicFinder : MediaFinder {
 
 
         #region Constructor
@@ -62,58 +28,7 @@ namespace Music {
         /// <param name="medium">The medium in which to place new media</param>
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
-        public MediaFinder(Medium medium, DirectoryInfo directory, bool collectionRequired) {
-
-            // Set properties
-            this.Medium = medium;
-            this.Directory = directory;
-            
-            // Create watcher
-            _directoryWatcher = new DirectoryWatcher(directory, Plugin.Extensions);
-
-            // Set events
-            _directoryWatcher.CollectingCompleted += directoryWatcher_CollectingCompleted;
-            _directoryWatcher.FileCollected += FileCollected;
-            _directoryWatcher.FileCreated += FileCreated;
-            _directoryWatcher.FileChanged += FileChanged;
-            _directoryWatcher.FileRenamed += FileRenamed;
-            _directoryWatcher.FileDeleted += FileDeleted;
-
-            // Set collecting requirement
-            if (collectionRequired)
-                _directoryWatcher.MarkAsCollectionRequired();
-        }
-
-        #endregion
-
-
-
-        #region Actions
-
-
-        /// <summary>
-        /// Starts the directory watcher collection
-        /// </summary>
-        public void Collect() {
-            _directoryWatcher.Collect();
-        }
-        
-
-        /// <summary>
-        /// Starts the directory watching
-        /// </summary>
-        public void Start() {
-            _directoryWatcher.Start();
-        }
-
-
-        /// <summary>
-        /// Stops the directory watching
-        /// </summary>
-        public void Stop() {
-            _directoryWatcher.Stop();
-        }
-
+        public MusicFinder(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions, bool collectionRequired) : base(medium, directory, extensions, collectionRequired) { }
 
         #endregion
 
@@ -123,19 +38,9 @@ namespace Music {
 
 
         /// <summary>
-        /// Called when the collecting has completed
-        /// </summary>
-        void directoryWatcher_CollectingCompleted(DirectoryWatcher watcher, int count) {
-            if (this.CollectingCompleted != null)
-                this.CollectingCompleted.Invoke(this, count);
-        }
-
-
-
-        /// <summary>
         /// Called when one of the watchers collects a file
         /// </summary>
-        void FileCollected(DirectoryWatcher watcher, FileInfo file, int count) {
+        protected override void FileCollected(DirectoryWatcher watcher, FileInfo file, int count) {
             this.FileCreated(watcher, file);
         }
 
@@ -143,7 +48,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detected the creation of a file
         /// </summary>
-        void FileCreated(DirectoryWatcher watcher, FileInfo file) {
+        protected override void FileCreated(DirectoryWatcher watcher, FileInfo file) {
 
             // A track was created
             if (IsTrack(file)) {
@@ -162,7 +67,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects a change in a file
         /// </summary>
-        void FileChanged(DirectoryWatcher watcher, FileInfo file) {
+        protected override void FileChanged(DirectoryWatcher watcher, FileInfo file) {
 
             // A track was changed
             if (IsTrack(file)) {
@@ -183,7 +88,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects the renaming of a file
         /// </summary>
-        void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e) {
+        protected override void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e) {
 
             // A track was renamed
             if (IsTrack(file)) {
@@ -207,7 +112,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects the deletion of a file
         /// </summary>
-        void FileDeleted(DirectoryWatcher watcher, FileInfo file) {
+        protected override void FileDeleted(DirectoryWatcher watcher, FileInfo file) {
 
             // A track was deleted
             if (IsTrack(file)) {
@@ -258,20 +163,7 @@ namespace Music {
 
         #endregion
 
-
-
-        #region Events
-
-        public event CollectingCompleted CollectingCompleted;
-
-        #endregion
-
-
     }
-
-
-
-    public delegate void CollectingCompleted(MediaFinder watcher, int count);
 
 
 }
