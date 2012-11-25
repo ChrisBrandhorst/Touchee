@@ -9,6 +9,7 @@ using Touchee;
 
 namespace Touchee.Components.Media {
 
+
     /// <remarks>
     /// Searches for connected drives and gives notifications when a new drive has been found or when
     /// an existing drive was ejected.

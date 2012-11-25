@@ -16,7 +16,10 @@ namespace Touchee.Components.FileSystem {
     }
 
 
-    public class DirectoryWatcher : Base {
+    /// <summary>
+    /// 
+    /// </summary>
+    public abstract class DirectoryWatcher : Base {
 
 
 
@@ -28,6 +31,8 @@ namespace Touchee.Components.FileSystem {
         IEnumerable<string> _extensions;
         // Regex built from the extensions list
         Regex _extensionsRegex;
+        // Whether to catch files with all extensions
+        bool _catchAllExtensions;
  
         #endregion
 
@@ -49,7 +54,8 @@ namespace Touchee.Components.FileSystem {
             get { return _extensions; }
             set {
                 _extensions = value;
-                _extensionsRegex = new Regex(@"^\.(" + String.Join("|", _extensions) + ")", RegexOptions.IgnoreCase);
+                _catchAllExtensions = _extensions.Count() == 0;
+                _extensionsRegex = new Regex(@"^\.(" + String.Join("|", _extensions) + ")$", RegexOptions.IgnoreCase);
             }
         }
 
@@ -66,6 +72,12 @@ namespace Touchee.Components.FileSystem {
         public CollectionState CollectionState { get; protected set; }
 
 
+        /// <summary>
+        /// The medium this watcher is watching
+        /// </summary>
+        public Medium Medium { get; protected set; }
+        
+
         #endregion
 
 
@@ -77,7 +89,7 @@ namespace Touchee.Components.FileSystem {
         /// Constructs a new DirectoryWatcher for the given path
         /// </summary>
         /// <param name="path">The path of the directory to watch</param>
-        public DirectoryWatcher(string path) : this(new DirectoryInfo(path)) { }
+        public DirectoryWatcher(Medium medium, string path) : this(medium, new DirectoryInfo(path)) { }
 
 
         /// <summary>
@@ -85,14 +97,14 @@ namespace Touchee.Components.FileSystem {
         /// </summary>
         /// <param name="path">The path of the directory to watch</param>
         /// <param name="extensions">The extensions to watch for</param>
-        public DirectoryWatcher(string path, IEnumerable<string> extensions) : this(new DirectoryInfo(path), extensions) { }
+        public DirectoryWatcher(Medium medium, string path, IEnumerable<string> extensions) : this(medium, new DirectoryInfo(path), extensions) { }
 
 
         /// <summary>
         /// Constructs a new DirectoryWatcher for the given directory
         /// </summary>
         /// <param name="directoryInfo">The DirectoryInfo instance for the directory to watch</param>
-        public DirectoryWatcher(DirectoryInfo directoryInfo) : this(directoryInfo, new List<string>()) { }
+        public DirectoryWatcher(Medium medium, DirectoryInfo directoryInfo) : this(medium, directoryInfo, new List<string>()) { }
 
 
         /// <summary>
@@ -100,8 +112,9 @@ namespace Touchee.Components.FileSystem {
         /// </summary>
         /// <param name="directoryInfo">The DirectoryInfo instance for the directory to watch</param>
         /// <param name="extensions">The extensions to watch for</param>
-        public DirectoryWatcher(DirectoryInfo directoryInfo, IEnumerable<string> extensions) {
+        public DirectoryWatcher(Medium medium, DirectoryInfo directoryInfo, IEnumerable<string> extensions) {
             this.Directory = directoryInfo;
+            this.Medium = medium;
             this.SearchOption = SearchOption.AllDirectories;
             this.Extensions = extensions;
             this.CollectionState = CollectionState.Uncollected;
@@ -164,6 +177,7 @@ namespace Touchee.Components.FileSystem {
             foreach (var file in files) {
                 count++;
                 if (count % 50 == 0) Log(count.ToString() + " files found");
+                this.OnFileCollected(file, count);
                 if (this.FileCollected != null)
                     this.FileCollected.Invoke(this, file, count);
             }
@@ -171,6 +185,7 @@ namespace Touchee.Components.FileSystem {
             // Completed callback
             Log(count.ToString() + " files found");
             this.CollectionState = CollectionState.Collected;
+            this.OnCollectingCompleted(count);
             if (this.CollectingCompleted != null)
                 this.CollectingCompleted.Invoke(this, count);
         }
@@ -210,40 +225,55 @@ namespace Touchee.Components.FileSystem {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Occurs when a file has been collected
+        /// </summary>
+        protected virtual void OnFileCollected(FileInfo file, int count) { }
+
+        /// <summary>
+        /// Occurs when file collection has completed
+        /// </summary>
+        protected virtual void OnCollectingCompleted(int count) { }
 
         /// <summary>
         /// Occurs when a file is changed (deleted, changed or created)
         /// </summary>
         void FileSystemWatcherCreated(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
-            if (_extensionsRegex.IsMatch(file.Extension) && this.FileCreated != null)
-                this.FileCreated.Invoke(this, file);
+            if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
+                this.OnFileCreated(file);
         }
+        protected virtual void OnFileCreated(FileInfo file) { }
+
         /// <summary>
         /// Occurs when a file is changed
         /// </summary>
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
-            if (_extensionsRegex.IsMatch(file.Extension) && this.FileChanged != null)
-                this.FileChanged.Invoke(this, file);
+            if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
+                this.OnFileChanged(file);
         }
+        protected virtual void OnFileChanged(FileInfo file) { }
+
         /// <summary>
         /// Occurs when a file is renamed
         /// </summary>
         void FileSystemWatcherRenamed(object sender, RenamedEventArgs e) {
             var file = new FileInfo(e.FullPath);
-            if (_extensionsRegex.IsMatch(file.Extension) && this.FileRenamed != null)
-                this.FileRenamed.Invoke(this, file, e);
+            if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
+                this.OnFileRenamed(file, e);
         }
+        protected virtual void OnFileRenamed(FileInfo file, RenamedEventArgs e) { }
+
         /// <summary>
         /// Occurs when a file is changed (deleted, changed or created)
         /// </summary>
         void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
-            if (_extensionsRegex.IsMatch(file.Extension) && this.FileDeleted != null)
-                this.FileDeleted.Invoke(this, file);
+            if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
+                this.OnFileDeleted(file);
         }
-
+        protected virtual void OnFileDeleted(FileInfo file) { }
 
         #endregion
 
@@ -251,18 +281,9 @@ namespace Touchee.Components.FileSystem {
 
         #region Events
 
-
-        public event FileCreatedHandler FileCreated;
-        public event FileChangedHandler FileChanged;
-        public event FileRenamedHandler FileRenamed;
-        public event FileDeletedHandler FileDeleted;
         public event FileCollectedHandler FileCollected;
         public event CollectingCompletedHandler CollectingCompleted;
 
-        public delegate void FileCreatedHandler(DirectoryWatcher watcher, FileInfo file);
-        public delegate void FileChangedHandler(DirectoryWatcher watcher, FileInfo file);
-        public delegate void FileRenamedHandler(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e);
-        public delegate void FileDeletedHandler(DirectoryWatcher watcher, FileInfo file);
         public delegate void FileCollectedHandler(DirectoryWatcher watcher, FileInfo file, int count);
         public delegate void CollectingCompletedHandler(DirectoryWatcher watcher, int count);
 

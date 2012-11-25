@@ -32,6 +32,8 @@ namespace Touchee {
         public bool Ready { get; set; }
         
         public Medium(string name, string type) : base() {
+            if (type == MediumType.Local && Local != null)
+                throw new ArgumentException("Only one local medium can exist!");
             Name = name;
             Type = type;
         }
@@ -40,6 +42,8 @@ namespace Touchee {
             var mediumContainers = Container.Where(c => c.Medium == this);
             return new SortedSet<Container>( mediumContainers );
         } }
+
+        public static Medium Local { get { return FirstOrDefault(m => m.Type == MediumType.Local); } }
 
     }
 

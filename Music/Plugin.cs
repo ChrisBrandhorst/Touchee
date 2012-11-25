@@ -30,10 +30,10 @@ namespace Music {
         #region Statics
 
 
-        public static IEnumerable<string> TrackExtensions { get; protected set; }
-        public static IEnumerable<string> PlaylistExtensions { get; protected set; }
-        public static IEnumerable<string> Extensions { get; protected set; }
-        public static Watcher Watcher = Watcher.Instance;
+        internal static IEnumerable<string> TrackExtensions { get; private set; }
+        internal static IEnumerable<string> PlaylistExtensions { get; private set; }
+        internal static IEnumerable<string> Extensions { get; private set; }
+        internal static MusicFileMediumWatcher Watcher { get; private set; }
 
 
         #endregion
@@ -76,7 +76,7 @@ namespace Music {
             Extensions = TrackExtensions.Concat(PlaylistExtensions).ToArray();
 
             // Create the watcher and add folders to it
-            Watcher.Init();
+            Watcher = new MusicFileMediumWatcher();
             foreach(var f in folders)
                 Watcher.AddLocalFolder(f);
             PluginManager.Register(Watcher);
@@ -94,10 +94,6 @@ namespace Music {
 
             // Stop the watcher(s)
             Watcher.UnWatchAll();
-
-            // Clear data
-            Media.Track.Clear();
-            Media.Playlist.Clear();
 
             // Unregister plugin
             PluginManager.Unregister(Watcher);

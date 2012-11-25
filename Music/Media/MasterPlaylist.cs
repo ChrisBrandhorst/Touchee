@@ -1,5 +1,5 @@
 ﻿//using System;
-//using System.Collections.Generic;
+using System.Collections.Generic;
 //using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
@@ -14,7 +14,8 @@ namespace Music.Media {
         /// Constructor
         /// </summary>
         /// <param name="medium"></param>
-        public MasterPlaylist(Medium medium) : base(medium) { }
+        public MasterPlaylist(Medium medium) : base(medium) {
+        }
 
         /// <summary>
         /// The order number to be used for sorting the containers in the frontend.

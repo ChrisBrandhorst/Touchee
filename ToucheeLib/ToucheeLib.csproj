@@ -40,7 +40,7 @@
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
-    <Compile Include="Components\FileSystem\MediaFinder.cs" />
+    <Compile Include="Components\FileSystem\FileMediumWatcher.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Debouncer.cs" />
     <Compile Include="Extensions.cs" />

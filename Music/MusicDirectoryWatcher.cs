@@ -16,7 +16,7 @@ namespace Music {
     /// <summary>
     /// Finds music media in a folder and places it in the appropriate medium
     /// </summary>
-    public class MusicFinder : MediaFinder {
+    public class MusicDirectoryWatcher : DirectoryWatcher {
 
 
         #region Constructor
@@ -28,7 +28,8 @@ namespace Music {
         /// <param name="medium">The medium in which to place new media</param>
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
-        public MusicFinder(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions, bool collectionRequired) : base(medium, directory, extensions, collectionRequired) { }
+        public MusicDirectoryWatcher(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions) : base(medium, directory, extensions) {
+        }
 
         #endregion
 
@@ -40,19 +41,19 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers collects a file
         /// </summary>
-        protected override void FileCollected(DirectoryWatcher watcher, FileInfo file, int count) {
-            this.FileCreated(watcher, file);
+        protected override void OnFileCollected(FileInfo file, int count) {
+            this.OnFileCreated(file);
         }
 
 
         /// <summary>
         /// Called when one of the watchers detected the creation of a file
         /// </summary>
-        protected override void FileCreated(DirectoryWatcher watcher, FileInfo file) {
+        protected override void OnFileCreated(FileInfo file) {
 
             // A track was created
             if (IsTrack(file)) {
-                var track = new Track(this.Medium, file);
+                var track = new Track(file);
                 track.Save();
             }
 
@@ -67,7 +68,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects a change in a file
         /// </summary>
-        protected override void FileChanged(DirectoryWatcher watcher, FileInfo file) {
+        protected override void OnFileChanged(FileInfo file) {
 
             // A track was changed
             if (IsTrack(file)) {
@@ -88,13 +89,13 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects the renaming of a file
         /// </summary>
-        protected override void FileRenamed(DirectoryWatcher watcher, FileInfo file, RenamedEventArgs e) {
+        protected override void OnFileRenamed(FileInfo file, RenamedEventArgs e) {
 
             // A track was renamed
             if (IsTrack(file)) {
                 var track = Track.GetByPath(e.OldFullPath);
                 if (track == null)
-                    this.FileCreated(watcher, file);
+                    this.OnFileCreated(file);
                 else {
                     track.Update(file);
                 }
@@ -112,7 +113,7 @@ namespace Music {
         /// <summary>
         /// Called when one of the watchers detects the deletion of a file
         /// </summary>
-        protected override void FileDeleted(DirectoryWatcher watcher, FileInfo file) {
+        protected override void OnFileDeleted(FileInfo file) {
 
             // A track was deleted
             if (IsTrack(file)) {
@@ -162,6 +163,7 @@ namespace Music {
 
 
         #endregion
+
 
     }
 

@@ -37,10 +37,8 @@ namespace Music.Media {
         /// <summary>
         /// Constructs a new Track object
         /// </summary>
-        /// <param name="medium">The medium this track is from</param>
         /// <param name="file">The FileInfo object of the music file</param>
-        public Track(Medium medium, FileInfo file) {
-            this.Medium = medium;
+        public Track(FileInfo file) {
             this.Update(file);
         }
 
