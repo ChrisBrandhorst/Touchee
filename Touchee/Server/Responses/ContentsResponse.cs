@@ -9,7 +9,7 @@
         public string Plugin { get; protected set; }
 
         public ContentsResponse(Container container, Contents contents) {
-            this.ContainerID = container.ID;
+            this.ContainerID = container.Id;
             this.Keys = contents.Keys;
             this.Data = contents.Data;
             this.Meta = contents.Meta;

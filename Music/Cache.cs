@@ -20,9 +20,9 @@ namespace Music {
         List<string> Directories { get; set; }
 
         public override void BeforeSerialize() {
-            this.Tracks = Track.All().ToList();
-            this.Playlists = Playlist.Where(t => t.Medium.Type == MediumType.Local).Cast<Playlist>().ToList();
             this.Directories = Plugin.Watcher.CollectedLocalDirectories.Select(d => d.FullName).ToList();
+            this.Playlists = Playlist.Where(p => p.Medium == Medium.Local).Cast<Playlist>().ToList();
+            this.Tracks = this.Playlists.SelectMany(p => p.Tracks).Cast<Track>().ToList();
         }
 
         public override void AfterDeserialize() {

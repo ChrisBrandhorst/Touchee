@@ -1,31 +1,24 @@
-$browserRowHeight:    44px
-
 @import browser/layout
 @import browser/header
-@import browser/navigation
 @import browser/footer
-@import browser/contents
-@import browser/popup.devices
-@import browser/quickscroll
+
+// #browser
+//   -webkit-transition: opacity .5s ease-in
+//   &.hidden
+//     opacity: 0
 
 #browser
-
-  // Browser content
-  > div
-    border-bottom:  1px solid #656565
-    position:       relative
-    
-    // background: url(../images/_dev.png) no-repeat -217px -85px
-    // background: white url(../images/_dev.png) no-repeat 0 -85px
-    
+  background:           url(../images/IMG_0124_.PNG) no-repeat
+  background-size:      100%
+  background-position:  0 -20px
   
-  -webkit-transition: opacity .5s ease-in
-  &.hidden
-    opacity: 0
+  width:      1024px
+  height:     748px
   
-// opacity: .5
-// background: url(../images/_dev.png) no-repeat 0px -20px
-
-// body
-//   background: url(../images/_dev.png) no-repeat 0px -20px
-//   margin-bottom:  50px
+  @media screen and (max-width: 900px)
+    background-image:           url(../images/IMG_0124.PNG)
+    width:      768px
+    height:     1004px
+  
+  > *
+    // opacity: 0.5

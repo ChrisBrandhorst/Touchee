@@ -17,30 +17,58 @@ define([
     
     
     // Constructor
-    initialize: function() {
-      this.on('change:plugins', this.loadPlugins, this);
+    initialize: function(attributes, options) {
+    },
+    
+    
+    // Fetches the server info
+    // After the fetch, loads the plugins
+    fetch: function(options) {
+      options || (options = {});
+      var success = options.success, serverInfo = this;
+      
+      options.success = function(model, response, options) {
+        if (_.isFunction(success))
+          success = _.bind(success, this, model, response, options);
+        serverInfo.loadPlugins(success);
+      };
+      
+      Backbone.Model.prototype.fetch.call(this, options);
     },
     
     
     // Loads all plugins
-    loadPlugins: function() {
-      var plugins = this.plugins = {};
+    loadPlugins: function(success) {
+      var plugins     = this.plugins = {},
+          keys        = this.get('plugins'),
+          pluginCount = keys.length,
+          loadedCount = 0;
       
-      _.each(this.get('plugins') || [], function(p){
-        T.Log.info("ServerInfo:: Loading plugin: " + p);
-        require(['plugins/' + p + '/web/plugin.js'], function(plugin){
-          // T.Log.info("ServerInfo:: Plugin loaded: " + p);
-          plugins[p] = plugin;
-          plugin.id = p;
+      // Load plugins
+      _.each(keys, function(key){
+        
+        // If plugin is already loaded, skip it
+        if (plugins[key]) return;
+        
+        // Require plugin
+        require(['plugins/' + key + '/plugin'], function(plugin){
+          T.Log.info("ServerInfo:: Plugin loaded: " + key);
+          plugins[key] = plugin;
+          plugin.id = key;
+          
+          loadedCount++;
+          if (loadedCount == pluginCount && _.isFunction(success))
+            success();
         });
+        
       });
     },
     
     
-    //
-    getPlugin: function(plugin) {
-      var p = this.plugins[plugin];
-      return p instanceof Touchee.Plugin ? p : null;
+    // Gets the plugin with the given key
+    getPlugin: function(key) {
+      var plugin = this.plugins[key];
+      return plugin instanceof Touchee.Plugin ? plugin : null;
     }
     
     

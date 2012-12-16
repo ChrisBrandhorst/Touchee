@@ -33,12 +33,12 @@ define([
     // 
     hover: function(ev) {
       
-      var top           = this.$el.offset().top,
-          paddingTop    = this.$el.css('padding-top').numberValue(),
-          height        = this.$el.height(),
-          pageY         = ev.originalEvent.touches ? ev.originalEvent.touches[0].pageY : ev.pageY,
-          pos           = Math.min(Math.max(pageY - top - paddingTop, 0), height),
-          perc          = pos / height;
+      var top         = this.$el.offset().top,
+          paddingTop  = this.$el.css('padding-top').numberValue(),
+          height      = this.$el.height(),
+          pageY       = ev.originalEvent.touches ? ev.originalEvent.touches[0].pageY : ev.pageY,
+          pos         = Math.min(Math.max(pageY - top - paddingTop, 0), height),
+          perc        = pos / height;
       
       if (this.alpha) {
         var $children = this.$el.children(),

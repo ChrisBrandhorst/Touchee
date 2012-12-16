@@ -34,6 +34,7 @@ namespace Music {
         internal static IEnumerable<string> PlaylistExtensions { get; private set; }
         internal static IEnumerable<string> Extensions { get; private set; }
         internal static MusicFileMediumWatcher Watcher { get; private set; }
+        internal static MusicContentProvider ContentProvider { get; private set; }
 
 
         #endregion
@@ -51,7 +52,7 @@ namespace Music {
         /// <summary>
         /// The description of this plugin
         /// </summary>
-        public string Description { get { return "Content provider for music stored locally."; } }
+        public string Description { get { return "Plugin providing music stored locally and on removable drives."; } }
 
 
         /// <summary>
@@ -81,6 +82,10 @@ namespace Music {
                 Watcher.AddLocalFolder(f);
             PluginManager.Register(Watcher);
 
+            // Add content provider
+            ContentProvider = new MusicContentProvider();
+            PluginManager.Register(ContentProvider);
+
             return true;
 
         }
@@ -97,6 +102,7 @@ namespace Music {
 
             // Unregister plugin
             PluginManager.Unregister(Watcher);
+            PluginManager.Unregister(ContentProvider);
             return true;
         }
 

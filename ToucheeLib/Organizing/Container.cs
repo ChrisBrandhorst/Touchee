@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Runtime.Serialization;
 
 using Touchee.Media;
 
@@ -19,18 +20,6 @@ namespace Touchee {
     }
 
 
-    /// <summary>
-    /// String constants for container type
-    /// </summary>
-    public class ContainerType {
-        public const string Unknown = "unknown";
-        public const string Playlist = "playlist";
-        public const string Master = "master";
-        public const string Filesystem = "filesystem";
-        public const string Disc = "disc";
-        public const string Radio = "radio";
-    }
-
 
     /// <remarks>
     /// A container element
@@ -40,11 +29,13 @@ namespace Touchee {
         /// <summary>
         /// The name of the container
         /// </summary>
+        [DataMember]
         public virtual string Name { get; protected set; }
         
         /// <summary>
         /// Whether this container is busy loading
         /// </summary>
+        [DataMember]
         public virtual bool Loading { get; set; }
 
         /// <summary>
@@ -58,27 +49,41 @@ namespace Touchee {
         /// </summary>
         public virtual Medium Medium { get; protected set; }
 
-        /// <summary>
-        /// Returns the item with the given item ID
-        /// </summary>
-        /// <param name="itemID">The ID of the item to return</param>
-        /// <returns>The item with the given ID, or null if it does not exist</returns>
-        public virtual IItem GetItem(int itemID) { return null; }
+        ///// <summary>
+        ///// The collection of items within this container
+        ///// </summary>
+        //public abstract IEnumerable<IItem> Items { get; }
+
+        ///// <summary>
+        ///// Returns the item with the given item ID
+        ///// </summary>
+        ///// <param name="itemID">The ID of the item to return</param>
+        ///// <returns>The item with the given ID, or null if it does not exist</returns>
+        //public virtual IItem GetItem(int itemID) { return null; }
 
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'
         /// </summary>
-        public virtual string Type { get { return ContainerType.Unknown; } }
+        [DataMember]
+        public abstract string Type { get; }
 
         /// <summary>
         /// The content type of the container, e.g. what kind of items reside inside this container
         /// </summary>
-        public virtual string ContentType { get { return ContainerContentType.Unknown; } }
+        [DataMember]
+        public abstract string ContentType { get; }
 
         /// <summary>
         /// String array containing names of views by which the contents can be viewed
         /// </summary>
-        public virtual string[] ViewTypes { get { return new string[0]; } }
+        [DataMember]
+        public abstract string[] ViewTypes { get; }
+
+        /// <summary>
+        /// The name of the plugin this Container resides in
+        /// </summary>
+        [DataMember]
+        public string Plugin { get { return this.GetType().Assembly.GetName().Name.ToUnderscore(); } }
 
         /// <summary>
         /// Constructs a new container instance
@@ -99,7 +104,7 @@ namespace Touchee {
             var other = (Container)obj;
             
             // Same object or ID? Return 0
-            if (this == other || this.ID == other.ID) return 0;
+            if (this == other || this.Id == other.Id) return 0;
 
             // Compare by name or order attribute
             int result;
@@ -114,7 +119,7 @@ namespace Touchee {
             
             // Still equal? Compare by ID
             if (result == 0)
-                result = this.ID.CompareTo(other.ID);
+                result = this.Id.CompareTo(other.Id);
 
             return result;
         }

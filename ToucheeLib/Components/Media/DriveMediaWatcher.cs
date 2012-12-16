@@ -84,7 +84,7 @@ namespace Touchee.Components.Media {
 
             // Loop through all current drives
             string[] driveLetters = Environment.GetLogicalDrives();
-            var foundDrives = new Dictionary<DriveInfo, string>();
+            var foundDrives = new Dictionary<DriveInfo, Type>();
             foreach (var l in driveLetters) {
 
                 // Get drive info for this drive
@@ -94,7 +94,7 @@ namespace Touchee.Components.Media {
                 if (!driveInfo.IsReady) continue;
 
                 // Get drive type
-                string mediumType = MediumType.Unknown;
+                Type mediumType = typeof(Medium);
                 DriveType driveType = DriveType.Unknown;
                 try { driveType = driveInfo.DriveType; }
                 catch (IOException e) {
@@ -110,16 +110,16 @@ namespace Touchee.Components.Media {
 
                         try {
                             if (Directory.GetFiles(l, "*.cda", SearchOption.TopDirectoryOnly).Length > 0) {
-                                mediumType = MediumType.AudioCD;
+                                mediumType = typeof(AudioDiscMedium);
                             }
                             else if (Directory.Exists(l + "VIDEO_TS") && Directory.GetFiles(l + "VIDEO_TS", "*.vob").Length > 0) {
-                                mediumType = MediumType.DVDVideo;
+                                mediumType = typeof(DVDVideoMedium);
                             }
                             else if (File.Exists(l + @"BDMV\index.bdmv")) {
-                                mediumType = MediumType.BluRayVideo;
+                                mediumType = typeof(BlurayVideoMedium);
                             }
                             else {
-                                mediumType = MediumType.FileStorage;
+                                mediumType = typeof(DataDiscMedium);
                             }
                         }
                         catch (Exception e) {
@@ -132,12 +132,12 @@ namespace Touchee.Components.Media {
 
                     // We have a removable drive (usb stick / hd)
                     case DriveType.Removable:
-                        mediumType = MediumType.FileStorage;
+                        mediumType = typeof(RemoveableDriveMedium);
                         break;
                 }
 
                 // If we support the medium type, store it
-                if (mediumType != MediumType.Unknown)
+                if (mediumType != typeof(Medium))
                     foundDrives[driveInfo] = mediumType;
 
             }
@@ -153,7 +153,9 @@ namespace Touchee.Components.Media {
                 // New medium!
                 if (existingDriveMedium == null) {
                     DriveMedium newDriveMedium;
-                    try { newDriveMedium = new DriveMedium(d.Key, d.Value); }
+                    try {
+                        newDriveMedium = (DriveMedium)Activator.CreateInstance(d.Value, new object[] { d.Key });
+                    }
                     catch (Exception e) {
                         Log("Unable to get drive information for drive " + d.Key.Name, e);
                         continue;

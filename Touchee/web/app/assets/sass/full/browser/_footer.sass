@@ -1,113 +1,133 @@
-
 #browser > footer
+  @include    remote-image(ChromeBottom)
+  padding:      8px 8px 0 8px
+  @include display-box
   
-  // Footer styling
-  padding:        6px 7px 9px 7px
-  border-top:     1px solid #fafafa
-  border-radius:  0 0 5px 5px
-  background:     -webkit-linear-gradient(#e9e9ee, #9e9fa1)
-  text-align:     center
+  // Navigation button
+  button[data-button=nav]
   
-  position:       relative
-  z-index:        100
+  // Scaling containers
+  > div
+    &:first-child, &:last-child
+      width:  200px
+    // Navigation center container
+    &:nth-child(2)
+      @include  box-flex(1)
+      text-align: center
+      > div
+        display:    inline-block
   
-  // Single view mode
-  h1
-    display:        inline-block
-    font-size:      140%
-    line-height:    $footerHeight - 15px
-    text-shadow:    0 1px 0 white
-    color:          #555
-    
-  // View modes
-  nav
-    display:        inline-block
-    height:         100%
-    position:       relative
-    border-radius:  6px
-    box-shadow:     0 1px 0 #BEC0C3
-    
-    // Inner shadow
-    &:before
-      content:  ''
-      position: absolute
-      left:     0
-      right:    0
-      top:      1px
-      bottom:   0
-      pointer-events: none
-      border-radius: 6px
-      box-shadow: inset 0 1px 0 rgba(0,0,0,.17)
-    
-    // Each view mode button
-    .button
-      height:         100%
-      line-height:    26px
-      width:          102px
-      background:     -webkit-linear-gradient(white, #babec7)
-      border-top:     1px solid #6d6d6d
-      border-bottom:  1px solid #999ca4
-      border-left:    1px solid rgba(0,0,0,.3)
-      color:          #4F5459
-      font-weight:    bold
-      font-size:      95%
-      text-shadow:    0 1px 0 #DFE1E4
-      
-      // Text on button
-      &:before
-        content:        attr(data-button)
-        text-transform: capitalize
-      
-      // Round the first and last button
-      &:first-child
-        border-radius:      6px 0 0 6px
-        border-left-color:  #919396
-      &:last-child
-        border-radius:  0 6px 6px 0
-        border-right:   1px solid #919396
-      
-      // Selected button: different color
-      &.selected
-        border-top-color:     #4E5051
-        border-bottom-color:  #555A60
-        border-left-color:    #6C6D6E
-        background:           -webkit-linear-gradient(#AFB2B6, #666D74)
-        color:                white
-        text-shadow:          0 -1px 0 #606467
-        + .button
-          border-left-color: #6C6D6E
-        &:first-child
-          border-left-color: rgba(0,0,0,.3)
   
-  // Settings button in the bottom left
-  button[data-button=settings]
-    float:        left
-    width:        29px
-    height:       29px
-    margin-right: 40px
-    background:   url(../images/settings.png)
-  
-  // Now playing button in the bottom right
-  button[data-button=nowplaying]
-    float:          right
-    width:          69px
-    height:         29px
-    padding:        1px 3px
-    line-height:    12px
-    border:         1px solid
-    margin-top:     -1px
-    border-color:   #545556 #4a4c50 #42454b #4a4c50
-    border-radius:  6px
-    background:     -webkit-linear-gradient(#6e7073, #404244)
-    box-shadow:     0 1px 0 #c4c7c9, inset 0 1px 0 rgba(0,0,0,.1)
-    color:          white
-    font-weight:    bold
-    font-size:      85%
-    text-shadow:    0 -1px 0 #404040
+  // Nav button
+  button[data-button=nav]
+    line-height:  30px
+    margin-top:   -1px
+    min-width:    100px
+    padding:      0 11px 0 31px
+    text-shadow:  0 1px 0 white
+    @include      remote-border-image(ChromeButton, 0, 4, 0, 4, stretch)
     &:active
-      background:   -webkit-linear-gradient(#404244, black)
+      @include    remote-border-image(ChromeButtonSelected, 0, 4, 0, 4, stretch)
+    &.music
+      background:       no-repeat 6px 5px
+      @include          remote-image(SourceListMusicGray)
+      background-size:  20px
+      
+  
+  
+  // Navigation
+  nav
+    @include      display-box
+    max-width:    546px
+    
+    // Viewtype button
+    > a
+      display:      block
+      text-shadow:  0 1px 0 white
+      
+      // Equal width
+      position:     relative
+      @include      box-flex(1)
+      width:        1%
+      
+      // Max size
+      max-width:      135px
+      min-width:      109px
+      line-height:    30px
+      
+      // Space for divider
+      padding-left:  9px
+      
+      // Divider
+      &::before
+        content:  ''
+        display:  block
+        position: absolute
+        top:      0
+        left:     0
+        bottom:   0
+        width:    9px
+        @include  remote-image(ChromeButtonDivider)
+      
+      // Background
+      &::after
+        content:      ''
+        display:      block
+        position:     absolute
+        top:          0
+        right:        0
+        bottom:       0
+        left:         9px
+        @include      remote-border-image(ChromeButton, 1, 4, 1, 4, stretch)
+        border-width: 1px 0 !important
+      
+      // First child has a rounded edge on the right
+      &:first-child
+        padding-left: 4px
+        &::before
+          @include  remote-image(ChromeButton)
+          width:    4px
+        &::after
+          left: 4px
+      
+      // Last child has a rounded edge on the left
+      &:last-child
+        padding-right: 5px
+        &::after
+          @include      remote-border-image(ChromeButton, 1, 4, 1, 4, stretch)
+          border-width: 1px 4px 1px 0 !important
+      
+      // Active button
+      &:active, &.selected
+        &::before
+          @include  remote-image(ChromeButtonSelectedRight)
+        &::after
+          @include  remote-border-image(ChromeButtonSelected, 1, 4, 1, 4, stretch)
+        + a::before
+          @include  remote-image(ChromeButtonSelectedLeft)
+        &:first-child::before
+          @include  remote-image(ChromeButtonSelected)
+  
+  
+  // Search field
+  input[name=search]
+    float:      right
+    width:      100%
+    height:     28px
+    padding:    0 15px 0 8px
+    margin-top: 1px
+    background: transparent
+    @include    remote-border-image(ChromeSearch, 0, 17, 0, 25, stretch)
+    &[disabled]
+      @include  remote-border-image(ChromeSearchDisabled, 0, 17, 0, 25, stretch)
+    &.filled
+      padding-right:  8px
+      @include        retina-border-image("../images/ChromeSearchClear", 0, 24, 0, 25, stretch)
+
 
 // Portrait mode
 @media screen and (max-width: 900px)
-  #browser > footer nav button
-    width:  85px
+  #browser > footer
+    > div
+      &:first-child, &:last-child
+        width:  179px

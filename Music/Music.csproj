@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache.cs" />
+    <Compile Include="MusicContentProvider.cs" />
     <Compile Include="MusicDirectoryWatcher.cs" />
     <Compile Include="Media\MasterPlaylist.cs" />
     <Compile Include="Media\Playlist.cs" />

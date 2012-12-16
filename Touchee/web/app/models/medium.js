@@ -6,12 +6,11 @@ define([
   
   var Medium = Backbone.Model.extend({
     
-    // sync: Backbone.readOnlySync,
     
-    
-    initialize: function() {
+    // Constructor
+    initialize: function(attributes, options) {
       // Build conatiners collection
-      this.containers = new Containers({medium:this});
+      this.containers = new Containers([], {medium:this});
       
       // If the containers collection is reset, trigger event for rendering the local medium page
       if (!this.isLocal()) {

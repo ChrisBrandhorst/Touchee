@@ -29,6 +29,11 @@ namespace ListenLive {
         #endregion
 
 
+        public override IEnumerable<IItem> Items {
+            get { return this.Channels.Cast<IItem>(); }
+        }
+
+
         #region Overridden properties from Container
 
         /// <summary>
@@ -80,7 +85,7 @@ namespace ListenLive {
         /// <param name="itemID">The ID of the item to return</param>
         /// <returns>The item with the given ID, or null if it does not exist</returns>
         public override IItem GetItem(int itemID) {
-            return this.Channels.FirstOrDefault(t => ((RadioChannel)t).ID == itemID) as IItem;
+            return this.Channels.FirstOrDefault(t => ((RadioChannel)t).Id == itemID) as IItem;
         }
 
 

@@ -46,35 +46,23 @@ namespace Touchee.Components.FileSystem {
             // Check if we are already watching this medium
             if (_directoryWatchers.Any(dw => dw.Medium == medium)) return false;
 
-            switch (medium.Type) {
+            // We got the local medium
+            if (medium == Medium.Local) {
+                _localMedium = medium;
+                this.OnWatch(medium);
+                this.LocalMediumArrived();
+            }
 
-                // We got the local medium
-                case MediumType.Local:
-                    _localMedium = medium;
+            // We got a basic file storage medium
+            else if (medium is FileStorageMedium) {
+                var fileStorageMedium = (FileStorageMedium)medium;
+                this.OnWatch(medium);
+                this.CreateDirectoryWatcher(fileStorageMedium, fileStorageMedium.DriveInfo.RootDirectory, true);
+            }
 
-                    // Specifics
-                    this.OnWatch(medium);
-
-                    this.LocalMediumArrived();
-                    break;
-
-                // We have a disc / usb storage
-                case MediumType.FileStorage:
-
-                    // Check if we have a DriveMedium (should always be the case)
-                    if (!(medium is DriveMedium)) return false;
-                    var driveMedium = (DriveMedium)medium;
-                    
-                    // Specifics
-                    this.OnWatch(medium);
-
-                    // Create finder for drive
-                    this.CreateDirectoryWatcher(driveMedium, driveMedium.DriveInfo.RootDirectory, true);
-                    break;
-
-                // We don't process other media
-                default:
-                    return false;
+            // We don't process other media
+            else {
+                return false;
             }
 
             return true;
@@ -94,9 +82,11 @@ namespace Touchee.Components.FileSystem {
             if (mediaFinders.Count() == 0) return false;
 
             // Stop and remove all found finders
-            foreach (var mf in mediaFinders) {
-                _directoryWatchers.Remove(mf);
-                mf.Stop();
+            lock (_directoryWatchers) {
+                foreach (var mf in mediaFinders) {
+                    _directoryWatchers.Remove(mf);
+                    mf.Stop();
+                }
             }
 
             // Clear data from medium
@@ -182,7 +172,9 @@ namespace Touchee.Components.FileSystem {
         /// <param name="forceCollecting">Whether to force collecting of the watcher</param>
         void CreateDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo, bool forceCollecting) {
 
-            // Create finder
+            // TODO: Check if dir is not already watched
+            
+            // Create directory watcher
             var directoryWatcher = GetDirectoryWatcher(medium, directoryInfo);
             _directoryWatchers.Add(directoryWatcher);
             
@@ -223,7 +215,7 @@ namespace Touchee.Components.FileSystem {
 
 
         /// <summary>
-        /// Returns whether any of the present diretory watchers is collecting.
+        /// Returns whether any of the present directory watchers is collecting.
         /// </summary>
         /// <returns></returns>
         bool IsCollecting() {

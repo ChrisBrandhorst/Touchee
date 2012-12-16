@@ -1,7 +1,31 @@
+// Ellipsis
 @mixin ellipsis
   overflow:       hidden
   text-overflow:  ellipsis
   white-space:    nowrap
+
+
+// Background image with retina alternative
+@mixin retina-image($image)
+  background-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x)
+
+
+// Border image with retina alternative
+@mixin retina-border-image($image, $top, $right, $bottom, $left, $mode: round)
+  -webkit-border-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x) $top $right $bottom $left $mode
+  border-width:         $top+px $right+px $bottom+px $left+px
+
+
+// Remote background image with retina alternative
+@mixin remote-image($image)
+  @include retina-image("../images/remote/#{$image}")
+
+
+// Remote border image with retina alternative
+@mixin remote-border-image($image, $top, $right, $bottom, $left, $mode: round)
+  @include retina-border-image("../images/remote/#{$image}", $top, $right, $bottom, $left, $mode)
+
+
 
 @mixin container_icon($type)
   &.#{$type}

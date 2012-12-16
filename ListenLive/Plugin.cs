@@ -40,13 +40,14 @@ namespace ListenLive {
         #region Privates
 
         RadioChannels _container;
-        Medium _radioMedium;
+        Medium _webMedium;
         int _fetchHour = 3;
         string _url = "http://www.listenlive.eu/netherlands.html";
         string _containerName = "Nederlands";
         Timer _timer;
 
         #endregion
+
 
 
         #region IPlugin implementation
@@ -109,6 +110,7 @@ namespace ListenLive {
         #endregion
 
 
+
         #region IMediumWatcher implementation
 
         /// <summary>
@@ -117,12 +119,12 @@ namespace ListenLive {
         /// <param name="medium">The Medium to watch</param>
         public bool Watch(Medium medium) {
 
-            // Do nothing if we already have a local medium
-            if (medium.Type != MediumType.Web || _radioMedium != null) return false;
-            _radioMedium = medium;
+            // Do nothing if we already have a web medium
+            if (medium != Medium.Web || _webMedium != null) return false;
+            _webMedium = medium;
 
             // Set container
-            _container = new RadioChannels(_containerName, _radioMedium, true);
+            _container = new RadioChannels(_containerName, _webMedium, true);
 
             // Start timer for fetching channels
             this.StartFetching();
@@ -136,9 +138,9 @@ namespace ListenLive {
         /// </summary>
         /// <param name="medium">The medium to stop watching</param>
         public bool UnWatch(Medium medium) {
-            if (_radioMedium == medium) {
+            if (_webMedium == medium) {
                 this.StopFetching();
-                _radioMedium = null;
+                _webMedium = null;
                 // TODO: clear container(s)
                 // For now, we can assume this call is never made, since the radio
                 // medium will never be ejected
@@ -152,12 +154,13 @@ namespace ListenLive {
         /// Stops watching all media
         /// </summary>
         public bool UnWatchAll() {
-            this.UnWatch(_radioMedium);
+            this.UnWatch(_webMedium);
             return true;
         }
 
 
         #endregion
+
 
 
         #region IContentsPlugin implementation
@@ -282,7 +285,7 @@ namespace ListenLive {
         object GetChannelsData(IEnumerable<RadioChannel> channels) {
             return channels
                 .Select(c => new object[]{
-                    c.ID,
+                    c.Id,
                     c.Title,
                     Util.GetIndex(c.TitleSort)
                 });
@@ -345,6 +348,7 @@ namespace ListenLive {
 
 
         #endregion
+
 
 
         #region Channel fetching

@@ -14,8 +14,7 @@ namespace Music.Media {
         /// Constructor
         /// </summary>
         /// <param name="medium"></param>
-        public MasterPlaylist(Medium medium) : base(medium) {
-        }
+        public MasterPlaylist(Medium medium) : base(medium, medium.Name) { }
 
         /// <summary>
         /// The order number to be used for sorting the containers in the frontend.
@@ -26,7 +25,7 @@ namespace Music.Media {
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'
         /// </summary>
-        public override string Type { get { return ContainerType.Master; } }
+        public override string Type { get { return "master_playlist"; } }
 
         /// <summary>
         /// String array containing names of views by which the contents can be viewed

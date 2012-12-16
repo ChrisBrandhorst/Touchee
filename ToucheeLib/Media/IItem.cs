@@ -14,13 +14,13 @@ namespace Touchee {
         /// <summary>
         /// The ID of the item within the container
         /// </summary>
-        int ID { get; }
+        int Id { get; }
 
 
         ///// <summary>
         ///// The source ID for this item
         ///// </summary>
-        //object SourceID { get; }
+        //object SourceId { get; }
 
         
         /// <summary>

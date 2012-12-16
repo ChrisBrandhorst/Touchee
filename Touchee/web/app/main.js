@@ -10,14 +10,16 @@ require.config({
     Backbone:   'lib/backbone.amd',
     Touchee:    'lib/touchee',
     text:       '../lib/text-2.0.3',
+    i18n:       '../lib/i18n-2.0.1',
     jquery:     '../lib/jquery-1.8.2.min'
   },
   
   shim: {
-    'Backbone':                     ['underscore'],
-    'lib/jquery.extensions':        ['jquery'],
-    'lib/jquery.touchscrollselect': ['jquery'],
-    'lib/jquery.scrolllist':        ['jquery']
+    'Backbone':                           ['underscore'],
+    'lib/jquery.extensions':              ['jquery'],
+    'lib/jquery.touchscrollselect':       ['jquery'],
+    'lib/jquery.scrolllist':              ['jquery'],
+    '../lib/jquery-ui-1.9.2.custom.min':  ['jquery']
   }
   
 });
@@ -41,6 +43,7 @@ require([
   'lib/jquery.extensions',
   'lib/jquery.touchscrollselect',
   'lib/jquery.scrolllist',
+  '../lib/jquery-ui-1.9.2.custom.min',
   
   // Other
   'lib/js.extensions',
@@ -57,14 +60,14 @@ require([
   // TODO: eval is evil
   Touchee.Config.set( eval('(' + config + ')') );
   
+  // Set locale in i18n config
+  require.config({ config: { i18n: { locale: Touchee.Config.get('locale') } } });
+  
   // Boot fastclick
   new FastClick(document.body);
   
   // Then, load the app
-  require([
-    'app',
-    'locales/' + Touchee.Config.get('locale')
-  ], function(App){
+  require(['app'], function(App){
     
     App.initialize();
     

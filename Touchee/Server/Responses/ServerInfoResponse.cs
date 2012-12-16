@@ -1,15 +1,66 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Linq;
+using Touchee.Plugins;
 
 namespace Touchee.Server.Responses {
 
+    /// <summary>
+    /// Server info object
+    /// </summary>
     public class ServerInfoResponse : ToucheeResponse {
-        public string Name { get; set; }
-        public string WelcomeMessage { get; set; }
-        public int WebsocketPort { get; set; }
-        public ArrayList Devices { get; set; }
-        public string[] Plugins { get; set; }
-        public long UtcTime { get; set; }
-        public long UtcOffset { get; set; }
+
+        /// <summary>
+        /// The name of the server
+        /// </summary>
+        public string Name { get; protected set; }
+
+        /// <summary>
+        /// The welcome message given to the user
+        /// </summary>
+        public string WelcomeMessage { get; protected set; }
+
+        /// <summary>
+        /// The port the websocket should connect to
+        /// </summary>
+        public int WebsocketPort { get; protected set; }
+
+        /// <summary>
+        /// List of devices present on the server
+        /// </summary>
+        public ArrayList Devices { get; protected set; }
+
+        /// <summary>
+        /// Identifiers of plugins which have a front-end component and as such
+        /// should be initialised on the client side.
+        /// </summary>
+        public string[] Plugins { get; protected set; }
+
+        /// <summary>
+        /// The current time of th server
+        /// </summary>
+        public long UtcTime { get; protected set; }
+
+        /// <summary>
+        /// The UTC offset of the server
+        /// </summary>
+        public long UtcOffset { get; protected set; }
+
+
+        /// <summary>
+        /// Constructor
+        /// </summary>
+        public ServerInfoResponse(ToucheeServer server) {
+            DateTime now = DateTime.Now;
+            this.Name = Medium.Local == null ? System.Environment.MachineName : Medium.Local.Name;
+            this.WelcomeMessage = Program.Config.GetString("welcomeMessage", "Welcome to Touchee");
+            this.WebsocketPort = server.WebsocketPort;
+            this.UtcTime = (long)now.TimeStamp();
+            this.UtcOffset = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMilliseconds;
+            this.Devices = Program.Config.GetValue("devices", null);
+            this.Plugins = PluginManager.FrontendComponents.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
+        }
+
     }
 
 }

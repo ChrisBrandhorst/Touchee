@@ -19,6 +19,15 @@ namespace Music {
     public class MusicDirectoryWatcher : DirectoryWatcher {
 
 
+        #region Privates
+
+        // The masterplaylist for the medium
+        MasterPlaylist _masterPlaylist;
+
+        #endregion
+
+
+
         #region Constructor
 
 
@@ -29,6 +38,9 @@ namespace Music {
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
         public MusicDirectoryWatcher(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions) : base(medium, directory, extensions) {
+            _masterPlaylist = (MasterPlaylist)(medium.Containers.FirstOrDefault(c => c is MasterPlaylist));
+            if (_masterPlaylist == null)
+                throw new ArgumentException("The given medium does not have a master playlist (yet)");
         }
 
         #endregion
@@ -50,11 +62,12 @@ namespace Music {
         /// Called when one of the watchers detected the creation of a file
         /// </summary>
         protected override void OnFileCreated(FileInfo file) {
-
+            
             // A track was created
             if (IsTrack(file)) {
                 var track = new Track(file);
                 track.Save();
+                _masterPlaylist.Add(track);
             }
 
             // A playlist was created
@@ -94,8 +107,9 @@ namespace Music {
             // A track was renamed
             if (IsTrack(file)) {
                 var track = Track.GetByPath(e.OldFullPath);
-                if (track == null)
+                if (track == null) {
                     this.OnFileCreated(file);
+                }
                 else {
                     track.Update(file);
                 }
@@ -119,6 +133,7 @@ namespace Music {
             if (IsTrack(file)) {
                 var track = Track.GetByPath(file.FullName);
                 if (track != null) {
+                    _masterPlaylist.Remove(track);
                     track.Dispose();
                 }
             }

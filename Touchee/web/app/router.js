@@ -108,25 +108,8 @@ define([
       var plugin = ServerInfo.getPlugin(container.get('plugin')),
           module = (plugin && plugin.module) || this.baseModule;
       
-      // Create the contents object instance
-      var contents = new (module.getContentsModel(type))({
-        container:  container,
-        type:       type,
-        filter:     filter
-      });
-      
-      // Initialize the view
-      var contentsView = new (module.getContentsView(type, contents))({
-        contents: contents,
-        back:     containerView.isEmpty() ? false : containerView.activePage.contents.getTitle(),
-        fragment: fragment
-      });
-      
-      // Set the view
-      module.setContentsView(containerView, contentsView);
-      
-      // Load the content
-      contents.fetch();
+      // Show the content
+      module.showContent(container, filter, containerView, fragment);
       
     },
     

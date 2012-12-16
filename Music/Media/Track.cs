@@ -84,7 +84,7 @@ namespace Music.Media {
             this.DiscNumber = tag.Disc;
             this.Duration = tagFile.Properties.Duration;
             if (!String.IsNullOrEmpty(tag.JoinedGenres))
-                this.Genre = tag.JoinedGenres;
+                this.Genre = tag.JoinedGenres.FirstToUpper();
             if (!String.IsNullOrEmpty(tag.Title))
                 this.Title = tag.Title;
             if (!String.IsNullOrEmpty(tag.TitleSort))
@@ -125,7 +125,7 @@ namespace Music.Media {
         /// If TitleSort is null when this value is set, the TitleSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string Title {
             get { return _title; }
             set {
@@ -139,7 +139,7 @@ namespace Music.Media {
         /// If ArtistSort is null when this value is set, the ArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string Artist {
             get { return _artist; }
             set {
@@ -153,7 +153,7 @@ namespace Music.Media {
         /// If AlbumSort is null when this value is set, the AlbumSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string Album {
             get { return _album; }
             set {
@@ -167,7 +167,7 @@ namespace Music.Media {
         /// If AlbumArtistSort is null when this value is set, the AlbumArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string AlbumArtist {
             get { return _albumArtist; }
             set {
@@ -181,58 +181,66 @@ namespace Music.Media {
         /// <summary>
         /// The sorted title of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string TitleSort { get; protected set; }
         /// <summary>
         /// The sort value of the performing artist of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string ArtistSort { get; protected set; }
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string AlbumSort { get; protected set; }
         /// <summary>
         /// The sort value of the album artist of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string AlbumArtistSort { get; protected set; }
 
 
         /// <summary>
         /// The genre of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public string Genre { get; protected set; }
         /// <summary>
         /// The publish year of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public uint Year { get; protected set; }
 
 
         /// <summary>
         /// The duration of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
         public TimeSpan Duration { get; protected set; }
+
+        /// <summary>
+        /// The duration of this track in milliseconds
+        /// </summary>
+        [DataMember(Name = "Duration")]
+        int Milliseconds {
+            get { return this.Duration == null ? 0 : (int)this.Duration.TotalMilliseconds; }
+            set { this.Duration = new TimeSpan(0, 0, 0, 0, value); }
+        }
+
         /// <summary>
         /// The track number of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public uint TrackNumber { get; protected set; }
         /// <summary>
         /// The disc number of this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
+        [DataMember(EmitDefaultValue = false)]
         public uint DiscNumber { get; protected set; }
 
 
         /// <summary>
         /// The uri for this track
         /// </summary>
-        [DataMember(EmitDefaultValue=false)]
         public Uri Uri { get; protected set; }
 
 

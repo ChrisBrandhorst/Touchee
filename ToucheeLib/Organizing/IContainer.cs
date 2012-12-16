@@ -31,12 +31,12 @@ namespace Touchee {
         /// </summary>
         Medium Medium { get; }
 
-        /// <summary>
-        /// Returns the item with the given item ID
-        /// </summary>
-        /// <param name="itemID">The ID of the item to return</param>
-        /// <returns>The item with the given ID, or null if it does not exist</returns>
-        IItem GetItem(int itemID);
+        ///// <summary>
+        ///// Returns the item with the given item ID
+        ///// </summary>
+        ///// <param name="itemID">The ID of the item to return</param>
+        ///// <returns>The item with the given ID, or null if it does not exist</returns>
+        //IItem GetItem(int itemID);
 
     }
 

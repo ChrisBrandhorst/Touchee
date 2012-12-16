@@ -1,14 +1,12 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using System.Threading.Tasks;
+﻿using System.Linq;
 
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.Session;
+
+using Touchee.Plugins;
 
 namespace Touchee.Server.Http {
 
@@ -28,9 +26,13 @@ namespace Touchee.Server.Http {
         protected override void ConfigureConventions(NancyConventions conventions) {
             base.ConfigureConventions(conventions);
 
-            conventions.StaticContentsConventions.Add(
-                StaticContentConventionBuilder.AddDirectory("plugins", "plugins")
-            );
+            foreach (var component in PluginManager.FrontendComponents) {
+                var pluginName = component.GetType().Assembly.GetName().Name;
+                conventions.StaticContentsConventions.Add(
+                    StaticContentConventionBuilder.AddDirectory("app/plugins/" + pluginName.ToUnderscore(), "plugins/" + pluginName + "/web")
+                );
+            }
+
             conventions.StaticContentsConventions.Add(
                 StaticContentConventionBuilder.AddDirectory("", "web")
             );

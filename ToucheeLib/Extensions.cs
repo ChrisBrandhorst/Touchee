@@ -43,8 +43,8 @@ namespace Touchee {
         public static string ToUnderscore(this string input) {
             return Regex.Replace(
                 input,
-                "([A-Z])",
-                "_$1",
+                "([A-Z])([^A-Z]|$)",
+                "_$1$2",
                 RegexOptions.Compiled
             ).Trim(' ', '_').ToLower();
         }
@@ -59,7 +59,17 @@ namespace Touchee {
         }
 
         public static string FirstToLower(this string input) {
-            return String.IsNullOrEmpty(input) ? input : input.First().ToString().ToLower() + String.Join("", input.Skip(1));
+            if (String.IsNullOrEmpty(input)) return input;
+            char[] arr = input.ToCharArray();
+            arr[0] = char.ToLower(arr[0]);
+            return new string(arr);
+        }
+
+        public static string FirstToUpper(this string input) {
+            if (String.IsNullOrEmpty(input)) return input;
+            char[] arr = input.ToCharArray();
+            arr[0] = char.ToUpper(arr[0]);
+            return new string(arr);
         }
 
         static string ToCamelCaseMatchEvaluator(Match m) {

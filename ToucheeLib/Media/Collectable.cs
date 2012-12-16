@@ -173,12 +173,14 @@ namespace Touchee {
         /// Clear the collection
         /// </summary>
         public static void Clear() {
-            foreach (var item in All().Cast<Collectable<T>>())
-                item.Dispose();
+            lock(_table) {
+                foreach (var item in All().Cast<Collectable<T>>().ToList())
+                    item.Dispose();
 
-            _table.Clear();
-            _sourceTable.Clear();
-            _nextID = 1;
+                _table.Clear();
+                _sourceTable.Clear();
+                _nextId = 1;
+            }
         }
 
 
@@ -197,9 +199,9 @@ namespace Touchee {
         /// <summary>
         /// The source ID
         /// </summary>
-        public virtual object SourceID {
+        public virtual object SourceId {
             get {
-                return ID;
+                return Id;
             }
             protected set { }
         }
@@ -284,13 +286,14 @@ namespace Touchee {
         /// <summary>
         /// The ID of this object
         /// </summary>
-        public int ID { get; private set; }
-        static int _nextID = 1;
+        [DataMember]
+        public int Id { get; private set; }
+        static int _nextId = 1;
 
         /// <summary>
         /// Whether this object has not been stored yet
         /// </summary>
-        public bool IsNew { get { return this.ID == 0; } }
+        public bool IsNew { get { return this.Id == 0; } }
 
         /// <summary>
         /// Stores the instance in the collection of the derived type, giving it an ID
@@ -302,7 +305,7 @@ namespace Touchee {
             if (Collectable<T>.BeforeSave != null)
                 Collectable<T>.BeforeSave.Invoke(this, new ItemEventArgs(ItemChangeTypes.Saved, this));
             if (isNew) {
-                if (Collectable<T>.BeforeCreate != null && ID > 0)
+                if (Collectable<T>.BeforeCreate != null && Id > 0)
                     Collectable<T>.BeforeCreate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Created, this));
             }
             else {
@@ -312,18 +315,18 @@ namespace Touchee {
 
             // Set ID and store in tables
             if (isNew) {
-                ID = _nextID++;
-                _table[ID] = this;
-                _sourceTable[SourceID] = this;
+                Id = _nextId++;
+                _table[Id] = this;
+                _sourceTable[SourceId] = this;
             }
 
             // Do create or update and save after callbacks
             if (isNew) {
-                if (Collectable<T>.AfterCreate != null && ID > 0)
+                if (Collectable<T>.AfterCreate != null && Id > 0)
                     Collectable<T>.AfterCreate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Created, this));
             }
             else {
-                if (Collectable<T>.AfterUpdate != null && ID > 0)
+                if (Collectable<T>.AfterUpdate != null && Id > 0)
                     Collectable<T>.AfterUpdate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Updated, this));
             }
             if (Collectable<T>.AfterSave != null)
@@ -343,14 +346,14 @@ namespace Touchee {
         /// </summary>
         public virtual void Dispose() {
             if (!this.Disposed) {
-                if (Collectable<T>.BeforeDispose != null && ID > 0)
+                if (Collectable<T>.BeforeDispose != null && Id > 0)
                     Collectable<T>.BeforeDispose.Invoke(this, new ItemEventArgs(ItemChangeTypes.Deleted, this));
-                if (_table.ContainsKey(this.ID))
-                    _table.Remove(this.ID);
-                if (_sourceTable.ContainsKey(this.SourceID))
-                    _sourceTable.Remove(this.SourceID);
+                if (_table.ContainsKey(this.Id))
+                    _table.Remove(this.Id);
+                if (_sourceTable.ContainsKey(this.SourceId))
+                    _sourceTable.Remove(this.SourceId);
                 this.Disposed = true;
-                if (Collectable<T>.AfterDispose != null && ID > 0)
+                if (Collectable<T>.AfterDispose != null && Id > 0)
                     Collectable<T>.AfterDispose.Invoke(this, new ItemEventArgs(ItemChangeTypes.Deleted, this));
             }
         }

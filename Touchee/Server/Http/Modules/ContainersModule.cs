@@ -31,7 +31,7 @@ namespace Touchee.Server.Http.Modules {
         public Response Index(dynamic parameters) {
             int mediaID = parameters.mediaID;
             if (mediaID == 0) return null;
-
+            
             var medium = Medium.Find(mediaID);
             return Response.AsJson(
                 Library.GetContainers(medium)
@@ -46,7 +46,7 @@ namespace Touchee.Server.Http.Modules {
             var container = GetContainerFromParams(parameters);
             if (container == null) return null;
 
-            ContentsResponse contents = Library.GetContents(
+            NewContentsResponse contents = Library.GetContents(
                 container,
                 Touchee.Options.Build(Request.Query["filter"])
             );

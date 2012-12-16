@@ -21,7 +21,7 @@
     
     // If indices should be used, this function should return an object containing:
     // - An ordered array of the current indices
-    // - An array of items per index
+    // - An array with the number items per index
     indices:      false,
     
     // Whether the first item of the data (the ID) should be shown
@@ -228,7 +228,7 @@
       if ($dummy)
         $dummy.remove();
       
-      // Calculate size of clone
+      // Calculate size of index by measuring the clone
       data.size.indexHeight =
         data.options.indexClone && data.options.showIndices
         ? $(data.indexClone).outerHeight()

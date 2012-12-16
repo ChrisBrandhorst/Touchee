@@ -1,52 +1,12 @@
-$browserNavWidth:         217px
-$footerHeight:            43px
-
 #browser
-  display:            -webkit-box
-  -webkit-box-orient: vertical
+  @include  display-box
+  @include  box-orient(vertical)
+  
   > header
-    height: 65px
-  > footer
-    height: $footerHeight
+    height:   61px
   
-  // Content
   > div
-    -webkit-box-flex: 1
-    display:          -webkit-box
-    position:         relative
-    
-    // Collections
-    > nav
-      width:      $browserNavWidth
-      display:    -webkit-box
-      
-      // Collections page
-      > div
-        width:              100%
-        display:            -webkit-box
-        -webkit-box-orient: vertical
-        > h1
-          height: $browserRowHeight
-        > div
-          -webkit-box-flex: 1
-
-    // Each content page
-    > .contents
-      -webkit-box-flex:   1
-      display:            -webkit-box
+    @include box-flex(1)
   
-      // Contents view
-      > section
-        width:              100%
-        display:            -webkit-box
-        -webkit-box-orient: vertical
-        > header
-          height: $browserRowHeight
-          ~ div:not(.index)
-            top: $browserRowHeight
-        > div:not(.index)
-          position: absolute
-          top:      0
-          right:    0
-          bottom:   0
-          left:     0
+  > footer
+    height:   44px

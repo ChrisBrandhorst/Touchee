@@ -8,11 +8,13 @@ define([
   'models/server_info',
   'models/collections/media',
   'views/connecting',
-  'views/browser'
+  'views/browser',
+  'i18n!nls/locale'
 ], function($, _, Backbone,
             Communicator, Router, Library,
             ServerInfo, Media,
-            ConnectingView, BrowserView) {
+            ConnectingView, BrowserView,
+            I18n) {
   
   
   var App = {
@@ -49,12 +51,12 @@ define([
       T.Log.info("Application:: connecting...")
       
       // Set texts and show connecting view
-      var connectionStatus = this.connectionTries > 1 ? T.T.connecting.retry : T.T.connecting.connecting;
+      var connectionStatus = this.connectionTries > 1 ? I18n.connecting.retry : I18n.connecting.connecting;
       if (this.connectionTries > 2) connectionStatus += ' (' + this.connectionTries + ')';
       
       ConnectingView.setStatus(
         connectionStatus,
-        this.wasConnected ? T.T.connecting.lost : null
+        this.wasConnected ? I18n.connecting.lost : null
       ).show();
       
       // Get server info
@@ -76,7 +78,7 @@ define([
     // Called when the websocket is (re-)opened
     connected: function() {
       App.connectionTries = 0;
-      ConnectingView.setStatus(T.T.connecting.connected).hide();
+      ConnectingView.setStatus(I18n.connecting.connected).hide();
       
       // If we have not connected before, get the sessionID from the cookie
       if (!this.wasConnected) {

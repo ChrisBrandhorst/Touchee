@@ -40,6 +40,7 @@ namespace Touchee {
         #endregion
 
 
+
         #region Private vars
 
         /// <summary>
@@ -64,6 +65,7 @@ namespace Touchee {
         
 
         #endregion
+
 
 
         #region Init
@@ -91,10 +93,10 @@ namespace Touchee {
             Container.AfterUpdate += new Collectable<Container>.ItemEventHandler(Container_AfterUpdate);
             Container.AfterDispose += new Collectable<Container>.ItemEventHandler(Container_AfterDispose);
 
-            // Build local medium
+            // Init local and web media
             string name = Program.Config.GetString("name", System.Environment.MachineName);
-            new Medium(name, MediumType.Local).Save();
-            new Medium("Webcasts", MediumType.Web).Save();
+            LocalMedium.Init(name);
+            WebMedium.Init("Webcasts");
             
             // Instantiate all available MediaWatchers
             // These generate Medium instances
@@ -106,6 +108,7 @@ namespace Touchee {
         }
 
         #endregion
+
 
 
         #region Event handlers
@@ -162,6 +165,7 @@ namespace Touchee {
         #endregion
 
 
+
         #region Broadcasts
 
 
@@ -211,10 +215,11 @@ namespace Touchee {
         #endregion
 
 
-        #region Messages
+
+        #region Responses
 
         /// <summary>
-        /// Gets a message containing server info
+        /// Gets the server info object
         /// </summary>
         public ServerInfoResponse GetServerInfo() {
             return _server.ServerInfo;
@@ -225,9 +230,7 @@ namespace Touchee {
         /// Gets a message containing information on all available media
         /// </summary>
         public MediaResponse GetMedia() {
-            var message = new MediaResponse();
-            Medium.ForEach(m => message.Add(m));
-            return message;
+            return new MediaResponse(Medium.All());
         }
 
 
@@ -235,27 +238,24 @@ namespace Touchee {
         /// Gets a message containing information on all available containers of the given medium
         /// </summary>
         public ContainersResponse GetContainers(Medium medium) {
-            var message = new ContainersResponse(medium);
-            foreach (var c in medium.Containers)
-                message.Add(c);
-            return message;
+            return new ContainersResponse(medium);
         }
 
 
         /// <summary>
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
-        public ContentsResponse GetContents(Container container, Options filter) {
+        public NewContentsResponse GetContents(Container container, Options filter) {
             var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
             if (contentProvider == null) return null;
 
-            var contents = contentProvider.GetContent(container, filter);
-
-            return contents == null ? null : new ContentsResponse(container, contents);
+            var contents = contentProvider.GetContents(container, filter);
+            return new NewContentsResponse(container, contents);
         }
 
 
         #endregion
+
 
 
         #region Artwork
@@ -478,6 +478,7 @@ namespace Touchee {
         #endregion
 
 
+
         #region Controlling
 
 
@@ -521,7 +522,7 @@ namespace Touchee {
             // Set index, starting the queue
             var id = filter.GetInt("id");
             if (id > 0) {
-                var item = items.FirstOrDefault(i => i.ID == id);
+                var item = items.FirstOrDefault(i => i.Id == id);
                 queue.Current = item;
             }
             else

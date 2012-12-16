@@ -21,13 +21,34 @@ namespace Touchee.Server {
     public class ToucheeServer : Base {
 
 
-        // Private vars
+        #region Privates
+
         Server.Http.HttpServer _httpServer;
         Server.Websocket.WebsocketServer _websocketServer;
         Nancy.ISerializer _serializer;
-        int _websocketPort;
         int _httpServerPort;
-        
+
+        #endregion
+
+
+
+        #region Properties
+
+
+        /// <summary>
+        /// The port of the websocket of this server
+        /// </summary>
+        public int WebsocketPort { get; protected set; }
+
+
+        /// <summary>
+        /// The server info
+        /// </summary>
+        public ServerInfoResponse ServerInfo { get { return new ServerInfoResponse(this); } }
+
+
+        #endregion
+
 
         /// <summary>
         /// Initialises a new server instance
@@ -38,7 +59,7 @@ namespace Touchee.Server {
 
             // Set local parameters
             _httpServerPort = httpServerPort;
-            _websocketPort = websocketPort;
+            this.WebsocketPort = websocketPort;
 
             // Init serializer
             _serializer = new Http.JsonNetSerializer();
@@ -70,7 +91,7 @@ namespace Touchee.Server {
 
             // Start websocket server
             try {
-                Log("Starting websocket server on port " + _websocketPort.ToString());
+                Log("Starting websocket server on port " + this.WebsocketPort.ToString());
                 _websocketServer.Start();
                 Log("Websocket server started");
             }
@@ -106,23 +127,6 @@ namespace Touchee.Server {
             return serialized;
         }
 
-
-        /// <summary>
-        /// The server info
-        /// </summary>
-        public ServerInfoResponse ServerInfo { get {
-            DateTime now = DateTime.UtcNow;
-            var localMedium = Medium.FirstOrDefault(m => m.Type == MediumType.Local);
-            return new ServerInfoResponse() {
-                Name            = localMedium == null ? System.Environment.MachineName : localMedium.Name,
-                WelcomeMessage  = Program.Config.GetString("welcomeMessage", "Welcome to Touchee"),
-                WebsocketPort   = _websocketPort,
-                UtcTime         = (long)now.TimeStamp(),
-                UtcOffset       = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMilliseconds,
-                Devices         = Program.Config.GetValue("devices", null),
-                Plugins         = PluginManager.GetComponent<Components.Content.IContentProvider>().Where(c => c.ProvidesFrontend).Select(p => p.GetType().Assembly.GetName().Name).ToArray()
-            };
-        } }
 
 
         #endregion
