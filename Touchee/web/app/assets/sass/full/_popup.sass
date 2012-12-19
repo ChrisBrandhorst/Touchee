@@ -1,42 +1,41 @@
-// Generic popup
+#airplay_popup
+  width:  334px
+  top:    71px
+  left:   679px
+
+#media_popup
+  width:  334px
+  left:   400px
+  bottom: 128px
+
 .popup
   position:           absolute
   z-index:            1
-  padding:            5px
-  display:            none
+  padding:            6px
   
-  border:             1px solid rgba(24,24,24,0.95)
-  border-top-color:   rgba(80,80,80,.95)
-  border-radius:      7px
+  border:             1px solid #101010
+  border-top-color:   #6A6A69
+  @include            border-radius(8px)
+  @include            background-image( linear-gradient( #737A89 2px, #243048 21px, #111E39 21px, #0E1B36) )
+  @include            box-shadow( 0 0 0 1px rgba(255,255,255,.25), 0 7px 65px 0 rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.15) )
   
-  background:         -webkit-linear-gradient(rgba(166,166,168,.85), rgba(145,150,159,.85)  1px, rgba(35,46,68,.85) 21px, rgba(0,10,35,.85) 21px, rgba(0,10,35,.85))
-  box-shadow:         0 0 1px 0 rgba(255,255,255,.7), 0 0 50px 0 rgba(0,0,0,.4)
   
-  // Arrow for popup
-  &.arrow
-    &:before
-      content:            ''
-      position:           absolute
-      width:              26px
-      height:             26px
-      border:             solid rgba(80,80,80,.95)
-      border-width:       1px 0 0 1px
-      background:         -webkit-linear-gradient(left top, rgba(223,224,230,.85), rgba(145,150,159,.85) 50%, transparent 50%, transparent) no-repeat
-      box-shadow:         -1px -1px 2px 0 rgba(255,255,255,.3)
-    &.top:before
-      left:               50%
-      margin-left:        -12px
-      margin-top:         -19px
-      -webkit-transform:  rotateZ(45deg)
-  
-  // Inner container
-  > div
-    position:       relative
-    border-radius:  5px
-    background:     -webkit-gradient(radial, center top, 0, center top, 380, from(#4a4a4a), to(#0b0b0b))
+  > h1
+    text-align:     center
+    font-size:      150%
+    color:          white
+    line-height:    26px
+    padding-bottom: 9px
+    @include        text-shadow(0 -1px 1px rgba(0,0,0,.5))
+    
+  > .well
+    @include    border-radius(5px)
+    background: white
+    padding:    5px
+    position:   relative
     
     // Inset shadow
-    &:before
+    &::before
       content:        ''
       position:       absolute
       top:            0
@@ -44,18 +43,85 @@
       right:          0
       bottom:         0
       border-radius:  5px
-      box-shadow:     inset 0 3px 2px rgba(0,0,0,.3)
+      box-shadow:     inset 0 2px 3px 0px rgba(0,0,0,.3)
       pointer-events: none
+  
+  
+  
+  
+  
+  
+  &.arrow
+    > .arrow
+      position:           absolute
+      left:               50%
+      top:                -13px
+      margin-left:        -14px
+      display:            block
+      
+      &::before
+        content:      ''
+        position:     absolute
+        z-index:      -1
+        width:        24px
+        height:       24px
+        margin-left:  0
+        border:       solid #3F3F3F
+        border-width: 1px 0 0 1px
+        @include      rotateZ(45deg)
+        @include      background-image( linear-gradient( left top, #B1B4BD, #727988 53%, transparent 53%) )
+        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.2) )
+        
+      &::after
+        content:    ''
+        position:   absolute
+        width:      39px
+        height:     19px
+        top:        14px
+        left:       -6px
+        @include    background-image( linear-gradient( #747B89, #26324B) )
+        z-index:    -1
     
-    // Header
-    h1
-      border-top:     1px solid #969696
-      border-bottom:  1px solid #363636
-      background:     -webkit-linear-gradient(#767676, #2F2F2F 50%, black 50%, black)
-      color:          white
-      text-shadow:    0 -1px 0 black
-      text-align:     center
-      font-size:      150%
-      line-height:    41px
-      position:       relative
-      clear:          both
+    &.bottom
+      > .arrow
+        top:    auto
+        bottom: 12px
+        &::before
+          background: #0E1B36
+          @include    rotateZ(-135deg)
+          border-color: #02060E
+          @include            box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.05) )
+        &::after
+          top:  -8px
+          background:  #0E1B36
+      
+    &:not(.bottom)
+      &.right, &.left
+        > .arrow::after
+          @include    border-radius(4px 4px 0 0)
+    
+    &.bottom
+      &.right, &.left
+        > .arrow::after
+          @include    border-radius(0 0 4px 4px)
+    
+    &.right > .arrow
+      left:   auto
+      right:  34px
+
+    &.left > .arrow
+      left:  23px
+
+
+//     // Header
+//     h1
+//       border-top:     1px solid #969696
+//       border-bottom:  1px solid #363636
+//       background:     -webkit-linear-gradient(#767676, #2F2F2F 50%, black 50%, black)
+//       color:          white
+//       text-shadow:    0 -1px 0 black
+//       text-align:     center
+//       font-size:      150%
+//       line-height:    41px
+//       position:       relative
+//       clear:          both
