@@ -41,7 +41,9 @@ define([
       Communicator.on('responseReceived', this.responseReceived, this);
       
       // Connect to the server
-      this.connect();
+      // this.connect();
+      this.connected();
+
     },
     
     
@@ -86,7 +88,7 @@ define([
         // Get session ID from cookie
         var sessionID = document.cookie.match(/ToucheeSession=([a-f0-9-]+)/);
         if (!sessionID)
-          return alert("Please enable cookies");
+          return console.error("Please enable cookies");
         this.sessionID = sessionID[1];
         
       }
