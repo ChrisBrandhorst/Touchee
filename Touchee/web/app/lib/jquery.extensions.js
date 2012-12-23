@@ -17,7 +17,9 @@ define([
     
     $overlay.bind('touchstart mousedown', function(ev){
       if ($(ev.target).parents().is($this)) return;
-      if (options.remove)
+      if (typeof options.remove == 'function')
+        options.remove.call($this, $overlay);
+      else if (options.remove === true)
         $this.remove();
       else
         $this.hide();

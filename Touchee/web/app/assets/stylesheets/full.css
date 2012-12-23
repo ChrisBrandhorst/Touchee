@@ -15,45 +15,41 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* line 1, ../sass/_paged.sass */
-.paged {
+/* line 5, ../sass/_paged.sass */
+.paged > * {
   overflow: hidden;
 }
-/* line 7, ../sass/_paged.sass */
-.paged > *, .paged > * > * {
+/* line 13, ../sass/_paged.sass */
+.paged > * > * {
   -webkit-transition-property: -webkit-transform;
   -webkit-transition-duration: 0.2s;
   -webkit-transition-timing-function: ease;
 }
-/* line 17, ../sass/_paged.sass */
-.paged > * {
-  position: relative;
-}
-/* line 23, ../sass/_paged.sass */
-.paged > * + * {
+/* line 25, ../sass/_paged.sass */
+.paged > * > * + * {
   margin-left: -100%;
 }
-/* line 27, ../sass/_paged.sass */
-.paged > * > *:first-child {
+/* line 39, ../sass/_paged.sass */
+.paged > header > * {
   -webkit-transition-property: -webkit-transform, opacity;
 }
-/* line 33, ../sass/_paged.sass */
-.paged > *.prev {
-  -webkit-transform: translate3d(-100%, 0, 0);
-}
-/* line 37, ../sass/_paged.sass */
-.paged > *.prev > *:first-child {
-  -webkit-transform: translate3d(100%, 0, 0);
+/* line 47, ../sass/_paged.sass */
+.paged > header > *.prev {
+  -webkit-transform: translate3d(50%, 0, 0);
   opacity: 0;
 }
-/* line 45, ../sass/_paged.sass */
-.paged > *.next {
-  -webkit-transform: translate3d(100%, 0, 0);
-}
-/* line 49, ../sass/_paged.sass */
-.paged > *.next > *:first-child {
-  -webkit-transform: translate3d(-100%/2, 0, 0);
+/* line 55, ../sass/_paged.sass */
+.paged > header > *.next {
+  -webkit-transform: translate3d(-50%/2, 0, 0);
   opacity: 0;
+}
+/* line 75, ../sass/_paged.sass */
+.paged > :not(header) > *.prev {
+  -webkit-transform: translate3d(-50%, 0, 0);
+}
+/* line 81, ../sass/_paged.sass */
+.paged > :not(header) > *.next {
+  -webkit-transform: translate3d(50%, 0, 0);
 }
 
 /* line 1, ../sass/full/_typeface.sass */
@@ -68,6 +64,11 @@ body {
 input, textarea, select, button, table {
   font-size: inherit;
   font-family: inherit;
+}
+
+/* line 21, ../sass/full/_typeface.sass */
+button {
+  color: #4c4c4c;
 }
 
 /* line 1, ../sass/full/_elements.sass */
@@ -87,24 +88,220 @@ table {
 }
 
 /* line 19, ../sass/full/_elements.sass */
+.left {
+  float: left;
+}
+
+/* line 23, ../sass/full/_elements.sass */
+.right {
+  float: right;
+}
+
+/* line 10, ../sass/full/_list.sass */
+ul, .list {
+  background: white;
+  font-weight: bold;
+  font-size: 130%;
+  margin-bottom: -1px;
+}
+/* line 16, ../sass/full/_list.sass */
+ul > *, .list > * {
+  display: block;
+  line-height: 43px;
+  border-bottom: 1px solid #cccccc;
+  padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 23, ../sass/full/_list.sass */
+ul > *.more, ul > *.loading, .list > *.more, .list > *.loading {
+  padding-right: 22px;
+}
+/* line 25, ../sass/full/_list.sass */
+ul > *.more::after, ul > *.loading::after, .list > *.more::after, .list > *.loading::after {
+  float: right;
+  margin-top: -28px;
+  margin-right: -12px;
+}
+/* line 30, ../sass/full/_list.sass */
+ul > *.more::after, .list > *.more::after {
+  content: -webkit-image-set(url(../images/SourceListNext.png) 1x, url(../images/SourceListNext@2x.png) 2x);
+}
+/* line 33, ../sass/full/_list.sass */
+ul > *.selected, .list > *.selected {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #90b0d3), color-stop(100%, #7097bd));
+  background: -webkit-linear-gradient(#90b0d3, #7097bd);
+  background: -moz-linear-gradient(#90b0d3, #7097bd);
+  background: -o-linear-gradient(#90b0d3, #7097bd);
+  background: linear-gradient(#90b0d3, #7097bd);
+  color: white;
+}
+/* line 36, ../sass/full/_list.sass */
+ul > *.selected.more::after, .list > *.selected.more::after {
+  content: -webkit-image-set(url(../images/SourceListNextHighlight.png) 1x, url(../images/SourceListNextHighlight@2x.png) 2x);
+}
+/* line 40, ../sass/full/_list.sass */
+ul.icons > *::before, .list.icons > *::before {
+  content: "";
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  margin: 0 7px 0 0;
+  vertical-align: middle;
+  background: no-repeat center center;
+  background-image: -webkit-image-set(url(../images/remote/SourceListFolderGray.png) 1x, url(../images/remote/SourceListFolderGray@2x.png) 2x);
+}
+/* line 49, ../sass/full/_list.sass */
+ul.icons > *.selected::before, .list.icons > *.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListFolderHighlight.png) 1x, url(../images/remote/SourceListFolderHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.music::before, .list.icons > *.music::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmusicgray.png) 1x, url(../images/remote/SourceListmusicgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.music.selected::before, .list.icons > *.music.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmusicHighlight.png) 1x, url(../images/remote/SourceListmusicHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.movies::before, .list.icons > *.movies::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmoviesgray.png) 1x, url(../images/remote/SourceListmoviesgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.movies.selected::before, .list.icons > *.movies.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmoviesHighlight.png) 1x, url(../images/remote/SourceListmoviesHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.tv::before, .list.icons > *.tv::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListtvgray.png) 1x, url(../images/remote/SourceListtvgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.tv.selected::before, .list.icons > *.tv.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListtvHighlight.png) 1x, url(../images/remote/SourceListtvHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.sharedlibrary::before, .list.icons > *.sharedlibrary::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListsharedlibrarygray.png) 1x, url(../images/remote/SourceListsharedlibrarygray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.sharedlibrary.selected::before, .list.icons > *.sharedlibrary.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListsharedlibraryHighlight.png) 1x, url(../images/remote/SourceListsharedlibraryHighlight@2x.png) 2x);
+}
+
+/* line 1, ../sass/full/_button.sass */
 button, .button {
   display: inline-block;
   border: none;
   background-color: transparent;
   margin: 0;
-  padding: 0;
+  padding: 0 4px;
   font-size: 12px !important;
   font-weight: bold;
 }
-
-/* line 37, ../sass/full/_elements.sass */
-.left {
-  float: left;
+/* line 11, ../sass/full/_button.sass */
+button.ios, .button.ios {
+  line-height: 30px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8em;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButton.png) 1x, url(../images/remote/ScreenButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+  text-shadow: 0 1px 0 white;
 }
-
-/* line 41, ../sass/full/_elements.sass */
-.right {
-  float: right;
+/* line 20, ../sass/full/_button.sass */
+button.ios.black, button.ios.dark, button.ios.blue, .button.ios.black, .button.ios.dark, .button.ios.blue {
+  color: white;
+  text-shadow: 0 -1px 0 black;
+}
+/* line 25, ../sass/full/_button.sass */
+button.ios:active, .button.ios:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonPressed.png) 1x, url(../images/remote/ScreenButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 29, ../sass/full/_button.sass */
+button.ios.back, .button.ios.back {
+  padding-left: 0;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 32, ../sass/full/_button.sass */
+button.ios.back:active, .button.ios.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 36, ../sass/full/_button.sass */
+button.ios.chrome, .button.ios.chrome {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 38, ../sass/full/_button.sass */
+button.ios.chrome:active, .button.ios.chrome:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 40, ../sass/full/_button.sass */
+button.ios.chrome.back, .button.ios.chrome.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 42, ../sass/full/_button.sass */
+button.ios.chrome.back:active, .button.ios.chrome.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 46, ../sass/full/_button.sass */
+button.ios.black, .button.ios.black {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/NowPlayingButton.png) 1x, url(../images/remote/NowPlayingButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 48, ../sass/full/_button.sass */
+button.ios.black:active, .button.ios.black:active {
+  -webkit-border-image: -webkit-image-set(url(../images/NowPlayingButtonPressed.png) 1x, url(../images/NowPlayingButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 50, ../sass/full/_button.sass */
+button.ios.black.back, .button.ios.black.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueBack.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 52, ../sass/full/_button.sass */
+button.ios.black.back:active, .button.ios.black.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackBackPressed.png) 1x, url(../images/remote/UINavigationBarBlackBackPressed@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 54, ../sass/full/_button.sass */
+button.ios.black.forward, .button.ios.black.forward {
+  padding-right: 0;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueForward.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueForward@2x.png) 2x) 0 13 0 4 stretch;
+  border-width: 0px 13px 0px 4px;
+}
+/* line 57, ../sass/full/_button.sass */
+button.ios.black.forward:active, .button.ios.black.forward:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackForwardPressed.png) 1x, url(../images/remote/UINavigationBarBlackForwardPressed@2x.png) 2x) 0 13 0 4 stretch;
+  border-width: 0px 13px 0px 4px;
+}
+/* line 61, ../sass/full/_button.sass */
+button.ios.blue, .button.ios.blue {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDone.png) 1x, url(../images/remote/ScreenButtonDone@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 63, ../sass/full/_button.sass */
+button.ios.blue:active, .button.ios.blue:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDonePressed.png) 1x, url(../images/remote/ScreenButtonDonePressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 68, ../sass/full/_button.sass */
+button.ios.darkblue.back, .button.ios.darkblue.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBack_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBack_OS5@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 70, ../sass/full/_button.sass */
+button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBackPressed_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBackPressed_OS5@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
 }
 
 /* line 3, ../sass/full/_layout.sass */
@@ -114,14 +311,14 @@ button, .button {
 
 /* line 11, ../sass/full/_layout.sass */
 body {
-  width: 100%;
-  height: 100%;
+  width: 1024px;
+  height: 748px;
   margin: 0;
   background: black;
   overflow: hidden;
 }
 /* line 27, ../sass/full/_layout.sass */
-body > section {
+body > section:not(.popup) {
   width: 100%;
   height: 100%;
 }
@@ -161,160 +358,226 @@ body > section {
   left: 679px;
 }
 
-/* line 11, ../sass/full/_popup.sass */
-#media_popup {
-  width: 334px;
-  left: 400px;
-  bottom: 128px;
-}
-
-/* line 21, ../sass/full/_popup.sass */
+/* line 17, ../sass/full/_popup.sass */
 .popup {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  width: 334px;
   padding: 6px;
   border: 1px solid #101010;
-  border-top-color: #6a6a69;
+  border-top-color: #404040;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   -ms-border-radius: 8px;
   -o-border-radius: 8px;
   border-radius: 8px;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(2px, #737a89), color-stop(21px, #243048), color-stop(21px, #111e39), color-stop(100%, #0e1b36));
-  background-image: -webkit-linear-gradient(#737a89 2px, #243048 21px, #111e39 21px, #0e1b36);
-  background-image: -moz-linear-gradient(#737a89 2px, #243048 21px, #111e39 21px, #0e1b36);
-  background-image: -o-linear-gradient(#737a89 2px, #243048 21px, #111e39 21px, #0e1b36);
-  background-image: linear-gradient(#737a89 2px, #243048 21px, #111e39 21px, #0e1b36);
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 21, color-stop(9.524%, #78808f), color-stop(100%, #25304a), color-stop(100%, #0c1934));
+  background-image: -webkit-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: -moz-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: -o-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
   -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
-/* line 45, ../sass/full/_popup.sass */
-.popup > h1 {
+/* line 47, ../sass/full/_popup.sass */
+.popup.animate {
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
+  -o-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+/* line 51, ../sass/full/_popup.sass */
+.popup.hidden {
+  opacity: 0;
+}
+/* line 59, ../sass/full/_popup.sass */
+.popup h1 {
   text-align: center;
   font-size: 150%;
   color: white;
   line-height: 26px;
-  padding-bottom: 9px;
+  padding: 1px 0 10px 0;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
 }
-/* line 61, ../sass/full/_popup.sass */
-.popup > .well {
+/* line 77, ../sass/full/_popup.sass */
+.popup > .paged {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  position: relative;
+}
+/* line 87, ../sass/full/_popup.sass */
+.popup > .paged > div {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
   background: white;
-  padding: 5px;
-  position: relative;
 }
-/* line 75, ../sass/full/_popup.sass */
-.popup > .well::before {
+/* line 99, ../sass/full/_popup.sass */
+.popup > .paged > div .list {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  background: transparent;
+}
+/* line 109, ../sass/full/_popup.sass */
+.popup > .paged::before {
   content: "";
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
   border-radius: 5px;
   box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
-/* line 109, ../sass/full/_popup.sass */
-.popup.arrow > .arrow {
-  position: absolute;
-  left: 50%;
-  top: -13px;
-  margin-left: -14px;
-  display: block;
+/* line 129, ../sass/full/_popup.sass */
+.popup.with_header > .paged::before {
+  top: 37px;
 }
-/* line 123, ../sass/full/_popup.sass */
-.popup.arrow > .arrow::before {
-  content: "";
+/* line 137, ../sass/full/_popup.sass */
+.popup > .arrow {
+  display: none;
+}
+/* line 147, ../sass/full/_popup.sass */
+.popup.arrow > .arrow {
+  display: block;
   position: absolute;
   z-index: -1;
+  width: 37px;
+  height: 37px;
+  padding: 6px 0 0 6px;
+}
+/* line 165, ../sass/full/_popup.sass */
+.popup.arrow > .arrow::before {
+  content: "";
+  display: block;
   width: 24px;
   height: 24px;
   margin-left: 0;
-  border: solid #3f3f3f;
+  border-style: solid;
   border-width: 1px 0 0 1px;
+}
+/* line 187, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
+  left: 50%;
+  margin-left: -19px;
+}
+/* line 197, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow {
+  top: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
+}
+/* line 203, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow::before {
+  border-color: #363636;
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
+  background-image: -webkit-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: -moz-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: -o-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
   -webkit-transform: rotate(45deg);
   -moz-transform: rotate(45deg);
   -ms-transform: rotate(45deg);
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(53%, #727988), color-stop(53%, transparent));
-  background-image: -webkit-linear-gradient(left top, #b1b4bd, #727988 53%, transparent 53%);
-  background-image: -moz-linear-gradient(left top, #b1b4bd, #727988 53%, transparent 53%);
-  background-image: -o-linear-gradient(left top, #b1b4bd, #727988 53%, transparent 53%);
-  background-image: linear-gradient(left top, #b1b4bd, #727988 53%, transparent 53%);
   -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-/* line 149, ../sass/full/_popup.sass */
-.popup.arrow > .arrow::after {
-  content: "";
-  position: absolute;
-  width: 39px;
-  height: 19px;
-  top: 14px;
-  left: -6px;
-  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #747b89), color-stop(100%, #26324b));
-  background-image: -webkit-linear-gradient(#747b89, #26324b);
-  background-image: -moz-linear-gradient(#747b89, #26324b);
-  background-image: -o-linear-gradient(#747b89, #26324b);
-  background-image: linear-gradient(#747b89, #26324b);
-  z-index: -1;
-}
-/* line 171, ../sass/full/_popup.sass */
+/* line 217, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow {
-  top: auto;
-  bottom: 12px;
+  bottom: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
 }
-/* line 177, ../sass/full/_popup.sass */
+/* line 223, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow::before {
-  background: #0e1b36;
+  border-color: #02060e;
+  background: #0c1934;
   -webkit-transform: rotate(-135deg);
   -moz-transform: rotate(-135deg);
   -ms-transform: rotate(-135deg);
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
-  border-color: #02060e;
   -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
 }
-/* line 187, ../sass/full/_popup.sass */
-.popup.arrow.bottom > .arrow::after {
-  top: -8px;
-  background: #0e1b36;
+/* line 239, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
+  top: 50%;
+  margin-top: -19px;
 }
-/* line 199, ../sass/full/_popup.sass */
-.popup.arrow:not(.bottom).right > .arrow::after, .popup.arrow:not(.bottom).left > .arrow::after {
-  -webkit-border-radius: 4px 4px 0 0;
-  -moz-border-radius: 4px 4px 0 0;
-  -ms-border-radius: 4px 4px 0 0;
-  -o-border-radius: 4px 4px 0 0;
-  border-radius: 4px 4px 0 0;
+/* line 245, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
+  border-color: #3f3f3f;
+  background: #0c1934;
 }
-/* line 209, ../sass/full/_popup.sass */
-.popup.arrow.bottom.right > .arrow::after, .popup.arrow.bottom.left > .arrow::after {
-  -webkit-border-radius: 0 0 4px 4px;
-  -moz-border-radius: 0 0 4px 4px;
-  -ms-border-radius: 0 0 4px 4px;
-  -o-border-radius: 0 0 4px 4px;
-  border-radius: 0 0 4px 4px;
-}
-/* line 215, ../sass/full/_popup.sass */
-.popup.arrow.right > .arrow {
-  left: auto;
-  right: 34px;
-}
-/* line 223, ../sass/full/_popup.sass */
+/* line 255, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow {
-  left: 23px;
+  left: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
+}
+/* line 261, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow::before {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+/* line 271, ../sass/full/_popup.sass */
+.popup.arrow.right > .arrow {
+  right: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
+}
+/* line 277, ../sass/full/_popup.sass */
+.popup.arrow.right > .arrow::before {
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
 }
 
 /* line 1, ../sass/full/_connecting.sass */
@@ -764,38 +1027,40 @@ body > section {
 /* line 399, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay] {
   display: none;
-  height: 21px;
-  width: 34px;
-  margin: 19px 0 0 2px;
+  height: 47px;
+  width: 47px;
+  margin: 6px 0 0 -11px;
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlay.png) 1x, url(../images/remote/VolumeAirPlay@2x.png) 2x);
+  background-position: right center;
+  background-repeat: no-repeat;
 }
-/* line 413, ../sass/full/browser/_header.sass */
+/* line 417, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay]:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressed.png) 1x, url(../images/remote/VolumeAirPlayPressed@2x.png) 2x);
 }
-/* line 417, ../sass/full/browser/_header.sass */
+/* line 421, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayOn.png) 1x, url(../images/remote/VolumeAirPlayOn@2x.png) 2x);
 }
-/* line 421, ../sass/full/browser/_header.sass */
+/* line 425, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
 }
-/* line 429, ../sass/full/browser/_header.sass */
+/* line 433, ../sass/full/browser/_header.sass */
 #browser > header #output.disabled > * {
   display: none;
 }
-/* line 437, ../sass/full/browser/_header.sass */
+/* line 441, ../sass/full/browser/_header.sass */
 #browser > header #output.airplay {
   padding-right: 0;
 }
-/* line 441, ../sass/full/browser/_header.sass */
+/* line 445, ../sass/full/browser/_header.sass */
 #browser > header #output.airplay > [data-button=airplay] {
   display: block;
 }
 
 @media screen and (max-width: 900px) {
-  /* line 455, ../sass/full/browser/_header.sass */
+  /* line 459, ../sass/full/browser/_header.sass */
   #browser > header #lcd [data-button=queue] {
     margin-right: -3px;
   }
@@ -808,12 +1073,15 @@ body > section {
   display: -moz-box;
   display: -ms-box;
   display: box;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
 }
-/* line 21, ../sass/full/browser/_footer.sass */
+/* line 19, ../sass/full/browser/_footer.sass */
 #browser > footer > div:first-child, #browser > footer > div:last-child {
   width: 200px;
 }
-/* line 27, ../sass/full/browser/_footer.sass */
+/* line 25, ../sass/full/browser/_footer.sass */
 #browser > footer > div:nth-child(2) {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -821,11 +1089,11 @@ body > section {
   box-flex: 1;
   text-align: center;
 }
-/* line 33, ../sass/full/browser/_footer.sass */
+/* line 31, ../sass/full/browser/_footer.sass */
 #browser > footer > div:nth-child(2) > div {
   display: inline-block;
 }
-/* line 43, ../sass/full/browser/_footer.sass */
+/* line 41, ../sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav] {
   line-height: 30px;
   margin-top: -1px;
@@ -835,18 +1103,18 @@ body > section {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 57, ../sass/full/browser/_footer.sass */
+/* line 55, ../sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav]:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 61, ../sass/full/browser/_footer.sass */
+/* line 59, ../sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav].music {
   background: no-repeat 6px 5px;
   background-image: -webkit-image-set(url(../images/remote/SourceListMusicGray.png) 1x, url(../images/remote/SourceListMusicGray@2x.png) 2x);
   background-size: 20px;
 }
-/* line 77, ../sass/full/browser/_footer.sass */
+/* line 75, ../sass/full/browser/_footer.sass */
 #browser > footer nav {
   display: -webkit-box;
   display: -moz-box;
@@ -854,7 +1122,7 @@ body > section {
   display: box;
   max-width: 546px;
 }
-/* line 87, ../sass/full/browser/_footer.sass */
+/* line 85, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a {
   display: block;
   text-shadow: 0 1px 0 white;
@@ -869,7 +1137,7 @@ body > section {
   line-height: 30px;
   padding-left: 9px;
 }
-/* line 123, ../sass/full/browser/_footer.sass */
+/* line 121, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a::before {
   content: "";
   display: block;
@@ -880,7 +1148,7 @@ body > section {
   width: 9px;
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonDivider.png) 1x, url(../images/remote/ChromeButtonDivider@2x.png) 2x);
 }
-/* line 145, ../sass/full/browser/_footer.sass */
+/* line 143, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a::after {
   content: "";
   display: block;
@@ -893,47 +1161,47 @@ body > section {
   border-width: 1px 4px 1px 4px;
   border-width: 1px 0 !important;
 }
-/* line 169, ../sass/full/browser/_footer.sass */
+/* line 167, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child {
   padding-left: 4px;
 }
-/* line 173, ../sass/full/browser/_footer.sass */
+/* line 171, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x);
   width: 4px;
 }
-/* line 179, ../sass/full/browser/_footer.sass */
+/* line 177, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child::after {
   left: 4px;
 }
-/* line 187, ../sass/full/browser/_footer.sass */
+/* line 185, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a:last-child {
   padding-right: 5px;
 }
-/* line 191, ../sass/full/browser/_footer.sass */
+/* line 189, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a:last-child::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
   border-width: 1px 4px 1px 0 !important;
 }
-/* line 203, ../sass/full/browser/_footer.sass */
+/* line 201, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedRight.png) 1x, url(../images/remote/ChromeButtonSelectedRight@2x.png) 2x);
 }
-/* line 207, ../sass/full/browser/_footer.sass */
+/* line 205, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
 }
-/* line 211, ../sass/full/browser/_footer.sass */
+/* line 209, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected + a::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedLeft.png) 1x, url(../images/remote/ChromeButtonSelectedLeft@2x.png) 2x);
 }
-/* line 215, ../sass/full/browser/_footer.sass */
+/* line 213, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x);
 }
-/* line 225, ../sass/full/browser/_footer.sass */
+/* line 223, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search] {
   float: right;
   width: 100%;
@@ -944,12 +1212,12 @@ body > section {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearch.png) 1x, url(../images/remote/ChromeSearch@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 241, ../sass/full/browser/_footer.sass */
+/* line 239, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search][disabled] {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearchDisabled.png) 1x, url(../images/remote/ChromeSearchDisabled@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 245, ../sass/full/browser/_footer.sass */
+/* line 243, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search].filled {
   padding-right: 8px;
   -webkit-border-image: -webkit-image-set(url(../images/ChromeSearchClear.png) 1x, url(../images/ChromeSearchClear@2x.png) 2x) 0 24 0 25 stretch;
@@ -957,14 +1225,22 @@ body > section {
 }
 
 @media screen and (max-width: 900px) {
-  /* line 263, ../sass/full/browser/_footer.sass */
+  /* line 261, ../sass/full/browser/_footer.sass */
   #browser > footer > div:first-child, #browser > footer > div:last-child {
     width: 179px;
   }
 }
-/* line 19, ../sass/full/_browser.sass */
+/* line 1, ../sass/full/browser/_sources.sass */
+#sources_popup {
+  width: 334px;
+  left: 360px;
+  bottom: 56px;
+}
+
+/* line 23, ../sass/full/_browser.sass */
 #browser {
-  background: url(../images/IMG_0112.PNG) no-repeat;
+  background-color: white;
+  background-repeat: no-repeat;
   background-size: 100%;
   background-position: 0 -20px;
   position: relative;
@@ -972,9 +1248,8 @@ body > section {
   height: 748px;
 }
 @media screen and (max-width: 900px) {
-  /* line 19, ../sass/full/_browser.sass */
+  /* line 23, ../sass/full/_browser.sass */
   #browser {
-    background-image: url(../images/IMG_0124.PNG);
     width: 768px;
     height: 1004px;
   }

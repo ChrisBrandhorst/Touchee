@@ -1,10 +1,9 @@
 #browser > footer
-  @include    remote-image(ChromeBottom)
-  padding:      8px 8px 0 8px
-  @include display-box
+  @include  remote-image(ChromeBottom)
+  padding:  8px 8px 0 8px
+  @include  display-box
+  @include  box-shadow(0 0 5px 0 rgba(0,0,0,.5))
   
-  // Navigation button
-  button[data-button=nav]
   
   // Scaling containers
   > div
@@ -24,7 +23,7 @@
     margin-top:   -1px
     min-width:    100px
     padding:      0 11px 0 31px
-    text-shadow:  0 1px 0 white
+    @include      text-shadow(0 1px 0 white)
     @include      remote-border-image(ChromeButton, 0, 4, 0, 4, stretch)
     &:active
       @include    remote-border-image(ChromeButtonSelected, 0, 4, 0, 4, stretch)

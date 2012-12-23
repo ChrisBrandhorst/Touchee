@@ -3,10 +3,14 @@ define([
   'underscore',
   'Backbone',
   'text!views/browser.html',
-  'i18n!nls/locale'
+  'i18n!nls/locale',
+  
+  'views/popup'
 ], function($, _, Backbone,
             browserTemplate,
-            I18n) {
+            I18n,
+            
+            PopupView) {
   
   browserTemplate = _.template(browserTemplate);
   
@@ -22,6 +26,7 @@ define([
     
     // Events
     events: {
+      'click #album, [data-button=nav], [data-button=airplay], [data-button=prev], [data-button=next], [data-button=queue]': 'clickedAlbum'
     },
     
     
@@ -66,6 +71,14 @@ define([
     
     
     
+    popup: null,
+    
+    clickedAlbum: function(ev) {
+      if (!this.popup)
+        this.popup = new PopupView();
+      this.popup.showRelativeTo( $(ev.currentTarget) );
+      
+    }
     
     
     

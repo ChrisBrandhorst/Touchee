@@ -3,125 +3,139 @@
   top:    71px
   left:   679px
 
-#media_popup
-  width:  334px
-  left:   400px
-  bottom: 128px
+$popupBackground: #0C1934
 
+// Default popup
 .popup
-  position:           absolute
-  z-index:            1
-  padding:            6px
+  position:         absolute
+  z-index:          10
+  @include          display-box
   
-  border:             1px solid #101010
-  border-top-color:   #6A6A69
-  @include            border-radius(8px)
-  @include            background-image( linear-gradient( #737A89 2px, #243048 21px, #111E39 21px, #0E1B36) )
-  @include            box-shadow( 0 0 0 1px rgba(255,255,255,.25), 0 7px 65px 0 rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.15) )
+  width:            334px
+  padding:          6px
   
+  border:           1px solid #101010
+  border-top-color: #404040
+  @include          border-radius(8px)
+  @include          background-image( linear-gradient( #78808F 2px, #25304A 21px, $popupBackground 21px) )
+  @include          box-shadow( 0 0 0 1px rgba(255,255,255,.25), 0 7px 65px 0 rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.15) )
   
-  > h1
+  // Hidden and animation
+  &.animate
+    @include        transition(opacity .2s ease)
+  &.hidden
+    opacity:        0
+  
+  // Header within popup
+  h1
     text-align:     center
     font-size:      150%
     color:          white
     line-height:    26px
-    padding-bottom: 9px
+    padding:        1px 0 10px 0
     @include        text-shadow(0 -1px 1px rgba(0,0,0,.5))
-    
-  > .well
-    @include    border-radius(5px)
-    background: white
-    padding:    5px
-    position:   relative
+  
+  // Popup with list
+  > .paged
+    @include  display-box
+    @include  box-orient(vertical)
+    @include  box-flex(1)
+    position: relative
+    > div
+      @include    display-box
+      @include    box-orient(vertical)
+      @include    box-flex(1)
+      @include    border-radius(5px)
+      background: white
+      .list
+        @include    box-flex(1)
+        background: transparent
     
     // Inset shadow
     &::before
       content:        ''
       position:       absolute
-      top:            0
-      left:           0
-      right:          0
-      bottom:         0
-      border-radius:  5px
+      top:            0px
+      left:           0px
+      right:          0px
+      bottom:         0px
+      @include        border-radius(5px)
       box-shadow:     inset 0 2px 3px 0px rgba(0,0,0,.3)
       pointer-events: none
+  &.with_header > .paged::before
+    top: 37px
   
+  // Default: do not show arrow
+  > .arrow
+    display:  none
   
-  
-  
-  
-  
+  // Popup arrow
   &.arrow
     > .arrow
-      position:           absolute
-      left:               50%
-      top:                -13px
-      margin-left:        -14px
-      display:            block
+      display:  block
+      position: absolute
+      z-index:  -1
+      width:    37px
+      height:   37px
+      padding:  6px 0 0 6px
       
+      // The arrow itself
       &::before
         content:      ''
-        position:     absolute
-        z-index:      -1
+        display:      block
         width:        24px
         height:       24px
         margin-left:  0
-        border:       solid #3F3F3F
+        border-style: solid
         border-width: 1px 0 0 1px
-        @include      rotateZ(45deg)
-        @include      background-image( linear-gradient( left top, #B1B4BD, #727988 53%, transparent 53%) )
-        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.2) )
-        
-      &::after
-        content:    ''
-        position:   absolute
-        width:      39px
-        height:     19px
-        top:        14px
-        left:       -6px
-        @include    background-image( linear-gradient( #747B89, #26324B) )
-        z-index:    -1
     
-    &.bottom
+    // Top and bottom arrows
+    &.top, &.bottom
       > .arrow
-        top:    auto
-        bottom: 12px
+        left:         50%
+        margin-left:  -19px
+    
+    // Top arrow
+    &.top > .arrow
+      top:                -19px
+      -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px)
+      &::before
+        border-color: #363636
+        @include      background-image( linear-gradient( left top, #B1B4BD, #78808F 55%, transparent 55%) )
+        @include      rotateZ(45deg)
+        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.2) )
+    
+    // Bottom arrow
+    &.bottom > .arrow
+      bottom: -19px
+      -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px)
+      &::before
+        border-color: #02060E
+        background:   $popupBackground
+        @include      rotateZ(-135deg)
+        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.05) )
+    
+    // Left and right arrows
+    &.left, &.right
+      > .arrow
+        top:        50%
+        margin-top: -19px
         &::before
-          background: #0E1B36
-          @include    rotateZ(-135deg)
-          border-color: #02060E
-          @include            box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 1px 0 0 rgba(255,255,255,.05) )
-        &::after
-          top:  -8px
-          background:  #0E1B36
-      
-    &:not(.bottom)
-      &.right, &.left
-        > .arrow::after
-          @include    border-radius(4px 4px 0 0)
+          border-color: #3F3F3F
+          background:   $popupBackground
     
-    &.bottom
-      &.right, &.left
-        > .arrow::after
-          @include    border-radius(0 0 4px 4px)
-    
-    &.right > .arrow
-      left:   auto
-      right:  34px
-
+    // Left arrow
     &.left > .arrow
-      left:  23px
-
-
-//     // Header
-//     h1
-//       border-top:     1px solid #969696
-//       border-bottom:  1px solid #363636
-//       background:     -webkit-linear-gradient(#767676, #2F2F2F 50%, black 50%, black)
-//       color:          white
-//       text-shadow:    0 -1px 0 black
-//       text-align:     center
-//       font-size:      150%
-//       line-height:    41px
-//       position:       relative
-//       clear:          both
+      left:   -19px
+      -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px)
+      &::before
+        @include      rotateZ(-45deg)
+        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 0 1px 0 0 rgba(255,255,255,.3) )
+    
+    // Right arrow
+    &.right > .arrow
+      right:  -19px
+      -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px)
+      &::before
+        @include      rotateZ(135deg)
+        @include      box-shadow( -1px -1px 0 0 rgba(255,255,255,.25), inset 1px 0 0 0 rgba(255,255,255,.3) )

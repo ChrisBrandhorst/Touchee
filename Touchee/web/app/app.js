@@ -41,9 +41,8 @@ define([
       Communicator.on('responseReceived', this.responseReceived, this);
       
       // Connect to the server
-      // this.connect();
-      this.connected();
-
+      this.connect();
+      
     },
     
     
@@ -108,6 +107,7 @@ define([
       
       // Set that we have connected one time
       this.wasConnected = true;
+      
     },
     
     

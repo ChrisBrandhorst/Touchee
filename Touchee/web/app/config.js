@@ -6,5 +6,5 @@
   logLevel: T.Log.Levels.DEBUG,
   
   // Base URL
-  baseURL:  "http://htpc/"
+  baseURL:  "http://htpc.local/"
 }

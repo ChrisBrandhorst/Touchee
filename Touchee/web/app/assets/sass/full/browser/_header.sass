@@ -198,11 +198,13 @@
     
     // Airplay button
     [data-button=airplay]
-      display:  none
-      height:   21px
-      width:    34px
-      margin:   19px 0 0 2px
-      @include  remote-image(VolumeAirPlay)
+      display:              none
+      height:               47px
+      width:                47px
+      margin:               6px 0 0 -11px
+      @include              remote-image(VolumeAirPlay)
+      background-position:  right center
+      background-repeat:    no-repeat
       
       &:active
         @include  remote-image(VolumeAirPlayPressed)

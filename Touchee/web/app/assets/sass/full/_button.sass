@@ -1,0 +1,71 @@
+button, .button
+  display:          inline-block
+  border:           none
+  background-color: transparent
+  margin:           0
+  padding:          0 4px
+  font-size:        12px !important
+  font-weight:      bold
+  
+  // iOS style button
+  &.ios
+    line-height:    30px
+    vertical-align: middle
+    @include        ellipsis
+    max-width:      8em
+    @include        remote-border-image(ScreenButton, 0, 4, 0, 4, stretch)
+    @include        text-shadow(0 1px 0 white)
+    
+    // Dark background, so light text
+    &.black, &.dark, &.blue
+      color:          white
+      @include        text-shadow(0 -1px 0 black)
+    
+    // Button is pressed
+    &:active
+      @include        remote-border-image(ScreenButtonPressed, 0, 4, 0, 4, stretch)
+    
+    // Back button
+    &.back
+      padding-left:   0
+      @include        remote-border-image(ChromeButtonBack, 0, 4, 0, 13, stretch)
+      &:active
+        @include        remote-border-image(ChromeButtonBackSelected, 0, 4, 0, 13, stretch)
+    
+    // Chrome button
+    &.chrome
+      @include        remote-border-image(ChromeButton, 0, 4, 0, 4, stretch)
+      &:active
+        @include        remote-border-image(ChromeButtonSelected, 0, 4, 0, 4, stretch)
+      &.back
+        @include        remote-border-image(ChromeButtonBack, 0, 4, 0, 13, stretch)
+        &:active
+          @include        remote-border-image(ChromeButtonBackSelected, 0, 4, 0, 13, stretch)
+    
+    // Black button
+    &.black
+      @include        remote-border-image(NowPlayingButton, 0, 4, 0, 4, stretch)
+      &:active
+        @include        retina-border-image("../images/NowPlayingButtonPressed", 0, 4, 0, 4, stretch)
+      &.back
+        @include        remote-border-image(UINavigationBarBlackOpaqueBack, 0, 4, 0, 13, stretch)
+        &:active
+          @include        remote-border-image(UINavigationBarBlackBackPressed, 0, 4, 0, 13, stretch)
+      &.forward
+        padding-right:   0
+        @include        remote-border-image(UINavigationBarBlackOpaqueForward, 0, 13, 0, 4, stretch)
+        &:active
+          @include        remote-border-image(UINavigationBarBlackForwardPressed, 0, 13, 0, 4, stretch)
+    
+    // Bright blue button
+    &.blue
+      @include        remote-border-image(ScreenButtonDone, 0, 4, 0, 4, stretch)
+      &:active
+        @include        remote-border-image(ScreenButtonDonePressed, 0, 4, 0, 4, stretch)
+    
+    // Dark blue button
+    &.darkblue
+      &.back
+        @include        remote-border-image(UINavigationBarDefaultBack_OS5, 0, 4, 0, 13, stretch)
+        &:active
+          @include        remote-border-image(UINavigationBarDefaultBackPressed_OS5, 0, 4, 0, 13, stretch)
