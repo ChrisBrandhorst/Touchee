@@ -1,0 +1,1256 @@
+@import url(reset.css);
+/* line 1, ../sass/_touch.sass */
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* line 5, ../sass/_touch.sass */
+.scrollable {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* line 8, ../sass/_touch.sass */
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* line 5, ../sass/_paged.sass */
+.paged > * {
+  overflow: hidden;
+}
+/* line 13, ../sass/_paged.sass */
+.paged > * > * {
+  -webkit-transition-property: -webkit-transform;
+  -webkit-transition-duration: 0.2s;
+  -webkit-transition-timing-function: ease;
+}
+/* line 25, ../sass/_paged.sass */
+.paged > * > * + * {
+  margin-left: -100%;
+}
+/* line 39, ../sass/_paged.sass */
+.paged > header > * {
+  -webkit-transition-property: -webkit-transform, opacity;
+}
+/* line 47, ../sass/_paged.sass */
+.paged > header > *.prev {
+  -webkit-transform: translate3d(50%, 0, 0);
+  opacity: 0;
+}
+/* line 55, ../sass/_paged.sass */
+.paged > header > *.next {
+  -webkit-transform: translate3d(-50%/2, 0, 0);
+  opacity: 0;
+}
+/* line 75, ../sass/_paged.sass */
+.paged > :not(header) > *.prev {
+  -webkit-transform: translate3d(-50%, 0, 0);
+}
+/* line 81, ../sass/_paged.sass */
+.paged > :not(header) > *.next {
+  -webkit-transform: translate3d(50%, 0, 0);
+}
+
+/* line 1, ../sass/full/_typeface.sass */
+body {
+  font-family: "Helvetica", "Helvetica Neue", "Calibri", Arial;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: #4c4c4c;
+}
+
+/* line 13, ../sass/full/_typeface.sass */
+input, textarea, select, button, table {
+  font-size: inherit;
+  font-family: inherit;
+}
+
+/* line 21, ../sass/full/_typeface.sass */
+button {
+  color: #4c4c4c;
+}
+
+/* line 1, ../sass/full/_elements.sass */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* line 7, ../sass/full/_elements.sass */
+h1 {
+  font-weight: bold;
+}
+
+/* line 13, ../sass/full/_elements.sass */
+table {
+  border-collapse: collapse;
+}
+
+/* line 19, ../sass/full/_elements.sass */
+.left {
+  float: left;
+}
+
+/* line 23, ../sass/full/_elements.sass */
+.right {
+  float: right;
+}
+
+/* line 10, ../sass/full/_list.sass */
+ul, .list {
+  background: white;
+  font-weight: bold;
+  font-size: 130%;
+  margin-bottom: -1px;
+}
+/* line 16, ../sass/full/_list.sass */
+ul > *, .list > * {
+  display: block;
+  line-height: 43px;
+  border-bottom: 1px solid #cccccc;
+  padding: 0 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 23, ../sass/full/_list.sass */
+ul > *.more, ul > *.loading, .list > *.more, .list > *.loading {
+  padding-right: 22px;
+}
+/* line 25, ../sass/full/_list.sass */
+ul > *.more::after, ul > *.loading::after, .list > *.more::after, .list > *.loading::after {
+  float: right;
+  margin-top: -28px;
+  margin-right: -12px;
+}
+/* line 30, ../sass/full/_list.sass */
+ul > *.more::after, .list > *.more::after {
+  content: -webkit-image-set(url(../images/SourceListNext.png) 1x, url(../images/SourceListNext@2x.png) 2x);
+}
+/* line 33, ../sass/full/_list.sass */
+ul > *.selected, .list > *.selected {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #90b0d3), color-stop(100%, #7097bd));
+  background: -webkit-linear-gradient(#90b0d3, #7097bd);
+  background: -moz-linear-gradient(#90b0d3, #7097bd);
+  background: -o-linear-gradient(#90b0d3, #7097bd);
+  background: linear-gradient(#90b0d3, #7097bd);
+  color: white;
+}
+/* line 36, ../sass/full/_list.sass */
+ul > *.selected.more::after, .list > *.selected.more::after {
+  content: -webkit-image-set(url(../images/SourceListNextHighlight.png) 1x, url(../images/SourceListNextHighlight@2x.png) 2x);
+}
+/* line 40, ../sass/full/_list.sass */
+ul.icons > *::before, .list.icons > *::before {
+  content: "";
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  margin: 0 7px 0 0;
+  vertical-align: middle;
+  background: no-repeat center center;
+  background-image: -webkit-image-set(url(../images/remote/SourceListFolderGray.png) 1x, url(../images/remote/SourceListFolderGray@2x.png) 2x);
+}
+/* line 49, ../sass/full/_list.sass */
+ul.icons > *.selected::before, .list.icons > *.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListFolderHighlight.png) 1x, url(../images/remote/SourceListFolderHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.music::before, .list.icons > *.music::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmusicgray.png) 1x, url(../images/remote/SourceListmusicgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.music.selected::before, .list.icons > *.music.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmusicHighlight.png) 1x, url(../images/remote/SourceListmusicHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.movies::before, .list.icons > *.movies::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmoviesgray.png) 1x, url(../images/remote/SourceListmoviesgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.movies.selected::before, .list.icons > *.movies.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListmoviesHighlight.png) 1x, url(../images/remote/SourceListmoviesHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.tv::before, .list.icons > *.tv::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListtvgray.png) 1x, url(../images/remote/SourceListtvgray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.tv.selected::before, .list.icons > *.tv.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListtvHighlight.png) 1x, url(../images/remote/SourceListtvHighlight@2x.png) 2x);
+}
+/* line 3, ../sass/full/_list.sass */
+ul.icons > *.sharedlibrary::before, .list.icons > *.sharedlibrary::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListsharedlibrarygray.png) 1x, url(../images/remote/SourceListsharedlibrarygray@2x.png) 2x);
+}
+/* line 5, ../sass/full/_list.sass */
+ul.icons > *.sharedlibrary.selected::before, .list.icons > *.sharedlibrary.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListsharedlibraryHighlight.png) 1x, url(../images/remote/SourceListsharedlibraryHighlight@2x.png) 2x);
+}
+
+/* line 1, ../sass/full/_button.sass */
+button, .button {
+  display: inline-block;
+  border: none;
+  background-color: transparent;
+  margin: 0;
+  padding: 0 4px;
+  font-size: 12px !important;
+  font-weight: bold;
+}
+/* line 11, ../sass/full/_button.sass */
+button.ios, .button.ios {
+  line-height: 30px;
+  vertical-align: middle;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8em;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButton.png) 1x, url(../images/remote/ScreenButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+  text-shadow: 0 1px 0 white;
+}
+/* line 20, ../sass/full/_button.sass */
+button.ios.black, button.ios.dark, button.ios.blue, .button.ios.black, .button.ios.dark, .button.ios.blue {
+  color: white;
+  text-shadow: 0 -1px 0 black;
+}
+/* line 25, ../sass/full/_button.sass */
+button.ios:active, .button.ios:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonPressed.png) 1x, url(../images/remote/ScreenButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 29, ../sass/full/_button.sass */
+button.ios.back, .button.ios.back {
+  padding-left: 0;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 32, ../sass/full/_button.sass */
+button.ios.back:active, .button.ios.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 36, ../sass/full/_button.sass */
+button.ios.chrome, .button.ios.chrome {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 38, ../sass/full/_button.sass */
+button.ios.chrome:active, .button.ios.chrome:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 40, ../sass/full/_button.sass */
+button.ios.chrome.back, .button.ios.chrome.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 42, ../sass/full/_button.sass */
+button.ios.chrome.back:active, .button.ios.chrome.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 46, ../sass/full/_button.sass */
+button.ios.black, .button.ios.black {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/NowPlayingButton.png) 1x, url(../images/remote/NowPlayingButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 48, ../sass/full/_button.sass */
+button.ios.black:active, .button.ios.black:active {
+  -webkit-border-image: -webkit-image-set(url(../images/NowPlayingButtonPressed.png) 1x, url(../images/NowPlayingButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 50, ../sass/full/_button.sass */
+button.ios.black.back, .button.ios.black.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueBack.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueBack@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 52, ../sass/full/_button.sass */
+button.ios.black.back:active, .button.ios.black.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackBackPressed.png) 1x, url(../images/remote/UINavigationBarBlackBackPressed@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 54, ../sass/full/_button.sass */
+button.ios.black.forward, .button.ios.black.forward {
+  padding-right: 0;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueForward.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueForward@2x.png) 2x) 0 13 0 4 stretch;
+  border-width: 0px 13px 0px 4px;
+}
+/* line 57, ../sass/full/_button.sass */
+button.ios.black.forward:active, .button.ios.black.forward:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackForwardPressed.png) 1x, url(../images/remote/UINavigationBarBlackForwardPressed@2x.png) 2x) 0 13 0 4 stretch;
+  border-width: 0px 13px 0px 4px;
+}
+/* line 61, ../sass/full/_button.sass */
+button.ios.blue, .button.ios.blue {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDone.png) 1x, url(../images/remote/ScreenButtonDone@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 63, ../sass/full/_button.sass */
+button.ios.blue:active, .button.ios.blue:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDonePressed.png) 1x, url(../images/remote/ScreenButtonDonePressed@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 68, ../sass/full/_button.sass */
+button.ios.darkblue.back, .button.ios.darkblue.back {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBack_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBack_OS5@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+/* line 70, ../sass/full/_button.sass */
+button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBackPressed_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBackPressed_OS5@2x.png) 2x) 0 4 0 13 stretch;
+  border-width: 0px 4px 0px 13px;
+}
+
+/* line 3, ../sass/full/_layout.sass */
+* {
+  -webkit-box-sizing: border-box;
+}
+
+/* line 11, ../sass/full/_layout.sass */
+body {
+  width: 1024px;
+  height: 748px;
+  margin: 0;
+  background: black;
+  overflow: hidden;
+}
+/* line 27, ../sass/full/_layout.sass */
+body > section:not(.popup) {
+  width: 100%;
+  height: 100%;
+}
+
+/* line 37, ../sass/full/_layout.sass */
+.scrollable {
+  overflow: auto;
+  overflow-x: hidden;
+}
+/* line 43, ../sass/full/_layout.sass */
+.scrollable::-webkit-scrollbar {
+  width: 5px;
+}
+/* line 47, ../sass/full/_layout.sass */
+.scrollable::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 3px;
+}
+/* line 55, ../sass/full/_layout.sass */
+.scrollable:hover::-webkit-scrollbar-thumb {
+  background-color: #7f7f7f !important;
+}
+
+/* line 61, ../sass/full/_layout.sass */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* line 1, ../sass/full/_popup.sass */
+#airplay_popup {
+  width: 334px;
+  top: 71px;
+  left: 679px;
+}
+
+/* line 17, ../sass/full/_popup.sass */
+.popup {
+  position: absolute;
+  z-index: 10;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  width: 334px;
+  padding: 6px;
+  border: 1px solid #101010;
+  border-top-color: #404040;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  border-radius: 8px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 21, color-stop(9.524%, #78808f), color-stop(100%, #25304a), color-stop(100%, #0c1934));
+  background-image: -webkit-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: -moz-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: -o-linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  background-image: linear-gradient(#78808f 2px, #25304a 21px, #0c1934 21px);
+  -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+/* line 47, ../sass/full/_popup.sass */
+.popup.animate {
+  -webkit-transition: opacity 0.2s ease;
+  -moz-transition: opacity 0.2s ease;
+  -o-transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+/* line 51, ../sass/full/_popup.sass */
+.popup.hidden {
+  opacity: 0;
+}
+/* line 59, ../sass/full/_popup.sass */
+.popup h1 {
+  text-align: center;
+  font-size: 150%;
+  color: white;
+  line-height: 26px;
+  padding: 1px 0 10px 0;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+}
+/* line 77, ../sass/full/_popup.sass */
+.popup > .paged {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  position: relative;
+}
+/* line 87, ../sass/full/_popup.sass */
+.popup > .paged > div {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  background: white;
+}
+/* line 99, ../sass/full/_popup.sass */
+.popup > .paged > div .list {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  background: transparent;
+}
+/* line 109, ../sass/full/_popup.sass */
+.popup > .paged::before {
+  content: "";
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+}
+/* line 129, ../sass/full/_popup.sass */
+.popup.with_header > .paged::before {
+  top: 37px;
+}
+/* line 137, ../sass/full/_popup.sass */
+.popup > .arrow {
+  display: none;
+}
+/* line 147, ../sass/full/_popup.sass */
+.popup.arrow > .arrow {
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 37px;
+  height: 37px;
+  padding: 6px 0 0 6px;
+}
+/* line 165, ../sass/full/_popup.sass */
+.popup.arrow > .arrow::before {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin-left: 0;
+  border-style: solid;
+  border-width: 1px 0 0 1px;
+}
+/* line 187, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
+  left: 50%;
+  margin-left: -19px;
+}
+/* line 197, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow {
+  top: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
+}
+/* line 203, ../sass/full/_popup.sass */
+.popup.arrow.top > .arrow::before {
+  border-color: #363636;
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
+  background-image: -webkit-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: -moz-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: -o-linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  background-image: linear-gradient(left top, #b1b4bd, #78808f 55%, transparent 55%);
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+/* line 217, ../sass/full/_popup.sass */
+.popup.arrow.bottom > .arrow {
+  bottom: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
+}
+/* line 223, ../sass/full/_popup.sass */
+.popup.arrow.bottom > .arrow::before {
+  border-color: #02060e;
+  background: #0c1934;
+  -webkit-transform: rotate(-135deg);
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+/* line 239, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
+  top: 50%;
+  margin-top: -19px;
+}
+/* line 245, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
+  border-color: #3f3f3f;
+  background: #0c1934;
+}
+/* line 255, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow {
+  left: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
+}
+/* line 261, ../sass/full/_popup.sass */
+.popup.arrow.left > .arrow::before {
+  -webkit-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -o-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
+}
+/* line 271, ../sass/full/_popup.sass */
+.popup.arrow.right > .arrow {
+  right: -19px;
+  -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
+}
+/* line 277, ../sass/full/_popup.sass */
+.popup.arrow.right > .arrow::before {
+  -webkit-transform: rotate(135deg);
+  -moz-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  -o-transform: rotate(135deg);
+  transform: rotate(135deg);
+  -webkit-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
+  -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
+  box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
+}
+
+/* line 1, ../sass/full/_connecting.sass */
+#connecting {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999999;
+  background: -webkit-radial-gradient(rgba(127, 127, 127, 0.5), rgba(127, 127, 127, 0.5) 35%, rgba(0, 0, 0, 0.7));
+  -webkit-transition: opacity 0.5s ease-in;
+}
+/* line 10, ../sass/full/_connecting.sass */
+#connecting div.popup {
+  display: block;
+  color: white;
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 50%;
+  width: 300px;
+  margin: -50px 0 0 -150px;
+  -webkit-transition: margin-top 0.5s ease-in;
+}
+/* line 21, ../sass/full/_connecting.sass */
+#connecting div.popup div {
+  padding: 1em;
+}
+/* line 24, ../sass/full/_connecting.sass */
+#connecting div.popup div p {
+  font-weight: bold;
+  font-size: 100%;
+  margin: -0.25em 0 1em 0;
+  display: none;
+}
+/* line 30, ../sass/full/_connecting.sass */
+#connecting div.popup div span::before {
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url(../images/connecting.gif);
+  background-size: 16px;
+  margin: 0 1em -0.2em 0;
+}
+/* line 42, ../sass/full/_connecting.sass */
+#connecting.hidden {
+  opacity: 0;
+}
+/* line 44, ../sass/full/_connecting.sass */
+#connecting.hidden .popup {
+  margin-top: 100%;
+}
+/* line 46, ../sass/full/_connecting.sass */
+#connecting.hidden .popup span::before {
+  display: none;
+}
+
+/* line 1, ../sass/full/browser/_layout.sass */
+#browser {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+}
+/* line 9, ../sass/full/browser/_layout.sass */
+#browser > header {
+  height: 61px;
+}
+/* line 15, ../sass/full/browser/_layout.sass */
+#browser > div {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+}
+/* line 21, ../sass/full/browser/_layout.sass */
+#browser > footer {
+  height: 44px;
+}
+
+/* line 53, ../sass/full/browser/_header.sass */
+#browser > header {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  padding: 0 12px 0 14px;
+  background-image: -webkit-image-set(url(../images/remote/ChromeTop.png) 1x, url(../images/remote/ChromeTop@2x.png) 2x);
+}
+/* line 61, ../sass/full/browser/_header.sass */
+#browser > header > * {
+  display: block;
+}
+/* line 77, ../sass/full/browser/_header.sass */
+#browser > header > button {
+  height: 61px;
+  width: 66px;
+}
+/* line 5, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=prev] {
+  background-image: -webkit-image-set(url(../images/remote/Chromeprev.png) 1x, url(../images/remote/Chromeprev@2x.png) 2x);
+}
+/* line 9, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=prev][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/ChromeprevDisabled.png) 1x, url(../images/remote/ChromeprevDisabled@2x.png) 2x);
+}
+/* line 13, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=prev]:active:not([disabled]) {
+  background-image: -webkit-image-set(url(../images/remote/ChromeprevPressed.png) 1x, url(../images/remote/ChromeprevPressed@2x.png) 2x);
+}
+/* line 5, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=next] {
+  background-image: -webkit-image-set(url(../images/remote/Chromenext.png) 1x, url(../images/remote/Chromenext@2x.png) 2x);
+}
+/* line 9, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=next][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/ChromenextDisabled.png) 1x, url(../images/remote/ChromenextDisabled@2x.png) 2x);
+}
+/* line 13, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=next]:active:not([disabled]) {
+  background-image: -webkit-image-set(url(../images/remote/ChromenextPressed.png) 1x, url(../images/remote/ChromenextPressed@2x.png) 2x);
+}
+/* line 5, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=play] {
+  background-image: -webkit-image-set(url(../images/remote/Chromeplay.png) 1x, url(../images/remote/Chromeplay@2x.png) 2x);
+}
+/* line 9, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=play][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/ChromeplayDisabled.png) 1x, url(../images/remote/ChromeplayDisabled@2x.png) 2x);
+}
+/* line 13, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=play]:active:not([disabled]) {
+  background-image: -webkit-image-set(url(../images/remote/ChromeplayPressed.png) 1x, url(../images/remote/ChromeplayPressed@2x.png) 2x);
+}
+/* line 5, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=pause] {
+  background-image: -webkit-image-set(url(../images/remote/Chromepause.png) 1x, url(../images/remote/Chromepause@2x.png) 2x);
+}
+/* line 9, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=pause][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/ChromepauseDisabled.png) 1x, url(../images/remote/ChromepauseDisabled@2x.png) 2x);
+}
+/* line 13, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=pause]:active:not([disabled]) {
+  background-image: -webkit-image-set(url(../images/remote/ChromepausePressed.png) 1x, url(../images/remote/ChromepausePressed@2x.png) 2x);
+}
+/* line 91, ../sass/full/browser/_header.sass */
+#browser > header > button[data-button=pause] {
+  display: none;
+}
+/* line 99, ../sass/full/browser/_header.sass */
+#browser > header #lcd {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  position: relative;
+  margin: 0 15px 0 13px;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/LCDGlassLandscape.png) 1x, url(../images/remote/LCDGlassLandscape@2x.png) 2x) 10 10 10 10 stretch;
+  border-width: 10px 10px 10px 10px;
+}
+/* line 111, ../sass/full/browser/_header.sass */
+#browser > header #lcd > * {
+  display: block;
+}
+/* line 121, ../sass/full/browser/_header.sass */
+#browser > header #lcd.disabled::before {
+  content: "";
+  display: block;
+  height: 32px;
+  width: 26px;
+  position: absolute;
+  left: 50%;
+  top: 14px;
+  margin-left: -13px;
+  background-image: -webkit-image-set(url(../images/remote/LCDAppleLogo.png) 1x, url(../images/remote/LCDAppleLogo@2x.png) 2x);
+}
+/* line 141, ../sass/full/browser/_header.sass */
+#browser > header #lcd.disabled > * {
+  display: none;
+}
+/* line 149, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_artwork {
+  width: 40px;
+  height: 40px;
+  background-size: contain;
+  background-position: center center;
+  -webkit-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  -moz-box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
+}
+/* line 165, ../sass/full/browser/_header.sass */
+#browser > header #lcd > div {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  margin-top: -1px;
+}
+/* line 171, ../sass/full/browser/_header.sass */
+#browser > header #lcd > div > span {
+  display: block;
+  text-align: center;
+  padding: 0 7px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+/* line 181, ../sass/full/browser/_header.sass */
+#browser > header #lcd > div > div {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+}
+/* line 185, ../sass/full/browser/_header.sass */
+#browser > header #lcd > div > div > * {
+  display: block;
+}
+/* line 193, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_title {
+  font-weight: bold;
+  padding-bottom: 4px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 201, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_container {
+  font-size: 85%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 21, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue] {
+  width: 42;
+  height: 42;
+  background-image: -webkit-image-set(url(../images/remote/LCDqueue.png) 1x, url(../images/remote/LCDqueue@2x.png) 2x);
+}
+/* line 29, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue]:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDqueuePressed.png) 1x, url(../images/remote/LCDqueuePressed@2x.png) 2x);
+}
+/* line 33, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDqueueDisabled.png) 1x, url(../images/remote/LCDqueueDisabled@2x.png) 2x);
+}
+/* line 37, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue].on {
+  background-image: -webkit-image-set(url(../images/remote/LCDqueueOn.png) 1x, url(../images/remote/LCDqueueOn@2x.png) 2x);
+}
+/* line 41, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue].on:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDqueueOnPressed.png) 1x, url(../images/remote/LCDqueueOnPressed@2x.png) 2x);
+}
+/* line 45, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue].on[disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDqueueOnDisabled.png) 1x, url(../images/remote/LCDqueueOnDisabled@2x.png) 2x);
+}
+/* line 213, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=queue] {
+  margin: -1px 5px 0 0;
+}
+/* line 21, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle] {
+  width: 31;
+  height: 31;
+  background-image: -webkit-image-set(url(../images/remote/LCDshuffle.png) 1x, url(../images/remote/LCDshuffle@2x.png) 2x);
+}
+/* line 29, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle]:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDshufflePressed.png) 1x, url(../images/remote/LCDshufflePressed@2x.png) 2x);
+}
+/* line 33, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDshuffleDisabled.png) 1x, url(../images/remote/LCDshuffleDisabled@2x.png) 2x);
+}
+/* line 37, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle].on {
+  background-image: -webkit-image-set(url(../images/remote/LCDshuffleOn.png) 1x, url(../images/remote/LCDshuffleOn@2x.png) 2x);
+}
+/* line 41, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle].on:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDshuffleOnPressed.png) 1x, url(../images/remote/LCDshuffleOnPressed@2x.png) 2x);
+}
+/* line 45, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle].on[disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDshuffleOnDisabled.png) 1x, url(../images/remote/LCDshuffleOnDisabled@2x.png) 2x);
+}
+/* line 219, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=shuffle] {
+  margin: -7px 2px 0 0;
+}
+/* line 21, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat] {
+  width: 31;
+  height: 31;
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeat.png) 1x, url(../images/remote/LCDrepeat@2x.png) 2x);
+}
+/* line 29, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat]:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeatPressed.png) 1x, url(../images/remote/LCDrepeatPressed@2x.png) 2x);
+}
+/* line 33, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat][disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeatDisabled.png) 1x, url(../images/remote/LCDrepeatDisabled@2x.png) 2x);
+}
+/* line 37, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].on {
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeatOn.png) 1x, url(../images/remote/LCDrepeatOn@2x.png) 2x);
+}
+/* line 41, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].on:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeatOnPressed.png) 1x, url(../images/remote/LCDrepeatOnPressed@2x.png) 2x);
+}
+/* line 45, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].on[disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDrepeatOnDisabled.png) 1x, url(../images/remote/LCDrepeatOnDisabled@2x.png) 2x);
+}
+/* line 225, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat] {
+  margin: -7px 0 0 5px;
+}
+/* line 229, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].one {
+  background-image: -webkit-image-set(url(../images/remote/LCDRepeat1On.png) 1x, url(../images/remote/LCDRepeat1On@2x.png) 2x);
+}
+/* line 233, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].one:active {
+  background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnPressed.png) 1x, url(../images/remote/LCDRepeat1OnPressed@2x.png) 2x);
+}
+/* line 237, ../sass/full/browser/_header.sass */
+#browser > header #lcd [data-button=repeat].one[disabled] {
+  background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnDisabled.png) 1x, url(../images/remote/LCDRepeat1OnDisabled@2x.png) 2x);
+}
+/* line 245, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position_current,
+#browser > header #lcd #lcd_position_duration {
+  font-size: 80%;
+  margin-top: 4px;
+  white-space: nowrap;
+}
+/* line 255, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position_current {
+  margin-right: 4px;
+  margin-left: 3px;
+}
+/* line 261, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position_duration {
+  margin-right: 1px;
+  margin-left: 5px;
+}
+/* line 271, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  height: 8px;
+  margin-top: 7px;
+  position: relative;
+  overflow: visible;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrackEmpty.png) 1x, url(../images/remote/LCDTrackEmpty@2x.png) 2x) 0 4 0 4 round;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 285, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position.ui-slider {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrack.png) 1x, url(../images/remote/LCDTrack@2x.png) 2x) 0 4 0 4 round;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 293, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position > div {
+  height: 100%;
+  margin-left: -4px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrackFilled.png) 1x, url(../images/remote/LCDTrackFilled@2x.png) 2x) 0 4 0 4 round;
+  border-width: 0px 4px 0px 4px;
+  border-right-width: 0px;
+}
+/* line 309, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_position > a {
+  position: absolute;
+  height: 11px;
+  width: 11px;
+  top: 0;
+  margin: -2px 0 0 -4px;
+  background-image: -webkit-image-set(url(../images/remote/LCDTrackThumb.png) 1x, url(../images/remote/LCDTrackThumb@2x.png) 2x);
+}
+/* line 327, ../sass/full/browser/_header.sass */
+#browser > header #output {
+  width: 198px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  padding-right: 20px;
+}
+/* line 339, ../sass/full/browser/_header.sass */
+#browser > header #output #volume {
+  width: 178px;
+  height: 21px;
+  margin-top: 20px;
+  position: relative;
+  overflow: visible;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackEmpty.png) 1x, url(../images/remote/VolumeTrackEmpty@2x.png) 2x) 0 11 0 11 round;
+  border-width: 0px 11px 0px 11px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+}
+/* line 359, ../sass/full/browser/_header.sass */
+#browser > header #output #volume > div {
+  height: 100%;
+  margin-left: -11px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackFilled.png) 1x, url(../images/remote/VolumeTrackFilled@2x.png) 2x) 0 11 0 11 round;
+  border-width: 0px 11px 0px 11px;
+}
+/* line 373, ../sass/full/browser/_header.sass */
+#browser > header #output #volume > a {
+  display: block;
+  position: absolute;
+  height: 32px;
+  width: 32px;
+  top: 0;
+  margin: -5px 0 0 -16px;
+  background-image: -webkit-image-set(url(../images/remote/VolumeKnob.png) 1x, url(../images/remote/VolumeKnob@2x.png) 2x);
+}
+/* line 389, ../sass/full/browser/_header.sass */
+#browser > header #output #volume > a:active {
+  background-image: -webkit-image-set(url(../images/remote/VolumeKnobPressed.png) 1x, url(../images/remote/VolumeKnobPressed@2x.png) 2x);
+}
+/* line 399, ../sass/full/browser/_header.sass */
+#browser > header #output [data-button=airplay] {
+  display: none;
+  height: 47px;
+  width: 47px;
+  margin: 6px 0 0 -11px;
+  background-image: -webkit-image-set(url(../images/remote/VolumeAirPlay.png) 1x, url(../images/remote/VolumeAirPlay@2x.png) 2x);
+  background-position: right center;
+  background-repeat: no-repeat;
+}
+/* line 417, ../sass/full/browser/_header.sass */
+#browser > header #output [data-button=airplay]:active {
+  background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressed.png) 1x, url(../images/remote/VolumeAirPlayPressed@2x.png) 2x);
+}
+/* line 421, ../sass/full/browser/_header.sass */
+#browser > header #output [data-button=airplay].on {
+  background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayOn.png) 1x, url(../images/remote/VolumeAirPlayOn@2x.png) 2x);
+}
+/* line 425, ../sass/full/browser/_header.sass */
+#browser > header #output [data-button=airplay].on:active {
+  background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
+}
+/* line 433, ../sass/full/browser/_header.sass */
+#browser > header #output.disabled > * {
+  display: none;
+}
+/* line 441, ../sass/full/browser/_header.sass */
+#browser > header #output.airplay {
+  padding-right: 0;
+}
+/* line 445, ../sass/full/browser/_header.sass */
+#browser > header #output.airplay > [data-button=airplay] {
+  display: block;
+}
+
+@media screen and (max-width: 900px) {
+  /* line 459, ../sass/full/browser/_header.sass */
+  #browser > header #lcd [data-button=queue] {
+    margin-right: -3px;
+  }
+}
+/* line 1, ../sass/full/browser/_footer.sass */
+#browser > footer {
+  background-image: -webkit-image-set(url(../images/remote/ChromeBottom.png) 1x, url(../images/remote/ChromeBottom@2x.png) 2x);
+  padding: 8px 8px 0 8px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+}
+/* line 19, ../sass/full/browser/_footer.sass */
+#browser > footer > div:first-child, #browser > footer > div:last-child {
+  width: 200px;
+}
+/* line 25, ../sass/full/browser/_footer.sass */
+#browser > footer > div:nth-child(2) {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  text-align: center;
+}
+/* line 31, ../sass/full/browser/_footer.sass */
+#browser > footer > div:nth-child(2) > div {
+  display: inline-block;
+}
+/* line 41, ../sass/full/browser/_footer.sass */
+#browser > footer button[data-button=nav] {
+  line-height: 30px;
+  margin-top: -1px;
+  min-width: 100px;
+  padding: 0 11px 0 31px;
+  text-shadow: 0 1px 0 white;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 55, ../sass/full/browser/_footer.sass */
+#browser > footer button[data-button=nav]:active {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 59, ../sass/full/browser/_footer.sass */
+#browser > footer button[data-button=nav].music {
+  background: no-repeat 6px 5px;
+  background-image: -webkit-image-set(url(../images/remote/SourceListMusicGray.png) 1x, url(../images/remote/SourceListMusicGray@2x.png) 2x);
+  background-size: 20px;
+}
+/* line 75, ../sass/full/browser/_footer.sass */
+#browser > footer nav {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  max-width: 546px;
+}
+/* line 85, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a {
+  display: block;
+  text-shadow: 0 1px 0 white;
+  position: relative;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  width: 1%;
+  max-width: 135px;
+  min-width: 109px;
+  line-height: 30px;
+  padding-left: 9px;
+}
+/* line 121, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 9px;
+  background-image: -webkit-image-set(url(../images/remote/ChromeButtonDivider.png) 1x, url(../images/remote/ChromeButtonDivider@2x.png) 2x);
+}
+/* line 143, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 9px;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
+  border-width: 1px 4px 1px 4px;
+  border-width: 1px 0 !important;
+}
+/* line 167, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a:first-child {
+  padding-left: 4px;
+}
+/* line 171, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a:first-child::before {
+  background-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x);
+  width: 4px;
+}
+/* line 177, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a:first-child::after {
+  left: 4px;
+}
+/* line 185, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a:last-child {
+  padding-right: 5px;
+}
+/* line 189, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a:last-child::after {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
+  border-width: 1px 4px 1px 4px;
+  border-width: 1px 4px 1px 0 !important;
+}
+/* line 201, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.selected::before {
+  background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedRight.png) 1x, url(../images/remote/ChromeButtonSelectedRight@2x.png) 2x);
+}
+/* line 205, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.selected::after {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 1 4 1 4 stretch;
+  border-width: 1px 4px 1px 4px;
+}
+/* line 209, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.selected + a::before {
+  background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedLeft.png) 1x, url(../images/remote/ChromeButtonSelectedLeft@2x.png) 2x);
+}
+/* line 213, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.selected:first-child::before {
+  background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x);
+}
+/* line 223, ../sass/full/browser/_footer.sass */
+#browser > footer input[name=search] {
+  float: right;
+  width: 100%;
+  height: 28px;
+  padding: 0 15px 0 8px;
+  margin-top: 1px;
+  background: transparent;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearch.png) 1x, url(../images/remote/ChromeSearch@2x.png) 2x) 0 17 0 25 stretch;
+  border-width: 0px 17px 0px 25px;
+}
+/* line 239, ../sass/full/browser/_footer.sass */
+#browser > footer input[name=search][disabled] {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearchDisabled.png) 1x, url(../images/remote/ChromeSearchDisabled@2x.png) 2x) 0 17 0 25 stretch;
+  border-width: 0px 17px 0px 25px;
+}
+/* line 243, ../sass/full/browser/_footer.sass */
+#browser > footer input[name=search].filled {
+  padding-right: 8px;
+  -webkit-border-image: -webkit-image-set(url(../images/ChromeSearchClear.png) 1x, url(../images/ChromeSearchClear@2x.png) 2x) 0 24 0 25 stretch;
+  border-width: 0px 24px 0px 25px;
+}
+
+@media screen and (max-width: 900px) {
+  /* line 261, ../sass/full/browser/_footer.sass */
+  #browser > footer > div:first-child, #browser > footer > div:last-child {
+    width: 179px;
+  }
+}
+/* line 1, ../sass/full/browser/_sources.sass */
+#sources_popup {
+  width: 334px;
+  left: 360px;
+  bottom: 56px;
+}
+
+/* line 23, ../sass/full/_browser.sass */
+#browser {
+  background-color: white;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  background-position: 0 -20px;
+  position: relative;
+  width: 1024px;
+  height: 748px;
+}
+@media screen and (max-width: 900px) {
+  /* line 23, ../sass/full/_browser.sass */
+  #browser {
+    width: 768px;
+    height: 1004px;
+  }
+}
