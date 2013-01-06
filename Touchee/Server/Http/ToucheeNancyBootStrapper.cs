@@ -15,14 +15,6 @@ namespace Touchee.Server.Http {
     /// </summary>
     public class ToucheeNancyBootStrapper : DefaultNancyBootstrapper {
 
-        //public ToucheeNancyBootStrapper() { }
-
-        //protected override void ApplicationStartup(TinyIoC.TinyIoCContainer container, IPipelines pipelines) {
-        //    base.ApplicationStartup(container, pipelines);
-
-        //    CookieBasedSessions.Enable(pipelines);
-        //}
-
         protected override void ConfigureConventions(NancyConventions conventions) {
             base.ConfigureConventions(conventions);
 
@@ -47,15 +39,6 @@ namespace Touchee.Server.Http {
             get { return new DiagnosticsConfiguration { Password = "dashboard" }; }
         }
 
-        protected override NancyInternalConfiguration InternalConfiguration {
-            get {
-                // Insert at position 0 so it takes precedence over the built in one.
-                return NancyInternalConfiguration.WithOverrides(c => {
-                    c.Serializers.Insert(0, typeof(JsonNetSerializer));
-                    //c.RoutePatternMatcher = typeof(ToucheeRoutePatternMatcher);
-                });
-            }
-        }
     }
 
 }

@@ -3,8 +3,6 @@
   locale:   'nl-nl',
   
   // Logging level
-  logLevel: T.Log.Levels.DEBUG,
+  logLevel: T.Log.Levels.DEBUG
   
-  // Base URL
-  baseURL:  "http://htpc.local/"
 }

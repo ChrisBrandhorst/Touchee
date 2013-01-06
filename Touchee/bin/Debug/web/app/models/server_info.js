@@ -2,7 +2,7 @@ define([
   'underscore',
   'Backbone',
   'Touchee'
-], function(_, Backbone, Touchee){
+], function(_, Backbone, T){
   
   // ServerInfo object
   var ServerInfo = Backbone.Model.extend({
@@ -31,6 +31,7 @@ define([
         if (_.isFunction(success))
           success = _.bind(success, this, model, response, options);
         serverInfo.loadPlugins(success);
+        serverInfo.setName();
       };
       
       Backbone.Model.prototype.fetch.call(this, options);
@@ -68,7 +69,41 @@ define([
     // Gets the plugin with the given key
     getPlugin: function(key) {
       var plugin = this.plugins[key];
-      return plugin instanceof Touchee.Plugin ? plugin : null;
+      return plugin instanceof T.Plugin ? plugin : null;
+    },
+    
+    
+    // Stores the currently available name so we can later retrieve the name
+    // when we only have the host
+    setName: function() {
+      var names = JSON.parse(localStorage['names'] || "[]"),
+          name  = this.get('name');
+      
+      // No name? No store...
+      if (!name) return;
+      
+      var existing = _.find(names, function(n){ return n.host == window.location.host; });
+      if (existing)
+        existing.name = name;
+      else
+        names.push({
+          host: window.location.host,
+          name: name
+        });
+      localStorage['names'] = JSON.stringify(names);
+    },
+    
+    
+    // 
+    getName: function() {
+      var name = this.get('name');
+      if (name) return name;
+      
+      var existing = _.find(JSON.parse(localStorage['names'] || "[]"), function(n){ return n.host == window.location.host; });
+      if (existing)
+        return existing.name;
+      else
+        return window.location.hostname;
     }
     
     

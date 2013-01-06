@@ -11,7 +11,7 @@
 
 
 // Border image with retina alternative
-@mixin retina-border-image($image, $top, $right, $bottom, $left, $mode: round)
+@mixin retina-border-image($image, $top, $right, $bottom, $left, $mode: stretch)
   -webkit-border-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x) $top $right $bottom $left $mode
   border-width:         $top+px $right+px $bottom+px $left+px
 
@@ -22,7 +22,7 @@
 
 
 // Remote border image with retina alternative
-@mixin remote-border-image($image, $top, $right, $bottom, $left, $mode: round)
+@mixin remote-border-image($image, $top, $right, $bottom, $left, $mode: stretch)
   @include retina-border-image("../images/remote/#{$image}", $top, $right, $bottom, $left, $mode)
 
 

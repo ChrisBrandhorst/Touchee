@@ -7,32 +7,17 @@ define([
   'library',
   'models/server_info',
   'models/collections/media',
-  'views/connecting',
-  'views/browser',
-  'i18n!nls/locale'
+  'views/browser'
 ], function($, _, Backbone,
             Communicator, Router, Library,
             ServerInfo, Media,
-            ConnectingView, BrowserView,
-            I18n) {
-  
+            BrowserView) {
   
   var App = {
     
     
-    // Whether the client has once been connected this session
-    wasConnected:     false,
-    
-    
-    // Internal counter for the amount of connection tries
-    connectionTries:  0,
-    
-    
     // Init the app
     initialize: function(options) {
-      
-      // Set log level
-      T.Log.level(T.Config.get('logLevel'));
       
       // Set events on the communicator
       // Communicator.on('connecting', this.connecting, this);
@@ -48,17 +33,7 @@ define([
     
     // Connect to the server
     connect: function() {
-      this.connectionTries += 1;
       T.Log.info("Application:: connecting...")
-      
-      // Set texts and show connecting view
-      var connectionStatus = this.connectionTries > 1 ? I18n.connecting.retry : I18n.connecting.connecting;
-      if (this.connectionTries > 2) connectionStatus += ' (' + this.connectionTries + ')';
-      
-      ConnectingView.setStatus(
-        connectionStatus,
-        this.wasConnected ? I18n.connecting.lost : null
-      ).show();
       
       // Get server info
       T.Log.info("Application:: getting server info...");
@@ -78,16 +53,15 @@ define([
     
     // Called when the websocket is (re-)opened
     connected: function() {
-      App.connectionTries = 0;
-      ConnectingView.setStatus(I18n.connecting.connected).hide();
+      var isFirstConnection = Communicator.connectedCount == 1;
       
       // If we have not connected before, get the sessionID from the cookie
-      if (!this.wasConnected) {
+      if (isFirstConnection) {
         
         // Get session ID from cookie
         var sessionID = document.cookie.match(/ToucheeSession=([a-f0-9-]+)/);
         if (!sessionID)
-          return console.error("Please enable cookies");
+          return T.Log.error("Please enable cookies");
         this.sessionID = sessionID[1];
         
       }
@@ -96,7 +70,7 @@ define([
       Communicator.send("IDENTIFY", this.sessionID);
       
       // First-time init
-      if (!this.wasConnected) {
+      if (isFirstConnection) {
         Library.initialize();
         BrowserView.show();
         Router.initialize();

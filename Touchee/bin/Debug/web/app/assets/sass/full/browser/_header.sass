@@ -52,7 +52,7 @@
     @include  box-flex(1)
     position: relative
     margin:   0 15px 0 13px
-    @include  remote-border-image(LCDGlassLandscape, 10, 10, 10, 10, stretch)
+    @include  remote-border-image(LCDGlassLandscape, 10, 10, 10, 10)
     > *
       display:  block
     
@@ -65,20 +65,28 @@
         width:        26px
         position:     absolute
         left:         50%
-        top:          14px
+        top:          4px
         margin-left:  -13px
         @include      remote-image(LCDAppleLogo)
       > *
-        display:  none
+        display:  none !important
     
     // Artwork preview
     #lcd_artwork
       width:                40px
       height:               40px
+      @include              display-box
       background-size:      contain
       background-position:  center center
       @include              box-shadow(0 0 3px 0 rgba(0,0,0,.4))
-    
+      background-image:     url(../images/remote/missing-music-artwork.png)
+      &:active
+        &::before
+          display:    block
+          content:    ''
+          background: rgba(0,0,0,.3)
+          @include    box-flex(1)
+      
     // Flexible center
     > div
       @include    box-flex(1)
@@ -97,9 +105,11 @@
     #lcd_title
       font-weight:    bold
       padding-bottom: 4px
+      height:         17px
       @include        ellipsis
     #lcd_container
       font-size:    85%
+      height:       11px
       @include      ellipsis
     
     // LCD Buttons
@@ -140,7 +150,7 @@
       position:   relative
       overflow:   visible
       @include    remote-border-image(LCDTrackEmpty, 0, 4, 0, 4)
-      &.ui-slider
+      &:not(.ui-slider-disabled)
         @include    remote-border-image(LCDTrack, 0, 4, 0, 4)
         
       // Volume slider range
@@ -185,7 +195,6 @@
       
       // Volume knob
       > a
-        display:  block
         position: absolute
         height:   32px
         width:    32px

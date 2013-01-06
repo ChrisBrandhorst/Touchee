@@ -54,4 +54,25 @@ define([
     return duration;
   };
   
+  $.fn.invisible = function() {
+    this.each(function(){
+      jQuery._data( this, "oldvisibility", jQuery.css(this, "visibility") );
+      this.style.visibility = "hidden";
+    });
+  };
+  
+  $.fn.visible = function() {
+    this.each(function(){
+      this.style.visibility = jQuery._data( this, "oldvisibility" ) || "";
+    });
+  };
+  
+  $.fn.disable = function() {
+    this.attr('disabled', "disabled");
+  };
+  
+  $.fn.enable = function() {
+    this.removeAttr('disabled');
+  };
+  
 });

@@ -3,7 +3,9 @@
   
   // Default locale
   var Locale = {
-  
+    
+    touchee:  "Touchee",
+    
     unknown:  "Unknown",
     back:     "Back",
   
@@ -40,7 +42,7 @@
         more:   'webcasts'
       }
     },
-  
+    
     time: {
       minute: {
         one:  'minute',
@@ -51,15 +53,10 @@
         }  
       }
     },
-  
-    connecting: {
-      connecting:   "Connecting...",
-      connected:    "Connected!",
     
-      lost:         "Connection lost",
-      reconnecting: "Reconnecting...",
-    
-      retry:        "Could not connect. Trying again..."
+    browser: {
+      connecting:   "Connecting to %s...",
+      reconnecting: "Connection lost. Reconnecting to %s..."
     }
   
   };
@@ -82,6 +79,7 @@
     }
     
   };
+  
   
   
   // Define as module

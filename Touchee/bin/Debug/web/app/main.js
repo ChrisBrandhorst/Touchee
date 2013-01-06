@@ -53,8 +53,8 @@ require([
   
   Touchee.noConflict();
   
-  // Set Touchee shortcut
-  this.T = Touchee;
+  // Set Touchee shortcut in global scope
+  this.T = this.Touchee = Touchee;
   
   // Set config
   // TODO: eval is evil
@@ -63,15 +63,19 @@ require([
   // Set locale in i18n config
   require.config({ config: { i18n: { locale: Touchee.Config.get('locale') } } });
   
+  // Set log level
+  Touchee.Log.level(Touchee.Config.get('logLevel'));
+  
   // Boot fastclick
   new FastClick(document.body);
   
-  // Then, load the app
-  require(['app'], function(App){
-    
-    App.initialize();
-    
+  // Load the locale file so we can place it in the gloval scope (we are lazy)
+  require(['i18n!nls/locale'], function(I18n){
+    this.I18n = I18n;
+    // Then, load the app
+    require(['app'], function(App){
+      App.initialize();
+    });
   });
-
   
 });

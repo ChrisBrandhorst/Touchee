@@ -98,18 +98,6 @@ define([
   });
   
   
-  
-  // Sync for taking into account a base URL
-  Backbone.origSync = Backbone.sync;
-  Backbone.sync = function(method, model, options) {
-    var url = _.isFunction(model.url) ? model.url() : model.url;
-    if (url) {
-      options || (options = {});
-      options.url = options.url || T.Config.get('baseURL') + url;
-    }
-    Backbone.origSync.call(this, method, model, options);
-  };
-  
 });
 
 

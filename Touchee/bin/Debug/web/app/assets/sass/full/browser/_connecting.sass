@@ -1,0 +1,31 @@
+#browser > #connecting
+  
+  text-align:       center
+  font-weight:      bold
+  font-size:        110%
+  padding-top:      200px
+  background:       no-repeat center 200px
+  @include          retina-image("../images/ConnectingShadow")
+  background-size:  200px
+  
+  > div
+    height:             200px
+    background:         no-repeat center
+    @include            retina-image("../images/Connecting")
+    background-size:    contain
+    margin-bottom:      4px
+    -webkit-animation:  connectingSpin 1s linear infinite
+
+  @media screen and (max-width: 900px)
+    padding-top:          323px
+    background-position:  center 323px
+    > div
+      margin-bottom: 44px
+      
+@-webkit-keyframes connectingSpin
+  from
+    -webkit-transform: rotate3d(0,0,0,0deg)
+  50%
+    -webkit-transform: rotate3d(0,0,0,180deg)
+  to
+    -webkit-transform: rotate3d(0,0,0,360deg)

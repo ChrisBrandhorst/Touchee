@@ -24,9 +24,9 @@
     min-width:    100px
     padding:      0 11px 0 31px
     @include      text-shadow(0 1px 0 white)
-    @include      remote-border-image(ChromeButton, 0, 4, 0, 4, stretch)
+    @include      remote-border-image(ChromeButton, 0, 4, 0, 4)
     &:active
-      @include    remote-border-image(ChromeButtonSelected, 0, 4, 0, 4, stretch)
+      @include    remote-border-image(ChromeButtonSelected, 0, 4, 0, 4)
     &.music
       background:       no-repeat 6px 5px
       @include          remote-image(SourceListMusicGray)
@@ -77,7 +77,7 @@
         right:        0
         bottom:       0
         left:         9px
-        @include      remote-border-image(ChromeButton, 1, 4, 1, 4, stretch)
+        @include      remote-border-image(ChromeButton, 1, 4, 1, 4)
         border-width: 1px 0 !important
       
       // First child has a rounded edge on the right
@@ -93,7 +93,7 @@
       &:last-child
         padding-right: 5px
         &::after
-          @include      remote-border-image(ChromeButton, 1, 4, 1, 4, stretch)
+          @include      remote-border-image(ChromeButton, 1, 4, 1, 4)
           border-width: 1px 4px 1px 0 !important
       
       // Active button
@@ -101,7 +101,7 @@
         &::before
           @include  remote-image(ChromeButtonSelectedRight)
         &::after
-          @include  remote-border-image(ChromeButtonSelected, 1, 4, 1, 4, stretch)
+          @include  remote-border-image(ChromeButtonSelected, 1, 4, 1, 4)
         + a::before
           @include  remote-image(ChromeButtonSelectedLeft)
         &:first-child::before
@@ -116,12 +116,12 @@
     padding:    0 15px 0 8px
     margin-top: 1px
     background: transparent
-    @include    remote-border-image(ChromeSearch, 0, 17, 0, 25, stretch)
+    @include    remote-border-image(ChromeSearch, 0, 17, 0, 25)
     &[disabled]
-      @include  remote-border-image(ChromeSearchDisabled, 0, 17, 0, 25, stretch)
+      @include  remote-border-image(ChromeSearchDisabled, 0, 17, 0, 25)
     &.filled
       padding-right:  8px
-      @include        retina-border-image("../images/ChromeSearchClear", 0, 24, 0, 25, stretch)
+      @include        retina-border-image("../images/ChromeSearchClear", 0, 24, 0, 25)
 
 
 // Portrait mode
