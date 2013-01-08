@@ -5,10 +5,12 @@ define([
   'communicator',
   'models/server_info',
   'models/status',
+  'views/media/popup',
   'i18n!nls/locale',
   'text!views/browser.html'
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
+            MediaPopupView,
             I18n,
             browserTemplate) {
   
@@ -26,6 +28,7 @@ define([
     
     // Events
     events: {
+      'click [data-button=nav]': 'showNav'
     },
     
     
@@ -155,6 +158,10 @@ define([
     
     
     // === Buttons ===
+    
+    showNav: function(ev) {
+      MediaPopupView.showRelativeTo(ev.target);
+    },
     
     // === / ===
     

@@ -1,0 +1,24 @@
+<%
+var loadingClass = function(container) {
+  return container.get('loading') === true ? 'loading' : '';
+};
+%>
+
+<%
+model.each(function(m){
+  
+  switch (m.containers.length) {
+    case 1000:
+      return;
+    case 1001:
+      var c = m.containers.first();
+      if (c.isNew()) return;
+      %><a href="#<%= c.url() %>/contents" class="<%=c.get('type')%> <%=c.get('contentType')%> <%=loadingClass(c)%>"><span><%=c.get('name')%></span></a><%
+      break;
+    default:
+      %><a href="#<%= m.url() %>/containers" class="more <%=m.get('type')%>"><span><%=m.get('name')%></span></a><%
+      break;
+  }
+
+});
+%>

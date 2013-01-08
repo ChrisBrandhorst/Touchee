@@ -1,0 +1,44 @@
+.pages
+  
+  > *
+    overflow: hidden
+    @include  display-box
+    
+    // Transform settings for each page content and header
+    > *
+      -webkit-transition-property:        -webkit-transform
+      -webkit-transition-duration:        .2s
+      -webkit-transition-timing-function: ease
+      width:  100%
+      
+      // All non-first headers and content
+      + *
+        margin-left: -100%
+      
+  // Header container for pages
+  > header
+    
+    // Each header
+    > *
+      // Also transform opacity
+      -webkit-transition-property:        -webkit-transform, opacity
+      // Header to the left of active page
+      &.prev
+        opacity:            0
+        pointer-events:     none
+      // Header to the right of active page
+      &.next
+        -webkit-transform:  translate3d(50%, 0, 0)
+        opacity:            0
+    
+  // Content of pages
+  > :not(header)
+    
+    // Each content
+    > *
+      // Content to the left of active page
+      &.prev
+        -webkit-transform: translate3d(-100%, 0, 0)
+      // Content to the right of active page
+      &.next
+        -webkit-transform: translate3d(100%, 0, 0)

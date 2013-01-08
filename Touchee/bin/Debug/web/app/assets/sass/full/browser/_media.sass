@@ -1,0 +1,50 @@
+@mixin medium_icon($class, $icon:'', $custom:false)
+  @if $icon == ''
+    $icon: $class
+  &.#{$class}
+    &::before
+      @if $custom == true
+        @include  retina-image("../images/SourceList#{$icon}Gray")
+      @else
+        @include  remote-image(SourceList#{$icon}Gray)
+    &.selected::before
+      @if $custom == true
+        @include  retina-image("../images/SourceList#{$icon}Highlight")
+      @else
+        @include  remote-image(SourceList#{$icon}Highlight)
+
+#media_popup
+  width:  334px
+  left:   360px
+  
+  .pages
+    h1
+      @include        ellipsis
+      padding-left:   54px
+      padding-right:  54px
+      button.back
+        float:        left
+        width:        48px
+        margin:       6px 10px 0 -48px
+        background:   no-repeat 2px center
+        @include      remote-image(SourceSwitcherGlyph)
+  
+  .list
+    > *
+      
+      // Default folder icon
+      &::before
+        @include  remote-image(SourceListFolderGray)
+      &.selected::before
+        @include  remote-image(SourceListFolderHighlight)
+      
+      // Icons for different media types
+      @include medium_icon(local, HomeSharing)
+      @include medium_icon(web, Radio)
+      @include medium_icon(bluray_video, BlurayDisc, true)
+      @include medium_icon(removeable_drive, RemoveableDrive, true)
+      
+      // @include source_icon(music)
+      // @include source_icon(movies)
+      // @include source_icon(tv)
+      // @include source_icon(sharedlibrary)

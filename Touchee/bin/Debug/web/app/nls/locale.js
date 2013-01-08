@@ -5,12 +5,24 @@
   var Locale = {
     
     touchee:  "Touchee",
-    
     unknown:  "Unknown",
+    
     back:     "Back",
-  
     shuffle:  "Shuffle",
-  
+    
+    
+    models: {
+      media: {
+        one:  'medium',
+        more: 'media'
+      }
+    },
+    
+    
+    
+    
+    
+    
     viewTypes: {
       track:    "Songs",
       artist:   "Artists",

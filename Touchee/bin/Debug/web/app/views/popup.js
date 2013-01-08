@@ -11,10 +11,10 @@ define([
     className:  'popup arrow with_header',
     
     // Touchee options
-    arrow:      false,
+    arrow:      true,
     
     
-    dummy: '<div class="paged">  <header>    <h1>Blackbox II</h1>  </header>  <div>    <nav class="list scrollable icons">      <a href="#" class="music">Music</a>      <a href="#" class="movies">Films</a>      <a href="#" class="tv">TV Programmes</a>      <a href="#" class="sharedlibrary more selected">Blackbox II asd asd asda sdasd asdasd</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a><a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a>    <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a> <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a></nav>  </div></div>',
+    // dummy: '<div class="paged">  <header>    <h1>Blackbox II</h1>  </header>  <div>    <nav class="list scrollable icons">      <a href="#" class="music">Music</a>      <a href="#" class="movies">Films</a>      <a href="#" class="tv">TV Programmes</a>      <a href="#" class="sharedlibrary more selected">Blackbox II asd asd asda sdasd asdasd</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a><a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a>    <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a> <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a></nav>  </div></div>',
     
     arrowSize:  19,
     minMargin:  11,
@@ -24,9 +24,26 @@ define([
     initialize: function(options) {
       options || (options = {});
       
-      this.$el.html(this.dummy);
-      this.$arrow = $('<div class="arrow" />');
-      this.$el.prepend(this.$arrow);
+      // this.$el.html(this.dummy);
+      if (this.arrow) {
+        this.$arrow = $('<div class="arrow" />');
+        this.$el.prepend(this.$arrow);
+      }
+    },
+    
+    
+    resizeToContents: function() {
+      
+      var css = {};
+      
+      var $popup = this.$el
+        .addClass('resize')
+        .css(css, css);
+      
+      _.delay(function(){
+        $popup.removeClass('resize');
+      }, 200);
+      
     },
     
     
@@ -196,6 +213,7 @@ define([
       // Set position and arrow class
       this.$el
         .css(pos.active)
+        .css({height:this.$el.outerHeight()})
         .removeClass('hidden top right bottom left').addClass(pos.active.arrow)
         .withOverlay({
           remove: function($overlay) {
@@ -208,6 +226,7 @@ define([
         });
       
     }
+    
     
     
     

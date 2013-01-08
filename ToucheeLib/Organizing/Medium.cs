@@ -121,7 +121,7 @@ namespace Touchee {
     /// <remarks>
     /// A medium based on a physical drive
     /// </remarks>
-    public class DriveMedium : Medium {
+    public abstract class DriveMedium : Medium {
 
         /// <summary>
         /// Gets the drive info belonging to this medium

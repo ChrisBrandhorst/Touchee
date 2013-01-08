@@ -15,13 +15,14 @@ define([
   'models/filter',
   'models/control_request',
   
-  'views/browser'
+  'views/browser',
+  'views/media/popup'
 ], function($, _, Backbone, Touchee,
             BaseModule,
             ServerInfo,
             Media, Containers,
             Contents, Filter, ControlRequest,
-            BrowserView
+            BrowserView, MediaPopupView
 ){
   
   var AppRouter = Backbone.Router.extend({
@@ -63,10 +64,10 @@ define([
     
     
     // A medium was selected from the nav list
-    containers: function(mediumID, group) {
+    containers: function(mediumID) {
       var medium = this.getMedium(mediumID);
       if (!medium) return;
-      BrowserView.navigate(medium, group, Backbone.history.fragment);
+      MediaPopupView.showMedium(medium);
     },
     
     

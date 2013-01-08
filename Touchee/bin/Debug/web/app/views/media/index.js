@@ -2,35 +2,32 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/collections/media',
+  'models/server_info',
   'views/paged/page',
-  'text!views/media/show.html'
-], function($, _, Backbone, PageView, mediaShowTemplate) {
-  mediaShowTemplate = _.template(mediaShowTemplate);
+  'text!views/media/index.html'
+], function($, _, Backbone, Media, ServerInfo, PageView, mediaIndexTemplate) {
+  mediaIndexTemplate = _.template(mediaIndexTemplate);
   
-  var MediaShowView = PageView.extend({
+  var MediaIndexView = PageView.extend({
     
     
     // Backbone View options
+    model:      Media,
     tagName:    'nav',
     className:  'list scrollable icons',
     
     
     // Constructor
-    initialize: function(options) {
+    initialize: function() {
       PageView.prototype.initialize.apply(this, arguments);
-      
-      // this.model.on('reset update add remove', this.render, this);
+      this.model.on('reset update add remove', this.render, this);
     },
     
     
     // Gets the header for this page
     getHeader: function() {
-      return this.model.get('name');
-    },
-    
-    
-    getBackButton: function() {
-      return '';
+      return I18n.models.media.more;
     },
     
     
@@ -38,22 +35,23 @@ define([
     render: _.debounce(function() {
       PageView.prototype.render.apply(this, arguments);
       
-      // Render the list while keeping the scroll position and selected item
+      // Render the list while keeping the scroll position
       var $oldItems = this.$el.children(),
           $selected = $oldItems.filter('.selected'),
-          $newItems = $( mediaShowTemplate(this) );
+          $newItems = $( mediaIndexTemplate(this) );
+      
       this.$el.append($newItems);
       $oldItems.remove();
+      
       if ($selected.length)
         this.$el.find('[href=' + $selected.attr('href') + ']').addClass('selected');
       
-      // Set select scrolling
       this.$el.touchscrollselect();
     }, 100)
     
     
   });
   
-  return MediaShowView;
+  return new MediaIndexView;
   
 });

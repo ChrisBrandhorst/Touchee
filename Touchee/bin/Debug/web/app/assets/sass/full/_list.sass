@@ -1,10 +1,3 @@
-@mixin source_icon($type)
-  &.#{$type}
-    &::before
-      @include        remote-image(SourceList#{$type}Gray)
-    &.selected::before
-      @include        remote-image(SourceList#{$type}Highlight)
-
 $listRowHeight: 43px
 
 ul, .list
@@ -14,42 +7,37 @@ ul, .list
   margin-bottom:    -1px
   
   > *
-    display:          block
+    @include          display-box
     line-height:      $listRowHeight
     border-bottom:    1px solid #ccc
     padding:          0 6px
     @include          ellipsis
     
+    > span
+      display:  block
+      @include  box-flex(1)
+      @include  ellipsis
+    
     &.more, &.loading
-      padding-right:  22px
       &::after
-        float:        right
-        margin-top:   -$listRowHeight + 15px
-        margin-right: -12px
+        display:      block
+        margin-top:   15px // -$listRowHeight + 15px
+        margin-right: 2px
     
     &.more::after
-      content:  -webkit-image-set(url(../images/SourceListNext.png) 1x, url(../images/SourceListNext@2x.png) 2x)
+      content:  -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x)
     
     &.selected
       @include  background( linear-gradient(#90B0D3, #7097BD) )
       color:    white
       &.more::after
-        content:  -webkit-image-set(url(../images/SourceListNextHighlight.png) 1x, url(../images/SourceListNextHighlight@2x.png) 2x)
+        content:  -webkit-image-set(url(../images/ListNextHighlight.png) 1x, url(../images/ListNextHighlight@2x.png) 2x)
   
   &.icons > *
     &::before
       content:        ''
-      display:        inline-block
+      display:        block
       width:          33px
-      height:         33px
       margin:         0 7px 0 0
       vertical-align: middle
       background:     no-repeat center center
-      @include        remote-image(SourceListFolderGray)
-    &.selected::before
-      @include        remote-image(SourceListFolderHighlight)
-    
-    @include source_icon(music)
-    @include source_icon(movies)
-    @include source_icon(tv)
-    @include source_icon(sharedlibrary)
