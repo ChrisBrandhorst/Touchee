@@ -29,24 +29,15 @@ define([
     
     
     routes: {
-      // "":                                             "root",
-      "media/:mid/containers":                        "containers",
-      "media/:mid/groups/:group/containers":          "containers",
-      "media/:mid/containers/:cid/contents":          "container",
-      "media/:mid/containers/:cid/contents/*filter":  "container",
-      "media/:mid/containers/:cid/play/*filter":      "play",
-      "queue/:qid/:command":                          "control"
+      "media/:mid":                                 "medium",
+      "media/:mid/containers/:cid":                 "container",
+      "media/:mid/containers/:cid/*filter":         "container",
+      // "media/:mid/containers/:cid/play/*filter":      "play",
+      // "queue/:qid/:command":                          "control"
     },
     
     
     initialize: function() {
-      
-      // Bind global navigate event
-      // _.extend(window, Backbone.Events);
-      // window.on('navigate', function(url){
-      //   if (typeof url == 'string')
-      //     this.navigate(url, {trigger:true});
-      // }, this);
       
       // Create base module instance
       this.baseModule = new BaseModule;
@@ -56,18 +47,15 @@ define([
     },
     
     
-    // Root method
-    // root: function() {
-    //   if (!BrowserView.mediaListView.isEmpty())
-    //     BrowserView.mediaListView.activatePage('first');
-    // },
-    
-    
     // A medium was selected from the nav list
-    containers: function(mediumID) {
+    medium: function(mediumID) {
       var medium = this.getMedium(mediumID);
       if (!medium) return;
-      MediaPopupView.showMedium(medium);
+      
+      if (medium.containers.length > 1)
+        MediaPopupView.showMedium(medium);
+      else
+        Backbone.history.navigate(medium.containers.first().url(), {trigger:true});
     },
     
     
@@ -82,9 +70,25 @@ define([
       filter = new Filter(decodeURIComponent(filter || ""));
       
       // If we were not given any specific type to show in the filter, we get the first viewType
-      var type = filter.get('type') || container.get('viewTypes')[0];
-      if (!type)
+      var type = filter.get('type') || container.viewTypes[0];
+      if (container.viewTypes.indexOf(type) == -1)
         return this.Log.error("No type specified for container " + containerID);
+      
+      // Get the module for this container
+      var plugin = ServerInfo.getPlugin(container.get('plugin')),
+          module = (plugin && plugin.module) || this.baseModule;
+      
+      // 
+      // module.showContent(container, filter, containerView, fragment);
+      
+      
+      // Set the selected container in the browser view
+      BrowserView.setSelectedContainer(container);
+      return;
+      
+      
+      
+      
       
       // Check if we navigated from within a container view or from the media list or view type buttons
       filter.unset('type');

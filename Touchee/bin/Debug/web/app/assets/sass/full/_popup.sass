@@ -29,8 +29,9 @@ $popupBackground: #0C1934
   
   // Resize animation
   &.resize
-    @include        transition(.2s ease)
-    @include        transition-property(top, height)
+    &, >.arrow
+      @include  transition(.2s ease)
+      @include  transition-property(top, height)
   
   // Header within popup
   h1

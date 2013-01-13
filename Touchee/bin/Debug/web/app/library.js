@@ -16,8 +16,23 @@ define([
     load: function(connectedBefore) {
       
       // Get all media
-      Media.fetch({update:true});
+      Media.fetch({
+        update:   true,
+        success:  this.mediaLoaded
+      });
       
+    },
+    
+    
+    // 
+    mediaLoaded: function() {
+      _.each(Media.models, function(medium, i){
+        medium.containers.fetch({
+          success: i > 0 ? null : function(){
+            Backbone.history.navigate(medium.url(), {trigger:true});
+          }
+        });
+      });
     }
     
     

@@ -21,9 +21,6 @@ define([
           this.trigger('update:containers', this);
         }, this);
       }
-      
-      // Auto get containers belonging to this model
-      this.containers.fetch();
     },
     
     

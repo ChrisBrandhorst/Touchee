@@ -18,8 +18,7 @@ define([
     // Constructor
     initialize: function(options) {
       PageView.prototype.initialize.apply(this, arguments);
-      
-      // this.model.on('reset update add remove', this.render, this);
+      this.model.on('change', this.render, this);
     },
     
     
@@ -35,7 +34,7 @@ define([
     
     
     // Renders the list
-    render: _.debounce(function() {
+    render: function() {
       PageView.prototype.render.apply(this, arguments);
       
       // Render the list while keeping the scroll position and selected item
@@ -49,7 +48,7 @@ define([
       
       // Set select scrolling
       this.$el.touchscrollselect();
-    }, 100)
+    }
     
     
   });

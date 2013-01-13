@@ -129,7 +129,6 @@ define([
     
     // Called when the ServerInfo object has changed
     serverInfoChanged: function() {
-      this.buttons.$nav.html(ServerInfo.get('name'));
     },
     
     // Called when the Status object has changed
@@ -148,7 +147,11 @@ define([
     //   
     // }
     
-    
+    setSelectedContainer: function(container) {
+      this.buttons.$nav
+        .addClass(container.get('contentType'))
+        .html(container.get('name'));
+    },
     
     
     // === Container view handling ===

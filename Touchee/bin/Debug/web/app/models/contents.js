@@ -30,6 +30,7 @@ define([
     },
     
     
+    // TODO: remove
     shuffable: false,
     
     // // Modified fetch method for including type and filter parameters

@@ -6,18 +6,17 @@ define([
   
   var PopupView = Backbone.View.extend({
     
+    
     // Backbone view options
     tagName:    'section',
     className:  'popup arrow with_header',
     
+    
     // Touchee options
-    arrow:      true,
-    
-    
-    // dummy: '<div class="paged">  <header>    <h1>Blackbox II</h1>  </header>  <div>    <nav class="list scrollable icons">      <a href="#" class="music">Music</a>      <a href="#" class="movies">Films</a>      <a href="#" class="tv">TV Programmes</a>      <a href="#" class="sharedlibrary more selected">Blackbox II asd asd asda sdasd asdasd</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a><a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a>    <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a> <a href="#" class="">Music</a>      <a href="#" class="">Films</a>      <a href="#" class="">TV Programmes</a>      <a href="#" class="">Podcasts</a>      <a href="#" class="">iTunes U</a></nav>  </div></div>',
-    
-    arrowSize:  19,
-    minMargin:  11,
+    arrow:        true,
+    arrowSize:    19,
+    minMargin:    11,
+    removeOnHide: false,
     
     
     // Constructor
@@ -32,28 +31,92 @@ define([
     },
     
     
+    // Gets the required content height of this popup
+    getRequiredContentHeight: function() {
+      return this.$el.outerHeight();
+    },
+    
+    
+    // Resizes the popup nicely to fit the content size (given by getRequiredContentHeight)
     resizeToContents: function() {
       
-      var css = {};
+      // Get some params
+      var requiredContentHeight = this.getRequiredContentHeight() - 7,
+          currentInnerHeight    = this.$el.height();
       
-      var $popup = this.$el
-        .addClass('resize')
-        .css(css, css);
+      // Do not resize if not required
+      if (requiredContentHeight <= currentInnerHeight) return;
       
-      _.delay(function(){
-        $popup.removeClass('resize');
-      }, 200);
+      // Get some more
+      var currentOuterHeight  = this.$el.outerHeight(),
+          currentTop          = this.$el.offset().top,
+          paddingAndBorder    = currentOuterHeight - currentInnerHeight,
+          targetHeight        = requiredContentHeight + paddingAndBorder,
+          targetTop           = currentTop,
+          bottomOverflow      = 0,
+          topOverflow;
+      
+      // Unless the arrow is at the bottom, make sure the popup is not enlarged too much downward
+      if (!this.$el.hasClass('bottom')) {
+        bottomOverflow = currentTop + targetHeight - (document.body.offsetHeight - this.minMargin);
+        if (bottomOverflow > 0)
+          targetHeight -= bottomOverflow;
+      }
+      
+      
+      // If we have overflow at the bottom, or the arrow is at the bottom, enlarge the popup upwards
+      if (bottomOverflow > 0 || this.$el.hasClass('bottom')) {
+        
+        // Unless the arrow is at the top, move the popup upwards
+        if (!this.$el.hasClass('top')) {
+          // If we have a bottom overflow, move by that overflow
+          if (bottomOverflow > 0) {
+            targetTop     -= bottomOverflow;
+            targetHeight  += bottomOverflow;
+          }
+          // Else, move by the amount required
+          else
+            targetTop -= requiredContentHeight - currentInnerHeight;
+        }
+        
+        // Check that the popup is not enlarged too much upward
+        if ((topOverflow = this.minMargin - targetTop) > 0) {
+          targetHeight  -= topOverflow;
+          targetTop     += topOverflow;
+        }
+      }
+      
+      // Get arrow params
+      var arrowTop  = this.$arrow.position().top,
+          topDiff   = currentTop - targetTop;
+      
+      // Do animate
+      var view = this;
+      this.$arrow.css('top', arrowTop);
+      _.defer(function(){
+        view.$el.addClass('resize');
+        view.$arrow.css('top', arrowTop + topDiff + 'px');
+        view.$el.css({
+          height: targetHeight  + 'px',
+          top:    targetTop     + 'px'
+        });
+        _.delay(function(){
+          view.$el.removeClass('resize');
+        }, 200);
+      });
       
     },
     
     
-    
+    // Show the popup relative to the given DOM element target
     showRelativeTo: function(target) {
       var $target = $(target).first();
       target = $target[0];
       
       // Set on body
-      this.$el.addClass('hidden').appendTo(document.body);
+      this.$el.addClass('hidden');
+      if (!this.el.parentNode)
+        this.$el.appendTo(document.body);
       
       // Reset popup
       this.$el.css({height:""});
@@ -130,7 +193,7 @@ define([
       // If no side is ok
       if (!pos.active) {
         
-        // Check if the arrow fits at the top or bottom of the popup in left/right position
+        // Check if the arrow fits near the top or bottom in the left or right position
         var moreSpaceOnTop  = pos.top.checks.topOverflow <= pos.bottom.checks.bottomOverflow,
             moreSpaceOnLeft = pos.left.checks.leftOverflow <= pos.right.checks.rightOverflow,
             arrowFits = moreSpaceOnTop
@@ -211,23 +274,35 @@ define([
       }
       
       // Set position and arrow class
-      this.$el
+      var view = this, $popup = this.$el;
+      this.$overlay = this.$el
         .css(pos.active)
         .css({height:this.$el.outerHeight()})
         .removeClass('hidden top right bottom left').addClass(pos.active.arrow)
         .withOverlay({
-          remove: function($overlay) {
-            var $popup = this;
+          remove: function() {
             $popup.addClass('animate hidden');
             _.delay(function(){
-              $popup.remove().removeClass('animate hidden');
+              $popup.removeClass('animate hidden');
+              if (_.isFunction(view.removeOnHide))
+                view.removeOnHide.call(this, $popup);
+              else if (view.removeOnHide === true)
+                $popup.remove();
+              else
+                $popup.hide();
             }, 200);
+            delete view.$overlay;
           }
         });
       
+    },
+    
+    
+    // Hides the popup by triggering the mousedown of the used overlay
+    hide: function() {
+      if (!this.$overlay) return;
+      this.$overlay.mousedown();
     }
-    
-    
     
     
   });

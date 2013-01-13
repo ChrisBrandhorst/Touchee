@@ -32,17 +32,6 @@ define([
     initialize: function(){},
     
     
-    showContent: function(container, filter, containerView, fragment) {
-      // Build the contents object for the given container and filter
-      var contents = this.buildContents(container, filter);
-      // Show the contents in the active containerView
-      this.buildContentsView(contents, containerView, fragment);
-      // Retrieve the actual contents
-      this.fetchContents(contents);
-    },
-    
-    
-    
     // Build the container object for the given container attribetus
     buildContainer: function(attrs, options) {
       var containerClass = this.getContainerClass(attrs.type);
@@ -53,6 +42,17 @@ define([
     // Get the container class for the given type
     getContainerClass: function(type) {
       return Container;
+    },
+    
+    
+    // Main function for showing the contents of a container
+    showContent: function(container, filter, containerView, fragment) {
+      // Build the contents object for the given container and filter
+      var contents = this.buildContents(container, filter);
+      // Show the contents in the active containerView
+      this.buildContentsView(contents, containerView, fragment);
+      // Retrieve the actual contents
+      this.fetchContents(contents);
     },
     
     

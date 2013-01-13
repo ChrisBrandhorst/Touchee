@@ -14,8 +14,9 @@
         @include  remote-image(SourceList#{$icon}Highlight)
 
 #media_popup
-  width:  334px
-  left:   360px
+  width:      334px
+  left:       360px
+  min-height: 226px
   
   .pages
     h1
@@ -44,7 +45,7 @@
       @include medium_icon(bluray_video, BlurayDisc, true)
       @include medium_icon(removeable_drive, RemoveableDrive, true)
       
-      // @include source_icon(music)
+      @include medium_icon(music)
       // @include source_icon(movies)
       // @include source_icon(tv)
       // @include source_icon(sharedlibrary)

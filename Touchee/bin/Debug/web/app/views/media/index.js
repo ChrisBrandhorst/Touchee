@@ -22,6 +22,7 @@ define([
     initialize: function() {
       PageView.prototype.initialize.apply(this, arguments);
       this.model.on('reset update add remove', this.render, this);
+      this.on('back', this.removeSelection, this);
     },
     
     
@@ -47,7 +48,13 @@ define([
         this.$el.find('[href=' + $selected.attr('href') + ']').addClass('selected');
       
       this.$el.touchscrollselect();
-    }, 100)
+    }, 100),
+    
+    
+    // Removes the selection
+    removeSelection: function() {
+      this.$el.find('.selected').removeClass('selected');
+    }
     
     
   });

@@ -19,6 +19,12 @@ define([
     id: 'media_popup',
     
     
+    // Events
+    events: {
+      'click a':    'hide'
+    },
+    
+    
     // Constructor
     initialize: function() {
       PopupView.prototype.initialize.apply(this, arguments);
@@ -30,6 +36,7 @@ define([
     render: _.once(function() {
       this.$el.append( MediaPagesView.$el );
       MediaPagesView.addPage( MediaIndexView );
+      this.resizeToContents();
     }),
     
     
@@ -37,6 +44,21 @@ define([
     showMedium: function(medium) {
       var mediumShowView = new MediumShowView({model:medium});
       MediaPagesView.addPage(mediumShowView);
+      this.resizeToContents();
+    },
+    
+    
+    // 
+    getRequiredContentHeight: function() {
+      var activePageView = MediaPagesView.getActivePage();
+      return activePageView.$el.outerHeight() + activePageView.$header.outerHeight();
+    },
+    
+    
+    // After an item is clicked that does not have a 'more' class, hide the popup
+    clickedItem: function(ev) {
+      if (!$(ev.target).closest('a').hasClass('more'))
+        this.hide();
     }
     
     

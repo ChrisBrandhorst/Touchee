@@ -1,1 +1,9 @@
-<a href="#">Bla</a>
+<%
+
+model.containers.each(function(c){
+  
+  %><a href="#<%= c.url() %>" class="<%=c.get('contentType')%>"><span><%=c.get('name')%></span></a><%
+  
+})
+
+%>

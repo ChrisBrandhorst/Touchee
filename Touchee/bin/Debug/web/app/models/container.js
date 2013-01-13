@@ -6,6 +6,10 @@ define([
   
   var Container = Backbone.Model.extend({
     
+    
+    viewTypes: ['item'],
+    
+    
     getArtworkUrl: function(options) {
       options = _.extend({
         ratio: window.devicePixelRatio

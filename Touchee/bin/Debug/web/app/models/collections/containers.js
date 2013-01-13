@@ -27,36 +27,6 @@ define([
     // Parse method
     parse:  function(response) {
       return response.items;
-    },
-    
-    
-    // Group all containers by their content type
-    groupByContentType: function() {
-      var groups = [], group;
-      
-      this.each(function(c){
-        if (c.isNew()) return;
-        
-        var ct = c.get('contentType');
-        if (!group || group.key != ct) {
-          group = {key:ct, members:[c]};
-          groups.push(group);
-        }
-        else {
-          group.members.push(c);
-        }
-        
-      });
-      
-      return groups;
-    },
-    
-    
-    // Get all containers for the given contentType
-    getByContentType: function(contentType) {
-      return this.filter(function(c) {
-        return c.get('contentType') == contentType;
-      });
     }
     
     

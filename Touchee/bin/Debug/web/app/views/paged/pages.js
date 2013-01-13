@@ -36,7 +36,7 @@ define([
     
     
     // Adds a page to the paged view
-    addPage: function(view) {
+    addPage: function(view, fragment) {
       
       // Only allow subclasses of PageView
       if (!(view instanceof PageView))
@@ -67,9 +67,11 @@ define([
       
       // Store page object
       this.pages.push(view);
+      view.fragment = fragment;
     },
     
     
+    // 
     back: function() {
       // Cannot go back if only one page
       if (this.pages.length <= 1) return;
@@ -81,12 +83,22 @@ define([
       view.$header.addClass('next').prev().removeClass('prev');
       view.$el.addClass('next').prev().removeClass('prev');
       
+      // 
+      this.getActivePage().trigger('back');
+      Backbone.history.navigate(view.fragment);
+      
       // Remove page
       _.delay(function(){
         view.$header.remove();
         view.$el.remove();
       }, 200);
     },
+    
+    
+    // 
+    getActivePage: function() {
+      return this.pages[this.pages.length - 1];
+    }
     
     
     
