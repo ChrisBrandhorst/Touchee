@@ -1,11 +1,8 @@
 define([
   'underscore',
   'Backbone',
-  'Touchee',
-  'models/container',
-  'models/contents',
-  'views/contents/table_base'
-], function(_, Backbone, Touchee, Container, Contents, TableBaseView) {
+  'Touchee'
+], function(_, Backbone, Touchee) {
   
   
   // Touchee.Module
@@ -13,11 +10,10 @@ define([
   
   // Modules receive requests for content pages from the user interface and process them
   // specificly for the module type
-  var Module = function() {
+  var Module = Touchee.Module = function() {
     this.initialize.apply(this, arguments);
   };
   Module.extend = Backbone.Model.extend;
-  
   
   // Set up all inheritable **Touchee.Module** properties and methods.
   _.extend(Module.prototype, Backbone.Events, {
@@ -27,9 +23,17 @@ define([
     Log: Touchee.Log,
     
     
+    // The different views that are available for this module, together
+    // with the corresponding view class.
+    views: {
+      // viewID: ViewClass
+    },
+    
+    
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){},
+    
     
     
     // Build the container object for the given container attribetus
@@ -45,65 +49,47 @@ define([
     },
     
     
-    // Main function for showing the contents of a container
-    showContent: function(container, filter, containerView, fragment) {
-      // Build the contents object for the given container and filter
-      var contents = this.buildContents(container, filter);
-      // Show the contents in the active containerView
-      this.buildContentsView(contents, containerView, fragment);
-      // Retrieve the actual contents
-      this.fetchContents(contents);
+    // Shows the contents for the given parameters. Default implementation is as follows:
+    // - Build a view for the given container and filter;
+    // - Sets the view in the browser view;
+    // - Fetch the contents of the view model.
+    showContents: function(container, filter, fragment, browserView) {
+      var view = this.buildView(container, filter, fragment);
+      this.setView(view, browserView);
+      this.fetchViewContents(view);
     },
     
     
-    // Build the contents object for the given container and filter
-    buildContents: function(container, filter) {
-      var type          = filter.get('type'),
-          contentsClass = this.getContentsClass(type);
-      return contents = new contentsClass({
-        type: type
-      },{
-        container:  container,
-        filter:     filter
+    // Build the view object for the given container and filter.
+    buildView: function(container, filter, fragment) {
+      var viewClass = this.getViewClass(filter);
+      if (!viewClass)
+        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + view + ")";
+      
+      var view = new viewClass({
+        model:  container.buildViewModel(filter),
+        filter: filter
       });
+      view.fragment = fragment;
+      return view;
     },
     
     
-    // Get the contents class for the given type
-    getContentsClass: function(type) {
-      return Contents;
+    // Gets the view class for the given filter
+    getViewClass: function(filter) {
+      return this.views[filter.get('view')];
     },
     
     
-    // Show the contents in the given containerView
-    buildContentsView: function(contents, containerView, fragment) {
-      var contentsViewClass = this.getContentsViewClass(contents.getViewType(), contents);
-      var contentsView = new contentsViewClass({
-        contents: contents,
-        back:     containerView.isEmpty() ? false : containerView.activePage.contents.getTitle(),
-        fragment: fragment
-      });
-      this.showContentsView(containerView, contentsView);
+    // Sets the given view in the browser view
+    setView: function(view, browserView) {
+      browserView.setView(view);
+      view.render();
     },
     
-    
-    // Get the view class for the given
-    getContentsViewClass: function(type, contents) {
-      return TableBaseView;
-    },
-    
-    
-    // Default setContentsView
-    showContentsView: function(containerView, itemView) {
-      containerView.storePage(itemView.fragment, itemView);
-      containerView.activatePage(itemView);
-      itemView.render();
-    },
-    
-    
-    // Fetch the actual contents
-    fetchContents: function(contents, options) {
-      contents.fetch(options);
+    // 
+    fetchViewContents: function(view) {
+      view.model.fetch();
     }
     
     

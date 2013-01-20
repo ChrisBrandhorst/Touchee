@@ -78,6 +78,7 @@ define([
       
       // Remove page object
       var view = this.pages.pop();
+      delete view.fragment;
       
       // Animate page out of view
       view.$header.addClass('next').prev().removeClass('prev');
@@ -85,7 +86,7 @@ define([
       
       // 
       this.getActivePage().trigger('back');
-      Backbone.history.navigate(view.fragment);
+      Backbone.history.navigate( this.getActivePage().fragment );
       
       // Remove page
       _.delay(function(){

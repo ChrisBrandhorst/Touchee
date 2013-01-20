@@ -72,15 +72,17 @@ define([
       // First-time init
       if (isFirstConnection) {
         Library.initialize();
-        BrowserView.show();
         Router.initialize();
       }
       
-      // (re)Load the library
-      Library.load(this.wasConnected);
-      
-      // Set that we have connected one time
-      this.wasConnected = true;
+      // Wait until other Communicator connected callbacks have finished
+      _.defer(_.bind(function(){
+        // (re)Load the library
+        Library.load(this.wasConnected);
+        
+        // Set that we have connected one time
+        this.wasConnected = true;
+      }, this));
       
     },
     
@@ -138,4 +140,4 @@ define([
   
   
   return App;
-});
+});;

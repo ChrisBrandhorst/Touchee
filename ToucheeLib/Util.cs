@@ -5,6 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.Net;
 using System.IO;
+using System.Text.RegularExpressions;
 
 using HtmlAgilityPack;
 
@@ -80,11 +81,31 @@ namespace Touchee {
         /// <param name="input"></param>
         /// <returns></returns>
         public static string ToSortName(string input) {
+
             if (String.IsNullOrWhiteSpace(input))
-                return null;
-            else
-                return input.ToSortName();
+                return "|";
+                //return ((char)Char.MaxValue).ToString();
+
+            else {
+                var sortName = input.ToLower().StripPrefixes().StripDiacritics();
+                sortName = Regex.Replace(sortName, @"[^a-z0-9]", "");
+                if (Regex.IsMatch(sortName, @"^\d"))
+                    sortName = "{" + sortName;
+                    //sortName = ((char)(Char.MaxValue - 1)).ToString() + sortName;
+                sortName = Regex.Replace(sortName, @"(\d+)", m =>
+                    (
+                        (char)(
+                            Math.Min(
+                                Int32.Parse(m.Value),
+                                Char.MaxValue - 1
+                            )
+                        )
+                    ).ToString()
+                );
+                return sortName;
+            }
         }
+
 
 
         /// <summary>

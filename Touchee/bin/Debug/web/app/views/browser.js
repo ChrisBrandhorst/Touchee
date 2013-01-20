@@ -32,6 +32,10 @@ define([
     },
     
     
+    // Custom view options
+    views:      [],
+    
+    
     // Constructor
     initialize: function(params) {
       
@@ -75,7 +79,7 @@ define([
       });
       this.$lcd = this.$('#lcd');
       this.$search = this.$('input[name=search]');
-      this.$contents = this.$('> .scrollable');
+      this.$contents = this.$('#contents');
       this.$connecting = this.$('#connecting');
       
       // Set controls as if we are disconnected
@@ -119,7 +123,7 @@ define([
       this.$volume.hide();
       this.$search.hide();
       this.$contents.hide();
-    
+      
       this.$connecting.find('> span').html(
         I18n.browser[ Communicator.connectedCount == 0 ? 'connecting' : 'reconnecting' ].replace('%s', ServerInfo.getName())
       );
@@ -154,7 +158,29 @@ define([
     },
     
     
-    // === Container view handling ===
+    // === Subview handling ===
+    
+    // Sets the given view in the browser
+    setView: function(view) {
+      
+      // Store the view
+      this.views[view.fragment] = view;
+      
+      // Put in DOM if not yet
+      if (view.el.parentNode != this.$contents[0])
+        this.$contents.append(view.$el);
+      
+      // Show view, hide siblings
+      view.$el.show().siblings().hide();
+    },
+    
+    // Remove the given view from the browser
+    removeView: function(view) {
+      if (this.views[view.fragment]) {
+        // TODO: remove view, unbind UI events, unbind model events
+      }
+    },
+    
     
     // === / ===
     

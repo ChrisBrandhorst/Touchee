@@ -1,6 +1,6 @@
 ﻿//using System;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
 
@@ -31,7 +31,7 @@ namespace Music {
 
         public IEnumerable<IItem> GetItems(IContainer container, Options filter) {
             if (container is Playlist) {
-                return ((Playlist)container).Tracks;
+                return ((Playlist)container).Tracks.Reverse();
             }
             else {
                 return null;

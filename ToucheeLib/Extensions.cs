@@ -24,12 +24,7 @@ namespace Touchee {
         }
 
         public static string StripPrefixes(this string input) {
-            var r = new Regex(@"^((the|de|een|a|radio)\s|[^\w]*)", RegexOptions.IgnoreCase);
-            return r.Replace(input, "");
-        }
-
-        public static string ToSortName(this string input) {
-            return input.ToLower().StripPrefixes();
+            return Regex.Replace(input, @"^((the|de|een|a|radio)\s|[^\w]*)", "", RegexOptions.IgnoreCase);
         }
 
         public static bool Matches(this string input, string query) {

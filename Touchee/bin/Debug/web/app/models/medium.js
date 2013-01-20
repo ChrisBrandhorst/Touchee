@@ -26,18 +26,11 @@ define([
     
     // Returns whether this medium is a local medium
     isLocal: function() {
-      return this.get('type') == Medium.Types.LOCAL;
+      return this.get('type') == 'local';
     }
     
     
   });
-  
-  
-  Medium.Types = {
-    LOCAL:        'local',
-    AUDIO_CD:     'audio_cd',
-    FILE_STORAGE: 'file_storage'
-  };
   
   
   return Medium;

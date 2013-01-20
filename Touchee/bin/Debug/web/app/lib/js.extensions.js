@@ -24,7 +24,31 @@ function encodeForFilter(str) {
   return typeof str === 'string' ? encodeURIComponent(str.replace(',', "\\,")) : str;
 }
 
-
+var second = 1000, minute = 60 * second, hour = 60 * minute;
+String.duration = function(ms) {
+  var d = "";
+  
+  var h = Math.floor(ms / hour);
+  if (h > 0) d += h + ":";
+  ms -= h * hour;
+  
+  var m = Math.floor(ms / minute);
+  if (h > 0 && m < 10) d += "0";
+  d += m;
+  ms -= m * minute;
+  
+  if (h > 0)
+    d += "h";
+  else {
+    var s = Math.floor(ms / second);
+    
+    d += ":";
+    if (s < 10) d += "0";
+    d += s;
+  }
+  
+  return d;
+};
 
 
 

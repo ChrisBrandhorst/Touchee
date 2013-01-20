@@ -15,9 +15,12 @@ namespace Touchee.Server.Http {
     /// </summary>
     public class ToucheeNancyBootStrapper : DefaultNancyBootstrapper {
 
-        protected override void ConfigureConventions(NancyConventions conventions) {
-            base.ConfigureConventions(conventions);
+        protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, IPipelines pipelines) {
+            StaticConfiguration.DisableCaches = false;
+        }
 
+        protected override void ConfigureConventions(NancyConventions conventions) {
+            
             foreach (var component in PluginManager.FrontendComponents) {
                 var pluginName = component.GetType().Assembly.GetName().Name;
                 conventions.StaticContentsConventions.Add(

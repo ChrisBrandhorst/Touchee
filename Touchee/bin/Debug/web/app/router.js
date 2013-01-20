@@ -14,14 +14,15 @@ define([
   'models/contents',
   'models/filter',
   'models/control_request',
-  
+    
   'views/browser',
   'views/media/popup'
 ], function($, _, Backbone, Touchee,
             BaseModule,
             ServerInfo,
             Media, Containers,
-            Contents, Filter, ControlRequest,
+            Contents, Filter,
+            ControlRequest,
             BrowserView, MediaPopupView
 ){
   
@@ -70,52 +71,30 @@ define([
       filter = new Filter(decodeURIComponent(filter || ""));
       
       // If we were not given any specific type to show in the filter, we get the first viewType
-      var type = filter.get('type') || container.viewTypes[0];
-      if (container.viewTypes.indexOf(type) == -1)
-        return this.Log.error("No type specified for container " + containerID);
+      var view      = filter.get('view') || _.keys(container.views)[0],
+          viewModel = container.views[view];
+      if (!viewModel)
+        return this.Log.error("No valid viewmodel class specified for container " + containerID) + " (" + view + ")";
       
-      // Get the module for this container
-      var plugin = ServerInfo.getPlugin(container.get('plugin')),
-          module = (plugin && plugin.module) || this.baseModule;
-      
-      // 
-      // module.showContent(container, filter, containerView, fragment);
-      
-      
-      // Set the selected container in the browser view
-      BrowserView.setSelectedContainer(container);
-      return;
-      
-      
-      
-      
-      
-      // Check if we navigated from within a container view or from the media list or view type buttons
-      filter.unset('type');
-      var internal = filter.count > 0;
-      
-      // Explicitly set the type in the filter and update the fragment
-      filter.set('type', type);
-      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+\/contents/)[0], "/", filter.toString()].join('');
+      // Explicitly set the viuew in the filter and update the fragment
+      filter.set('view', view);
+      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0], "/", filter.toString()].join("");
       Backbone.history.navigate(fragment, {replace:true});
       
-      // Get or create the container view
-      var containerView = internal ? BrowserView.activeContainerView : BrowserView.getOrCreateContainerView(container, type);
-      if (!internal)
-        BrowserView.activateContainerView(containerView);
-      
-      // If we already have a view for the current fragment, activate that page
-      var existingPage;
-      if (existingPage = containerView.getPage(fragment))
-        return containerView.activatePage(existingPage);
-      
       // Get the module for this container
       var plugin = ServerInfo.getPlugin(container.get('plugin')),
           module = (plugin && plugin.module) || this.baseModule;
       
-      // Show the content
-      module.showContent(container, filter, containerView, fragment);
+      // Set selection of container in browser
+      BrowserView.setSelectedContainer(container);
+          
+      // Build the view
+      module.showContents(container, filter, fragment, BrowserView);
       
+      
+      // TODO: necessary?
+      // Check if we navigated from within a container view or from the media list or view type buttons
+      // Unset 'view' in filter, count attributes, re-set 'view'
     },
     
     

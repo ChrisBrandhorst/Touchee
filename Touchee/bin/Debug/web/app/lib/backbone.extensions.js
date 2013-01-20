@@ -15,7 +15,8 @@ define([
   
   // Collection extensions
   _.extend(Backbone.Collection.prototype, {
-
+    
+    
     // Build method for collections.
     // Like create, but without saving it to the server.
     build: function(model, options) {
@@ -26,25 +27,15 @@ define([
       if (options.add)
         coll.add(model, options);
       return model;
+    },
+    
+    // Gets the LinQ enumerator for the collection.
+    getEnum: function() {
+      return Enumerable.From(this.models);
     }
+    
     
   });
   
   
 });
-
-
-
-
-
-
-
-
-// // 
-// Backbone.readOnlySync = function(method, model, options) {
-//   if (method != 'read')
-//     return;
-//   else
-//     Backbone.sync.apply(this, arguments);
-// };
-//

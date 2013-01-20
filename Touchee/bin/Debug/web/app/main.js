@@ -47,7 +47,8 @@ require([
   
   // Other
   'lib/js.extensions',
-  '../lib/fastclick.min'
+  '../lib/fastclick.min',
+  '../lib/linq'
   
 ], function(config, Backbone, $, Touchee){
   

@@ -1,0 +1,71 @@
+.scroll_list.table
+  
+  table
+    border-collapse:  separate
+    border-spacing:   0
+    table-layout:     fixed
+    width:            100%
+    
+    tr
+      &:nth-child(odd) td
+        background-color: #f2f4f5
+        border-top-color: #fbfbfb
+      &:nth-child(even) td
+        background-color: #fafafa
+        border-top-color: #ffffff
+      td
+        height:         40px
+        padding:        1px 0 0 13px
+        border-top:     1px solid
+        border-bottom:  1px solid #dcdcdc
+        vertical-align: middle
+        @include        ellipsis
+        color:          #070707
+        font-size:      110%
+        
+        &:first-child
+          font-weight: bold
+        
+        &:last-child
+          padding-right: 85px
+          text-align:   right
+      
+      &.selected td, &:not(.index):active td
+        border-bottom-color:  #6285A6
+        border-top-color:     #E5ECF4
+        @include              background(linear-gradient(#91B0D3, #7198BE))
+        color:                white
+  
+  &.songs > table td
+    &:first-child
+      width: 31.5%
+    &:nth-child(2)
+      width: 27.5%
+    &:last-child
+      width: 135px
+    
+    @media screen and (max-width: 900px)
+      &:first-child
+        width:  46%
+      &:nth-child(2)
+        width: auto
+      &:nth-child(3)
+        display:  none
+        
+
+div.scroll_list-table-index
+  line-height:          23px
+  border-style:         solid
+  border-width:         1px 0
+  font-weight:          bold
+  padding:              1px 0 0 13px
+  color:                #070707
+  
+div.scroll_list-table-index, .scroll_list.table tr.index td
+  height:               27px
+  font-size:            130%
+  text-transform:       capitalize
+  @include              text-shadow(0 1px 0 white)
+  border-top-color:     #e6e6e6
+  border-bottom-color:  #a9a9a9
+  @include              background(linear-gradient(#ddd, #d7d7d7))

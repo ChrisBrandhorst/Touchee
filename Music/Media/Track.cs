@@ -69,28 +69,50 @@ namespace Music.Media {
                 Log("Could not parse tags for file " + file.FullName);
             }
 
-            // Bail out if we have no tag
-            if (tagFile == null) return;
+            // Set properties if we have a tag
+            if (tagFile != null) {
+                if (!String.IsNullOrEmpty(tag.TitleSort))
+                    this.TitleSort = Util.ToSortName(tag.TitleSort);
+                if (!String.IsNullOrEmpty(tag.Title))
+                    this.Title = tag.Title;
 
-            // Set properties
-            if (!String.IsNullOrEmpty(tag.Album))
-                this.Album = tag.Album;
-            if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
-                this.AlbumArtist = tag.JoinedAlbumArtists; // Also sets AlbumArtistSort
-            if (!String.IsNullOrEmpty(tag.JoinedPerformers))
-                this.Artist = tag.JoinedPerformers;
-            if (!String.IsNullOrEmpty(tag.JoinedPerformersSort))
-                this.ArtistSort = tag.JoinedPerformersSort;
-            this.DiscNumber = tag.Disc;
-            this.Duration = tagFile.Properties.Duration;
-            if (!String.IsNullOrEmpty(tag.JoinedGenres))
-                this.Genre = tag.JoinedGenres.FirstToUpper();
-            if (!String.IsNullOrEmpty(tag.Title))
-                this.Title = tag.Title;
-            if (!String.IsNullOrEmpty(tag.TitleSort))
-                this.TitleSort = tag.TitleSort;
-            this.TrackNumber = tag.Track;
-            this.Year = tag.Year;
+                if (!String.IsNullOrEmpty(tag.JoinedPerformersSort))
+                    this.ArtistSort = Util.ToSortName(tag.JoinedPerformersSort);
+                if (!String.IsNullOrEmpty(tag.JoinedPerformers))
+                    this.Artist = tag.JoinedPerformers;
+
+                if (!String.IsNullOrEmpty(tag.AlbumSort))
+                    this.AlbumSort = Util.ToSortName(tag.AlbumSort);
+                if (!String.IsNullOrEmpty(tag.Album))
+                    this.Album = tag.Album;
+
+                if (tag.AlbumArtistsSort.Length > 0)
+                    this.AlbumSort = Util.ToSortName(String.Join("; ", tag.AlbumArtistsSort));
+                if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
+                    this.AlbumArtist = tag.JoinedAlbumArtists;
+
+                if (!String.IsNullOrEmpty(tag.JoinedGenres))
+                    this.Genre = tag.JoinedGenres.ToTitleCase();
+
+                this.DiscNumber = tag.Disc;
+                this.Duration = tagFile.Properties.Duration;
+                this.TrackNumber = tag.Track;
+                this.Year = tag.Year;
+            }
+
+            // Retrieve title and artist from filename if not set
+            bool hasTitle = !String.IsNullOrEmpty(this.Title),
+                 hasArtist = !String.IsNullOrEmpty(this.Artist);
+            if (!hasTitle || !hasArtist) {
+                var name = Path.GetFileNameWithoutExtension(file.Name);
+                var hyphenIndex = name.IndexOf('-');
+
+                if (!hasTitle)
+                    this.Title = (hyphenIndex == -1 ? name : name.Substring(hyphenIndex + 1)).Trim();
+                if (!hasArtist)
+                    this.Artist = hyphenIndex == -1 ? null : name.Substring(0, hyphenIndex).Trim();
+            }
+
         }
 
         #endregion
@@ -130,8 +152,8 @@ namespace Music.Media {
             get { return _title; }
             set {
                 _title = value;
-                if (TitleSort == null && _title != null)
-                    TitleSort = _title.ToSortName();
+                if (TitleSort == null)
+                    TitleSort = Util.ToSortName(_title);
             }
         }
         /// <summary>
@@ -144,8 +166,8 @@ namespace Music.Media {
             get { return _artist; }
             set {
                 _artist = value;
-                if (ArtistSort == null && _artist != null)
-                    ArtistSort = _artist.ToSortName();
+                if (ArtistSort == null)
+                    ArtistSort = Util.ToSortName(_artist);
             }
         }
         /// <summary>
@@ -158,8 +180,8 @@ namespace Music.Media {
             get { return _album; }
             set {
                 _album = value;
-                if (AlbumSort == null && _album != null)
-                    AlbumSort = _album.ToSortName();
+                if (AlbumSort == null)
+                    AlbumSort = Util.ToSortName(_album);
             }
         }
         /// <summary>
@@ -172,8 +194,8 @@ namespace Music.Media {
             get { return _albumArtist; }
             set {
                 _albumArtist = value;
-                if (AlbumArtistSort == null && _albumArtist != null)
-                    AlbumArtistSort = _albumArtist.ToSortName();
+                if (AlbumArtistSort == null)
+                    AlbumArtistSort = Util.ToSortName(_albumArtist);
             }
         }
 
