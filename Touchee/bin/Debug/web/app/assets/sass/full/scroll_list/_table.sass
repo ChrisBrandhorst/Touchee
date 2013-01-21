@@ -7,12 +7,12 @@
     width:            100%
     
     tr
-      &:nth-child(odd) td
-        background-color: #f2f4f5
-        border-top-color: #fbfbfb
-      &:nth-child(even) td
+      &.odd td
         background-color: #fafafa
         border-top-color: #ffffff
+      &:not(.odd) td  
+        background-color: #f2f4f5
+        border-top-color: #fbfbfb
       td
         height:         40px
         padding:        1px 0 0 13px

@@ -582,14 +582,14 @@ body > section:not(.popup) {
   width: 100%;
 }
 /* line 10, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table table tr:nth-child(odd) td {
-  background-color: #f2f4f5;
-  border-top-color: #fbfbfb;
-}
-/* line 13, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table table tr:nth-child(even) td {
+.scroll_list.table table tr.odd td {
   background-color: #fafafa;
   border-top-color: white;
+}
+/* line 13, ../sass/full/scroll_list/_table.sass */
+.scroll_list.table table tr:not(.odd) td {
+  background-color: #f2f4f5;
+  border-top-color: #fbfbfb;
 }
 /* line 16, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td {
