@@ -7,22 +7,12 @@ define([
   
   var TableView = ScrollListView.extend({
     
-    listType:     'table',
-    columns:      ['id'],
-    innerTagName: 'table',
-    dummy:        '<tr><td>&nbsp;</td></tr>',
-    showIndices:  false,
-    
-    // // Constructor
-    // initialize: function(options) {
-    //   ScrollListView.prototype.initialize.apply(this, arguments);
-    // },
-    // 
-    // 
-    // // 
-    // render: function() {
-    //   ScrollListView.prototype.render.apply(this, arguments);
-    // },
+    listType:       'table',
+    columns:        ['id'],
+    innerTagName:   'table',
+    dummy:          '<tr><td>&nbsp;</td></tr>',
+    indexAttribute: 'titleSort',
+    indicesShow:    true,
     
     
     // Renders each item of the table
@@ -35,6 +25,15 @@ define([
       
       rendered += "</tr>";
       return rendered;
+    },
+    
+    
+    // Renders an index item
+    renderIndex: function(index) {
+      var rendered = '<tr class="index"><td>' + index + '</td>';
+      for (var i = 1; i < this.columns.length; i++)
+        rendered += '<td></td>';
+      return rendered + '</tr>';
     }
     
   });
