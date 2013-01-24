@@ -66,13 +66,6 @@ define([
         indices:  _.keys(indices),
         count:    _.map(indices, function(value, key){ return value.length; })
       };
-    },
-    
-    
-    // Called when this view / page is activated
-    activated: function() {
-      if (this.fragment != Backbone.history.fragment)
-        Backbone.history.navigate(this.fragment);
     }
     
     

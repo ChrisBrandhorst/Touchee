@@ -76,7 +76,7 @@ define([
       if (!viewModel)
         return this.Log.error("No valid viewmodel class specified for container " + containerID) + " (" + view + ")";
       
-      // Explicitly set the viuew in the filter and update the fragment
+      // Explicitly set the view in the filter and update the fragment
       filter.set('view', view);
       var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0], "/", filter.toString()].join("");
       Backbone.history.navigate(fragment, {replace:true});
@@ -86,8 +86,8 @@ define([
           module = (plugin && plugin.module) || this.baseModule;
       
       // Set selection of container in browser
-      BrowserView.setSelectedContainer(container);
-          
+      BrowserView.setSelectedContainer(container, view);
+      
       // Build the view
       module.showContents(container, filter, fragment, BrowserView);
       

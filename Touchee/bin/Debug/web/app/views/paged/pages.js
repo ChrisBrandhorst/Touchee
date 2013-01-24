@@ -29,10 +29,10 @@ define([
     
     
     // Renders the framework for the paged view
-    render: _.once(function() {
+    render: function() {
       this.$headers = $('<header/>').appendTo(this.$el);
       this.$pages = $('<div/>').appendTo(this.$el);
-    }),
+    },
     
     
     // Adds a page to the paged view

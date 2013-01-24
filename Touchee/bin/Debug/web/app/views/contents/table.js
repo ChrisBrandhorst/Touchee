@@ -11,7 +11,6 @@ define([
     columns:        ['id'],
     innerTagName:   'table',
     dummy:          '<tr><td>&nbsp;</td></tr>',
-    indexAttribute: 'titleSort',
     indicesShow:    true,
     
     
@@ -30,7 +29,7 @@ define([
     
     // Renders an index item
     renderIndex: function(index) {
-      var rendered = '<tr class="index"><td>' + index + '</td>';
+      var rendered = '<tr class="index" data-index="' + index + '"><td>' + index + '</td>';
       for (var i = 1; i < this.columns.length; i++)
         rendered += '<td></td>';
       return rendered + '</tr>';

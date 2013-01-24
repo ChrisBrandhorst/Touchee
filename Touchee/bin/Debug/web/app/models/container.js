@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'models/contents'
-], function($, _, Backbone, Contents){
+  'models/contents',
+  'models/filter'
+], function($, _, Backbone, Contents, Filter){
   
   var Container = Backbone.Model.extend({
     
@@ -21,6 +22,17 @@ define([
     // Constructor
     initialize: function(attributes, options) {
       options || (options = {});
+    },
+    
+    
+    // Gets the URL for the container, optionally appended by a filter
+    url: function(filter) {
+      var url = Backbone.Model.prototype.url.call(this);
+      if (filter) {
+        filter = new Filter(filter);
+        url = url.replace(/\/$/, "") + "/" + encodeURIComponent(filter.toString());
+      }
+      return url;
     },
     
     

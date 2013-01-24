@@ -140,6 +140,9 @@ define([
     module: null,
     
     
+    // The locale object for this plugin
+    locale: {},
+    
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){}
@@ -154,6 +157,10 @@ define([
   
   // Configuration object
   Touchee.Config = new Backbone.Model();
+  
+  
+  // Handy constants
+  Touchee.nonAlphaSortValue = "|";
   
   
   return Touchee;

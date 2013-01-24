@@ -33,11 +33,11 @@ define([
     
     
     // 
-    render: _.once(function() {
+    render: function() {
       this.$el.append( MediaPagesView.$el );
       MediaPagesView.addPage( MediaIndexView );
       this.resizeToContents();
-    }),
+    },
     
     
     //

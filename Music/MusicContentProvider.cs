@@ -31,7 +31,7 @@ namespace Music {
 
         public IEnumerable<IItem> GetItems(IContainer container, Options filter) {
             if (container is Playlist) {
-                return ((Playlist)container).Tracks.Reverse();
+                return ((Playlist)container).Tracks;
             }
             else {
                 return null;

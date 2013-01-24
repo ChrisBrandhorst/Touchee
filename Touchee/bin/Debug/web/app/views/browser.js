@@ -17,7 +17,7 @@ define([
   browserTemplate = _.template(browserTemplate);
   
   
-  var BrowserView =  Backbone.View.extend({
+  var BrowserView = new(Backbone.View.extend({
     
     
     // Backbone view options
@@ -33,7 +33,8 @@ define([
     
     
     // Custom view options
-    views:      [],
+    views:              [],
+    selectedContainer:  null,
     
     
     // Constructor
@@ -81,6 +82,8 @@ define([
       this.$search = this.$('input[name=search]');
       this.$contents = this.$('#contents');
       this.$connecting = this.$('#connecting');
+      this.$viewButtons = this.$('#view_buttons');
+      this.$viewName = this.$('#view_name');
       
       // Set controls as if we are disconnected
       this.disconnected();
@@ -151,10 +154,80 @@ define([
     //   
     // }
     
-    setSelectedContainer: function(container) {
+    // Called when a container selection is made
+    setSelectedContainer: function(container, selectedView) {
+      
+      // Set the nav button
       this.buttons.$nav
         .addClass(container.get('contentType'))
         .html(container.get('name'));
+      
+      // Get the views
+      var views = _.keys(container.views);
+        
+      // If we have a different container, set the new view buttons
+      if (container != this.selectedContainer) {
+        this.selectedContainer = container;
+        
+        // Clear the buttons list
+        var $viewButtons = this.$viewButtons.empty();
+        
+        // If only one view, set it as text
+        if (views.length == 1) {
+          this.$viewName.html(this._getViewText(container, views[0]));
+          $viewButtons.hide();
+        }
+        
+        // Otherwise, set the buttons
+        else {
+          
+          // Loop through the views
+          _.each(views, function(view){
+            // Get the text
+            var text = BrowserView._getViewText(container, view);
+            // Make the button
+            var $button = $('<a href="#" class="button" />')
+              .text(text)
+              .attr({
+                href:         "#" + container.url({view:view}),
+                'data-view':  view
+              });
+            // Set selected class if this is the selected view
+            if (selectedView == view) $button.addClass('selected');
+            // Place the button
+            $viewButtons.append($button);
+          });
+          
+          this.$viewName.html("").hide();
+          $viewButtons.show();
+        }
+      }
+      
+      // Else, only set the selection
+      else if (views.length > 1) {
+        this.$viewButtons.children()
+          .removeClass('selected')
+          .filter('[data-view='+selectedView+']')
+          .addClass('selected');
+      }
+      
+    },
+    
+    
+    // Gets the view text for the given container and view
+    _getViewText: function(container, view) {
+      var plugin  = container.get('plugin'),
+          key     = 'p.'+plugin+'.views.'+view,
+          text    = I18n.t(key);
+      
+      if (key == text) {
+        key     = 'p.'+plugin+'.models.'+view;
+        text    = I18n.t(key, {count:2});
+        if (key == text)
+          text = view;
+      }
+      
+      return text.toTitleCase();
     },
     
     
@@ -200,7 +273,7 @@ define([
     
     // === / ===
     
-  });
+  }));
   
-  return new BrowserView;
+  return BrowserView;
 });

@@ -18,7 +18,8 @@
       }
     },
     
-    
+    // For plugins
+    p: {},
     
     
     
@@ -79,17 +80,17 @@
   Locale.t = function(item, options) {
     options || (options = {});
     
-    var trans = eval('Locale.' + item);
+    var trans;
     
-    if (typeof trans == 'string') {
-      if (typeof options.count == 'number')
-        trans = trans[options.count == 1 ? 'one' : 'more'];
-      return trans;
-    }
-    else {
-      return item;
-    }
+    try { trans = eval('Locale.' + item); }
+    catch(e) { trans = null; }
     
+    if (typeof trans == 'object' && typeof options.count == 'number')
+      trans = trans[options.count == 1 ? 'one' : 'more'];
+    else if (trans == null)
+      trans = item;
+    
+    return trans;
   };
   
   

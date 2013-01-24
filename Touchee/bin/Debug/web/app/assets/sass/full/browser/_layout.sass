@@ -1,9 +1,14 @@
+$headerHeight:  61px
+$footerHeight:  44px
+
 #browser
   @include  display-box
   @include  box-orient(vertical)
   
   > header
-    height:   61px
+    height:   $headerHeight
+    position: relative
+    z-index:  2
   
   > div
     @include box-flex(1)
@@ -12,4 +17,4 @@
       display:  none
     
   > footer
-    height:   44px
+    height: $footerHeight

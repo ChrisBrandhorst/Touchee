@@ -130,6 +130,15 @@ namespace Music.Media {
         // Internal album artist variable
         string _albumArtist;
 
+        // Internal title sort variable
+        string _titleSort;
+        // Internal artist sort variable
+        string _artistSort;
+        // Internal album sort variable
+        string _albumSort;
+        // Internal album artist sort variable
+        string _albumArtistSort;
+
         #endregion
 
 
@@ -152,8 +161,7 @@ namespace Music.Media {
             get { return _title; }
             set {
                 _title = value;
-                if (TitleSort == null)
-                    TitleSort = Util.ToSortName(_title);
+                if (_titleSort == null) TitleSort = _title;
             }
         }
         /// <summary>
@@ -163,11 +171,10 @@ namespace Music.Media {
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string Artist {
-            get { return _artist; }
+            get { return _artist ?? _albumArtist; }
             set {
                 _artist = value;
-                if (ArtistSort == null)
-                    ArtistSort = Util.ToSortName(_artist);
+                if (_artistSort == null) ArtistSort = _artist;
             }
         }
         /// <summary>
@@ -180,8 +187,7 @@ namespace Music.Media {
             get { return _album; }
             set {
                 _album = value;
-                if (AlbumSort == null)
-                    AlbumSort = Util.ToSortName(_album);
+                if (_albumSort == null) AlbumSort = _album;
             }
         }
         /// <summary>
@@ -191,11 +197,10 @@ namespace Music.Media {
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AlbumArtist {
-            get { return _albumArtist; }
+            get { return _albumArtist ?? _artist; }
             set {
                 _albumArtist = value;
-                if (AlbumArtistSort == null)
-                    AlbumArtistSort = Util.ToSortName(_albumArtist);
+                if (_albumArtistSort == null) AlbumArtistSort = _albumArtist;
             }
         }
 
@@ -204,22 +209,34 @@ namespace Music.Media {
         /// The sorted title of this track
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string TitleSort { get; protected set; }
+        public string TitleSort {
+            get { return _titleSort ?? Util.ToSortName(_title); }
+            set { _titleSort = Util.ToSortName(value); }
+        }
         /// <summary>
         /// The sort value of the performing artist of this track
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string ArtistSort { get; protected set; }
+        public string ArtistSort {
+            get { return _artistSort ?? Util.ToSortName(_artist); }
+            set { _artistSort = Util.ToSortName(value); }
+        }
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string AlbumSort { get; protected set; }
+        public string AlbumSort {
+            get { return _albumSort ?? Util.ToSortName(_album); }
+            set { _albumSort = Util.ToSortName(value); }
+        }
         /// <summary>
         /// The sort value of the album artist of this track
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string AlbumArtistSort { get; protected set; }
+        public string AlbumArtistSort {
+            get { return _albumArtistSort ?? Util.ToSortName(_albumArtist); }
+            set { _albumArtistSort = Util.ToSortName(value); }
+        }
 
 
         /// <summary>

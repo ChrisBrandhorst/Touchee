@@ -57,6 +57,8 @@ define([
           plugins[key] = plugin;
           plugin.id = key;
           
+          I18n.p[key] = _.isObject(plugin.locale) ? plugin.locale : {};
+          
           loadedCount++;
           if (loadedCount == pluginCount && _.isFunction(success))
             success();
