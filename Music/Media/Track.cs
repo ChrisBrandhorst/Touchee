@@ -121,12 +121,8 @@ namespace Music.Media {
 
         #region Privates
 
-        // Internal title variable
-        string _title;
         // Internal artist variable
         string _artist;
-        // Internal album variable
-        string _album;
         // Internal album artist variable
         string _albumArtist;
 
@@ -157,13 +153,7 @@ namespace Music.Media {
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string Title {
-            get { return _title; }
-            set {
-                _title = value;
-                if (_titleSort == null) TitleSort = _title;
-            }
-        }
+        public string Title { get; set; }
         /// <summary>
         /// Gets or sets the artist of this track.
         /// If ArtistSort is null when this value is set, the ArtistSort value is automatically set
@@ -172,10 +162,7 @@ namespace Music.Media {
         [DataMember(EmitDefaultValue = false)]
         public string Artist {
             get { return _artist ?? _albumArtist; }
-            set {
-                _artist = value;
-                if (_artistSort == null) ArtistSort = _artist;
-            }
+            set { _artist = value;  }
         }
         /// <summary>
         /// Gets or sets the album of this track.
@@ -183,13 +170,7 @@ namespace Music.Media {
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
-        public string Album {
-            get { return _album; }
-            set {
-                _album = value;
-                if (_albumSort == null) AlbumSort = _album;
-            }
-        }
+        public string Album { get; set; }
         /// <summary>
         /// Gets or sets the album artist of this track.
         /// If AlbumArtistSort is null when this value is set, the AlbumArtistSort value is automatically set
@@ -198,10 +179,7 @@ namespace Music.Media {
         [DataMember(EmitDefaultValue = false)]
         public string AlbumArtist {
             get { return _albumArtist ?? _artist; }
-            set {
-                _albumArtist = value;
-                if (_albumArtistSort == null) AlbumArtistSort = _albumArtist;
-            }
+            set { _albumArtist = value; }
         }
 
 
@@ -210,32 +188,32 @@ namespace Music.Media {
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string TitleSort {
-            get { return _titleSort ?? Util.ToSortName(_title); }
-            set { _titleSort = Util.ToSortName(value); }
+            get { return Util.ToSortName(_titleSort ?? Title); }
+            set { _titleSort = value; }
         }
         /// <summary>
         /// The sort value of the performing artist of this track
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string ArtistSort {
-            get { return _artistSort ?? Util.ToSortName(_artist); }
-            set { _artistSort = Util.ToSortName(value); }
+            get { return Util.ToSortName(_artistSort ?? Artist); }
+            set { _artistSort = value; }
         }
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AlbumSort {
-            get { return _albumSort ?? Util.ToSortName(_album); }
-            set { _albumSort = Util.ToSortName(value); }
+            get { return Util.ToSortName(_albumSort ?? Album); }
+            set { _albumSort = value; }
         }
         /// <summary>
         /// The sort value of the album artist of this track
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AlbumArtistSort {
-            get { return _albumArtistSort ?? Util.ToSortName(_albumArtist); }
-            set { _albumArtistSort = Util.ToSortName(value); }
+            get { return Util.ToSortName(_albumArtistSort ?? AlbumArtist ?? Artist); }
+            set { _albumArtistSort = value; }
         }
 
 

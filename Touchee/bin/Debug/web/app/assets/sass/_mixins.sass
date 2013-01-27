@@ -9,6 +9,10 @@
 @mixin retina-image($image)
   background-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x)
 
+// Border image
+@mixin border-image($image, $top, $right, $bottom, $left, $mode: stretch)
+  -webkit-border-image: url(#{$image}.png) $top $right $bottom $left $mode
+  border-width:         $top+px $right+px $bottom+px $left+px
 
 // Border image with retina alternative
 @mixin retina-border-image($image, $top, $right, $bottom, $left, $mode: stretch)

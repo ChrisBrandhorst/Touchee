@@ -125,6 +125,15 @@ define([
   
   // ...
   var Plugin = Touchee.Plugin = function() {
+    
+    // Inject CSS
+    var cssFiles = _.isString(this.css) ? [this.css] : this.css, name = this.name;
+    _.each(cssFiles, function(cssFile){
+      var file = "app/plugins/" + name + "/assets/stylesheets/" + cssFile + ".css";
+      $('head').append('<link rel="stylesheet" href="'+file+'" type="text/css" />');
+    });
+    
+    // Init the plugin
     this.initialize.apply(this, arguments);
   };
   
@@ -142,6 +151,11 @@ define([
     
     // The locale object for this plugin
     locale: {},
+    
+    
+    // The CSS files(s) for this plugin. All relative to app/plugins/:plugin/assets/stylesheets
+    css: [],
+    
     
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.

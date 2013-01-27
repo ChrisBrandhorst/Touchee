@@ -13,7 +13,9 @@ define([
     
     
     // Type of scrolllist
-    listType:       'base',
+    listType:       '',
+    // Type of content
+    contentType:    '',
     // Element used as floating index
     floatingIndex:  '<div/>',
     // jQuery object for the inner element. If this is not given, a new element is made
@@ -31,11 +33,14 @@ define([
     min:            0,
     // The number of extra rows to render outside the visible portion
     extraRows:      80,
+    // Sets the quickscroll: false for none, true for default and 'alpha' for alpha version
+    quickscroll:    true,
     
     
     // Constructor
     initialize: function() {
       this.$el.addClass(this.listType);
+      this.$el.addClass(this.contentType);
       
       this.calculated = {};
       this.data = {};
@@ -56,6 +61,20 @@ define([
       // Create inner element
       if (!this.$inner)
         this.$inner = $('<' + (this.innerTagName || 'div') + '/>').prependTo(this.$el);
+      
+      // Set quickscroll
+      if (this.quickscroll) {
+        this.$quickscroll = $('<ol/>')
+          .addClass('quickscroll')
+          .prependTo(this.$el);
+        if (this.quickscroll == 'alpha') {
+          var qsHTML = "";
+          for (var i = 65; i <= 90; i++)
+            qsHTML += "<li>" + String.fromCharCode(i) + "</li>";
+          qsHTML += "<li>#</li>";
+          this.$quickscroll.addClass('alpha').html(qsHTML);
+        }
+      }
       
       // Calculate size of elements and capacity
       this.calculateSizes();
@@ -138,7 +157,7 @@ define([
       
       // Get a reference to a child item. If there are no children, create a dummy
       if (!$children.length)
-        $dummy = $( _.result(this, 'dummy') ).appendTo(this.$inner);
+        $item = $dummy = $( _.result(this, 'dummy') ).appendTo(this.$inner);
       else
         $item = $children.first();
       
@@ -210,6 +229,7 @@ define([
       
       _.each(models, function(model, i){
         var idx = model.get(attr)[0].toUpperCase();
+        
         if (idx > "Z") idx = Touchee.nonAlphaSortValue;
         
         if (idx != prevIdx) {
@@ -220,10 +240,10 @@ define([
         }
         else {
           data.count[data.indices.length - 1]++;
-          data.cumulCountMap[idx] = i + 1;
         }
         
         data.items[i] = idx;
+        data.cumulCountMap[idx] = i + 1;
         
       });
       
@@ -376,7 +396,7 @@ define([
     },
     
     
-    // 
+    // Modify the index value to group non-alpha chars
     _processIndex: function(index) {
       return index == Touchee.nonAlphaSortValue ? "#" : index;
     },
@@ -443,5 +463,26 @@ define([
   });
   
   return ScrollList;
+  
+  
+  
+  
+  // _getValue: function(model, attr) {
+  //   var val;
+  //   
+  //   if (_.isString(attr))
+  //     val = model.get(attr);
+  //   else if (_.isArray(attr)) {
+  //     _.some(attr, function(a){
+  //       val = a.get(attr);
+  //       if (val) return true;
+  //     });
+  //   }
+  //   else if (_.isFunction(attr))
+  //     val = attr.call(model, model);
+  //   
+  //   return val;
+  // },
+  
   
 });

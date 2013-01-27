@@ -1,0 +1,32 @@
+$tileSize:  128px
+
+.scroll_list.tiles > ul >
+  
+  li
+    display:        inline-block
+    vertical-align: top
+    width:          $tileSize
+    height:         $tileSize
+    margin:         25px 21px 43px 20px
+    padding-top:    $tileSize
+    
+    background-size:      contain
+    background-repeat:    no-repeat
+    background-position:  bottom left
+    @include              box-shadow(0 3px 12px 0 rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.5) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
+    
+    span
+      display:  block
+      @include  ellipsis
+      
+      &:first-child
+        padding-bottom: 3px
+        font-weight:  bold
+        margin-top:   7px
+      
+      &:nth-child(2)
+        padding-bottom: 3px
+    
+    @media screen and (max-width: 900px)
+      margin-right: 2px
+      margin-left:  18px
