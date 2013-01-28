@@ -5,12 +5,10 @@
   right:      4px
   bottom:     6px
   width:      23px
-  border:           1px solid transparent
-  border-radius:    14px
   z-index:    2
   
   // Top dot
-  background: no-repeat 8px 8px
+  background: no-repeat 9px -3px
   @include    remote-image(quickScroll-dot-large)
   
   // Bottom dot
@@ -20,8 +18,8 @@
     @include  remote-image(quickScroll-dot-large)
     width:    5px
     height:   5px
-    bottom:   8px
-    left:     8px
+    bottom:   -3px
+    left:     9px
   
   // Middle dots
   &::before
@@ -29,37 +27,44 @@
     position:   absolute
     background: repeat-y center -9px
     @include    retina-image("../images/quickScroll-dot-small")
-    top:        16px
-    bottom:     16px
-    left:       9px
+    top:        5px
+    bottom:     5px
+    left:       10px
     width:      3px
     @media screen and (max-width: 900px)
-      top:    17px
-      bottom: 17px
+      top:    6px
+      bottom: 6px
   
   // Fill
-  &:hover
-    background-color: rgba(94,108,114,.6)
-    border-color:     #9EA6AA
+  border: solid transparent
+  border-width: 12px 0
+  &.hover
+    @include remote-border-image(quickScroll-track, 12, 0, 12, 0)
+  
   
   // Alpha scoller
   &.alpha
-    width:  28px
+    width:            28px
+    font-weight:      bold
+    font-size:        85%
+    line-height:      23px
+    color:            #6A737D
+    text-align:       center
+    
+    // No top dot
     background-image: none
     
+    // No bottom and middle dots
     &::before, &::after
       display: none
     
-    font-weight:  bold
-    font-size:    85%
-    line-height:  23px
-    color:          #6A737D
-    text-align:   center
-    li:first-child
-      margin-top: 4px
+    // Fill
+    border-width: 14px 0
     
+    // Positioning of letters
+    li:first-child
+      margin-top: -9px
     @media screen and (max-width: 900px)
       line-height: 33px
       li:first-child
-        margin-top: -3px
-  
+        margin-top: -16px

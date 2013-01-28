@@ -30,6 +30,7 @@ define([
     },
     
     
+    
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){},
@@ -62,30 +63,25 @@ define([
     
     // Build the view object for the given container and filter.
     buildView: function(container, filter, fragment) {
-      var viewClass = this.getViewClass(filter);
+      var view      = filter.get('view'),
+          viewClass = this.views[view];
       if (!viewClass)
-        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + view + ")";
+        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + filter.get('view') + ")";
       
-      var view = new viewClass({
+      var viewInstance = new viewClass({
         model:  container.buildViewModel(filter),
         filter: filter
       });
-      view.fragment = fragment;
-      return view;
-    },
-    
-    
-    // Gets the view class for the given filter
-    getViewClass: function(filter) {
-      return this.views[filter.get('view')];
+      viewInstance.fragment = fragment;
+      return viewInstance;
     },
     
     
     // Sets the given view in the browser view
     setView: function(view, browserView) {
       browserView.setView(view);
-      view.render();
     },
+    
     
     // 
     fetchViewContents: function(view) {

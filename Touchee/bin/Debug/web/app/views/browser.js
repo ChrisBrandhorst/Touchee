@@ -233,8 +233,15 @@ define([
     
     // === Subview handling ===
     
+    
+    getView: function() {
+      
+    },
+    
+    
     // Sets the given view in the browser
-    setView: function(view) {
+    setView: function(view, options) {
+      options || (options = {});
       
       // Store the view
       this.views[view.fragment] = view;
@@ -245,6 +252,10 @@ define([
       
       // Show view, hide siblings
       view.$el.show().siblings().hide();
+      
+      // Render if not excluded
+      if (options.render !== false)
+        view.render();
     },
     
     // Remove the given view from the browser

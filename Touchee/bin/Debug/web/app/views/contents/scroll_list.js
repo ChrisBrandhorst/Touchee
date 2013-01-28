@@ -9,7 +9,7 @@ define([
     
     // Backbone View options
     tagName:      'section',
-    className:    'scrollable scroll_list',
+    className:    'scroll_list',
     
     
     // Type of scrolllist
@@ -54,27 +54,21 @@ define([
       if (!this.$el.is(':visible'))
         return Touchee.Log.error("Cannot render ScrollList if it is not visible yet!");
       
-      // Build the floating index if required
-      if (this.indicesShow)
-        this.renderFloatingIndex();
+      // Create contents container
+      this.$scroller = $('<div class="scrollable"/>').prependTo(this.$el);
+      this.scroller = this.$scroller[0];
       
       // Create inner element
       if (!this.$inner)
-        this.$inner = $('<' + (this.innerTagName || 'div') + '/>').prependTo(this.$el);
+        this.$inner = $('<' + (this.innerTagName || 'div') + '/>').appendTo(this.$scroller);
       
+      // Build the floating index if required
+      if (this.indicesShow && this.indexAttribute)
+        this.renderFloatingIndex();
+        
       // Set quickscroll
-      if (this.quickscroll) {
-        this.$quickscroll = $('<ol/>')
-          .addClass('quickscroll')
-          .prependTo(this.$el);
-        if (this.quickscroll == 'alpha') {
-          var qsHTML = "";
-          for (var i = 65; i <= 90; i++)
-            qsHTML += "<li>" + String.fromCharCode(i) + "</li>";
-          qsHTML += "<li>#</li>";
-          this.$quickscroll.addClass('alpha').html(qsHTML);
-        }
-      }
+      if (this.quickscroll && this.indexAttribute)
+        this._renderQuickscroll();
       
       // Calculate size of elements and capacity
       this.calculateSizes();
@@ -87,7 +81,7 @@ define([
       this.contentChanged();
       
       // Show index if requested
-      if (this.indicesShow)
+      if (this.indicesShow && this.indexAttribute)
         this._positionFloatingIndex();
     },
     
@@ -102,12 +96,12 @@ define([
       // If we have touches, do some advanced events for efficiency
       if ('ontouchstart' in document.documentElement) {
         // Start touch
-        this.$el.bind('touchstart.scroll_list', function(ev){
+        this.$scroller.bind('touchstart.scroll_list', function(ev){
           touching = true;
           scrolling = false;
         });
         // Touch end: if we are scrolling, do a render after a small delay
-        this.$el.bind('touchend.scroll_list', function(){
+        this.$scroller.bind('touchend.scroll_list', function(){
           touching = false;
           if (scrolling)
             scrollTimeout = setTimeout(function(){
@@ -118,7 +112,7 @@ define([
         });
         // If we are scrolling, position the floating index.
         // We only render if we are scrolling without touching
-        this.$el.bind('scroll.scroll_list', function(){
+        this.$scroller.bind('scroll.scroll_list', function(){
           scrolling = touching;
           if (scrollList.indicesShow)
             scrollList._positionFloatingIndex();
@@ -129,9 +123,9 @@ define([
       
       // Else, just use regular debounce on scroll
       else {
-        this.$el.bind('scroll.scroll_list', _.debounce(_.bind(this.renderInView, this), 100));
+        this.$scroller.bind('scroll.scroll_list', _.debounce(_.bind(this.renderInView, this), 100));
         if (scrollList.indicesShow)
-          this.$el.bind('scroll.scroll_list', _.bind(this._positionFloatingIndex, this));
+          this.$scroller.bind('scroll.scroll_list', _.bind(this._positionFloatingIndex, this));
       }
       
       // Recalculate capacity when the view is resized
@@ -139,13 +133,22 @@ define([
         _.bind(this.calculateCapacity, this), 100, true
       ));
       
+      // Bind stuff for quickscroll
+      if (this.quickscroll) {
+        this._qs.$el.bind('touchstart mousedown', _.bind(this._qsStart, this));
+        this._qs.$el.bind('touchmove mousemove', _.bind(this._qsScroll, this));
+        this._qs.$el.bind('touchend mouseup mouseout', _.bind(this._qsEnd, this));
+      }
+      
     },
     
     
     // Unbind all event handlers for the list
     unbind: function() {
       $(window).unbind('resize.scroll_list-' + this.id);
-      this.$el.unbind('.scroll_list');
+      this.$scroller.unbind('.scroll_list');
+      if (this.quickscroll)
+        this._qs.$el.unbind();
     },
     
     
@@ -192,13 +195,13 @@ define([
     
     // Calculates the capacity of the view
     calculateCapacity: function() {
-      var container = this.$el[0],
+      var scroller = this.$scroller[0],
           capacity  = {};
       
       // Calculates the capacity of items within the viewport
       capacity = {
-        vert: Math.ceil(container.clientHeight / this.calculated.size.height),
-        hori: Math.floor(container.clientWidth / this.calculated.size.width)
+        vert: Math.ceil(scroller.clientHeight / this.calculated.size.height),
+        hori: Math.floor(scroller.clientWidth / this.calculated.size.width)
       };
       capacity.total = capacity.vert * capacity.hori;
       
@@ -253,17 +256,17 @@ define([
     
     // Renders the visible items
     renderInView: function(force) {
-      var el        = this.el,
+      var scroller  = this.scroller,
           size      = this.calculated.size,
           capacity  = this.calculated.capacity,
           data      = this.data,
-          scrollTop = el.scrollTop;
+          scrollTop = scroller.scrollTop;
       
       // Set scrolling method :-(
-      if (scrollTop > Math.pow(2,17) - 1000)
-        el.style.webkitOverflowScrolling = "auto";
-      else
-        el.style.webkitOverflowScrolling = "touch";
+      // if (scrollTop > Math.pow(2,17) - 1000)
+      //   scroller.style.webkitOverflowScrolling = "auto";
+      // else
+      //   scroller.style.webkitOverflowScrolling = "touch";
       
       // If we are already fully rendered, but we're not forced, bail out
       if (data.fullRender && !force) return;
@@ -274,7 +277,7 @@ define([
       // Check if we scrolled up or down
       var total         = this.getCount(),
           fullRender    = total < this.min,
-          visibleHeight = el.clientHeight,
+          visibleHeight = scroller.clientHeight,
           floatingIndex = null,
           items         = {
             first:    0,
@@ -314,7 +317,7 @@ define([
         // Else, simply use the viewport to calculate which items to show
         else {
           // Calculate the first and last in view based on the viewport
-          items.first = Math.floor((scrollTop - (el.offsetTop - el.parentNode.offsetTop)) / size.height) * capacity.hori;
+          items.first = Math.floor((scrollTop - (scroller.offsetTop - scroller.parentNode.offsetTop)) / size.height) * capacity.hori;
           items.count = capacity.vert * capacity.hori;
           // Make sure all is within bounds, including the extra rows
           items.first = Math.max(0, items.first - extraAbove);
@@ -361,7 +364,7 @@ define([
       do {
         height += blockHeight;
         blockHeight = size.indexHeight + Math.ceil(this.indices.count[idxIdx]) * size.height;
-      } while ((height + blockHeight < this.el.scrollTop) && ++idxIdx);
+      } while ((height + blockHeight < this.scroller.scrollTop) && ++idxIdx);
       
       return {
         height:       height,
@@ -385,7 +388,7 @@ define([
       var blockInfo = this._getBlockInfo();
       
       // Store the top of the index which is below the top line of the view
-      var nextIndexTop = blockInfo.height + blockInfo.blockHeight - this.el.scrollTop,
+      var nextIndexTop = blockInfo.height + blockInfo.blockHeight - this.scroller.scrollTop,
           nextIndexIdx = this.indices.indices[blockInfo.idxIdx];
       
       // Set floating index
@@ -456,7 +459,104 @@ define([
     renderFloatingIndex: function(index) {
       this.$index = $(this.floatingIndex)
         .addClass('scroll_list-' + this.listType + '-index index')
-        .insertBefore(this.$el).hide();
+        .prependTo(this.$el).hide();
+    },
+    
+    
+    // Renders the quickscroll element
+    _renderQuickscroll: function() {
+      
+      // Build element
+      var $qs = $('<ol/>')
+        .addClass('quickscroll')
+        .prependTo(this.$el);
+      
+      // Set data
+      this._qs = {
+        alpha:  this.quickscroll == 'alpha',
+        $el:    $qs
+      };
+      
+      // Fill with letters if alpha
+      if (this._qs.alpha) {
+        var qsHTML = "";
+        for (var i = 65; i <= 90; i++)
+          qsHTML += "<li>" + String.fromCharCode(i) + "</li>";
+        qsHTML += "<li>#</li>";
+        this._qs.$el.addClass('alpha').html(qsHTML);
+      }
+      
+      // Set more data
+      var rect    = this._qs.$el[0].getBoundingClientRect(),
+          padding = this._qs.$el.css('border-top-width').numberValue();
+      _.extend(this._qs, {
+        top:      rect.top,
+        height:   rect.height,
+        padding:  padding,
+        area:     rect.height - 2 * padding
+      });
+      
+    },
+    
+    
+    // Called when a quickscroll is started
+    _qsStart: function(ev) {
+      delete this._qs.last;
+      this._qsScroll(ev);
+    },
+    
+    
+    // Called when the user is scrolling the quickscroll
+    _qsScroll: function(ev) {
+      
+      // Get the fraction of the height the user is touching
+      var pageY = ev.originalEvent.touches ? ev.originalEvent.touches[0].pageY : ev.pageY,
+          pos   = Math.min(Math.max(pageY - this._qs.top - this._qs.padding, 0), this._qs.area),
+          par   = pos / this._qs.area
+      
+      // If we have an alpha scroller, get the corresponding index
+      if (this._qs.alpha) {
+        var $children = this._qs.$el.children(),
+            i         = Math.min(Math.floor(par * $children.length), $children.length - 1),
+            idx       = $children.eq(i).text().toUpperCase();
+        par = idx == "#" ? "|" : idx;
+      }
+      
+      // If this position is different then the last, kick the scrollTo method
+      if (this._qs.last != par)
+        this.scrollTo(par);
+      this._qs.last = par;
+      
+      // Set hover state and disable default touch
+      this._qs.$el.addClass('hover');
+      ev.preventDefault();
+    },
+    
+    
+    // Called when the quickscroll is over
+    _qsEnd: function(ev) {
+      this._qs.$el.removeClass('hover').hide().show();
+    },
+    
+    
+    // Scroll to the specified position in pixels or fraction of the height
+    scrollTo: function(param) {
+      var scrollTop;
+      
+      // A fraction was given
+      if (_.isNumber(param)) {
+        scrollTop = param * (this.scroller.scrollHeight - this.scroller.clientHeight);
+      }
+      
+      // An index was given
+      else if (_.isString(param)) {
+        var idx       = param,
+            idxIdx    = this.indices.posMap[idx],
+            rows      = this.indices.cumulCountMap[idx] - this.indices.count[idxIdx];
+        scrollTop = rows * this.calculated.size.height + idxIdx * this.calculated.size.indexHeight;
+      }
+      
+      this.scroller.scrollTop = scrollTop;
     }
     
     

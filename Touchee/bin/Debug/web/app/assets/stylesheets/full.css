@@ -578,6 +578,18 @@ body > section:not(.popup) {
 /* line 1, ../sass/full/_scroll_list.sass */
 .scroll_list {
   position: relative;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+}
+/* line 6, ../sass/full/_scroll_list.sass */
+.scroll_list > .scrollable {
+  -webkit-box-flex: 1;
 }
 
 /* line 1, ../sass/full/scroll_list/_quickscroll.sass */
@@ -587,71 +599,72 @@ body > section:not(.popup) {
   right: 4px;
   bottom: 6px;
   width: 23px;
-  border: 1px solid transparent;
-  border-radius: 14px;
   z-index: 2;
-  background: no-repeat 8px 8px;
+  background: no-repeat 9px -3px;
   background-image: -webkit-image-set(url(../images/remote/quickScroll-dot-large.png) 1x, url(../images/remote/quickScroll-dot-large@2x.png) 2x);
+  border: solid transparent;
+  border-width: 12px 0;
 }
-/* line 17, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 15, ../sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll::after {
   content: "";
   position: absolute;
   background-image: -webkit-image-set(url(../images/remote/quickScroll-dot-large.png) 1x, url(../images/remote/quickScroll-dot-large@2x.png) 2x);
   width: 5px;
   height: 5px;
-  bottom: 8px;
-  left: 8px;
+  bottom: -3px;
+  left: 9px;
 }
-/* line 27, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 25, ../sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll::before {
   content: "";
   position: absolute;
   background: repeat-y center -9px;
   background-image: -webkit-image-set(url(../images/quickScroll-dot-small.png) 1x, url(../images/quickScroll-dot-small@2x.png) 2x);
-  top: 16px;
-  bottom: 16px;
-  left: 9px;
+  top: 5px;
+  bottom: 5px;
+  left: 10px;
   width: 3px;
 }
 @media screen and (max-width: 900px) {
-  /* line 27, ../sass/full/scroll_list/_quickscroll.sass */
+  /* line 25, ../sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll::before {
-    top: 17px;
-    bottom: 17px;
+    top: 6px;
+    bottom: 6px;
   }
 }
 /* line 41, ../sass/full/scroll_list/_quickscroll.sass */
-.scroll_list .quickscroll:hover {
-  background-color: rgba(94, 108, 114, 0.6);
-  border-color: #9ea6aa;
+.scroll_list .quickscroll.hover {
+  -webkit-border-image: -webkit-image-set(url(../images/remote/quickScroll-track.png) 1x, url(../images/remote/quickScroll-track@2x.png) 2x) 12 0 12 0 stretch;
+  border-width: 12px 0px 12px 0px;
 }
 /* line 46, ../sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha {
   width: 28px;
-  background-image: none;
   font-weight: bold;
   font-size: 85%;
   line-height: 23px;
   color: #6a737d;
   text-align: center;
+  background-image: none;
+  border-width: 14px 0;
 }
-/* line 50, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 58, ../sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha::before, .scroll_list .quickscroll.alpha::after {
   display: none;
 }
-/* line 58, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 65, ../sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha li:first-child {
-  margin-top: 4px;
+  margin-top: -9px;
 }
 @media screen and (max-width: 900px) {
   /* line 46, ../sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll.alpha {
     line-height: 33px;
   }
-  /* line 63, ../sass/full/scroll_list/_quickscroll.sass */
+  /* line 69, ../sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll.alpha li:first-child {
-    margin-top: -3px;
+    margin-top: -16px;
   }
 }
 
@@ -664,10 +677,12 @@ body > section:not(.popup) {
 }
 /* line 10, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr.odd td {
+  background-color: #fafafa;
   border-top-color: white;
 }
 /* line 13, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr:not(.odd):not(.index) td {
+  background-color: #f2f4f5;
   border-top-color: #fbfbfb;
 }
 /* line 16, ../sass/full/scroll_list/_table.sass */
@@ -755,8 +770,8 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   background: linear-gradient(#dddddd, #d7d7d7);
 }
 
-/* line 5, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > ul > li {
+/* line 4, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li {
   display: inline-block;
   vertical-align: top;
   width: 128px;
@@ -770,26 +785,26 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -moz-box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
 }
-/* line 18, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > ul > li span {
+/* line 17, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 22, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > ul > li span:first-child {
+/* line 21, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li span:first-child {
   padding-bottom: 3px;
   font-weight: bold;
   margin-top: 7px;
 }
-/* line 27, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > ul > li span:nth-child(2) {
+/* line 26, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li span:nth-child(2) {
   padding-bottom: 3px;
 }
 @media screen and (max-width: 900px) {
-  /* line 5, ../sass/full/scroll_list/_tiles.sass */
-  .scroll_list.tiles > ul > li {
+  /* line 4, ../sass/full/scroll_list/_tiles.sass */
+  .scroll_list.tiles > .scrollable > ul > li {
     margin-right: 2px;
     margin-left: 18px;
   }
@@ -1557,7 +1572,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
 
 /* line 31, ../sass/full/_browser.sass */
 #browser {
-  background-color: white;
+  background-color: #f2f2f2;
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: 0 -20px;

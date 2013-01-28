@@ -1,5 +1,10 @@
 .scroll_list
   position: relative
+  @include  display-box
+  @include  box-orient(vertical)
+  
+  > .scrollable
+    -webkit-box-flex: 1
 
 @import scroll_list/quickscroll
 
