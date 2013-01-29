@@ -89,7 +89,7 @@ define([
       BrowserView.setSelectedContainer(container, view);
       
       // Build the view
-      module.showContents(container, filter, fragment, BrowserView);
+      module.showContents(container, filter, fragment);
       
       
       // TODO: necessary?

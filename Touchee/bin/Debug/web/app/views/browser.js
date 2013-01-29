@@ -234,8 +234,9 @@ define([
     // === Subview handling ===
     
     
-    getView: function() {
-      
+    // 
+    getView: function(fragment) {
+      return this.views[fragment];
     },
     
     
@@ -262,6 +263,7 @@ define([
     removeView: function(view) {
       if (this.views[view.fragment]) {
         // TODO: remove view, unbind UI events, unbind model events
+        delete this.views[view.fragment];
       }
     },
     

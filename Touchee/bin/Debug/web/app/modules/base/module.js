@@ -1,8 +1,9 @@
 define([
   'underscore',
   'Backbone',
-  'Touchee'
-], function(_, Backbone, Touchee) {
+  'Touchee',
+  'views/browser'
+], function(_, Backbone, Touchee, BrowserView) {
   
   
   // Touchee.Module
@@ -30,11 +31,9 @@ define([
     },
     
     
-    
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){},
-    
     
     
     // Build the container object for the given container attribetus
@@ -54,10 +53,16 @@ define([
     // - Build a view for the given container and filter;
     // - Sets the view in the browser view;
     // - Fetch the contents of the view model.
-    showContents: function(container, filter, fragment, browserView) {
-      var view = this.buildView(container, filter, fragment);
-      this.setView(view, browserView);
+    showContents: function(container, filter, fragment) {
+      var view = this.getView(fragment) || this.buildView(container, filter, fragment);
+      this.setView(view);
       this.fetchViewContents(view);
+    },
+    
+    
+    // Gets the view for the given fragment (or null if it does not exist)
+    getView: function(fragment) {
+      return BrowserView.getView(fragment);
     },
     
     
@@ -73,13 +78,14 @@ define([
         filter: filter
       });
       viewInstance.fragment = fragment;
+      
       return viewInstance;
     },
     
     
     // Sets the given view in the browser view
-    setView: function(view, browserView) {
-      browserView.setView(view);
+    setView: function(view) {
+      BrowserView.setView(view);
     },
     
     

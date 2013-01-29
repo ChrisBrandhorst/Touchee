@@ -19,12 +19,15 @@ define([
       this.contents.on('change',  this._contentsChange, this);
       this.contents.on('add',     this.add,             this);
       this.contents.on('remove',  this.remove,          this);
+      
+      this._contentsReset(this.contents);
     },
     
     
     // Redirect fetch call to the underlying contents
     fetch: function() {
-      this.contents.fetch.apply(this.contents, arguments);
+      if (!this.contents.fetched)
+        this.contents.fetch.apply(this.contents, arguments);
     },
     
     

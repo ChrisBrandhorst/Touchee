@@ -10,13 +10,18 @@ define([
     
     
     // The model used for the contents object
-    contentsModel:      Contents,
+    contentsModel:    Contents,
+    
     
     // The different views that are available for this container, together
     // with the corresponding viewmodel class.
     views: {
       // viewID: ViewModelClass
     },
+    
+    
+    // Whether this container has one single set of contents, regardless of filter
+    singleContents:   true,
     
     
     // Constructor
@@ -39,9 +44,8 @@ define([
     // Builds an instance of the ViewModel for the given filter
     buildViewModel: function(filter) {
       var viewModelClass  = this.views[filter.get('view')],
-          isCollection    = !!viewModelClass.prototype.model,
           contents        = this.buildContents(filter);
-      return new viewModelClass(isCollection ? [] : {}, {
+      return new viewModelClass(null, {
         contents: contents,
         filter:   filter
       });
@@ -50,12 +54,21 @@ define([
     
     // Builds an instance of the Contents for the given filter
     buildContents: function(filter) {
-      var contentsClass = this.getContentsClass(filter),
-          isCollection  = !!contentsClass.prototype.model;
-      return new contentsClass(isCollection ? [] : {}, {
-        container:  this,
-        filter:     filter
-      });
+      var contents;
+      
+      if (this._contents)
+        contents = this._contents;
+      else {
+        var contentsClass = this.getContentsClass(filter),
+        contents = new contentsClass(null, {
+          container:  this,
+          filter:     filter
+        });
+        if (this.singleContents)
+          this._contents = contents;
+      }
+      
+      return contents;
     },
     
     

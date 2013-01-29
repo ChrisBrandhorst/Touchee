@@ -49,6 +49,8 @@ define([
     
     // Render
     render: function() {
+      if (this._rendered) return;
+      this._rendered = true;
       
       // Check if we are visible
       if (!this.$el.is(':visible'))
@@ -518,7 +520,11 @@ define([
       if (this._qs.alpha) {
         var $children = this._qs.$el.children(),
             i         = Math.min(Math.floor(par * $children.length), $children.length - 1),
-            idx       = $children.eq(i).text().toUpperCase();
+            idx;
+        for (i; i < $children.length; i++) {
+          idx = $children.eq(i).text().toUpperCase();
+          if (this.indices.posMap[idx]) break;
+        }
         par = idx == "#" ? "|" : idx;
       }
       
