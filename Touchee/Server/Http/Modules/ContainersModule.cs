@@ -46,7 +46,7 @@ namespace Touchee.Server.Http.Modules {
             var container = GetContainerFromParams(parameters);
             if (container == null) return null;
 
-            NewContentsResponse contents = Library.GetContents(
+            ContentsResponse contents = Library.GetContents(
                 container,
                 Touchee.Options.Build(Request.Query["filter"])
             );
@@ -66,7 +66,7 @@ namespace Touchee.Server.Http.Modules {
 
             // Get query object
             DynamicDictionary query = Request.Query;
-
+            
             // Get requested artwork size
             ArtworkSize size;
             Enum.TryParse<ArtworkSize>(Request.Query.size, true, out size);

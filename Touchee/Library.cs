@@ -245,12 +245,12 @@ namespace Touchee {
         /// <summary>
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
-        public NewContentsResponse GetContents(Container container, Options filter) {
+        public ContentsResponse GetContents(Container container, Options filter) {
             var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
             if (contentProvider == null) return null;
 
             var contents = contentProvider.GetContents(container, filter);
-            return new NewContentsResponse(container, contents);
+            return new ContentsResponse(container, contents);
         }
 
 

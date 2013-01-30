@@ -521,9 +521,10 @@ define([
         var $children = this._qs.$el.children(),
             i         = Math.min(Math.floor(par * $children.length), $children.length - 1),
             idx;
+        
         for (i; i < $children.length; i++) {
           idx = $children.eq(i).text().toUpperCase();
-          if (this.indices.posMap[idx]) break;
+          if (_.isNumber(this.indices.posMap[idx])) break;
         }
         par = idx == "#" ? "|" : idx;
       }

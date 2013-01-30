@@ -65,7 +65,7 @@ namespace Music.Media {
                 tagFile = TagLib.File.Create(file.FullName);
                 tag = tagFile.Tag;
             }
-            catch (Exception) {
+            catch (Exception e) {
                 Log("Could not parse tags for file " + file.FullName);
             }
 

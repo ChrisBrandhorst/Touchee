@@ -241,7 +241,7 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherCreated(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.OnFileCreated(file);
+                this.AfterFileClosed(file, () => this.OnFileCreated(file));
         }
         protected virtual void OnFileCreated(FileInfo file) { }
 
@@ -251,7 +251,7 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.OnFileChanged(file);
+                this.AfterFileClosed(file, () => this.OnFileChanged(file));
         }
         protected virtual void OnFileChanged(FileInfo file) { }
 
@@ -261,7 +261,7 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherRenamed(object sender, RenamedEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.OnFileRenamed(file, e);
+                this.AfterFileClosed(file, () => this.OnFileRenamed(file, e));
         }
         protected virtual void OnFileRenamed(FileInfo file, RenamedEventArgs e) { }
 
@@ -271,11 +271,40 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.OnFileDeleted(file);
+                this.AfterFileClosed(file, () => this.OnFileDeleted(file));
         }
         protected virtual void OnFileDeleted(FileInfo file) { }
 
         #endregion
+
+
+
+        /// <summary>
+        /// Waits for the given file to close before invoking the given action
+        /// </summary>
+        /// <param name="file">The file to check</param>
+        /// <param name="action">The action to invoke</param>
+        void AfterFileClosed(FileInfo file, Action action) {
+            // Always wait a while
+            Thread.Sleep(500);
+
+            // Stop after ten tries
+            var i = 0;
+            while (i < 10) {
+                try {
+                    var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    fs.Close();
+                    action.Invoke();
+                    return;
+                }
+                catch (IOException) {
+                    Thread.Sleep(1000);
+                    i++;
+                }
+            }
+            Log(String.Format("Unable to open file {0}", file.FullName), Logger.LogLevel.Error);
+        }
+
 
 
 

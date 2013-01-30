@@ -75,17 +75,17 @@ namespace Touchee.Components.FileSystem {
         /// <param name="medium">The medium to stop watching</param>
         public bool UnWatch(Medium medium) {
 
-            // Get all media finders for the given medium
-            var mediaFinders = _directoryWatchers.Where(mf => mf.Medium == medium).ToList();
+            // Get all directory watchers for the given medium
+            var directoryWatchers = _directoryWatchers.Where(dw => dw.Medium == medium).ToList();
 
             // Nothing found? Bail out
-            if (mediaFinders.Count() == 0) return false;
+            if (directoryWatchers.Count() == 0) return false;
 
-            // Stop and remove all found finders
+            // Stop and remove all found watchers
             lock (_directoryWatchers) {
-                foreach (var mf in mediaFinders) {
-                    _directoryWatchers.Remove(mf);
-                    mf.Stop();
+                foreach (var dw in directoryWatchers) {
+                    _directoryWatchers.Remove(dw);
+                    dw.Stop();
                 }
             }
 

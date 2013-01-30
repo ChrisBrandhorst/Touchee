@@ -59,7 +59,7 @@
     <Compile Include="Server\Http\Modules\ServerInfoModule.cs" />
     <Compile Include="Server\Http\Modules\ToucheeNancyModule.cs" />
     <Compile Include="Server\Http\NancyExtensions.cs" />
-    <Compile Include="Server\Responses\NewContentsResponse.cs" />
+    <Compile Include="Server\Responses\ContentsResponse.cs" />
     <Compile Include="Server\Responses\ServerInfoResponse.cs" />
     <Compile Include="Server\Responses\ToucheeResponse.cs" />
     <Compile Include="Server\ToucheeServer.cs" />
@@ -68,7 +68,6 @@
     <Compile Include="Server\Http\ToucheeNancyBootStrapper.cs" />
     <Compile Include="Server\Responses\ArtworkResponse.cs" />
     <Compile Include="Server\Responses\ContainersResponse.cs" />
-    <Compile Include="Server\Responses\ContentsResponse.cs" />
     <Compile Include="Server\Responses\MediaResponse.cs" />
     <Compile Include="Server\Websocket\WebsocketServer.cs" />
   </ItemGroup>
