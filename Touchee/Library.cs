@@ -40,7 +40,7 @@ namespace Touchee {
         #endregion
 
 
-
+        
         #region Private vars
 
         /// <summary>
@@ -260,217 +260,236 @@ namespace Touchee {
 
         #region Artwork
 
-        /// <summary>
-        /// Contains the cached artwork results of artwork that is pending or not found
-        /// </summary>
-        Dictionary<string, ArtworkResult> _artworkResultCache = new Dictionary<string, ArtworkResult>();
 
-        /// <summary>
-        /// Gets the artwork for the given item
-        /// </summary>
-        /// <param name="container">The container in which the item resides</param>
-        /// <param name="item">The item for which to find artwork</param>
-        /// <param name="client">The client for which the artwork is retrieved</param>
-        /// <param name="uri">The uri which was called</param>
-        /// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
-        public ArtworkResult Artwork(IContainer container, IItem item, Client client, Uri uri) {
-            // Build empty result object
-            var noResult = new ArtworkResult();
-            
-            // No item? No result
-            if (item == null) return noResult;
 
-            // Get unique key
-            var uniqueKey = ArtworkHelper.GetUniqueKey(item);
-            if (uniqueKey == null) return noResult;
+        public Image GetArtwork(IContainer container, Options filter) {
 
-            // Return artwork for unique key
-            return Artwork(container, uniqueKey, item, null, client, uri);
+            var artwork = this.GetArtworkFromCache(container, filter);
+
+            if (artwork == null) {
+
+            }
+
+            return artwork;
         }
 
 
-        /// <summary>
-        /// Gets the artwork for the given filter
-        /// </summary>
-        /// <param name="container">The container in which the item resides</param>
-        /// <param name="filter">The filter for which to find artwork</param>
-        /// <param name="client">The client for which the artwork is retrieved</param>
-        /// <param name="uri">The uri which was called</param>
-        /// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
-        public ArtworkResult Artwork(IContainer container, Options filter, Client client, Uri uri) {
-
-            // Get hash input from filter
-            var uniqueKey = String.Join(",", 
-                new SortedDictionary<string, string>(filter).Select(
-                    kv => kv.Key + ":" + kv.Value
-                )
-            ).ToLower();
-
-            // Return artwork for hash input
-            return Artwork(container, uniqueKey, null, filter, client, uri);
+        Image GetArtworkFromCache(IContainer container, Options filter) {
+            return null;
         }
 
 
-        /// <summary>
-        /// Gets the artwork for the given unique key, which was sourced from the given item or filter.
-        /// Either item or filter should be given.
-        /// If the artwork is not found in the cache, the call is delegated to a thread to retrieve the
-        /// item from a plugin or service.
-        /// </summary>
-        /// <param name="container">The container in which the artwork subject resides</param>
-        /// <param name="uniqueKey">The hash input value of the artwork</param>
-        /// <param name="item">The item for which to find artwork</param>
-        /// <param name="filter">The filter for which to find artwork</param>
-        /// <param name="client">The client for which the artwork is retrieved</param>
-        /// <param name="uri">The uri which was called</param>
-        /// <returns>An ArtworkResult object</returns>
-        ArtworkResult Artwork(IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
+        ///// <summary>
+        ///// Contains the cached artwork results of artwork that is pending or not found
+        ///// </summary>
+        //Dictionary<string, ArtworkResult> _artworkResultCache = new Dictionary<string, ArtworkResult>();
 
-            // Result var
-            ArtworkResult result;
-
-            // Check if this artwork is in the results cache
-            // Artwork is only present there if was tried at least once and it is not (yet) available
-            lock (_artworkResultCache) {
-                if (_artworkResultCache.ContainsKey(uniqueKey)) {
-
-                    // Get the result cache
-                    result = _artworkResultCache[uniqueKey];
-
-                    // If the artwork was previously unavailable, but the retry period has passed, remove it from the status list so we can retry it
-                    if (result.Status == ArtworkStatus.Unavailable && result.DateTime + _artworkRetryPeriod < DateTime.Now)
-                        _artworkResultCache.Remove(uniqueKey);
-
-                    // Otherwise, return the existing status
-                    else
-                        return result;
-
-                }
-                else
-                    result = new ArtworkResult();
+        ///// <summary>
+        ///// Gets the artwork for the given item
+        ///// </summary>
+        ///// <param name="container">The container in which the item resides</param>
+        ///// <param name="item">The item for which to find artwork</param>
+        ///// <param name="client">The client for which the artwork is retrieved</param>
+        ///// <param name="uri">The uri which was called</param>
+        ///// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
+        //public ArtworkResult Artwork(IContainer container, IItem item, Client client, Uri uri) {
+        //    // Build empty result object
+        //    var noResult = new ArtworkResult();
             
-            }
+        //    // No item? No result
+        //    if (item == null) return noResult;
 
-            // Check if we have any input
-            if (item == null && filter == null) {
-                Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
-                return result;
-            }
+        //    // Get unique key
+        //    var uniqueKey = ArtworkHelper.GetUniqueKey(item);
+        //    if (uniqueKey == null) return noResult;
+
+        //    // Return artwork for unique key
+        //    return Artwork(container, uniqueKey, item, null, client, uri);
+        //}
+
+
+        ///// <summary>
+        ///// Gets the artwork for the given filter
+        ///// </summary>
+        ///// <param name="container">The container in which the item resides</param>
+        ///// <param name="filter">The filter for which to find artwork</param>
+        ///// <param name="client">The client for which the artwork is retrieved</param>
+        ///// <param name="uri">The uri which was called</param>
+        ///// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
+        //public ArtworkResult Artwork(IContainer container, Options filter, Client client, Uri uri) {
+
+        //    // Get hash input from filter
+        //    var uniqueKey = String.Join(",", 
+        //        new SortedDictionary<string, string>(filter).Select(
+        //            kv => kv.Key + ":" + kv.Value
+        //        )
+        //    ).ToLower();
+
+        //    // Return artwork for hash input
+        //    return Artwork(container, uniqueKey, null, filter, client, uri);
+        //}
+
+
+        ///// <summary>
+        ///// Gets the artwork for the given unique key, which was sourced from the given item or filter.
+        ///// Either item or filter should be given.
+        ///// If the artwork is not found in the cache, the call is delegated to a thread to retrieve the
+        ///// item from a plugin or service.
+        ///// </summary>
+        ///// <param name="container">The container in which the artwork subject resides</param>
+        ///// <param name="uniqueKey">The hash input value of the artwork</param>
+        ///// <param name="item">The item for which to find artwork</param>
+        ///// <param name="filter">The filter for which to find artwork</param>
+        ///// <param name="client">The client for which the artwork is retrieved</param>
+        ///// <param name="uri">The uri which was called</param>
+        ///// <returns>An ArtworkResult object</returns>
+        //ArtworkResult Artwork(IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
+
+        //    // Result var
+        //    ArtworkResult result;
+
+        //    // Check if this artwork is in the results cache
+        //    // Artwork is only present there if was tried at least once and it is not (yet) available
+        //    lock (_artworkResultCache) {
+        //        if (_artworkResultCache.ContainsKey(uniqueKey)) {
+
+        //            // Get the result cache
+        //            result = _artworkResultCache[uniqueKey];
+
+        //            // If the artwork was previously unavailable, but the retry period has passed, remove it from the status list so we can retry it
+        //            if (result.Status == ArtworkStatus.Unavailable && result.DateTime + _artworkRetryPeriod < DateTime.Now)
+        //                _artworkResultCache.Remove(uniqueKey);
+
+        //            // Otherwise, return the existing status
+        //            else
+        //                return result;
+
+        //        }
+        //        else
+        //            result = new ArtworkResult();
             
-            // Get form cache
-            result = ArtworkHelper.GetFromCache(uniqueKey);
+        //    }
 
-            // Set type
-            result.Type = filter == null ? ArtworkHelper.GetDefaultArtworkType(item) : ArtworkHelper.GetDefaultArtworkType(filter);
+        //    // Check if we have any input
+        //    if (item == null && filter == null) {
+        //        Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
+        //        return result;
+        //    }
+            
+        //    // Get form cache
+        //    result = ArtworkHelper.GetFromCache(uniqueKey);
 
-            // We have cache!
-            // TODO???: invalidate cache by checking creation date of cache file
-            if (result.Artwork != null) {
-                return result;
-            }
+        //    // Set type
+        //    result.Type = filter == null ? ArtworkHelper.GetDefaultArtworkType(item) : ArtworkHelper.GetDefaultArtworkType(filter);
 
-            // No cache and no client (url must have been called from outside the app), so we make the client wait
-            else if (client == null) {
-                return GetNonCachedArtwork(result, container, uniqueKey, item, filter, client, uri);
-            }
+        //    // We have cache!
+        //    // TODO???: invalidate cache by checking creation date of cache file
+        //    if (result.Artwork != null) {
+        //        return result;
+        //    }
 
-            // No cache but a client, get artwork in different thread to free HTTP request
-            else {
-                result.Status = ArtworkStatus.Pending;
-                new Thread(() => GetNonCachedArtwork(result, container, uniqueKey, item, filter, client, uri)).Start();
-                return result;
-            }
+        //    // No cache and no client (url must have been called from outside the app), so we make the client wait
+        //    else if (client == null) {
+        //        return GetNonCachedArtwork(result, container, uniqueKey, item, filter, client, uri);
+        //    }
 
-        }
+        //    // No cache but a client, get artwork in different thread to free HTTP request
+        //    else {
+        //        result.Status = ArtworkStatus.Pending;
+        //        new Thread(() => GetNonCachedArtwork(result, container, uniqueKey, item, filter, client, uri)).Start();
+        //        return result;
+        //    }
+
+        //}
 
 
-        /// <summary>
-        /// Gets the artwork for the given unique key, which was sourced from the given item or filter.
-        /// Either item or filter should be given. The artwork is sourced from a plugin or service.
-        /// If artwork is found, it is stored in the cache and the client is notified of the availability.
-        /// </summary>
-        /// <param name="container">The container in which the artwork subject resides</param>
-        /// <param name="uniqueKey">The unique key value of the artwork</param>
-        /// <param name="item">The item for which to find artwork</param>
-        /// <param name="filter">The filter for which to find artwork</param>
-        /// <param name="client">The client for which the artwork is retrieved</param>
-        /// <param name="uri">The uri which was called</param>
-        /// <returns>An image if artwork was found, otherwise null</returns>
-        ArtworkResult GetNonCachedArtwork(ArtworkResult result, IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
+        ///// <summary>
+        ///// Gets the artwork for the given unique key, which was sourced from the given item or filter.
+        ///// Either item or filter should be given. The artwork is sourced from a plugin or service.
+        ///// If artwork is found, it is stored in the cache and the client is notified of the availability.
+        ///// </summary>
+        ///// <param name="container">The container in which the artwork subject resides</param>
+        ///// <param name="uniqueKey">The unique key value of the artwork</param>
+        ///// <param name="item">The item for which to find artwork</param>
+        ///// <param name="filter">The filter for which to find artwork</param>
+        ///// <param name="client">The client for which the artwork is retrieved</param>
+        ///// <param name="uri">The uri which was called</param>
+        ///// <returns>An image if artwork was found, otherwise null</returns>
+        //ArtworkResult GetNonCachedArtwork(ArtworkResult result, IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
 
-            // Artwork result object
-            result.Status = ArtworkStatus.Pending;
+        //    // Artwork result object
+        //    result.Status = ArtworkStatus.Pending;
 
-            // Check if we have any input
-            if (item == null && filter == null) {
-                Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
-                return result;
-            }
+        //    // Check if we have any input
+        //    if (item == null && filter == null) {
+        //        Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
+        //        return result;
+        //    }
 
-            // If we are already processing this image, bail out
-            lock (_artworkResultCache) {
-                if (_artworkResultCache.ContainsKey(uniqueKey)) {
-                    Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
-                    return _artworkResultCache[uniqueKey];
-                }
-            }
+        //    // If we are already processing this image, bail out
+        //    lock (_artworkResultCache) {
+        //        if (_artworkResultCache.ContainsKey(uniqueKey)) {
+        //            Log("This should never happen! Y U implement wrong!?!?!?", Logger.LogLevel.Error);
+        //            return _artworkResultCache[uniqueKey];
+        //        }
+        //    }
 
-            // Ensure pending artwork is always removed from the results cache
-            try {
+        //    // Ensure pending artwork is always removed from the results cache
+        //    try {
                 
-                // We are processing this image
-                lock (_artworkResultCache) {
-                    _artworkResultCache[uniqueKey] = result;
-                }
+        //        // We are processing this image
+        //        lock (_artworkResultCache) {
+        //            _artworkResultCache[uniqueKey] = result;
+        //        }
 
-                // Get the image from the plugin
-                var contentArtworkProvider = PluginManager.GetComponent<IContentArtworkProvider>(container);
-                if (contentArtworkProvider != null) {
-                    Image artwork;
-                    result.Status = filter == null ? contentArtworkProvider.GetArtwork(container, item, out artwork) : contentArtworkProvider.GetArtwork(container, filter, out artwork);
-                    result.Artwork = artwork;
-                }
+        //        // Get the image from the plugin
+        //        var contentArtworkProvider = PluginManager.GetComponent<IContentArtworkProvider>(container);
+        //        if (contentArtworkProvider != null) {
+        //            Image artwork;
+        //            result.Status = filter == null ? contentArtworkProvider.GetArtwork(container, item, out artwork) : contentArtworkProvider.GetArtwork(container, filter, out artwork);
+        //            result.Artwork = artwork;
+        //        }
 
-                // No image yet? Get from artwork service
-                if (result.Artwork == null)
-                    result = filter == null ? ArtworkHelper.GetFromArtworkService(item) : ArtworkHelper.GetFromArtworkService(filter);
+        //        // No image yet? Get from artwork service
+        //        if (result.Artwork == null)
+        //            result = filter == null ? ArtworkHelper.GetFromArtworkService(item) : ArtworkHelper.GetFromArtworkService(filter);
 
-                // if we have an image, store it in cache
-                if (result.Artwork != null) {
+        //        // if we have an image, store it in cache
+        //        if (result.Artwork != null) {
 
-                    // Resize if image is too large
-                    if (result.Artwork.Width > 1024 || result.Artwork.Height > 1024) {
-                        using (var sourceArtwork = result.Artwork) {
-                            result.Artwork = sourceArtwork.Resize(new Size(1024, 1024), ResizeMode.ContainAndShrink);
-                        }
-                    }
+        //            // Resize if image is too large
+        //            if (result.Artwork.Width > 1024 || result.Artwork.Height > 1024) {
+        //                using (var sourceArtwork = result.Artwork) {
+        //                    result.Artwork = sourceArtwork.Resize(new Size(1024, 1024), ResizeMode.ContainAndShrink);
+        //                }
+        //            }
 
-                    // Save to cache
-                    ArtworkHelper.SaveToCache(result.Artwork, uniqueKey);
-                }
+        //            // Save to cache
+        //            ArtworkHelper.SaveToCache(result.Artwork, uniqueKey);
+        //        }
 
-                // Remove from cache if we have retrieved an image
-                lock (_artworkResultCache) {
-                    if (result.Status == ArtworkStatus.Retrieved)
-                        _artworkResultCache.Remove(uniqueKey);
-                }
+        //        // Remove from cache if we have retrieved an image
+        //        lock (_artworkResultCache) {
+        //            if (result.Status == ArtworkStatus.Retrieved)
+        //                _artworkResultCache.Remove(uniqueKey);
+        //        }
 
-                // Notify client we are done
-                if (client != null)
-                    _server.Send(client, new ArtworkResponse(uri.PathAndQuery.TrimStart(new char[]{'/'}), null));
+        //        // Notify client we are done
+        //        if (client != null)
+        //            _server.Send(client, new ArtworkResponse(uri.PathAndQuery.TrimStart(new char[]{'/'}), null));
 
-            }
+        //    }
 
-            // Ensure procesing status is removed when an exception occurs
-            catch (Exception) {
-                lock (_artworkResultCache) {
-                    if (_artworkResultCache.ContainsKey(uniqueKey) && _artworkResultCache[uniqueKey].Status == ArtworkStatus.Pending)
-                        _artworkResultCache.Remove(uniqueKey);
-                }
-            }
+        //    // Ensure procesing status is removed when an exception occurs
+        //    catch (Exception) {
+        //        lock (_artworkResultCache) {
+        //            if (_artworkResultCache.ContainsKey(uniqueKey) && _artworkResultCache[uniqueKey].Status == ArtworkStatus.Pending)
+        //                _artworkResultCache.Remove(uniqueKey);
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
 
 
@@ -520,13 +539,13 @@ namespace Touchee {
             queue.Save();
 
             // Set index, starting the queue
-            var id = filter.GetInt("id");
+            int id = filter["id"];
             if (id > 0) {
                 var item = items.FirstOrDefault(i => i.Id == id);
                 queue.Current = item;
             }
             else
-                queue.Index = filter.GetInt("index");
+                queue.Index = filter["index"];
             
             return queue;
         }

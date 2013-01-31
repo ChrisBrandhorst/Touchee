@@ -4,26 +4,23 @@ define([
 ], function(_, Backbone){
   
   
-  // Parses an escaped filter string to an object
+  // Parses an filter string (with escaped values) to an object
   var parse = function(str) {
+    
+    // // Because JS has no lookbehind, we need to fix escaped slashes
+    // for (var i = parts.length - 2; i >= 0; i--) {
+    //   if (parts[i].match(/\\$/))
+    //     parts[i] = parts[i].slice(0, -1) + '/' + parts.splice(i + 1, 1)[0];
+    // }
+    
+    var parts = str.split('/');
+    if (parts.length % 2 != 0)
+      throw("Invalid filter string: " + str);
+    
     var parsed = {};
-    
-    // Because JS has no lookbehind, we need to fix escaped comma's
-    var parts = str.split(',');
-    
-    for (var i = parts.length - 2; i >= 0; i--) {
-      if (parts[i].match(/\\$/))
-        parts[i] = parts[i].slice(0, -1) + ',' + parts.splice(i + 1, 1)[0];
-    }
-    
-    // Split key value pairs
-    _.each(parts, function(f){
-      var kv  = f.split(':'),
-          v   = kv.slice(1).join(':');
-      if (v)
-        parsed[kv[0]] = v;
-    });
-    
+    for (var i = 0; i < parts.length - 1; i += 2)
+      parsed[ parts[i] ] = parts[i + 1];
+
     return parsed;
   };
   
@@ -37,44 +34,34 @@ define([
     
     
     // Constructor
-    initialize: function(filter) {
-      this.set(filter || {});
-      this.on('change', this.recount, this);
+    initialize: function(attributes) {
     },
     
     
     // Extends the filter with the given filter
     set: function(key, value, options) {
-      if (_.isString(key) && key.indexOf(':') > -1)
+      if (_.isString(key) && !_.isString(value))
         key = parse(key);
-      return Backbone.Model.prototype.set.call(this, key, value, options);
+      Backbone.Model.prototype.set.call(this, key, value, options);
+      this.count = _.keys(this.attributes).length;
+      return this;
     },
     
     
     // Ouputs an ordered, escaped string representation of the filter
     // with optional filter additions
     toString: function(attributes) {
-      if (typeof attributes == 'string')
+      if (_.isString(attributes))
         attributes = parse(attributes);
       
-      var filter = _.extend({}, this.toJSON(), attributes || {});
+      var filter = _.extend({}, this.toJSON(), attributes);
       
-      var f =
-        _.map(
-          _.keys(filter).sort(),
+      return _.map(
+        _.keys(filter).sort(),
           function(key) {
-            return [key, (filter[key] || "").toString().replace(',', "\\,")].join(':');
-            // return [key, encodeURIComponent(filter[key] || "")].join(':');
+            return key + "/" + encodeURIComponent(encodeURIComponent(filter[key].toString() || ""));
           }
-        ).join(',');
-      
-      return f;
-    },
-    
-    
-    // 
-    recount: function() {
-      this.count = _.keys(this.attributes).length;
+        ).join('/');
     }
     
     

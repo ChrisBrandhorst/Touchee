@@ -9,7 +9,11 @@ define([
     
     // Backbone collection options
     model:    Backbone.Model,
-    url:      function() { return this.container.url() + '/contents'; },
+    url:      function() {
+      var url = this.container.url() + "/contents";
+      if (this.filter && this.filter.count) url += "/" + this.filter.toString();
+      return url;
+    },
     
     
     // Custom model properties
@@ -24,10 +28,9 @@ define([
     },
     
     
-    // Modified fetch method for sending the filter param with the request
+    // Modified fetch method for setting the fetched property
     fetch: function(options) {
       options || (options = {});
-      (options.data || (options.data = {})).filter = this.filter.toString();
       var success = options.success, contents = this;
       options.success = function(){
         contents.fetched = true;

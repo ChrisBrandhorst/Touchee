@@ -9,7 +9,7 @@ namespace Touchee {
     /// <summary>
     /// Options object
     /// </summary>
-    public class Options : Dictionary<string, string> {
+    public class Options : Dictionary<string, OptionValue> {
 
 
         /// <summary>
@@ -24,41 +24,49 @@ namespace Touchee {
                 return options;
 
             try {
-                options = new Options(
-                    Regex
-                        .Split(optionsString, "(?<!\\\\),")
-                        .Select(o =>
-                            o.Split(new char[]{':'}, 2)
-                         )
-                        .ToDictionary(o =>
-                            o[0].ToLower(), o => Regex.Unescape(o[1])
-                        )
-                );
+
+                var parts = Regex.Split(optionsString, @"(?<!\\)\/");
+
+                if (parts.Length % 2 == 0) {
+                    for (var i = 0; i < parts.Length - 1; i += 2)
+                        options[parts[i]] = new OptionValue(Regex.Unescape(parts[i + 1]));
+                }
+
             }
-            catch (Exception) { }
+            catch (Exception) {
+                options.Clear();
+            }
 
             return options;
         }
 
-        Options() : base() { }
-        public Options(Dictionary<string, string> options) : base(options) { }
+    }
 
 
-        public int TryGetInt(string key, out int value) {
-            value = 0;
-            if (this.ContainsKey(key))
-                Int32.TryParse(this[key], out value);
-            return value;
+
+    public class OptionValue {
+
+        string _value;
+
+        public OptionValue(string value) {
+            this._value = value;
         }
 
-        public int GetInt(string key) {
-            var value = 0;
-            this.TryGetInt(key, out value);
-            return value;
+        public override string ToString() {
+            return this._value;
         }
 
+        public static implicit operator int(OptionValue optionValue) {
+            return int.Parse(optionValue.ToString());
+        }
+
+        public static implicit operator string(OptionValue optionValue) {
+            return optionValue.ToString();
+        }
 
     }
+
+
 
 }
 

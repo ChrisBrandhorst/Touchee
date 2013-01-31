@@ -35,10 +35,11 @@ define([
       var url = Backbone.Model.prototype.url.call(this);
       if (filter) {
         filter = new Filter(filter);
-        url = url.replace(/\/$/, "") + "/" + encodeURIComponent(filter.toString());
+        if (filter.count) url += "/" + filter.toString();
       }
       return url;
     },
+    
     
     
     // Builds an instance of the ViewModel for the given filter
@@ -75,28 +76,28 @@ define([
     // Returns the Contents class for the given filter
     getContentsClass: function(filter) {
       return Contents;
-    },
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    getArtworkUrl: function(options) {
-      options = _.extend({
-        ratio: window.devicePixelRatio
-      }, options || {});
-      
-      var item = options.item;
-      if (item) delete options.item;
-      
-      options = $.param(options);
-      return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForFilter(item) : ""].join('');
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    // getArtworkUrl: function(options) {
+    //   options = _.extend({
+    //     ratio: window.devicePixelRatio
+    //   }, options || {});
+    //   
+    //   var item = options.item;
+    //   if (item) delete options.item;
+    //   
+    //   options = $.param(options);
+    //   return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForFilter(item) : ""].join('');
+    // }
     
   });
   

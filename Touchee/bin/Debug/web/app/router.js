@@ -4,7 +4,7 @@ define([
   'Backbone',
   'Touchee', 
   
-  'modules/base/module',
+  'models/module',
   
   'models/server_info',
   

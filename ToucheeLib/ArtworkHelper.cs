@@ -140,11 +140,11 @@ namespace Touchee.Artwork {
 
             // Artist: get artist or album
             if (filter.ContainsKey("artist")) {
-                var artist = filter["artist"].ToLower();
+                var artist = ((string)filter["artist"]).ToLower();
 
                 // Also album: get album
                 if (filter.ContainsKey("album"))
-                    result = GetFromComponents<IAlbumArtworkService>(ArtworkType.Album, new object[] { artist, filter["album"].ToLower() });
+                    result = GetFromComponents<IAlbumArtworkService>(ArtworkType.Album, new object[] { artist, ((string)filter["album"]).ToLower() });
 
                 // Get artist
                 else
