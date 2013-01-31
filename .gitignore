@@ -181,3 +181,8 @@ spotify_appkey.key
 !/Touchee/bin/Debug/
 /Touchee/bin/Debug/*
 !/Touchee/bin/Debug/web/
+
+!/Touchee/bin/Debug/plugins/
+!/Touchee/bin/Debug/plugins/**/
+/Touchee/bin/Debug/plugins/**/*
+!/Touchee/bin/Debug/plugins/**/web/
