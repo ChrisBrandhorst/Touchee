@@ -65,7 +65,6 @@ namespace Touchee.Server.Http.Modules {
             var container = GetContainerFromParams(parameters);
             if (container == null) return null;
 
-
             string filterStr = parameters.filter;
             int itemID;
             if (Int32.TryParse(filterStr, out itemID))
@@ -73,15 +72,15 @@ namespace Touchee.Server.Http.Modules {
 
             Options filter = Touchee.Options.Build(filterStr);
 
-            //if (itemID > 0) {
-                
-            //}
+            var artwork = Library.GetArtwork(container, filter);
 
-            // Get query object
-            DynamicDictionary query = Request.Query;
+            // Output artwork
+            var stream = new MemoryStream();
+            artwork.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+            artwork.Dispose();
+            stream.Seek(0, SeekOrigin.Begin);
 
-
-            return null;
+            return Response.FromStream(stream, "image/png");
 
             //// Get container
             //var container = GetContainerFromParams(parameters);

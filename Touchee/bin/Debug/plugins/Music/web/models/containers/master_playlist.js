@@ -9,8 +9,8 @@ define([
   var MasterPlaylist = Container.extend({
     
     views: {
-      song:     Songs,
       album:    Albums,
+      song:     Songs,
       artist:   {},
       genre:    {},
       playlist: {}

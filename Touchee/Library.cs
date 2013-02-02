@@ -264,10 +264,16 @@ namespace Touchee {
 
         public Image GetArtwork(IContainer container, Options filter) {
 
+            // Try to get artwork from cache
             var artwork = this.GetArtworkFromCache(container, filter);
 
+            // Get artwork from the plugin
             if (artwork == null) {
-
+                // Get the artworkprovider of the container
+                var contentArtworkProvider = PluginManager.GetComponent<IArtworkProvider>(container);
+                if (contentArtworkProvider != null) {
+                    artwork = contentArtworkProvider.GetArtwork(container, filter);
+                }
             }
 
             return artwork;

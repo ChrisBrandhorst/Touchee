@@ -35,6 +35,7 @@ namespace Music {
         internal static IEnumerable<string> Extensions { get; private set; }
         internal static MusicFileMediumWatcher Watcher { get; private set; }
         internal static MusicContentProvider ContentProvider { get; private set; }
+        internal static MusicArtworkProvider ArtworkProvider { get; private set; }
 
 
         #endregion
@@ -85,6 +86,10 @@ namespace Music {
             // Add content provider
             ContentProvider = new MusicContentProvider();
             PluginManager.Register(ContentProvider);
+
+            // Add artwork provider
+            ArtworkProvider = new MusicArtworkProvider();
+            PluginManager.Register(ArtworkProvider);
 
             return true;
 

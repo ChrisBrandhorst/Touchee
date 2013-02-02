@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Drawing;
+using System.Runtime.Serialization;
+using System.Xml;
+using System.Linq;
+using System.Collections.Generic;
 
 using Touchee;
 using Touchee.Media;
 using Touchee.Media.Music;
-
-using System.Runtime.Serialization;
-using System.Xml;
 
 namespace Music.Media {
 
@@ -262,12 +264,56 @@ namespace Music.Media {
 
 
         /// <summary>
+        /// Gets the artwork for this track
+        /// </summary>
+        public Image Artwork {
+            get {
+
+                // Get the tag for the file
+                TagLib.Tag tag = null;
+                TagLib.File tagFile = null;
+                try {
+                    tagFile = TagLib.File.Create(this.Uri.LocalPath);
+                    tag = tagFile.Tag;
+                }
+                catch (Exception e) {
+                    Log("Could not parse tags for file " + this.Uri.LocalPath);
+                }
+
+                // If we have no pictures, bail out
+                if (tagFile == null || tag == null || tag.Pictures.Length == 0) return null;
+
+                // Find the frontcover
+                var picture = tag.Pictures.FirstOrDefault(p => p.Type == TagLib.PictureType.FrontCover);
+                if (picture == null) picture = tag.Pictures.First();
+
+                // Get the Image
+                Image artwork = null;
+                try {
+                    artwork = new Bitmap(
+                        new MemoryStream(picture.Data.ToArray())
+                    );
+                }
+                catch (Exception) { }
+
+                return artwork;
+            }
+        }
+        
+
+        /// <summary>
         /// The application-wide, unique key string for this item.
         /// Is equal to Uri.ToString().
         /// </summary>
         public string UniqueKey { get { return this.Uri.ToString(); } }
 
         #endregion
+
+
+
+        public static IEnumerable<Track> GetAlbum(Track track) {
+            return Track.Where(t => t.Album == track.Album && t.AlbumArtist == track.AlbumArtist).OrderBy(t => t.DiscNumber).ThenBy(t => t.TrackNumber).ThenBy(t => t.TitleSort);
+        }
 
 
     }

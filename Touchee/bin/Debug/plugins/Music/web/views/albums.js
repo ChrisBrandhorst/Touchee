@@ -45,6 +45,10 @@ define([
         case 'albumArtist': val += " " + I18n.p.music.models.artist.one;  break;
       }
       return val;
+    },
+    
+    // Called when a render has completed
+    afterRender: function(items) {
     }
     
     
