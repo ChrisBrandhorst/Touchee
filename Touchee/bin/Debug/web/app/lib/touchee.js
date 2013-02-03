@@ -113,10 +113,10 @@ define([
   var LogExtension = { Log: Log };
   
   // Set up logging for Backbone models, collections and views
-  _.extend(Backbone.Model.prototype, LogExtension);
+  _.extend(Backbone.Model.prototype,      LogExtension);
   _.extend(Backbone.Collection.prototype, LogExtension);
-  _.extend(Backbone.View.prototype, LogExtension);
-  _.extend(Backbone.Router.prototype, LogExtension);
+  _.extend(Backbone.View.prototype,       LogExtension);
+  _.extend(Backbone.Router.prototype,     LogExtension);
   
   
   

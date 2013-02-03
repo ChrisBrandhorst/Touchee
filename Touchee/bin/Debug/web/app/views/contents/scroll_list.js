@@ -182,6 +182,19 @@ define([
         }
       }
       
+      // Set margins and 'inner' size
+      var margins = _.map($item.css('margin').replace(/px/g, "").split(" "), function(m){return +m;});
+      size.margin = {
+        top:    margins[0],
+        right:  margins[1],
+        bottom: margins[2],
+        left:   margins[3]
+      };
+      size.inner = {
+        height: size.height - size.margin.top - size.margin.bottom,
+        width:  size.width - size.margin.left - size.margin.right
+      };
+      
       // Remove dummy
       if ($dummy)
         $dummy.remove();
@@ -205,6 +218,10 @@ define([
         vert: Math.ceil(scroller.clientHeight / this.calculated.size.height),
         hori: Math.floor(scroller.clientWidth / this.calculated.size.width)
       };
+      
+      // Up the vertical capacity if necessary
+      if (scroller.clientHeight % this.calculated.size.height > 1) capacity.vert++;
+      
       capacity.total = capacity.vert * capacity.hori;
       
       // Set data in model
@@ -287,9 +304,11 @@ define([
             indices:  {above:0,below:0}
           },
           afterRender   = {
-            first:    0,
-            count:    capacity.vert * capacity.hori,
-            extra:    {above:0,below:0}
+            first:        0,
+            firstInView:  0,
+            count:        total,
+            countInView:  total,
+            firstElIdx:   0
           };
       
       // Calculate which item we should show if we are not fully rendering the list
@@ -297,9 +316,10 @@ define([
         
         // Calculate the extra rows to be added to the top and bottom
         var scrolledUp      = scrollTop < data.lastScrollTop,
-            extraCount      = this.extraRows * capacity.hori
-            extraRowsAbove  = Math.round(this.extraRows * (scrolledUp ? .75 : .25));
-            extraAbove      = extraRowsAbove * capacity.hori;
+            extraCount      = this.extraRows * capacity.hori,
+            extraRowsAbove  = Math.round(this.extraRows * (scrolledUp ? .75 : .25)),
+            extraAbove      = extraRowsAbove * capacity.hori,
+            first;
         
         // If we show indices, do fancy calculation
         if (this.indicesShow) {
@@ -307,11 +327,8 @@ define([
           // Calculate the first item in view
           var blockInfo = this._getBlockInfo(),
               inBlock   = Math.floor(Math.max(0, scrollTop - blockInfo.height - size.indexHeight) / size.height),
-              idx       = this.indices.indices[blockInfo.idxIdx - 1],
-              first     = (idx ? this.indices.cumulCountMap[idx] : 0) + inBlock;
-          
-          // Set first item in view in after render object
-          afterRender.first = first;
+              idx       = this.indices.indices[blockInfo.idxIdx - 1];
+          first = (idx ? this.indices.cumulCountMap[idx] : 0) + inBlock;
           
           // Correct for extra rows
           items.first = Math.max(0, first - extraAbove);
@@ -328,18 +345,21 @@ define([
         // Else, simply use the viewport to calculate which items to show
         else {
           // Calculate the first and last in view based on the viewport
-          items.first = Math.floor(scrollTop / size.height) * capacity.hori;
+          first = Math.floor(scrollTop / size.height) * capacity.hori;
           items.count = capacity.vert * capacity.hori;
           
-          // Set first item in view in after render object
-          afterRender.first = items.first;
-          
           // Make sure all is within bounds, including the extra rows
-          items.first = Math.max(0, items.first - extraAbove);
+          items.first = Math.max(0, first - extraAbove);
           items.count = Math.min(total - items.first, items.count + extraCount);
         }
         
       }
+      
+      // Set after render props
+      afterRender.first       = items.first;
+      afterRender.firstInView = first;
+      afterRender.count       = items.count;
+      afterRender.countInView = Math.min(total - first, capacity.vert * capacity.hori);
       
       // Get the models. The items object may be changed!
       var models = this.getModels(items);

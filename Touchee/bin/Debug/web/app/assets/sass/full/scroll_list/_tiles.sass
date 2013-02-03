@@ -1,4 +1,5 @@
-$tileSize:  128px
+$tileSize:      128px
+$tileSizeZoom:  154px
 
 .scroll_list.tiles > .scrollable > ul
   > li
@@ -14,6 +15,9 @@ $tileSize:  128px
     background-position:  bottom left
     @include              box-shadow(0 3px 12px 0 rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.5) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
     
+    @include  transition(.2s ease)
+    @include  transition-property(width, height, margin, padding-top)
+    
     span
       display:  block
       @include  ellipsis
@@ -25,7 +29,19 @@ $tileSize:  128px
       
       &:nth-child(2)
         padding-bottom: 3px
+        @include        transition-property(margin-top, opacity)
+        @include        transition(.2s ease)
     
     @media screen and (max-width: 900px)
       margin-right: 2px
       margin-left:  18px
+    
+    &.zoom
+      width:        $tileSizeZoom
+      height:       $tileSizeZoom
+      margin:       16px 8px 26px 7px
+      padding-top:  $tileSizeZoom
+      
+      span:nth-child(2)
+        margin-top: -17px
+        opacity:    0

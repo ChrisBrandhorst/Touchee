@@ -2,9 +2,10 @@ define([
   'underscore',
   'Backbone',
   'models/container',
+  './../track',
   './../view_models/songs',
   './../view_models/albums'
-], function(_, Backbone, Container, Songs, Albums){
+], function(_, Backbone, Container, Track, Songs, Albums){
   
   var MasterPlaylist = Container.extend({
     
@@ -14,7 +15,9 @@ define([
       artist:   {},
       genre:    {},
       playlist: {}
-    }
+    },
+    
+    contentsItemModel: Track
     
   });
 

@@ -10,7 +10,11 @@ define([
     
     
     // The model used for the contents object
-    contentsModel:    Contents,
+    contentsModel:      Contents,
+    
+    
+    // The model used for the items within the contents object
+    contentsItemModel:  null,
     
     
     // The different views that are available for this container, together
@@ -26,7 +30,6 @@ define([
     
     // Constructor
     initialize: function(attributes, options) {
-      options || (options = {});
     },
     
     
@@ -63,7 +66,8 @@ define([
         var contentsClass = this.getContentsClass(filter),
         contents = new contentsClass(null, {
           container:  this,
-          filter:     filter
+          filter:     filter,
+          model:      this.contentsItemModel
         });
         if (this.singleContents)
           this._contents = contents;

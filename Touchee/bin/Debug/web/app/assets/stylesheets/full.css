@@ -770,7 +770,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   background: linear-gradient(#dddddd, #d7d7d7);
 }
 
-/* line 4, ../sass/full/scroll_list/_tiles.sass */
+/* line 5, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li {
   display: inline-block;
   vertical-align: top;
@@ -784,30 +784,58 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -webkit-box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
   -moz-box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.5) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+  -webkit-transition: 0.2s ease;
+  -moz-transition: 0.2s ease;
+  -o-transition: 0.2s ease;
+  transition: 0.2s ease;
+  -webkit-transition-property: width, height, margin, padding-top;
+  -moz-transition-property: width, height, margin, padding-top;
+  -o-transition-property: width, height, margin, padding-top;
+  transition-property: width, height, margin, padding-top;
 }
-/* line 17, ../sass/full/scroll_list/_tiles.sass */
+/* line 21, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 21, ../sass/full/scroll_list/_tiles.sass */
+/* line 25, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:first-child {
   padding-bottom: 3px;
   font-weight: bold;
   margin-top: 7px;
 }
-/* line 26, ../sass/full/scroll_list/_tiles.sass */
+/* line 30, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:nth-child(2) {
   padding-bottom: 3px;
+  -webkit-transition-property: margin-top, opacity;
+  -moz-transition-property: margin-top, opacity;
+  -o-transition-property: margin-top, opacity;
+  transition-property: margin-top, opacity;
+  -webkit-transition: 0.2s ease;
+  -moz-transition: 0.2s ease;
+  -o-transition: 0.2s ease;
+  transition: 0.2s ease;
 }
 @media screen and (max-width: 900px) {
-  /* line 4, ../sass/full/scroll_list/_tiles.sass */
+  /* line 5, ../sass/full/scroll_list/_tiles.sass */
   .scroll_list.tiles > .scrollable > ul > li {
     margin-right: 2px;
     margin-left: 18px;
   }
+}
+/* line 39, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom {
+  width: 154px;
+  height: 154px;
+  margin: 16px 8px 26px 7px;
+  padding-top: 154px;
+}
+/* line 45, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom span:nth-child(2) {
+  margin-top: -17px;
+  opacity: 0;
 }
 
 /* line 7, ../sass/full/browser/_layout.sass */

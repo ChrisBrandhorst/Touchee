@@ -72,15 +72,35 @@ namespace Touchee.Server.Http.Modules {
 
             Options filter = Touchee.Options.Build(filterStr);
 
-            var artwork = Library.GetArtwork(container, filter);
+            Image artwork = Library.GetArtwork(container, filter);
 
             // Output artwork
-            var stream = new MemoryStream();
-            artwork.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-            artwork.Dispose();
-            stream.Seek(0, SeekOrigin.Begin);
+            if (artwork != null) {
 
-            return Response.FromStream(stream, "image/png");
+                int size = filter["size"];
+                if (size > 0) {
+                    var sized = artwork.Resize(new Size(size, size), ResizeMode.ContainAndShrink);
+                    artwork.Dispose();
+                    artwork = sized;
+                }
+
+                var stream = new MemoryStream();
+                artwork.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                artwork.Dispose();
+                stream.Seek(0, SeekOrigin.Begin);
+
+                var resp = Response.FromStream(stream, "image/png");
+                this.SetArtworkCache(resp);
+
+                return resp;
+            }
+
+            else {
+                var resp = Response.AsText("");
+                resp.StatusCode = HttpStatusCode.NotFound;
+                this.SetArtworkCache(resp);
+                return resp;
+            }
 
             //// Get container
             //var container = GetContainerFromParams(parameters);

@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/artwork',
   'views/contents/tiles'
-], function($, _, Backbone, TilesView) {
+], function($, _, Backbone, Artwork, TilesView) {
   
   var AlbumsView = TilesView.extend({
     
@@ -47,8 +48,57 @@ define([
       return val;
     },
     
-    // Called when a render has completed
-    afterRender: function(items) {
+    
+    // Gets the artwork url for the given item
+    getArtworkUrl: function(item) {
+      return item.artworkUrl ? item.artworkUrl({size:this.calculated.size.inner.width}) : null;
+    },
+    
+    
+    // 
+    clickedTile: function(ev) {
+      var $el = $(ev.target).closest('li')
+      this.zoomTile($el);
+    },
+    
+    
+    // 
+    zoomTile: function($el, zoom) {
+      zoom = zoom === false ? false : true;
+      var el = $el[0];
+      
+      // Unzoom the element
+      if (!zoom) {
+        _.extend(el.style, el._artworkStyle);
+        $el.removeClass('zoom');
+      }
+      
+      // Zoom the element
+      else {
+        
+        // Unzoom the last zoomed element, if any
+        if (this._$lastZoomEl)
+          this.zoomTile(this._$lastZoomEl, false);
+        
+        // Get some props
+        var item        = this.model.get($el.attr('data-id')),
+            artworkUrl  = this.getArtworkUrl(item),
+            artwork     = Artwork.fromCache(artworkUrl);
+        
+        // If we have any artwork, set the style for the zoomed version
+        if (artwork) {
+          var zoomStyle = this.getArtworkStyle(artwork, {size:this.calculated.size.zoom});
+          _.extend(el.style, zoomStyle);
+        }
+        
+        // Add the class
+        $el.addClass('zoom').siblings().removeClass('zoom');
+        
+        // Set the last zoom el
+        this._$lastZoomEl = $el;
+        
+      }
+      
     }
     
     

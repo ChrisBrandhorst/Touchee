@@ -8,7 +8,6 @@ define([
     
     
     // Backbone collection options
-    model:    Backbone.Model,
     url:      function() {
       var url = this.container.url() + "/contents";
       if (this.filter && this.filter.count) url += "/" + this.filter.toString();
