@@ -77,8 +77,8 @@ namespace Touchee.Server.Http.Modules {
             // Output artwork
             if (artwork != null) {
 
-                int size = filter["size"];
-                if (size > 0) {
+                if (filter.ContainsKey("size")) {
+                    int size = filter["size"];
                     var sized = artwork.Resize(new Size(size, size), ResizeMode.ContainAndShrink);
                     artwork.Dispose();
                     artwork = sized;

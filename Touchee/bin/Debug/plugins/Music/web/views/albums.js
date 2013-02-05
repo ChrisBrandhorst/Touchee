@@ -3,8 +3,10 @@ define([
   'underscore',
   'Backbone',
   'models/artwork',
-  'views/contents/tiles'
-], function($, _, Backbone, Artwork, TilesView) {
+  'views/contents/tiles',
+  'text!./album_details.html'
+], function($, _, Backbone, Artwork, TilesView, albumDetailsTemplate) {
+  albumDetailsTemplate = _.template(albumDetailsTemplate);
   
   var AlbumsView = TilesView.extend({
     
@@ -58,48 +60,34 @@ define([
     // 
     clickedTile: function(ev) {
       var $el = $(ev.target).closest('li')
-      this.zoomTile($el);
+      var zoomed = this.zoomTile($el);
+      
+      this.showDetails($el, !zoomed);
+      
     },
     
     
     // 
-    zoomTile: function($el, zoom) {
-      zoom = zoom === false ? false : true;
-      var el = $el[0];
+    getDetailsContent: function(item) {
+      return albumDetailsTemplate({
+        artwork:  this._getArtwork(item),
+        item:     item
+      });
+    },
+    
+    
+    //
+    setDetailsStyle: function($details, item) {
       
-      // Unzoom the element
-      if (!zoom) {
-        _.extend(el.style, el._artworkStyle);
-        $el.removeClass('zoom');
-      }
+      var artwork = this._getArtwork(item);
+      if (!artwork) return;
       
-      // Zoom the element
-      else {
-        
-        // Unzoom the last zoomed element, if any
-        if (this._$lastZoomEl)
-          this.zoomTile(this._$lastZoomEl, false);
-        
-        // Get some props
-        var item        = this.model.get($el.attr('data-id')),
-            artworkUrl  = this.getArtworkUrl(item),
-            artwork     = Artwork.fromCache(artworkUrl);
-        
-        // If we have any artwork, set the style for the zoomed version
-        if (artwork) {
-          var zoomStyle = this.getArtworkStyle(artwork, {size:this.calculated.size.zoom});
-          _.extend(el.style, zoomStyle);
-        }
-        
-        // Add the class
-        $el.addClass('zoom').siblings().removeClass('zoom');
-        
-        // Set the last zoom el
-        this._$lastZoomEl = $el;
-        
-      }
+      var colors = ColorTunes.getColors(artwork.image);
+      $details.css('backgroundColor', colors.backgroundColor);
+      $details.find('img')[0].src = item.artworkUrl();
       
     }
+    
     
     
   });

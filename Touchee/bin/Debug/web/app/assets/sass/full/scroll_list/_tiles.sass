@@ -1,47 +1,118 @@
 $tileSize:      128px
 $tileSizeZoom:  154px
 
-.scroll_list.tiles > .scrollable > ul
-  > li
+.scroll_list.tiles > .scrollable
+
+  // Each tile
+  > ul > li
     display:        inline-block
+    // float: left
     vertical-align: top
     width:          $tileSize
     height:         $tileSize
     margin:         25px 21px 43px 20px
     padding-top:    $tileSize
     
+    // Background of the tiles
     background-size:      contain
     background-repeat:    no-repeat
     background-position:  bottom left
-    @include              box-shadow(0 3px 12px 0 rgba(0,0,0,.35), 0 0 0 1px rgba(0,0,0,.5) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
+    @include              box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
     
+    // Nice transition for zooming
     @include  transition(.2s ease)
-    @include  transition-property(width, height, margin, padding-top)
+    @include  transition-property(width, height, margin, margin-right, margin-top, padding-top)
     
+    // The texts of the tiles
     span
       display:  block
       @include  ellipsis
-      
+      // First line
       &:first-child
         padding-bottom: 3px
-        font-weight:  bold
-        margin-top:   7px
-      
+        font-weight:    bold
+        margin-top:     7px
+      // Line 2
       &:nth-child(2)
         padding-bottom: 3px
         @include        transition-property(margin-top, opacity)
         @include        transition(.2s ease)
     
+    // When the screen gets narrower, adjust the margins
     @media screen and (max-width: 900px)
       margin-right: 2px
       margin-left:  18px
     
+    // Zoom state
     &.zoom
       width:        $tileSizeZoom
       height:       $tileSizeZoom
       margin:       16px 8px 26px 7px
       padding-top:  $tileSizeZoom
-      
       span:nth-child(2)
         margin-top: -17px
         opacity:    0
+    
+    // No anim class
+    &.noanim
+      @include transition(none)
+      span:nth-child(2)
+        @include transition(none)
+  
+  
+  
+  
+  
+  div.details
+    position:       relative
+    left:           0
+    right:          0
+    overflow:       hidden
+    background:     #E4E9F0
+    
+    @include  transition(.4s ease)
+    @include  transition-property(height, background-color)
+    
+    &::after
+      content:    ''
+      position:   absolute
+      z-index:    0px
+      right:      0
+      bottom:     -9px
+      left:       0
+      height:     10px
+      background: rgba(0,0,0,.27)
+      @include    box-shadow(0 1px 3px 0 rgba(0,0,0,.46))
+    
+    svg
+      position: relative
+      z-index:  1
+      @include  transition(margin-left .4s ease)
+      path.shadow
+        filter: url(#arrow_line_dropshadow)
+      path.fill
+        fill:   $browserBackgroundColor
+      path.stroke
+        stroke:       rgba(0,0,0,.23)
+        fill:         none
+        stroke-width: 1px
+    
+    &.dummy
+      position:     absolute
+      visibility:   hidden
+      @include      transition(none)
+      svg
+        @include      transition(none)
+    &.collapsed
+      height:         0
+    
+    > .content
+      margin-top: -6px
+      @include transition(opacity .4s ease)
+      &.outgoing
+        position: absolute
+        left:     0
+        right:    0
+        opacity:  0
+      &.incoming
+        opacity:  0

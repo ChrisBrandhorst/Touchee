@@ -129,7 +129,7 @@ define([
     // Inject CSS
     var cssFiles = _.isString(this.css) ? [this.css] : this.css, name = this.name;
     _.each(cssFiles, function(cssFile){
-      var file = "app/plugins/" + name + "/assets/stylesheets/" + cssFile + ".css";
+      var file = "app/plugins/" + name + "/assets/stylesheets/" + cssFile + ".css?_=" + new Date().getTime();
       $('head').append('<link rel="stylesheet" href="'+file+'" type="text/css" />');
     });
     

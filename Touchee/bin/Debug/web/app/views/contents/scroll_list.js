@@ -303,12 +303,11 @@ define([
             count:    total,
             indices:  {above:0,below:0}
           },
-          afterRender   = {
+          lastRender    = {
             first:        0,
             firstInView:  0,
             count:        total,
-            countInView:  total,
-            firstElIdx:   0
+            countInView:  total
           };
       
       // Calculate which item we should show if we are not fully rendering the list
@@ -356,10 +355,10 @@ define([
       }
       
       // Set after render props
-      afterRender.first       = items.first;
-      afterRender.firstInView = first;
-      afterRender.count       = items.count;
-      afterRender.countInView = Math.min(total - first, capacity.vert * capacity.hori);
+      lastRender.first       = items.first;
+      lastRender.firstInView = first;
+      lastRender.count       = items.count;
+      lastRender.countInView = Math.min(total - first, capacity.vert * capacity.hori);
       
       // Get the models. The items object may be changed!
       var models = this.getModels(items);
@@ -386,9 +385,10 @@ define([
       // Store stuff for next time
       data.lastScrollTop = scrollTop;
       data.fullRender = fullRender;
+      data.lastRender = lastRender;
       
       // After render
-      this.afterRender(afterRender);
+      this.afterRender(lastRender);
     },
     
     
@@ -604,7 +604,17 @@ define([
     
     
     // Called when a render has completed
-    afterRender: function(items) { }
+    afterRender: function(items) { },
+    
+    
+    // Gets the item for the given rendered element
+    getItem: function(el) {
+      return !el ? null : this.getModels({
+        first:  this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length,
+        count:  1
+      })[0];
+    }
+    
     
   });
   
