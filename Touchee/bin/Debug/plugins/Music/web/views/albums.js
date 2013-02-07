@@ -60,10 +60,9 @@ define([
     // 
     clickedTile: function(ev) {
       var $el = $(ev.target).closest('li')
+      
       var zoomed = this.zoomTile($el);
-      
       this.showDetails($el, !zoomed);
-      
     },
     
     
@@ -78,10 +77,13 @@ define([
     
     //
     setDetailsStyle: function($details, item) {
-      
+      // return;
       var artwork = this._getArtwork(item);
-      if (!artwork) return;
-      
+      if (!artwork) {
+        $details.css('backgroundColor', "");
+        return;
+      }
+      return;
       var colors = ColorTunes.getColors(artwork.image);
       $details.css('backgroundColor', colors.backgroundColor);
       $details.find('img')[0].src = item.artworkUrl();

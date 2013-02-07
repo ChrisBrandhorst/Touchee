@@ -126,7 +126,7 @@ ColorTunes = (function($) {
     canvas.width = image.width;
     canvas.height = image.height;
     canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
-    bgColorMap = ColorTunes.getColorMap(canvas, 0, 0, image.width * 0.5, image.height, 4);
+    bgColorMap = ColorTunes.getColorMap(canvas, image.width*.25, 0, image.width*.75, image.height*0.05, 4);
     bgPalette = bgColorMap.cboxes.map(function(cbox) {
       return {
         count: cbox.cbox.count(),

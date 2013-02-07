@@ -2,7 +2,10 @@ $tileSize:      128px
 $tileSizeZoom:  154px
 
 .scroll_list.tiles > .scrollable
-
+  
+  > ul
+    overflow: hidden
+  
   // Each tile
   > ul > li
     display:        inline-block
@@ -18,10 +21,6 @@ $tileSizeZoom:  154px
     background-repeat:    no-repeat
     background-position:  bottom left
     @include              box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
-    
-    // Nice transition for zooming
-    @include  transition(.2s ease)
-    @include  transition-property(width, height, margin, margin-right, margin-top, padding-top)
     
     // The texts of the tiles
     span
@@ -43,51 +42,76 @@ $tileSizeZoom:  154px
       margin-right: 2px
       margin-left:  18px
     
+    
     // Zoom state
     &.zoom
-      width:        $tileSizeZoom
-      height:       $tileSizeZoom
-      margin:       16px 8px 26px 7px
-      padding-top:  $tileSizeZoom
-      span:nth-child(2)
-        margin-top: -17px
-        opacity:    0
+      // width:        $tileSizeZoom
+      // height:       $tileSizeZoom
+      // margin:       16px 8px 26px 7px
+      // padding-top:  $tileSizeZoom
+      // span:nth-child(2)
+      //   margin-top: -17px
+      //   opacity:    0
+    
+    // Nice transition for zooming
+    @include  transition-duration(.4s, .2s, .2s, .2s, .2s, .2s, .2s)
+    @include  transition-timing-function(ease)
+    @include  transition-property(-webkit-transform, width, height, margin, margin-right, margin-top, padding-top)
     
     // No anim class
     &.noanim
       @include transition(none)
       span:nth-child(2)
         @include transition(none)
+    
+    
+    // Already transform it, so modifying this value happens without hick-up
+    -webkit-transform: translate3d(0,0,0)
   
   
   
   
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  position: relative
   
   div.details
-    position:       relative
+    position:       absolute
     left:           0
     right:          0
     overflow:       hidden
     background:     #E4E9F0
+    -webkit-transform: translate3d(0,0,0)
     
     @include  transition(.4s ease)
-    @include  transition-property(height, background-color)
+    @include  transition-property(-webkit-transform, background-color)
     
-    &::after
+    > .cover
       content:    ''
       position:   absolute
-      z-index:    0px
+      z-index:    3
+      background: #f2f2f2
+      top:        0
       right:      0
-      bottom:     -9px
+      bottom:     0
       left:       0
-      height:     10px
-      background: rgba(0,0,0,.27)
+      @include    transition(-webkit-transform .4s ease)
+      border-top: 1px solid rgba(0,0,0,.27)
       @include    box-shadow(0 1px 3px 0 rgba(0,0,0,.46))
-    
+      -webkit-transform: translate3d(0,13px,0)
+      
     svg
       position: relative
       z-index:  1
-      @include  transition(margin-left .4s ease)
+      @include  transition(-webkit-transform .4s ease)
       path.shadow
         filter: url(#arrow_line_dropshadow)
       path.fill
@@ -98,17 +122,13 @@ $tileSizeZoom:  154px
         stroke-width: 1px
     
     &.dummy
-      position:     absolute
-      visibility:   hidden
-      @include      transition(none)
-      svg
-        @include      transition(none)
-    &.collapsed
-      height:         0
+      visibility: hidden
+      &, svg
+        @include    transition(none)
     
     > .content
-      margin-top: -6px
-      @include transition(opacity .4s ease)
+      // margin-top: -6px
+      @include    transition(opacity .4s ease)
       &.outgoing
         position: absolute
         left:     0

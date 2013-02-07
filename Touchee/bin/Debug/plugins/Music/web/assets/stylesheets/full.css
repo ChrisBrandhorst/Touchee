@@ -2,10 +2,14 @@
 .scroll_list.tiles.albums > .scrollable > ul > li {
   background-image: url(../../../../assets/images/remote/missing-music-white.png);
 }
-/* line 8, ../sass/full.sass */
+/* line 7, ../sass/full.sass */
+.scroll_list.tiles.albums .details .content {
+  min-height: 60px;
+}
+/* line 9, ../sass/full.sass */
 .scroll_list.tiles.albums .details .content img {
   float: right;
   width: 250px;
-  -webkit-mask-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.6) 20%), -webkit-linear-gradient(left, transparent 2%, rgba(0, 0, 0, 0.6) 35%);
+  -webkit-mask-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.8) 16%), -webkit-linear-gradient(left, transparent 0, rgba(0, 0, 0, 0.8) 18%);
   -webkit-mask-composite: source-in, xor;
 }

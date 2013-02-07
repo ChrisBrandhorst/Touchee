@@ -268,97 +268,127 @@ define([
     
     // 
     showDetails: function($el, remove) {
+      var existing = this.details,
+          onSameRow, newAboveCurrent,
+          height, oldHeight,
+          $details;
       
-      // Remove the current detail view if asked
-      if (remove) {
-        if (!this.details) return;
-        var $details = this.details.$el.css('height', '').addClass('collapsed');
-        $details.on('webkitTransitionEnd', function(){ $details.remove(); });
+      
+      // Remove the detail view if asked
+      if ($el === false || remove) {
+        if (!existing) return;
+        ($details = existing.$el)
+          .children('.cover')
+          .on('webkitTransitionEnd', function(){ $details.remove(); })
+          .css('-webkit-transform', "")
+        existing.$moved.css('-webkit-transform', "");
         delete this.details;
         return;
       }
       
-      // 
-      var useDummy = true;
       
       // Calculate after which tile the details should be shown
-      var elIdx     = $el.prevAll(':not(.noitem)').length,
+      var elIdx     = $el.prevAll().length,
           afterIdx  = elIdx + (this.calculated.capacity.hori - elIdx % this.calculated.capacity.hori) - 1,
-          $after    = $el.parent().children(':not(.noitem)').eq(Math.min(afterIdx, this.getCount()-1));
+          $after    = $el.parent().children().eq(Math.min(afterIdx, this.getCount()-1));
       
-      // Set the dummy and calculate the height
-      var item    = this.getItem($el),
-          content = this.getDetailsContent(item),
-          $dummy  = $( tilesDetails({content:content}) ).addClass('dummy').insertAfter($after),
-          height  = $dummy.outerHeight();
+      // Build the details element
+      var item      = this.getItem($el),
+          content   = this.getDetailsContent(item),
+          $details  = $( tilesDetails({content:content}) ).addClass('dummy').insertBefore(this.$inner);
       
-      // Calculate the new arrow position
-      var arrowLeft = $el.position().left + $el.outerWidth(true) / 2;
       
-      // If we already have details shown
-      if (this.details) {
-        
-        // If the details are to be shown on the same row as the current details
-        if (this.details.$after[0] == $after[0]) {
-          
-          // Set the new height and arrow position (is transitioned through css)
-          this.details.$el
-            .css('height', height + 'px')
-            .find('svg').css('margin-left', -1000 + arrowLeft);
-          
-          // Get the old and new content elements
-          var $oldContent = this.details.$el.find('.content').addClass('outgoing'),
-              $content    = $dummy.find('.content').addClass('incoming').insertBefore($oldContent);
-          
-          // Remove the old content after the transition
-          $oldContent.on('webkitTransitionEnd', function(){ $oldContent.remove(); });
-          
-          // Defer the removal of the hide class on the new content
-          _.defer(function(){ $content.removeClass('incoming'); });
-          
-          // Store data
-          this.details = {
-            $el:    this.details.$el,
-            $after: $after,
-            item:   item
-          };
-          
-          // Do not actually show the dummy
-          useDummy = false;
-          $dummy.remove();
-        }
-        
-        else {
-          // Hide current details
-          this.showDetails(null, true);
+      // Check if we need to remove the current one first
+      if (existing) {
+        onSameRow = existing.$after[0] == $after[0];
+        if (!onSameRow) {
+          newAboveCurrent = afterIdx < existing.afterIdx;
+          this.showDetails(false);
         }
       }
       
       
-      // If the dummy should be used as the new details
-      if (useDummy) {
+      // Set position if we are on a new row or are there is no existing details yet
+      if (!existing || !onSameRow) {
+        $details.css('top', $after[0].offsetTop + $after.outerHeight(true) - $after.css('margin-top').numberValue());
+      }
+      
+      // If the new details is on the same row, we should replace the content
+      if (onSameRow) {
         
-        // Set collapsed and position arrow
-        $dummy
-          .addClass('collapsed')
-          .find('svg').css('margin-left', -1000 + arrowLeft);
+        // Fix the height
+        oldHeight = existing.$el.outerHeight();
+        height    = $details.outerHeight();
+        existing.$el.css('height', Math.max(height, oldHeight));
         
-        // Defer removal of temp classes and set the height to animate
-        _.defer(function(){
-          $dummy
-            .removeClass('dummy collapsed')
-            .css('height', height + 'px')
+        // Get the old and new content elements
+        var $oldContent = existing.$el.find('.content').addClass('outgoing'),
+            $content    = $details.find('.content').addClass('incoming').insertAfter($oldContent);
+        
+        // Remove the old content after the transition
+        $oldContent.on('webkitTransitionEnd', function(){
+          $oldContent.remove();
+          existing.$el.css('height', "");
         });
         
-        // Store data
-        this.details = {
-          $el:    $dummy,
-          $after: $after,
-          item:   item
-        };
+        // Defer the removal of the hide class on the new content
+        _.defer(function(){ $content.removeClass('incoming'); });
+        
+        // Remove the dummy details, and redirect the var to the existing one
+        $details.remove();
+        $details = existing.$el;
       }
       
       
+      // Set the arrow position
+      var arrowLeft = $el.position().left + $el.outerWidth(true) / 2;
+      $details.find('svg').css('-webkit-transform', "translate3d(" + (-1000 + arrowLeft) + "px,0,0)");
+      
+      
+      // Put the details in the DOM and calculate the height
+      if (!existing || !onSameRow) {
+        if (newAboveCurrent !== false)
+          $details.prependTo(this.$scroller);
+      }
+      if (!height) height = $details.outerHeight();
+      
+      
+      // Interaction between details on different rows
+      if (existing && !onSameRow) {
+        if (newAboveCurrent)
+          existing.$el.css('-webkit-transform', "translate3d(0," + height + "px,0)");
+        else
+          $details.css('-webkit-transform', "translate3d(0," + height + "px,0)");
+      }
+      
+      
+      // Slide the details open
+      $details.children('.cover').css('-webkit-transform', "translate3d(0," + (height-1) + "px,0)");
+      
+      // Get the items which should be moved down
+      var $moved = $after.nextAll();
+      // Move the tiles after the details down
+      $moved.css('-webkit-transform', "translate3d(0," + height + "px,0)");
+      
+      // Reset the details
+      _.defer(function(){
+        $details
+          .removeClass('dummy')
+          .css('-webkit-transform', "");
+      });
+      
+      
+      // Store data
+      this.details = {
+        $el:      $details,
+        $after:   $after,
+        $moved:   $moved,
+        height:   height,
+        afterIdx: afterIdx
+      };
+      
+      
+      // Set styling
       var view = this;
       _.defer(function(){
         view.setDetailsStyle(view.details.$el, item);
