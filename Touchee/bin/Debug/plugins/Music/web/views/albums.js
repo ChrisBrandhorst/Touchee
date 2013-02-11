@@ -77,16 +77,19 @@ define([
     
     //
     setDetailsStyle: function($details, item) {
-      // return;
+      
       var artwork = this._getArtwork(item);
       if (!artwork) {
         $details.css('backgroundColor', "");
         return;
       }
-      return;
+      
       var colors = ColorTunes.getColors(artwork.image);
       $details.css('backgroundColor', colors.backgroundColor);
-      $details.find('img')[0].src = item.artworkUrl();
+      
+      $details.children('.cover').on('webkitTransitionEnd', function(){
+        $details.find('img')[0].src = item.artworkUrl();
+      });
       
     }
     

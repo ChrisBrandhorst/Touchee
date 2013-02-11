@@ -5,8 +5,8 @@ define([
   'models/artwork',
   'views/contents/scroll_list',
   'text!views/contents/tiles_details.html'
-], function($, _, Backbone, Artwork, ScrollListView, tilesDetails) {
-  tilesDetails = _.template(tilesDetails);
+], function($, _, Backbone, Artwork, ScrollListView, tilesDetailsTemplate) {
+  tilesDetailsTemplate = _.template(tilesDetailsTemplate);
   
   var TilesView = ScrollListView.extend({
     
@@ -234,7 +234,7 @@ define([
       }
       
       // Zoom the element
-      else if (zoom == true) {
+      else if (zoom === true) {
         
         // Unzoom the last zoomed element, if any
         var $zoomed = $el.siblings('.zoom');
@@ -269,19 +269,21 @@ define([
     // 
     showDetails: function($el, remove) {
       var existing = this.details,
-          onSameRow, newAboveCurrent,
-          height, oldHeight,
           $details;
       
       
       // Remove the detail view if asked
       if ($el === false || remove) {
         if (!existing) return;
-        ($details = existing.$el)
-          .children('.cover')
-          .on('webkitTransitionEnd', function(){ $details.remove(); })
-          .css('-webkit-transform', "")
-        existing.$moved.css('-webkit-transform', "");
+        _.defer(function(){
+          ($details = existing.$el)
+            .css('-webkit-transform', "translate3d(0," + (existing.top + (existing.newHeight || 0)) + "px,0)")
+            .children('.cover')
+            .on('webkitTransitionEnd', function(){ $details.remove(); })
+            .removeClass('open')
+            .css('-webkit-transform', "")
+          existing.$moved.css('-webkit-transform', "");
+        });
         delete this.details;
         return;
       }
@@ -290,36 +292,45 @@ define([
       // Calculate after which tile the details should be shown
       var elIdx     = $el.prevAll().length,
           afterIdx  = elIdx + (this.calculated.capacity.hori - elIdx % this.calculated.capacity.hori) - 1,
-          $after    = $el.parent().children().eq(Math.min(afterIdx, this.getCount()-1));
+          $after    = $el.parent().children().eq(Math.min(afterIdx, this.getCount()-1)),
+          onSameRow = existing && existing.$after[0] == $after[0];
       
       // Build the details element
       var item      = this.getItem($el),
           content   = this.getDetailsContent(item),
-          $details  = $( tilesDetails({content:content}) ).addClass('dummy').insertBefore(this.$inner);
+          $details  = $( tilesDetailsTemplate({content:content}) ).addClass('dummy').insertBefore(this.$inner);
       
       
-      // Check if we need to remove the current one first
-      if (existing) {
-        onSameRow = existing.$after[0] == $after[0];
-        if (!onSameRow) {
-          newAboveCurrent = afterIdx < existing.afterIdx;
-          this.showDetails(false);
-        }
-      }
+      // Start the props object
+      var props = {
+        // The data item that was clicked
+        item:             item,
+        // The details element
+        $el:              $details,
+        // The index after which the details view was injected
+        afterIdx:         afterIdx,
+        // The element after which the details view was injected
+        $after:           $after,
+        // The items that should be moved
+        $moved:           $after.nextAll(),
+        // Whether the details is opened on the same row as the current details (if exists)
+        onSameRow:        onSameRow,
+        // Whether the details is opened above the current details (if exists)
+        newAboveCurrent:  existing && !onSameRow ? afterIdx < existing.afterIdx : (void 0),
+        // Calculate arrow position
+        arrowLeft:        $el.position().left + $el.outerWidth(true) / 2,
+        // Calculate the height of the details
+        height:           $details.outerHeight(),
+        // Calculate the top of the new details
+        top:              onSameRow ? existing.top : $after[0].offsetTop + $after.outerHeight(true) - $after.css('margin-top').numberValue()
+      };
       
-      
-      // Set position if we are on a new row or are there is no existing details yet
-      if (!existing || !onSameRow) {
-        $details.css('top', $after[0].offsetTop + $after.outerHeight(true) - $after.css('margin-top').numberValue());
-      }
       
       // If the new details is on the same row, we should replace the content
-      if (onSameRow) {
+      if (props.onSameRow) {
         
-        // Fix the height
-        oldHeight = existing.$el.outerHeight();
-        height    = $details.outerHeight();
-        existing.$el.css('height', Math.max(height, oldHeight));
+        // Fix the height to the max of the new and existing height
+        existing.$el.css('height', Math.max(props.height, existing.height));
         
         // Get the old and new content elements
         var $oldContent = existing.$el.find('.content').addClass('outgoing'),
@@ -336,63 +347,58 @@ define([
         
         // Remove the dummy details, and redirect the var to the existing one
         $details.remove();
-        $details = existing.$el;
+        $details = props.$el = existing.$el;
       }
       
       
-      // Set the arrow position
-      var arrowLeft = $el.position().left + $el.outerWidth(true) / 2;
-      $details.find('svg').css('-webkit-transform', "translate3d(" + (-1000 + arrowLeft) + "px,0,0)");
+      // If the new details is to be shown above the current one, move the new details earlier in the DOM
+      if (props.newAboveCurrent === true) $details.prependTo(this.$scroller);
       
+      // 
+      var startTop = props.top;
+      if (props.newAboveCurrent === false) startTop += props.height;
       
-      // Put the details in the DOM and calculate the height
-      if (!existing || !onSameRow) {
-        if (newAboveCurrent !== false)
-          $details.prependTo(this.$scroller);
-      }
-      if (!height) height = $details.outerHeight();
-      
-      
-      // Interaction between details on different rows
-      if (existing && !onSameRow) {
-        if (newAboveCurrent)
-          existing.$el.css('-webkit-transform', "translate3d(0," + height + "px,0)");
-        else
-          $details.css('-webkit-transform', "translate3d(0," + height + "px,0)");
+      // Remove the existing details if a new details is not on the same row as the existing
+      if (props.onSameRow === false) {
+        if (props.newAboveCurrent === true)
+          existing.newHeight = props.height;
+        this.showDetails(false);
       }
       
       
-      // Slide the details open
-      $details.children('.cover').css('-webkit-transform', "translate3d(0," + (height-1) + "px,0)");
+      $details
+        // Set initial top position
+        .css('-webkit-transform', "translate3d(0," + startTop + "px,0)")
+        // Set arrow position
+        .children('svg')
+        .css('-webkit-transform', "translate3d(" + (-1000 + props.arrowLeft) + "px,0,0)");
+      // Set other arrow position
+      $details
+        .find('> .cover > .arrow')
+        .css('left', props.arrowLeft + 'px');
       
-      // Get the items which should be moved down
-      var $moved = $after.nextAll();
-      // Move the tiles after the details down
-      $moved.css('-webkit-transform', "translate3d(0," + height + "px,0)");
-      
-      // Reset the details
+      // 
       _.defer(function(){
+        
+        // Move the tiles after the details down
+        props.$moved.css('-webkit-transform', "translate3d(0," + props.height + "px,0)");
+        
+        // Slide the details open
         $details
           .removeClass('dummy')
-          .css('-webkit-transform', "");
+          .css('-webkit-transform', "translate3d(0," + props.top + "px,0)")
+          .children('.cover')
+          .addClass('open')
+          .css('-webkit-transform', "translate3d(0," + (props.height-1) + "px,0)");
       });
       
       
-      // Store data
-      this.details = {
-        $el:      $details,
-        $after:   $after,
-        $moved:   $moved,
-        height:   height,
-        afterIdx: afterIdx
-      };
+      // Store props
+      this.details = props;
       
       
       // Set styling
-      var view = this;
-      _.defer(function(){
-        view.setDetailsStyle(view.details.$el, item);
-      });
+      this.setDetailsStyle(this.details.$el, item);
       
     },
     

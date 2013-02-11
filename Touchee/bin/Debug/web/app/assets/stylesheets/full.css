@@ -1616,23 +1616,24 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
     margin-left: 18px;
   }
 }
-/* line 62, ../sass/full/scroll_list/_tiles.sass */
+/* line 64, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 64, ../sass/full/scroll_list/_tiles.sass */
+/* line 66, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.noanim span:nth-child(2) {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 86, ../sass/full/scroll_list/_tiles.sass */
+/* line 88, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   overflow: hidden;
@@ -1647,9 +1648,8 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition-property: -webkit-transform, background-color;
   transition-property: -webkit-transform, background-color;
 }
-/* line 97, ../sass/full/scroll_list/_tiles.sass */
+/* line 100, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover {
-  content: "";
   position: absolute;
   z-index: 3;
   background: #f2f2f2;
@@ -1667,7 +1667,28 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.46);
   -webkit-transform: translate3d(0, 13px, 0);
 }
-/* line 111, ../sass/full/scroll_list/_tiles.sass */
+/* line 113, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable div.details > .cover > .arrow {
+  position: absolute;
+  z-index: 4;
+  width: 20px;
+  height: 20px;
+  top: -11px;
+  margin-left: -10px;
+  background: #f2f2f2;
+  border: solid #b0b0b0;
+  border-width: 1px 0 0 1px;
+  -webkit-transform: rotateZ(45deg);
+  -webkit-transition: -webkit-transform 0.4s ease;
+  -moz-transition: -webkit-transform 0.4s ease;
+  -o-transition: -webkit-transform 0.4s ease;
+  transition: -webkit-transform 0.4s ease;
+}
+/* line 126, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable div.details > .cover.open > .arrow {
+  -webkit-transform: scale(0.01) rotateZ(45deg);
+}
+/* line 130, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg {
   position: relative;
   z-index: 1;
@@ -1676,46 +1697,46 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
 }
-/* line 115, ../sass/full/scroll_list/_tiles.sass */
+/* line 134, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.shadow {
   filter: url(#arrow_line_dropshadow);
 }
-/* line 117, ../sass/full/scroll_list/_tiles.sass */
+/* line 136, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.fill {
   fill: #f2f2f2;
 }
-/* line 119, ../sass/full/scroll_list/_tiles.sass */
+/* line 138, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.stroke {
   stroke: rgba(0, 0, 0, 0.23);
   fill: none;
   stroke-width: 1px;
 }
-/* line 124, ../sass/full/scroll_list/_tiles.sass */
+/* line 143, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy {
   visibility: hidden;
 }
-/* line 126, ../sass/full/scroll_list/_tiles.sass */
+/* line 145, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy, .scroll_list.tiles > .scrollable div.details.dummy svg {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 129, ../sass/full/scroll_list/_tiles.sass */
+/* line 148, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content {
   -webkit-transition: opacity 0.4s ease;
   -moz-transition: opacity 0.4s ease;
   -o-transition: opacity 0.4s ease;
   transition: opacity 0.4s ease;
 }
-/* line 132, ../sass/full/scroll_list/_tiles.sass */
+/* line 150, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.outgoing {
   position: absolute;
   left: 0;
   right: 0;
   opacity: 0;
 }
-/* line 137, ../sass/full/scroll_list/_tiles.sass */
+/* line 155, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.incoming {
   opacity: 0;
 }
