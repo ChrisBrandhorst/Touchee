@@ -12,9 +12,9 @@ ColorTunes = (function($) {
     }
     pdata = canvas.getContext("2d").getImageData(sx, sy, w, h).data;
     pixels = [];
-    for (y = _i = sy, _ref = sy + h; _i < _ref; y = _i += 1) {
+    for (y = _i = 0, _ref = h; _i < _ref; y = _i += 1) {
       indexBase = y * w * 4;
-      for (x = _j = sx, _ref1 = sx + w; _j < _ref1; x = _j += 1) {
+      for (x = _j = 0, _ref1 = w; _j < _ref1; x = _j += 1) {
         index = indexBase + (x * 4);
         pixels.push([pdata[index], pdata[index + 1], pdata[index + 2]]);
       }
@@ -126,7 +126,8 @@ ColorTunes = (function($) {
     canvas.width = image.width;
     canvas.height = image.height;
     canvas.getContext("2d").drawImage(image, 0, 0, image.width, image.height);
-    bgColorMap = ColorTunes.getColorMap(canvas, image.width*.25, 0, image.width*.75, image.height*0.05, 4);
+    bgColorMap = ColorTunes.getColorMap(canvas, Math.ceil(image.width*.25), 0, Math.ceil(image.width*.75), Math.ceil(image.height*0.05), 4);
+    // bgColorMap = ColorTunes.getColorMap(canvas, 0, 0, image.width, image.height, 4);
     bgPalette = bgColorMap.cboxes.map(function(cbox) {
       return {
         count: cbox.cbox.count(),

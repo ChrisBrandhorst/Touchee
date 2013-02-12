@@ -325,6 +325,7 @@ MMCQ = (function() {
       }
     }
     partialsum.forEach(function(d, i) {
+      console.log(i);
       return lookaheadsum[i] = total - d;
     });
     doCut = function(color) {

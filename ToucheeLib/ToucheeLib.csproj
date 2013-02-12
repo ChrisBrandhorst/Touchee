@@ -54,6 +54,7 @@
     <Compile Include="Media\Music\IWebcast.cs" />
     <Compile Include="Media\Music\IWebcastStream.cs" />
     <Compile Include="Media\Music\StreamEncoding.cs" />
+    <Compile Include="Meta\ColorTunes.cs" />
     <Compile Include="Meta\IMovieInfo.cs" />
     <Compile Include="Media\Music\WebcastStream.cs" />
     <Compile Include="Organizing\Container.cs" />

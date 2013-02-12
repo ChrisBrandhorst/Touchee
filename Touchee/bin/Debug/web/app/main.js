@@ -50,7 +50,9 @@ require([
   '../lib/fastclick.min',
   '../lib/linq',
   '../lib/quantize',
-  '../lib/colortunes'
+  '../lib/colortunes',
+  '../lib/albumcolors',
+  '../lib/image_analyzer'
   
 ], function(config, Backbone, $, Touchee){
   

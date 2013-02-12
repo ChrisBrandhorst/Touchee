@@ -1740,3 +1740,16 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
 .scroll_list.tiles > .scrollable div.details > .content.incoming {
   opacity: 0;
 }
+/* line 159, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable div.details > .content .colors > * {
+  display: inline-block;
+}
+/* line 161, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable div.details > .content .colors em {
+  width: 140px;
+}
+/* line 163, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable div.details > .content .colors span {
+  width: 30px;
+  height: 15px;
+}

@@ -396,10 +396,10 @@ define([
       // Store props
       this.details = props;
       
-      
       // Set styling
       this.setDetailsStyle(this.details.$el, item);
       
+      return this.details.$el;
     },
     
     
