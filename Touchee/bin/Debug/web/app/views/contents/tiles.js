@@ -78,8 +78,8 @@ define([
     // Renders each item of the list
     renderItem: function(item, options) {
       var zoom      = this.data.zoomed == item,
-          artwork   = this._getArtwork(item),
-          style     = artwork ? this.getArtworkStyle(artwork, {string:true,zoom:zoom}) : null,
+          artwork   = Artwork.fromCache(item),
+          style     = artwork && artwork.exists() === true ? this.getArtworkStyle(artwork, {string:true, zoom:zoom}) : null,
           klass     = zoom ? "zoom" : null;
       
       var rendered = '<li' + (style ? ' style="'+style+'"' : '') + (klass ? ' class="'+klass+'"' : '') + ">";
@@ -95,42 +95,32 @@ define([
     },
     
     
-    // Gets the artwork object for the given item or element
-    _getArtwork: function(itemOrEl) {
-      if (!this.getArtworkUrl) return null;
-      var item = itemOrEl instanceof Backbone.Model ? itemOrEl : this.getItem(itemOrEl);
-      return Artwork.fromCache(this.getArtworkUrl(item));
-    },
-    
-    
     // Gets the style used for displaying the artwork of the tile
     getArtworkStyle: function(artwork, options) {
       options || (options = {});
       
       // Get data
-      var width   = artwork.get('width'),
-          height  = artwork.get('height'),
-          size    = options.zoom ? this.calculated.size.zoom : this.calculated.size,
-          style   = {};
+      var tileSize    = options.zoom ? this.calculated.size.zoom : this.calculated.size,
+          style       = {};
       
       // The image
-      style['background-image'] = "url(" + artwork.get('url') + ")";
+      style['background-image'] = "url(" + artwork.url({size:this.calculated.size.zoom.inner.width}) + ")";
           
       // Square artwork: nothing special
-      if (height == width) { }
+      if (artwork.isSquare()) { }
       
       // Portrait artwork
-      else if (height > width) {
-        var imgWidth          = Math.floor(width * (size.inner.height / height));
+      else if (artwork.isPortrait()) {
+        var imgWidth          = Math.ceil(tileSize.inner.height / artwork.get('ratio'));
         style['width']        = imgWidth + 'px';
-        style['margin-right'] = size.margin.right + (size.inner.width - imgWidth) + 'px';
+        style['margin-right'] = tileSize.margin.right + (tileSize.inner.width - imgWidth) + 'px';
       }
       
       // Landscape artwork
       else {
-        var imgHeight       = Math.floor(height * (size.inner.width / width));
+        var imgHeight       = Math.ceil(tileSize.inner.width / artwork.get('ratio'));
         style['height']     = style['padding-top'] = imgHeight + 'px';
-        style['margin-top'] = size.margin.top + (size.inner.height - imgHeight) + 'px';
+        style['margin-top'] = tileSize.margin.top + (tileSize.inner.height - imgHeight) + 'px';
       }
       
       // Convert to string representation
@@ -193,15 +183,16 @@ define([
         
         // Get some params
         var item  = this.model.models[itemIdx],
-            url   = this.getArtworkUrl(item),
-            view  = this;
+            view  = this,
+            width = this.calculated.size.zoom.inner.width;
         
         // Get the artwork
-        Artwork.fetch(url, {
-          success: function(artwork) {
+        Artwork.fetch(item, {
+          size:     width,
+          colors:   true,
+          success:  function(artwork) {
             // If we have artwork, set it
-            if (artwork instanceof Artwork) {
-              
+            if (artwork.exists() === true) {
               var artworkStyle  = view.getArtworkStyle(artwork, {zoom: view.data.zoomed == item}),
                   $el           = $(el).addClass('noanim');
               _.extend(el.style, artworkStyle);
@@ -212,7 +203,8 @@ define([
             // Do the next item
             doNext();
           },
-          error: doNext
+          none:   doNext,
+          error:  doNext
         });
         
       }
@@ -222,12 +214,14 @@ define([
     
     // (un)Zoomes the given tile
     zoomTile: function($el, zoom) {
-      var el = $el[0];
+      var el          = $el[0],
+          item        = this.getItem($el),
+          artwork     = Artwork.fromCache(item),
+          hasArtwork  = artwork && artwork.exists() === true;
       
       // Unzoom the element
       if (zoom === false) {
-        var artwork = this._getArtwork($el);
-        if (artwork)
+        if (hasArtwork)
           _.extend(el.style, this.getArtworkStyle(artwork));
         $el.removeClass('zoom');
         delete this.data.zoomed;
@@ -242,12 +236,8 @@ define([
           this.zoomTile($zoomed, false);
         
         // If we have any artwork, set the style for the zoomed version
-        var item    = this.getItem($el),
-            artwork = this._getArtwork(item);
-        if (artwork) {
-          var zoomStyle = this.getArtworkStyle(artwork, {zoom:true});
-          _.extend(el.style, zoomStyle);
-        }
+        if (hasArtwork)
+          _.extend(el.style, this.getArtworkStyle(artwork, {zoom:true}) );
         
         // Add the class
         $el.addClass('zoom');
@@ -266,14 +256,14 @@ define([
     },
     
     
-    // 
-    showDetails: function($el, remove) {
+    // (un)Shows the detail view for the given tile
+    showDetails: function($el) {
       var existing = this.details,
           $details;
       
       
       // Remove the detail view if asked
-      if ($el === false || remove) {
+      if ($el === false) {
         if (!existing) return;
         _.defer(function(){
           ($details = existing.$el)
@@ -298,15 +288,20 @@ define([
       // Build the details element
       var item      = this.getItem($el),
           content   = this.getDetailsContent(item),
-          $details  = $( tilesDetailsTemplate({content:content}) ).addClass('dummy').insertBefore(this.$inner);
+          $details  = $( tilesDetailsTemplate({content:content}) ).addClass('dummy').insertBefore(this.$inner),
+          $content  = $details.children('.content');
       
       
       // Start the props object
       var props = {
         // The data item that was clicked
         item:             item,
+        // The tile that was clicked
+        $tile:            $el,
         // The details element
         $el:              $details,
+        // The content element
+        $content:         $content,
         // The index after which the details view was injected
         afterIdx:         afterIdx,
         // The element after which the details view was injected
@@ -333,8 +328,8 @@ define([
         existing.$el.css('height', Math.max(props.height, existing.height));
         
         // Get the old and new content elements
-        var $oldContent = existing.$el.find('.content').addClass('outgoing'),
-            $content    = $details.find('.content').addClass('incoming').insertAfter($oldContent);
+        var $oldContent = existing.$el.children('.content').addClass('outgoing');
+        $content.addClass('incoming').insertAfter($oldContent);
         
         // Remove the old content after the transition
         $oldContent.on('webkitTransitionEnd', function(){
@@ -392,20 +387,8 @@ define([
           .css('-webkit-transform', "translate3d(0," + (props.height-1) + "px,0)");
       });
       
-      
-      // Store props
-      this.details = props;
-      
-      // Set styling
-      this.setDetailsStyle(this.details.$el, item);
-      
-      return this.details.$el;
-    },
-    
-    
-    //
-    setDetailsStyle: function($details, item) {
-      
+      // 
+      return this.details = props;
     }
     
     

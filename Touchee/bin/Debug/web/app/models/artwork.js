@@ -1,8 +1,9 @@
 define([
+  'jquery',
   'underscore',
   'Backbone',
   'Touchee'
-], function(_, Backbone, Touchee){
+], function($, _, Backbone, Touchee){
   
   // Internal cache for all artwork objects
   var _cache = {};
@@ -11,73 +12,175 @@ define([
   // Artwork object
   var Artwork = Backbone.Model.extend({
     
+    defaults: {
+      queried: false
+    },
+    
+    // Constructor
     initialize: function(attributes, options) {
-      this.image = options.image;
-      this.set({
-        height: this.image.height,
-        width:  this.image.width
+      this.item = options.item;
+      this.sizes = {};
+    },
+    
+    
+    // Returns whether the artwork is available
+    exists: function() {
+      return this.get('exists');
+    },
+    
+    
+    // 
+    isQueried: function() {
+      return this.get('queried');
+    },
+    
+    
+    // 
+    hasSize: function(size) {
+      return !_.isUndefined(this.sizes[size || null]);
+    },
+    
+    
+    // 
+    getSize: function(size) {
+      return this.sizes[size];
+    },
+    
+    
+    // 
+    setSize: function(size, width, height, url) {
+      this.sizes[size || null] = {
+        width:  width,
+        height: height,
+        url:    url
+      };
+      if (!this.has('ratio'))
+        this.set('ratio', width / height);
+      return this;
+    },
+    
+    
+    // 
+    url: function(options, largest) {
+      var url;
+      if (options === true || largest) {
+        var keys = _.keys(this.sizes).sort(function(a,b){return a < b;});
+        if (keys[0]) url = this.sizes[keys[0]].url;
+      }
+      else
+        options || (options = {});
+      url = url || this.item.artworkUrl();
+      var query = $.param(options);
+      if (query != "") url += (url.indexOf('?') == -1 ? "?" : "&") + query;
+      return url;
+    },
+    
+    
+    //
+    isSquare: function() { return this.get('ratio') == 1; },
+    isLandscape: function() { return this.get('ratio') > 1; },
+    isPortrait: function() { return this.get('ratio') < 1; },
+    
+    
+    // 
+    getColors: function(options) {
+      options || (options = {});
+      var artwork = this;
+      var xhr = $.ajax({
+        url:      this.url({colors:true}),
+        data:     {colors:true},
+        success:  function(data, textStatus, jqXHR) {
+          artwork.colors = data;
+          if (options.success) options.success(artwork, artwork.colors);
+        },
+        error: options.error
       });
     }
+    
     
   },{
     
     
     // 
-    create: function(url, image) {
-      return new Artwork({url:url}, {image:image});
-    },
-    
-    
-    // 
-    fetch: function(url, options) {
+    fetch: function(item, options) {
       options = _.extend({
         remote:   true,
         toCache:  true
       }, options);
       
-      // Get artwork from cache
-      var artwork = this.fromCache(url);
-      
-      // If we have a cache, do success
-      if (artwork === false || artwork instanceof Artwork) {
-        if (options.success) options.success(artwork);
+      // Check for artwork URL
+      if (!_.isFunction(item.artworkUrl)) {
+        if (options.error) options.error("Item has no artworkUrl");
         return;
+      }
+      
+      // Get artwork from cache
+      var artwork = this.fromCache(item);
+      
+      // If we have a cache
+      if (artwork) {
+        var exists = artwork.exists();
+        // If the artwork does not exist
+        if (exists === false) {
+          if (options.none) options.none(artwork);
+          return;
+        }
+        // If the artwork exists and the correct size is present
+        else if (exists === true && artwork.hasSize(options.size)) {
+          if (options.success) options.success(artwork);
+          return;
+        }
+      }
+      
+      // Else, build new object
+      else {
+        artwork = new Artwork({},{item:item});
       }
       
       // No remote? Bail out
       if (!options.remote) {
-        if (options.error) options.error();
+        if (options.none) options.none();
         return;
       }
+      
+      // Build URL
+      var query = {};
+      if (options.size) query.size = options.size;
+      url = artwork.url(query);
       
       // Get the image from remote. If it is cached by the browser, the onload will immediately run
       var img = new Image();
       img.onload = function() {
-        artwork = Artwork.create(url, this);
-        if (options.toCache) _cache[url] = artwork;
-        if (options.success) options.success(artwork);
+        artwork.set({
+          exists:   true,
+          queried:  true
+        });
+        artwork.setSize(options.size || null, img.width, img.height, url);
+        if (options.toCache) _cache[item.id] = artwork;
+        if (options.success) options.success(artwork, img);
+        if (options.colors && !artwork.colors) artwork.getColors();
       };
       img.onerror = function(){
-        if (options.toCache) _cache[url] = false;
+        artwork.set({
+          exists:   false,
+          queried:  true
+        });
+        if (options.toCache) _cache[item.id] = artwork;
         if (options.error) options.error();
       };
       img.onabort = options.error;
-      img.src = url;
+      
+      // Load the image
+      img.src = artwork.url(query);
       
     },
     
     
-    // Gets the artwork object for the given URL from the cache
-    fromCache: function(url) {
-      var artwork = _cache[url];
-      return artwork instanceof Artwork ? artwork : (artwork === false ? false : null);
-    },
+    // Gets the artwork object for the given item from the cache
+    fromCache: function(item) {
+      return _cache[item.id];
+    }
     
-    
-    // // Returns whether the given URL is already cached
-    // isCached: function(url) {
-    //   return this.fromCache(url) !== null;
-    // }
     
     
   });

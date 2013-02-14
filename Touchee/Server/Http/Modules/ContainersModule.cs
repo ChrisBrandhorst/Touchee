@@ -77,32 +77,49 @@ namespace Touchee.Server.Http.Modules {
             // Output artwork
             if (artwork != null) {
 
-                if (filter.ContainsKey("size")) {
-                    int size = filter["size"];
+                // Size artwork
+                if (Request.Query.ContainsKey("size")) {
+                    int size = Request.Query["size"];
                     var sized = artwork.Resize(new Size(size, size), ResizeMode.ContainAndShrink);
                     artwork.Dispose();
                     artwork = sized;
                 }
 
-                //if (filter.ContainsKey("artwork"))
-                    Touchee.Meta.ArtworkColors.Generate(artwork);
-
+                // Save to stream
                 var stream = new MemoryStream();
                 artwork.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                artwork.Dispose();
                 stream.Seek(0, SeekOrigin.Begin);
 
-                var resp = Response.FromStream(stream, "image/png");
-                this.SetArtworkCache(resp);
+                Response response;
 
-                return resp;
+                // Check if colors should be added
+                if (Request.Query.ContainsKey("colors")) {
+                    var colors = Touchee.Meta.ArtworkColors.Generate(artwork);
+                    var colorJSON = @"{""background"":" + colors.BackgroundColor.ToJSON() + @",""foreground"":" + colors.ForegroundColor.ToJSON() + @",""foreground2"":" + colors.ForegroundColor2.ToJSON() + "}";
+                    //response.Headers.Add("X-Artwork-Colors", colorJSON);
+                    response = Response.AsJson<object>(new {
+                        background = colors.BackgroundColor,
+                        foreground = colors.ForegroundColor,
+                        foreground2 = colors.ForegroundColor2
+                    });
+                }
+
+                else {
+                    // Create response
+                    response = Response.FromStream(stream, "image/png");
+                    this.SetArtworkCache(response);
+                }
+
+                // Throw away artwork
+                artwork.Dispose();
+                return response;
             }
 
             else {
-                var resp = Response.AsText("");
-                resp.StatusCode = HttpStatusCode.NotFound;
-                this.SetArtworkCache(resp);
-                return resp;
+                var response = Response.AsText("");
+                response.StatusCode = HttpStatusCode.NotFound;
+                this.SetArtworkCache(response);
+                return response;
             }
         }
 

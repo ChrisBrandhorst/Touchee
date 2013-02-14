@@ -1564,7 +1564,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   height: 128px;
   margin: 25px 21px 43px 20px;
   padding-top: 128px;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: bottom left;
   -webkit-box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
@@ -1609,11 +1609,28 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: 0.2s ease;
   transition: 0.2s ease;
 }
+/* line 41, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom {
+  width: 154px;
+  height: 154px;
+  margin: 16px 8px 26px 7px;
+  padding-top: 154px;
+}
+/* line 46, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom span:nth-child(2) {
+  margin-top: -17px;
+  opacity: 0;
+}
 @media screen and (max-width: 900px) {
   /* line 10, ../sass/full/scroll_list/_tiles.sass */
   .scroll_list.tiles > .scrollable > ul > li {
     margin-right: 2px;
     margin-left: 18px;
+  }
+  /* line 54, ../sass/full/scroll_list/_tiles.sass */
+  .scroll_list.tiles > .scrollable > ul > li.zoom {
+    margin-right: -11px;
+    margin-left: 5px;
   }
 }
 /* line 64, ../sass/full/scroll_list/_tiles.sass */

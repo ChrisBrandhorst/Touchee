@@ -2,7 +2,10 @@
 
 if (artwork) { %>
   
-  <img src="<%= artwork.get('url') %>" />
+  <img src="<%= artwork.url(true) %>" />
+  
+  <h1 class="prim"><%= item.get('title') %></h1>
+  <h2 class="sec"><%= item.get('albumArtist') %></h2>
   
 <% }
 

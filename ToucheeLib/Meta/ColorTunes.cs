@@ -15,7 +15,7 @@ namespace Touchee.Meta {
         public Color ForegroundColor2 { get; protected set; }
 
         Bitmap _bitmap;
-
+        const int WORKSIZE = 128;
 
         public static ArtworkColors Generate(Image image) {
             return new ArtworkColors(image);
@@ -23,49 +23,55 @@ namespace Touchee.Meta {
 
 
         ArtworkColors(Image image) {
-            _bitmap = new Bitmap(image);
+            _bitmap = new Bitmap(
+                image.Width > WORKSIZE || image.Height > WORKSIZE
+                    ? image.Resize(new Size(128, 128), ResizeMode.ContainAndShrink)
+                    : image
+            );
 
-            this.GetColorMap(
-                (int)Math.Ceiling(image.Width * .25),
+            var bgColors = this.GetColorMap(
+                (int)Math.Floor(_bitmap.Width * .25),
                 0,
-                (int)Math.Ceiling(image.Width * .75),
-                (int)Math.Ceiling(image.Height * .05),
+                (int)Math.Floor(_bitmap.Width * .75),
+                (int)Math.Floor(_bitmap.Height * .05),
                 4
             );
-            //this.GetColorMap(
-            //    0,
-            //    0,
-            //    image.Width,
-            //    image.Height,
-            //    4
-            //);
+            this.BackgroundColor = bgColors[0].GetAverage();
+
+            var fgColors = this.GetColorMap(
+                0,
+                0,
+                _bitmap.Width,
+                _bitmap.Height,
+                10
+            );
+            fgColors.Select(c => Distance(this.BackgroundColor, c.GetAverage())).ToList().Sort();
+            fgColors.Sort( (a, b) => Distance(this.BackgroundColor, b.GetAverage()).CompareTo( Distance(this.BackgroundColor, a.GetAverage()) ) );
+            this.ForegroundColor = fgColors[0].GetAverage();
+            if (fgColors.Count > 1)
+                this.ForegroundColor2 = fgColors[1].GetAverage();
         }
 
 
-        Color[] GetColorMap(int sx, int sy, int width, int height, int maxColors) {
+        List<ColorBox> GetColorMap(int sx, int sy, int width, int height, int maxColors) {
 
-            var s = DateTime.Now;
-
-
-            var colors = new Color[width * height];
+            var pixels = new Color[width * height];
             for (int j = 0; j < height; j++) {
                 for (int i = 0; i < width; i++) {
-                    colors[j * width + i] = _bitmap.GetPixel(sx + i, sy + j);
+                    pixels[j * width + i] = _bitmap.GetPixel(sx + i, sy + j);
                 }
             }
 
+            var colors = MMCQ.Quantize(pixels, maxColors).ToList();
+            colors.Sort( (a, b) => b.GetCount().CompareTo(a.GetCount()) );
 
-            var boxes = MMCQ.Quantize(colors, maxColors);
-            
-            Console.WriteLine((DateTime.Now - s).TotalMilliseconds.ToString());
-
-            foreach (var c in boxes.Select(b => b.GetAverage())) {
-                Console.WriteLine(c.ToString());
-            }
-
-            return null;
+            return colors;
         }
 
+
+        static int Distance(Color a, Color b) {
+            return (int)(Math.Pow(a.R - b.R, 2) + Math.Pow(a.G - b.G, 2) + Math.Pow(a.B - b.B, 2));
+        }
 
 
 
@@ -76,6 +82,7 @@ namespace Touchee.Meta {
 
             static int _maxIterations = 1000;
             static double _fractByPopulations = .75;
+
 
             public static IEnumerable<ColorBox> Quantize(Color[] pixels, int maxColors) {
 
@@ -178,10 +185,10 @@ namespace Touchee.Meta {
                     total = 0,
                     sum, index;
 
-                var partialSum = new Dictionary<int,int>();
-                var lookAheadSum = new Dictionary<int, int>();
+                var partialSum = new int[0];
 
                 if (maxw == rw) {
+                    partialSum = new int[box.R2 + 1];
                     for (int r = box.R1; r <= box.R2; r++) {
                         sum = 0;
                         for (int g = box.G1; g <= box.G2; g++) {
@@ -196,6 +203,7 @@ namespace Touchee.Meta {
                 }
 
                 else if (maxw == gw) {
+                    partialSum = new int[box.G2 + 1];
                     for (int g = box.G1; g <= box.G2; g++) {
                         sum = 0;
                         for (int r = box.R1; r <= box.R2; r++) {
@@ -210,6 +218,7 @@ namespace Touchee.Meta {
                 }
 
                 else if (maxw == bw) {
+                    partialSum = new int[box.B2 + 1];
                     for (int b = box.B1; b <= box.B2; b++) {
                         sum = 0;
                         for (int r = box.R1; r <= box.R2; r++) {
@@ -223,10 +232,9 @@ namespace Touchee.Meta {
                     }
                 }
 
-                var keys = partialSum.Keys.ToList();
-                keys.Sort();
-                for (int i = 0; i < keys.Count; i++) {
-                    lookAheadSum[keys[i]] = total - partialSum[keys[i]];
+                var lookAheadSum = new int[partialSum.Length];
+                for (int i = 0; i < partialSum.Length; i++) {
+                    lookAheadSum[i] = total - partialSum[i];
                 }
 
                 if (maxw == rw) {
@@ -243,7 +251,7 @@ namespace Touchee.Meta {
             }
 
 
-            static ColorBox[] DoCut(ColorBox box, Dictionary<int, int> partialSum, Dictionary<int, int> lookAheadSum, int total, char color) {
+            static ColorBox[] DoCut(ColorBox box, int[] partialSum, int[] lookAheadSum, int total, char color) {
 
                 int dim1 = 0, dim2 = 0;
                 switch (color) {
@@ -302,8 +310,6 @@ namespace Touchee.Meta {
                 }
                 return null;
             }
-
-
 
         }
 
@@ -417,9 +423,9 @@ namespace Touchee.Meta {
                     }
                     else {
                         _average = Color.FromArgb(
-                            ~~(mult * (R1 + R2 + 1) / 2),
-                            ~~(mult * (G1 + G2 + 1) / 2),
-                            ~~(mult * (B1 + B2 + 1) / 2)
+                            ~~(mult * (R1 + R2 + 1) / 2) - 1,
+                            ~~(mult * (G1 + G2 + 1) / 2) - 1,
+                            ~~(mult * (B1 + B2 + 1) / 2) - 1
                         );
                     }
                 }

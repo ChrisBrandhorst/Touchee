@@ -162,6 +162,13 @@ namespace Touchee {
         }
 
 
+
+        public static string ToJSON(this Color color) {
+            return "[" + color.R + "," + color.G + "," + color.B + "]";
+        }
+
+
+
         public static Image Resize(this Image src, Size bounds, ResizeMode resizeMode = ResizeMode.Stretch) {
 
             int srcX, srcY, srcWidth, srcHeight;

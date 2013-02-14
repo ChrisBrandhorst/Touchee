@@ -48,11 +48,7 @@ require([
   // Other
   'lib/js.extensions',
   '../lib/fastclick.min',
-  '../lib/linq',
-  '../lib/quantize',
-  '../lib/colortunes',
-  '../lib/albumcolors',
-  '../lib/image_analyzer'
+  '../lib/linq'
   
 ], function(config, Backbone, $, Touchee){
   
