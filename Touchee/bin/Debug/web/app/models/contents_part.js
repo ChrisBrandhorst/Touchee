@@ -13,7 +13,6 @@ define([
     // Constructor
     initialize: function(models, options) {
       this.contents = options.contents;
-      // this.filter   = options.filter;
       
       this.contents.on('reset',   this._contentsReset,  this);
       this.contents.on('change',  this._contentsChange, this);

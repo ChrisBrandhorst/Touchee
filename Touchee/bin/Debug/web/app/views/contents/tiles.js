@@ -21,6 +21,8 @@ define([
     line1:        'id',
     line2:        'id',
     
+    // Override the size of the artwork to be loaded for each tile
+    artworkSize:  null,
     
     // Backbone view properties
     events: {
@@ -101,11 +103,12 @@ define([
       
       // Get data
       var tileSize    = options.zoom ? this.calculated.size.zoom : this.calculated.size,
+          artworkSize = this.artworkSize || this.calculated.size.zoom.inner.width,
           style       = {};
       
       // The image
-      style['background-image'] = "url(" + artwork.url({size:this.calculated.size.zoom.inner.width}) + ")";
-          
+      style['background-image'] = "url(" + artwork.url({size:artworkSize}) + ")";
+      
       // Square artwork: nothing special
       if (artwork.isSquare()) { }
       
@@ -183,12 +186,11 @@ define([
         
         // Get some params
         var item  = this.model.models[itemIdx],
-            view  = this,
-            width = this.calculated.size.zoom.inner.width;
+            view  = this;
         
         // Get the artwork
         Artwork.fetch(item, {
-          size:     width,
+          size:     this.artworkSize || this.calculated.size.zoom.inner.width,
           colors:   true,
           success:  function(artwork) {
             // If we have artwork, set it

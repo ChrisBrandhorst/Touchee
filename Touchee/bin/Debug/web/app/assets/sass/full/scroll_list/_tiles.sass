@@ -38,22 +38,22 @@ $tileSizeZoom:  154px
         @include        transition(.2s ease)
     
     // Zoom state
-    &.zoom
-      width:        $tileSizeZoom
-      height:       $tileSizeZoom
-      margin:       16px 8px 26px 7px
-      padding-top:  $tileSizeZoom
-      span:nth-child(2)
-        margin-top: -17px
-        opacity:    0
+    // &.zoom
+    //   width:        $tileSizeZoom
+    //   height:       $tileSizeZoom
+    //   margin:       16px 8px 26px 7px
+    //   padding-top:  $tileSizeZoom
+    //   span:nth-child(2)
+    //     margin-top: -17px
+    //     opacity:    0
     
     // When the screen gets narrower, adjust the margins
     @media screen and (max-width: 900px)
       margin-right: 2px
       margin-left:  18px
-      &.zoom
-        margin-right: -11px
-        margin-left:  5px
+      // &.zoom
+      //   margin-right: -11px
+      //   margin-left:  5px
         
     // Nice transition for zooming
     @include  transition-duration(.4s, .2s, .2s, .2s, .2s, .2s, .2s)
@@ -128,9 +128,10 @@ $tileSizeZoom:  154px
       
     
     svg
-      position: relative
-      z-index:  1
-      @include  transition(-webkit-transform .4s ease)
+      position:       relative
+      z-index:        1
+      margin-bottom:  -6px
+      @include        transition(-webkit-transform .4s ease)
       path.shadow
         filter: url(#arrow_line_dropshadow)
       path.fill

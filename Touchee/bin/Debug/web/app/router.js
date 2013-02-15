@@ -12,7 +12,7 @@ define([
   'models/collections/containers',
   
   'models/contents',
-  'models/filter',
+  'models/params',
   'models/control_request',
     
   'views/browser',
@@ -21,7 +21,7 @@ define([
             BaseModule,
             ServerInfo,
             Media, Containers,
-            Contents, Filter,
+            Contents, Params,
             ControlRequest,
             BrowserView, MediaPopupView
 ){
@@ -32,8 +32,8 @@ define([
     routes: {
       "media/:mid":                                 "medium",
       "media/:mid/containers/:cid":                 "container",
-      "media/:mid/containers/:cid/*filter":         "container",
-      // "media/:mid/containers/:cid/play/*filter":      "play",
+      "media/:mid/containers/:cid/*params":         "container",
+      // "media/:mid/containers/:cid/play/*params":      "play",
       // "queue/:qid/:command":                          "control"
     },
     
@@ -61,24 +61,24 @@ define([
     
     
     // Show the contents of a single container 
-    container: function(mediumID, containerID, filter) {
+    container: function(mediumID, containerID, params) {
       
       // Get the container
       var container = this.getContainer(mediumID, containerID);
       if (!container) return;
       
-      // Build filter object
-      filter = new Filter(decodeURIComponent(filter || ""));
+      // Build params object
+      params = new Params(decodeURIComponent(params || ""));
       
-      // If we were not given any specific type to show in the filter, we get the first viewType
-      var view      = filter.get('view') || _.keys(container.views)[0],
+      // If we were not given any specific type to show in the params, we get the first viewType
+      var view      = params.get('view') || _.keys(container.views)[0],
           viewModel = container.views[view];
       if (!viewModel)
         return this.Log.error("No valid viewmodel class specified for container " + containerID) + " (" + view + ")";
       
-      // Explicitly set the view in the filter and update the fragment
-      filter.set('view', view);
-      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0], "/", filter.toString()].join("");
+      // Explicitly set the view in the params and update the fragment
+      params.set('view', view);
+      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0], "/", params.toString()].join("");
       Backbone.history.navigate(fragment, {replace:true});
       
       // Get the module for this container
@@ -89,17 +89,17 @@ define([
       BrowserView.setSelectedContainer(container, view);
       
       // Build the view
-      module.showContents(container, filter, fragment);
+      module.showContents(container, params, fragment);
       
       
       // TODO: necessary?
       // Check if we navigated from within a container view or from the media list or view type buttons
-      // Unset 'view' in filter, count attributes, re-set 'view'
+      // Unset 'view' in params, count attributes, re-set 'view'
     },
     
     
     // Send a play command to the server
-    play: function(mediumID, containerID, filter) {
+    play: function(mediumID, containerID, params) {
       
       // Get the container
       var container = this.getContainer(mediumID, containerID);
@@ -108,7 +108,7 @@ define([
       new ControlRequest({
         command:      'play',
         containerID:  containerID,
-        filter:       new Filter(filter || "")
+        params:       new Params(params || "")
       }).save();
       
     },

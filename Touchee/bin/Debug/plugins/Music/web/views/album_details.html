@@ -1,12 +1,38 @@
 <%
 
-if (artwork) { %>
-  
-  <img src="<%= artwork.url(true) %>" />
-  
-  <h1 class="prim"><%= item.get('title') %></h1>
-  <h2 class="sec"><%= item.get('albumArtist') %></h2>
-  
-<% }
+var columnTwoAt = tracks.length <= 5 ? 0 : Math.max(5, Math.ceil(tracks.length / 2));
 
 %>
+
+
+<% if (artwork) { %>
+  <div class="artwork"><img src="<%= artwork.url({largest:true}) %>" /></div>
+<% } %>
+
+<h1 class="prim">
+  <%= tracks[0].get('album') %>
+</h1>
+<h2 class="sec"><%= tracks[0].get('albumArtist') %></h2>
+
+<ol<% if (columnTwoAt == 0) print(' class="empty"') %>>
+<% _.each(tracks, function(track, i){
+  
+  // Create second column
+  if (columnTwoAt == i) print('</ol><ol>');
+  
+  %>
+  
+  <li>
+    <span class="sec"><%= track.get('trackNumber') %></span>
+    <span class="prim"><%= track.get('title') %></span>
+    <span class="sec"><%= String.duration(track.get('duration')) %></span>
+  </li>
+  
+  <%
+  // Add empty row if necessary
+  if ( i == tracks.length - 1 && ((columnTwoAt != 0 && (i - 1) % 2 != 0) || i < 5) )
+    print('<li><span>&nbsp;</span></li>');
+  %>
+  
+<% }); %>
+</ol>

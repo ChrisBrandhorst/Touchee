@@ -16,11 +16,11 @@ String.prototype.htmlEncode = function() {
     return String.htmlEncodeMap[c];
   });
 };
-String.prototype.encodeForFilter = function() {
-  return encodeForFilter(this);
+String.prototype.encodeForParams = function() {
+  return encodeForParams(this);
 };
 
-function encodeForFilter(str) {
+function encodeForParams(str) {
   return typeof str === 'string' ? encodeURIComponent(str.replace(',', "\\,")) : str;
 }
 

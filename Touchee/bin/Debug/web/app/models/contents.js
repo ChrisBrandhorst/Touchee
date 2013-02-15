@@ -1,8 +1,8 @@
 define([
   'underscore',
   'Backbone',
-  'models/filter'
-], function(_, Backbone, Filter){
+  'models/params'
+], function(_, Backbone, Params){
   
   var Contents = Backbone.Collection.extend({
     
@@ -10,7 +10,7 @@ define([
     // Backbone collection options
     url:      function() {
       var url = this.container.url() + "/contents";
-      if (this.filter && this.filter.count) url += "/" + this.filter.toString();
+      if (this.params && this.params.count) url += "/" + this.params.toString();
       return url;
     },
     
@@ -23,7 +23,7 @@ define([
     initialize: function(attributes, options) {
       options || (options = {});
       this.container = options.container;
-      this.filter = options.filter;
+      this.params = options.params;
     },
     
     

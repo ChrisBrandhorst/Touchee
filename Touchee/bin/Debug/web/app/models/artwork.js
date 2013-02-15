@@ -61,15 +61,21 @@ define([
     
     
     // 
-    url: function(options, largest) {
+    url: function(options) {
+      options || (options = {});
       var url;
-      if (options === true || largest) {
-        var keys = _.keys(this.sizes).sort(function(a,b){return a < b;});
+      
+      // If we are asked for the largest already known image, get the URL
+      if (options.largest) {
+        var keys = _.keys(this.sizes).sort(function(a,b){return b == null || a < b;});
         if (keys[0]) url = this.sizes[keys[0]].url;
+        delete options.largest;
       }
-      else
-        options || (options = {});
+      
+      // Get the base URL
       url = url || this.item.artworkUrl();
+      
+      // Build the full URL
       var query = $.param(options);
       if (query != "") url += (url.indexOf('?') == -1 ? "?" : "&") + query;
       return url;
@@ -87,7 +93,7 @@ define([
       options || (options = {});
       var artwork = this;
       var xhr = $.ajax({
-        url:      this.url({colors:true}),
+        url:      this.url(),
         data:     {colors:true},
         success:  function(data, textStatus, jqXHR) {
           artwork.colors = data;

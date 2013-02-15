@@ -11,8 +11,8 @@ define([
     sieve: function(models) {
       
       // Group all tracks by album
-      var groups = _.groupBy(models, function(model){
-        return (model.get('album') || Touchee.nonAlphaSortValue) + "|" + (model.get('albumArtist') || model.get('artist') || Touchee.nonAlphaSortValue);
+      var groups = _.groupBy(models, function(track){
+        return track.getAlbumSelector();
       });
       
       // Get the first track from each group

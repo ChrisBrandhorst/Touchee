@@ -24,7 +24,6 @@ define([
     // Constructor
     initialize: function(options) {
       TableView.prototype.initialize.apply(this, arguments);
-      // this.filter = options.filter;
       this.model.on('reset add remove change', this.contentChanged, this);
     },
     

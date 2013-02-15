@@ -50,11 +50,11 @@ define([
     
     
     // Shows the contents for the given parameters. Default implementation is as follows:
-    // - Build a view for the given container and filter;
+    // - Build a view for the given container and params;
     // - Sets the view in the browser view;
     // - Fetch the contents of the view model.
-    showContents: function(container, filter, fragment) {
-      var view = this.getView(fragment) || this.buildView(container, filter, fragment);
+    showContents: function(container, params, fragment) {
+      var view = this.getView(fragment) || this.buildView(container, params, fragment);
       this.setView(view);
       this.fetchViewContents(view);
     },
@@ -66,16 +66,16 @@ define([
     },
     
     
-    // Build the view object for the given container and filter.
-    buildView: function(container, filter, fragment) {
-      var view      = filter.get('view'),
+    // Build the view object for the given container and params.
+    buildView: function(container, params, fragment) {
+      var view      = params.get('view'),
           viewClass = this.views[view];
       if (!viewClass)
-        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + filter.get('view') + ")";
+        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + params.get('view') + ")";
       
       var viewInstance = new viewClass({
-        model:  container.buildViewModel(filter),
-        filter: filter
+        model:  container.buildViewModel(params),
+        params: params
       });
       viewInstance.fragment = fragment;
       

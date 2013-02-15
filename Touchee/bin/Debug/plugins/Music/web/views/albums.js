@@ -15,15 +15,15 @@ define([
     indexAttribute: 'albumArtistSort',
     
     
-    // Tiles properties
-    line1:    'album',
-    line2:    'albumArtist',
+    // Tiles view properties
+    line1:      'album',
+    line2:      'albumArtist',
+    artworkSize: 250,
     
     
     // Constructor
     initialize: function(options) {
       TilesView.prototype.initialize.apply(this, arguments);
-      // this.filter = options.filter;
       this.model.on('reset add remove change', this.contentChanged, this);
     },
     
@@ -64,47 +64,36 @@ define([
       var $el   = $(ev.target).closest('li'),
           item  = this.getItem($el);
       
+      // Zoom the tile
       var zoomed = this.zoomTile($el);
-      if (!zoomed) {
-        this.showDetails(false);
-        return;
+      
+      // Hide details if we are zooming out
+      if (!zoomed) return this.showDetails(false);
+      
+      // Render the details
+      var details = this.showDetails($el);
+      
+      // Get the artwork
+      var artwork = Artwork.fromCache(item);
+      
+      // Set the colors if the artwork has them
+      if (artwork.colors) {
+        details.$el.css('backgroundColor', "rgb(" + artwork.colors.background + ")");
+        details.$el.find('.prim').css('color', "rgb(" + artwork.colors.foreground + ")");
+        details.$el.find('.sec').css('color', "rgb(" + artwork.colors.foreground2 + ")");
       }
-      
-      var view = this;
-      var defaultDetails = function(){
-        var details = view.showDetails($el);
+      else {
         details.$el.css('backgroundColor', "");
-      };
-      
-      Artwork.fetch(item, {
-        size:   250,
-        success: function(artwork, img) {
-          var details = view.showDetails($el);
-          console.log(details.$content.html());
-          if (img)
-            details.$content.find('img')[0].src = img.src;
-          if (artwork.colors) {
-            details.$el.css('backgroundColor', "rgb(" + artwork.colors.background + ")");
-            details.$el.find('.prim').css('color', "rgb(" + artwork.colors.foreground + ")");
-            details.$el.find('.sec').css('color', "rgb(" + artwork.colors.foreground2 + ")");
-          }
-          else {
-            details.$el.css('backgroundColor', "")
-          }
-        },
-        error: defaultDetails,
-        none:  defaultDetails
-      });
-      
+      }
     },
     
     
     
     // 
-    getDetailsContent: function(item) {
+    getDetailsContent: function(track) {
       return albumDetailsTemplate({
-        artwork:  Artwork.fromCache(item),
-        item:     item
+        artwork:  Artwork.fromCache(track),
+        tracks:   track.getTracksOfAlbum()
       });
     },
     

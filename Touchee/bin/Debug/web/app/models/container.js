@@ -3,8 +3,8 @@ define([
   'underscore',
   'Backbone',
   'models/contents',
-  'models/filter'
-], function($, _, Backbone, Contents, Filter){
+  'models/params'
+], function($, _, Backbone, Contents, Params){
   
   var Container = Backbone.Model.extend({
     
@@ -24,7 +24,7 @@ define([
     },
     
     
-    // Whether this container has one single set of contents, regardless of filter
+    // Whether this container has one single set of contents, regardless of params
     singleContents:   true,
     
     
@@ -33,40 +33,40 @@ define([
     },
     
     
-    // Gets the URL for the container, optionally appended by a filter
-    url: function(filter) {
+    // Gets the URL for the container, optionally appended by params
+    url: function(params) {
       var url = Backbone.Model.prototype.url.call(this);
-      if (filter) {
-        filter = new Filter(filter);
-        if (filter.count) url += "/" + filter.toString();
+      if (params) {
+        params = new Params(params);
+        if (params.count) url += "/" + params.toString();
       }
       return url;
     },
     
     
     
-    // Builds an instance of the ViewModel for the given filter
-    buildViewModel: function(filter) {
-      var viewModelClass  = this.views[filter.get('view')],
-          contents        = this.buildContents(filter);
+    // Builds an instance of the ViewModel for the given params
+    buildViewModel: function(params) {
+      var viewModelClass  = this.views[params.get('view')],
+          contents        = this.buildContents(params);
       return new viewModelClass(null, {
         contents: contents,
-        filter:   filter
+        params:   params
       });
     },
     
     
-    // Builds an instance of the Contents for the given filter
-    buildContents: function(filter) {
+    // Builds an instance of the Contents for the given params
+    buildContents: function(params) {
       var contents;
       
       if (this._contents)
         contents = this._contents;
       else {
-        var contentsClass = this.getContentsClass(filter),
+        var contentsClass = this.getContentsClass(params),
         contents = new contentsClass(null, {
           container:  this,
-          filter:     filter,
+          params:     params,
           model:      this.contentsItemModel
         });
         if (this.singleContents)
@@ -77,8 +77,8 @@ define([
     },
     
     
-    // Returns the Contents class for the given filter
-    getContentsClass: function(filter) {
+    // Returns the Contents class for the given params
+    getContentsClass: function(params) {
       return Contents;
     }
     
@@ -100,7 +100,7 @@ define([
     //   if (item) delete options.item;
     //   
     //   options = $.param(options);
-    //   return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForFilter(item) : ""].join('');
+    //   return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForParams(item) : ""].join('');
     // }
     
   });
