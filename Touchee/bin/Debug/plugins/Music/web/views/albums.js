@@ -4,9 +4,8 @@ define([
   'Backbone',
   'models/artwork',
   'views/contents/tiles',
-  'text!./album_details.html'
-], function($, _, Backbone, Artwork, TilesView, albumDetailsTemplate) {
-  albumDetailsTemplate = _.template(albumDetailsTemplate);
+  './_album_details'
+], function($, _, Backbone, Artwork, TilesView, AlbumDetailsView) {
   
   var AlbumsView = TilesView.extend({
     
@@ -37,6 +36,12 @@ define([
     // Gets the models
     getModels: function(items) {
       return this.model.models.slice(items.first, items.first + items.count);
+    },
+    
+    
+    // Gets the index of the given item
+    getIndex: function(item) {
+      return this.model.models.indexOf(item);
     },
     
     
@@ -90,23 +95,9 @@ define([
     
     
     // 
-    getDetailsContent: function(track) {
-      return albumDetailsTemplate({
-        artwork:  Artwork.fromCache(track),
-        tracks:   track.getTracksOfAlbum()
-      });
-    },
-    
-    
-    //
-    setDetailsStyle: function($details, item) {
-      
-      // $details.children('.cover').on('webkitTransitionEnd', function(){
-      //   $details.find('img')[0].src = item.artworkUrl();
-      // });
-      
+    getDetailsView: function(track, $target) {
+      return new AlbumDetailsView({model:track,el:$target[0]}).render();
     }
-    
     
     
   });

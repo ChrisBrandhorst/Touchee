@@ -5,7 +5,7 @@ var columnTwoAt = tracks.length <= 5 ? 0 : Math.max(5, Math.ceil(tracks.length /
 %>
 
 
-<% if (artwork) { %>
+<% if (artwork && artwork.exists() === true) { %>
   <div class="artwork"><img src="<%= artwork.url({largest:true}) %>" /></div>
 <% } %>
 

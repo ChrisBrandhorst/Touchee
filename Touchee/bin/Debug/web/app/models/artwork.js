@@ -98,6 +98,7 @@ define([
         success:  function(data, textStatus, jqXHR) {
           artwork.colors = data;
           if (options.success) options.success(artwork, artwork.colors);
+          artwork.item.trigger('colors', artwork.colors, artwork.item);
         },
         error: options.error
       });
@@ -165,6 +166,7 @@ define([
         if (options.toCache) _cache[item.id] = artwork;
         if (options.success) options.success(artwork, img);
         if (options.colors && !artwork.colors) artwork.getColors();
+        item.trigger('artwork', item, artwork);
       };
       img.onerror = function(){
         artwork.set({

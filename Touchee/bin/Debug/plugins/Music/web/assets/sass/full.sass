@@ -10,7 +10,6 @@
     min-height:     60px
     padding:        1.25em 0 0 1.55em
     overflow:       hidden
-    // background-image: url(../../../../assets/images/_dev/album_details.png)
     
     .artwork
       -webkit-box-reflect: below -1px -webkit-linear-gradient(rgba(0,0,0,0) 50%, rgba(0,0,0,.4))
@@ -20,6 +19,9 @@
         width:  250px
         -webkit-mask-image:     -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.7) 16%), -webkit-linear-gradient(left, transparent 0, rgba(0, 0, 0, 0.7) 18%)
         -webkit-mask-composite: source-in, xor
+    
+    .prim, .sec
+      @include  transition(background-color .4s ease)
     
     h1
       font-size:      2em
@@ -32,8 +34,8 @@
       margin-left:  -1.55em
     ol
       float:          left
-      font-weight:    bold
       margin-bottom:  1em
+      width:          38.6%
       
       // Top dark shadow and right dark shadow of first column
       background-image:     -webkit-linear-gradient(left, transparent, rgba(0,0,0,.1) 50%), -webkit-linear-gradient(bottom, transparent, rgba(0,0,0,.1) 1.5em), -webkit-linear-gradient(bottom, transparent, rgba(255,255,255,.1) 1.5em)
@@ -45,7 +47,6 @@
         display:  none
       
       li
-        width:   395px
         @include display-box
         
         // Top bright shadow and right dark shadow of first column rows
@@ -69,12 +70,12 @@
             width:          3.15em
             padding-right:  1em
             text-align:     right
+            font-weight:    bold
           &:nth-child(2)
-            @include ellipsis
-            @include      box-flex(1)
+            @include  ellipsis
+            @include  box-flex(1)
           &:last-child
-            width:              6.4em
-            font-weight:        normal
+            width:        6.4em
       
       + ol
         background-image: -webkit-linear-gradient(right, transparent, rgba(0,0,0,.1) 50%)

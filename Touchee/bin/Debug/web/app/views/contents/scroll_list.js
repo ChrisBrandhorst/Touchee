@@ -474,7 +474,7 @@ define([
         }
         
         // Render the item
-        html += this.renderItem(model, {odd:odd});
+        html += this.renderItem(model, options.first + i, {odd:odd});
         odd = !odd;
       }, this));
       return html;
@@ -482,7 +482,7 @@ define([
     
     
     // Renders a single item
-    renderItem: function(item, options) {
+    renderItem: function(item, i, options) {
       throw('NotImplementedException');
     },
     

@@ -16,6 +16,7 @@ define([
     listType:     'tiles',
     innerTagName: 'ul',
     indicesShow:  false,
+    extraRows:    2,
     
     // Tiles view properties
     line1:        'id',
@@ -78,11 +79,10 @@ define([
     
     
     // Renders each item of the list
-    renderItem: function(item, options) {
-      var zoom      = this.data.zoomed == item,
-          artwork   = Artwork.fromCache(item),
-          style     = artwork && artwork.exists() === true ? this.getArtworkStyle(artwork, {string:true, zoom:zoom}) : null,
-          klass     = zoom ? "zoom" : null;
+    renderItem: function(item, i, options) {
+      var zoomed    = this.data.zoomed == item,
+          style     = this.getStyle(item, {string:true, zoomed:zoomed, afterDetails:this.details && i > this.details.afterIdx}),
+          klass     = zoomed ? "zoom" : null;
       
       var rendered = '<li' + (style ? ' style="'+style+'"' : '') + (klass ? ' class="'+klass+'"' : '') + ">";
       
@@ -97,33 +97,44 @@ define([
     },
     
     
-    // Gets the style used for displaying the artwork of the tile
-    getArtworkStyle: function(artwork, options) {
+    // Gets the style used for displaying the tile
+    getStyle: function(item, options) {
       options || (options = {});
+      var artwork = Artwork.fromCache(item),
+          style   = {};
       
-      // Get data
-      var tileSize    = options.zoom ? this.calculated.size.zoom : this.calculated.size,
-          artworkSize = this.artworkSize || this.calculated.size.zoom.inner.width,
-          style       = {};
-      
-      // The image
-      style['background-image'] = "url(" + artwork.url({size:artworkSize}) + ")";
-      
-      // Square artwork: nothing special
-      if (artwork.isSquare()) { }
-      
-      // Portrait artwork
-      else if (artwork.isPortrait()) {
-        var imgWidth          = Math.ceil(tileSize.inner.height / artwork.get('ratio'));
-        style['width']        = imgWidth + 'px';
-        style['margin-right'] = tileSize.margin.right + (tileSize.inner.width - imgWidth) + 'px';
+      // If we have any artwork
+      if (artwork && artwork.exists() === true) {
+        
+        // Get data
+        var tileSize    = options.zoomed ? this.calculated.size.zoom : this.calculated.size,
+            artworkSize = this.artworkSize || this.calculated.size.zoom.inner.width,
+            style       = {};
+        
+        // The image
+        style['background-image'] = "url(" + artwork.url({size:artworkSize}) + ")";
+        
+        // Square artwork: nothing special
+        if (artwork.isSquare()) { }
+        
+        // Portrait artwork
+        else if (artwork.isPortrait()) {
+          var imgWidth          = Math.ceil(tileSize.inner.height / artwork.get('ratio'));
+          style['width']        = imgWidth + 'px';
+          style['margin-right'] = tileSize.margin.right + (tileSize.inner.width - imgWidth) + 'px';
+        }
+        
+        // Landscape artwork
+        else {
+          var imgHeight       = Math.ceil(tileSize.inner.width / artwork.get('ratio'));
+          style['height']     = style['padding-top'] = imgHeight + 'px';
+          style['margin-top'] = tileSize.margin.top + (tileSize.inner.height - imgHeight) + 'px';
+        }
       }
       
-      // Landscape artwork
-      else {
-        var imgHeight       = Math.ceil(tileSize.inner.width / artwork.get('ratio'));
-        style['height']     = style['padding-top'] = imgHeight + 'px';
-        style['margin-top'] = tileSize.margin.top + (tileSize.inner.height - imgHeight) + 'px';
+      // If there is a details view and this item is below the details, move it down
+      if (options.afterDetails) {
+        style['-webkit-transform'] = "translate3d(0," + this.details.height + "px,0)";
       }
       
       // Convert to string representation
@@ -134,6 +145,7 @@ define([
       }
       
       return style;
+      
     },
     
     
@@ -195,7 +207,7 @@ define([
           success:  function(artwork) {
             // If we have artwork, set it
             if (artwork.exists() === true) {
-              var artworkStyle  = view.getArtworkStyle(artwork, {zoom: view.data.zoomed == item}),
+              var artworkStyle  = view.getStyle(item, {zoomed: view.data.zoomed == item}),
                   $el           = $(el).addClass('noanim');
               _.extend(el.style, artworkStyle);
               _.defer(function(){
@@ -224,7 +236,7 @@ define([
       // Unzoom the element
       if (zoom === false) {
         if (hasArtwork)
-          _.extend(el.style, this.getArtworkStyle(artwork));
+          _.extend(el.style, this.getStyle(item));
         $el.removeClass('zoom');
         delete this.data.zoomed;
       }
@@ -239,7 +251,7 @@ define([
         
         // If we have any artwork, set the style for the zoomed version
         if (hasArtwork)
-          _.extend(el.style, this.getArtworkStyle(artwork, {zoom:true}) );
+          _.extend(el.style, this.getStyle(item, {zoomed:true}));
         
         // Add the class
         $el.addClass('zoom');
@@ -260,68 +272,58 @@ define([
     
     // (un)Shows the detail view for the given tile
     showDetails: function($el) {
-      var existing = this.details,
-          $details;
+      var existing  = this.details,
+          remove    = $el === false,
+          props     = {};
       
+      // The item that is detailed
+      props.item      = remove ? existing.item : this.getItem($el);
+      // The index of the item
+      props.itemIdx   = this.getIndex(props.item);
+      // The index of the item after which the other items should make room for the details
+      props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
+      // The DOM elements which should make room
+      $moved          = this.$inner.children().eq(Math.min(props.afterIdx - this._lastRender.first, this.getCount()-1)).nextAll();
       
       // Remove the detail view if asked
-      if ($el === false) {
-        if (!existing) return;
+      if (remove) {
         _.defer(function(){
-          ($details = existing.$el)
+          var $details = existing.$el
+          $details
             .css('-webkit-transform', "translate3d(0," + (existing.top + (existing.newHeight || 0)) + "px,0)")
             .children('.cover')
             .on('webkitTransitionEnd', function(){ $details.remove(); })
             .removeClass('open')
             .css('-webkit-transform', "")
-          existing.$moved.css('-webkit-transform', "");
+          $moved.css('-webkit-transform', "");
         });
         delete this.details;
         return;
       }
       
-      
-      // Calculate after which tile the details should be shown
-      var elIdx     = $el.prevAll().length,
-          afterIdx  = elIdx + (this.calculated.capacity.hori - elIdx % this.calculated.capacity.hori) - 1,
-          $after    = $el.parent().children().eq(Math.min(afterIdx, this.getCount()-1)),
-          onSameRow = existing && existing.$after[0] == $after[0];
-      
       // Build the details element
-      var item      = this.getItem($el),
-          content   = this.getDetailsContent(item),
-          $details  = $( tilesDetailsTemplate({content:content}) ).addClass('dummy').insertBefore(this.$inner),
-          $content  = $details.children('.content');
+      var $details    = $(tilesDetailsTemplate()).addClass('dummy').insertBefore(this.$inner),
+          $content    = $details.children('.content'),
+          contentView = this.getDetailsView(props.item, $content),
+          onSameRow   = existing && existing.afterIdx == props.afterIdx;
       
-      
-      // Start the props object
-      var props = {
-        // The data item that was clicked
-        item:             item,
-        // The tile that was clicked
-        $tile:            $el,
+      // Save more props
+      _.extend(props, {
         // The details element
         $el:              $details,
         // The content element
         $content:         $content,
-        // The index after which the details view was injected
-        afterIdx:         afterIdx,
-        // The element after which the details view was injected
-        $after:           $after,
-        // The items that should be moved
-        $moved:           $after.nextAll(),
         // Whether the details is opened on the same row as the current details (if exists)
         onSameRow:        onSameRow,
         // Whether the details is opened above the current details (if exists)
-        newAboveCurrent:  existing && !onSameRow ? afterIdx < existing.afterIdx : (void 0),
+        newAboveCurrent:  existing && !onSameRow ? props.afterIdx < existing.afterIdx : (void 0),
         // Calculate arrow position
         arrowLeft:        $el.position().left + $el.outerWidth(true) / 2,
         // Calculate the height of the details
         height:           $details.outerHeight(),
         // Calculate the top of the new details
-        top:              onSameRow ? existing.top : $after[0].offsetTop + $after.outerHeight(true) - $after.css('margin-top').numberValue()
-      };
-      
+        top:              onSameRow ? existing.top : $el[0].offsetTop + $el.outerHeight(true) - $el.css('margin-top').numberValue()
+      });
       
       // If the new details is on the same row, we should replace the content
       if (props.onSameRow) {
@@ -378,7 +380,7 @@ define([
       _.defer(function(){
         
         // Move the tiles after the details down
-        props.$moved.css('-webkit-transform', "translate3d(0," + props.height + "px,0)");
+        $moved.css('-webkit-transform', "translate3d(0," + props.height + "px,0)");
         
         // Slide the details open
         $details

@@ -3,6 +3,8 @@ $tileSizeZoom:  154px
 
 .scroll_list.tiles > .scrollable
   
+  position: relative
+  
   > ul
     overflow: hidden
   
@@ -71,62 +73,19 @@ $tileSizeZoom:  154px
     -webkit-transform: translate3d(0,0,0)
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  position: relative
-  
+  // Details view
   div.details
-    position:       absolute
-    top:            0
-    left:           0
-    right:          0
-    overflow:       hidden
-    background:     #E4E9F0
-    -webkit-transform: translate3d(0,0,0)
+    position:           absolute
+    top:                0
+    left:               0
+    right:              0
+    overflow:           hidden
+    background:         #E4E9F0
+    -webkit-transform:  translate3d(0,0,0)
+    @include            transition(.4s ease)
+    @include            transition-property(-webkit-transform, background-color)
     
-    @include  transition(.4s ease)
-    @include  transition-property(-webkit-transform, background-color)
-    
-    > .cover
-      position:           absolute
-      z-index:            3
-      background:         $browserBackgroundColor
-      top:                0
-      right:              0
-      bottom:             0
-      left:               0
-      @include            transition(-webkit-transform .4s ease)
-      border-top:         1px solid rgba(0,0,0,.27)
-      @include            box-shadow(0 1px 3px 0 rgba(0,0,0,.46))
-      -webkit-transform:  translate3d(0,13px,0)
-      
-      > .arrow
-        position:           absolute
-        z-index:            4
-        width:              20px
-        height:             20px
-        top:                -11px
-        margin-left:        -10px
-        background:         $browserBackgroundColor
-        border:             solid #b0b0b0
-        border-width:       1px 0 0 1px
-        -webkit-transform:  rotateZ(45deg)
-        @include  transition(-webkit-transform .4s ease)
-      
-      &.open > .arrow
-        -webkit-transform:  scale(.01) rotateZ(45deg)
-      
-    
+    // Top arrow and shade
     svg
       position:       relative
       z-index:        1
@@ -141,13 +100,48 @@ $tileSizeZoom:  154px
         fill:         none
         stroke-width: 1px
     
+    // Cover for showing / hiding the details
+    > .cover
+      position:           absolute
+      z-index:            3
+      background:         $browserBackgroundColor
+      top:                0
+      right:              0
+      bottom:             0
+      left:               0
+      @include            transition(-webkit-transform .4s ease)
+      border-top:         1px solid rgba(0,0,0,.27)
+      @include            box-shadow(0 1px 3px 0 rgba(0,0,0,.46))
+      -webkit-transform:  translate3d(0,13px,0)
+      
+      // Arrow which slides open
+      > .arrow
+        position:           absolute
+        z-index:            4
+        width:              20px
+        height:             20px
+        top:                -11px
+        margin-left:        -10px
+        background:         $browserBackgroundColor
+        border:             solid #b0b0b0
+        border-width:       1px 0 0 1px
+        -webkit-transform:  rotateZ(45deg)
+        @include            transition(-webkit-transform .4s ease)
+        
+      // Hide the arrow while the details view slides open
+      &.open > .arrow
+        -webkit-transform:  scale(.01) rotateZ(45deg)
+    
+    // If a dummy, the details view should be hidden and transitions disabled
     &.dummy
       visibility: hidden
       &, svg
         @include    transition(none)
     
+    // The contents of the details view
     > .content
       @include    transition(opacity .4s ease)
+      // Outgoing and incoming transitions
       &.outgoing
         position: absolute
         left:     0
@@ -155,13 +149,5 @@ $tileSizeZoom:  154px
         opacity:  0
       &.incoming
         opacity:  0
-      
-      .colors
-        > *
-          display:  inline-block
-        em
-          width: 140px
-        span
-          width:  30px
-          height: 15px
-          
+      .sec
+        color: #959FAD
