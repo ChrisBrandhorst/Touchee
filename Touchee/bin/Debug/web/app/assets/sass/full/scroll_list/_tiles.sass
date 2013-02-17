@@ -7,6 +7,7 @@ $tileSizeZoom:  154px
   
   > ul
     overflow: hidden
+    @include  transition(padding-bottom .4s ease)
   
   // Each tile
   > ul > li
@@ -80,16 +81,24 @@ $tileSizeZoom:  154px
     left:               0
     right:              0
     overflow:           hidden
-    background:         #E4E9F0
+    background-color:   #E4E9F0
     -webkit-transform:  translate3d(0,0,0)
     @include            transition(.4s ease)
     @include            transition-property(-webkit-transform, background-color)
     
+    // > .arrow_line
+    //   position:           absolute
+    //   z-index:            1
+    //   @include            transition(-webkit-transform .4s ease)
+    //   width:              2000px
+    //   height:             20px
+    //   @include            retina-image("../images/TilesDetailsArrow")
+    //   background-repeat:  no-repeat
+    
     // Top arrow and shade
-    svg
-      position:       relative
+    > svg
+      position:       absolute
       z-index:        1
-      margin-bottom:  -6px
       @include        transition(-webkit-transform .4s ease)
       path.shadow
         filter: url(#arrow_line_dropshadow)
@@ -135,12 +144,13 @@ $tileSizeZoom:  154px
     // If a dummy, the details view should be hidden and transitions disabled
     &.dummy
       visibility: hidden
-      &, svg
+      &, > svg
         @include    transition(none)
     
     // The contents of the details view
     > .content
-      @include    transition(opacity .4s ease)
+      @include      transition(opacity .4s ease)
+      padding-top:  1.1em
       // Outgoing and incoming transitions
       &.outgoing
         position: absolute

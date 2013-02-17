@@ -37,6 +37,10 @@ define([
     quickscroll:    true,
     
     
+    // Rendering is enabled
+    _renderingEnabled: true,
+    
+    
     // Constructor
     initialize: function() {
       this.$el.addClass(this.listType);
@@ -154,6 +158,11 @@ define([
     },
     
     
+    // Enable or disable rendering
+    enableRendering:  function() { this._renderingEnabled = true; },
+    disableRendering: function() { this._renderingEnabled = false; },
+    
+    
     // Calculates the size of shown elements
     calculateSizes: function() {
       var $children = this.$inner.children(),
@@ -239,13 +248,8 @@ define([
     
     // Default indices getter
     getIndices: function() {
-      var s = new Date();
-      var models = this.getModels({
-        first:  0,
-        count:  this.getCount()
-      });
-      
-      var data    = {indices:[],count:[],items:[],cumulCountMap:{},posMap:{}},
+      var models  = this.getModels(0, this.getCount()),
+          data    = {indices:[],count:[],items:[],cumulCountMap:{},posMap:{}},
           attr    = this.indexAttribute,
           prevIdx;
       
@@ -275,6 +279,8 @@ define([
     
     // Renders the visible items
     renderInView: function(force) {
+      if (!this._renderingEnabled) return;
+      
       var scroller  = this.scroller,
           size      = this.calculated.size,
           capacity  = this.calculated.capacity,
@@ -361,7 +367,7 @@ define([
       lastRender.countInView = Math.min(total - first, capacity.vert * capacity.hori);
       
       // Get the models. The items object may be changed!
-      var models = this.getModels(items);
+      var models = this.getModels(items.first, items.count);
       
       // Set the HTML
       this.$inner[0].innerHTML = this.renderItems(models, items)
@@ -386,6 +392,7 @@ define([
       data.lastScrollTop = scrollTop;
       data.fullRender = fullRender;
       data.lastRender = lastRender;
+      data.lastRender.timestamp = new Date().getTime();
       
       // After render
       this.afterRender(lastRender);
@@ -449,9 +456,16 @@ define([
     },
     
     
-    // Gets the models
-    getModels: function(items) {
+    // Gets the set of models for the given range
+    getModels: function(first, count) {
       throw('NotImplementedException');
+    },
+    
+    
+    // Gets the model for the given model index
+    getModel: function(idx) {
+      var models = this.getModels(idx, 1);
+      return models && models.length ? models[0] : null;
     },
     
     
@@ -609,36 +623,15 @@ define([
     
     // Gets the item for the given rendered element
     getItem: function(el) {
-      return !el ? null : this.getModels({
-        first:  this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length,
-        count:  1
-      })[0];
+      return !el
+        ? null
+        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length );
     }
     
     
   });
   
   return ScrollList;
-  
-  
-  
-  
-  // _getValue: function(model, attr) {
-  //   var val;
-  //   
-  //   if (_.isString(attr))
-  //     val = model.get(attr);
-  //   else if (_.isArray(attr)) {
-  //     _.some(attr, function(a){
-  //       val = a.get(attr);
-  //       if (val) return true;
-  //     });
-  //   }
-  //   else if (_.isFunction(attr))
-  //     val = attr.call(model, model);
-  //   
-  //   return val;
-  // },
   
   
 });

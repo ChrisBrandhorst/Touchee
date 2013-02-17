@@ -16,7 +16,7 @@ define([
     listType:     'tiles',
     innerTagName: 'ul',
     indicesShow:  false,
-    extraRows:    2,
+    extraRows:    10,
     
     // Tiles view properties
     line1:        'id',
@@ -162,26 +162,28 @@ define([
       this._setArtworkIter(
         items.firstInView,
         items.firstInView - (items.firstInView - items.first),
-        items.firstInView + items.countInView - 1
+        items.firstInView + items.countInView - 1,
+        items.timestamp
       );
       
     },
     
     
     // Sets the artwork for the tiles iteratively
-    _setArtworkIter: function(itemIdx, elOffset, lastItemIdx) {
+    _setArtworkIter: function(itemIdx, elOffset, lastItemIdx, timestamp) {
       
       // Remember that we are busy with the current index
       this._lastRender.artworkIdx = itemIdx;
       
       // Function for doing the next item
       var view = this, doNext = function() {
-        // Bail out if we do not have an artworkIdx anymore (new render) or if all tiles in view are done
-        if (!_.isNumber(view._lastRender.artworkIdx) || view._lastRender.artworkIdx == lastItemIdx) return;
+        // Bail out if we have a different timestamp (new render) or if all tiles in view are done
+        if (view._lastRender.timestamp != timestamp || itemIdx + 1 == lastItemIdx) return;
         view._setArtworkIter(
           itemIdx + 1,
           elOffset,
-          lastItemIdx
+          lastItemIdx,
+          timestamp
         );
       };
       
@@ -197,8 +199,7 @@ define([
       else {
         
         // Get some params
-        var item  = this.model.models[itemIdx],
-            view  = this;
+        var item  = this.model.models[itemIdx];
         
         // Get the artwork
         Artwork.fetch(item, {
@@ -274,7 +275,9 @@ define([
     showDetails: function($el) {
       var existing  = this.details,
           remove    = $el === false,
-          props     = {};
+          props     = {},
+          view      = this,
+          $moved;
       
       // The item that is detailed
       props.item      = remove ? existing.item : this.getItem($el);
@@ -296,6 +299,7 @@ define([
             .removeClass('open')
             .css('-webkit-transform', "")
           $moved.css('-webkit-transform', "");
+          view.$inner.css('padding-bottom', "");
         });
         delete this.details;
         return;
@@ -305,7 +309,8 @@ define([
       var $details    = $(tilesDetailsTemplate()).addClass('dummy').insertBefore(this.$inner),
           $content    = $details.children('.content'),
           contentView = this.getDetailsView(props.item, $content),
-          onSameRow   = existing && existing.afterIdx == props.afterIdx;
+          onSameRow   = existing && existing.afterIdx == props.afterIdx,
+          elTop       = $el[0].offsetTop;
       
       // Save more props
       _.extend(props, {
@@ -322,7 +327,7 @@ define([
         // Calculate the height of the details
         height:           $details.outerHeight(),
         // Calculate the top of the new details
-        top:              onSameRow ? existing.top : $el[0].offsetTop + $el.outerHeight(true) - $el.css('margin-top').numberValue()
+        top:              onSameRow ? existing.top : elTop + $el.outerHeight(true) - $el.css('margin-top').numberValue()
       });
       
       // If the new details is on the same row, we should replace the content
@@ -364,7 +369,13 @@ define([
         this.showDetails(false);
       }
       
+      // Check if details fit in view
+      if (props.top + props.height > this.scroller.scrollTop + this.scroller.clientHeight - 10)
+        props.scrollTop = Math.min(elTop - this.calculated.size.zoom.margin.top, props.top + props.height - this.scroller.clientHeight + 10);
+      else if (elTop - this.calculated.size.zoom.margin.top < this.scroller.scrollTop)
+        props.scrollTop = elTop - this.calculated.size.zoom.margin.top;
       
+      // First part animation
       $details
         // Set initial top position
         .css('-webkit-transform', "translate3d(0," + startTop + "px,0)")
@@ -376,7 +387,22 @@ define([
         .find('> .cover > .arrow')
         .css('left', props.arrowLeft + 'px');
       
-      // 
+      // Set padding to make room for the details
+      this.$inner.css('padding-bottom', props.height + "px");
+        
+      // Set scroll top
+      if (props.scrollTop) {
+        this.disableRendering();
+        this.$scroller.animate(
+          { scrollTop:props.scrollTop },
+          {
+            duration: 400,
+            complete: function(){ view.enableRendering(); }
+          }
+        );
+      }
+      
+      // The rest
       _.defer(function(){
         
         // Move the tiles after the details down
@@ -389,6 +415,7 @@ define([
           .children('.cover')
           .addClass('open')
           .css('-webkit-transform', "translate3d(0," + (props.height-1) + "px,0)");
+        
       });
       
       // 

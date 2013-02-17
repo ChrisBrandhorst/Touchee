@@ -33,9 +33,9 @@ define([
     },
     
     
-    // Gets the models
-    getModels: function(items) {
-      return this.model.models.slice(items.first, items.first + items.count);
+    // Gets the set of models for the given range
+    getModels: function(first, count) {
+      return this.model.models.slice(first, first + count);
     },
     
     
@@ -66,30 +66,9 @@ define([
     
     // 
     clickedTile: function(ev) {
-      var $el   = $(ev.target).closest('li'),
-          item  = this.getItem($el);
-      
-      // Zoom the tile
-      var zoomed = this.zoomTile($el);
-      
-      // Hide details if we are zooming out
-      if (!zoomed) return this.showDetails(false);
-      
-      // Render the details
-      var details = this.showDetails($el);
-      
-      // Get the artwork
-      var artwork = Artwork.fromCache(item);
-      
-      // Set the colors if the artwork has them
-      if (artwork.colors) {
-        details.$el.css('backgroundColor', "rgb(" + artwork.colors.background + ")");
-        details.$el.find('.prim').css('color', "rgb(" + artwork.colors.foreground + ")");
-        details.$el.find('.sec').css('color', "rgb(" + artwork.colors.foreground2 + ")");
-      }
-      else {
-        details.$el.css('backgroundColor', "");
-      }
+      var $el     = $(ev.target).closest('li'),
+          zoomed  = this.zoomTile($el);
+      this.showDetails(zoomed ? $el : false);
     },
     
     

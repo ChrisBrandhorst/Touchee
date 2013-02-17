@@ -11,6 +11,7 @@ define([
     
     // Constructor
     initialize: function(options) {
+      this.model.on('artwork', this.setArtwork, this);
       this.model.on('colors', this.setColors, this);
     },
     
@@ -24,23 +25,30 @@ define([
           tracks:   this.model.getTracksOfAlbum()
         })
       );
+      this.setArtwork(artwork);
       this.setColors(artwork && artwork.colors);
       return this;
     },
     
     
     // 
+    setArtwork: function(artwork) {
+      if (artwork && artwork.exists() === true)
+        this.$('.artwork').html('<img src="' + artwork.url({largest:true}) + '" />');
+    },
+    
+    
+    // 
     setColors: function(colors) {
       
-      var $parent = this.$el.parent();
-      
       if (colors) {
-        $parent.css('backgroundColor', "rgb(" + colors.background + ")");
-        this.$el.find('.prim').css('color', "rgb(" + colors.foreground + ")");
+        this.$el
+          .css('backgroundColor', "rgb(" + colors.background + ")")
+          .find('.prim').css('color', "rgb(" + colors.foreground + ")");
         this.$el.find('.sec').css('color', "rgb(" + colors.foreground2 + ")");
       }
       else {
-        $parent.css('backgroundColor', "");
+        this.$el.css('backgroundColor', "");
       }
       
     }

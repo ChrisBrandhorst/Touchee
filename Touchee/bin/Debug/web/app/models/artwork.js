@@ -166,7 +166,7 @@ define([
         if (options.toCache) _cache[item.id] = artwork;
         if (options.success) options.success(artwork, img);
         if (options.colors && !artwork.colors) artwork.getColors();
-        item.trigger('artwork', item, artwork);
+        item.trigger('artwork', artwork, item);
       };
       img.onerror = function(){
         artwork.set({

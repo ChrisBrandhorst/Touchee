@@ -8,7 +8,7 @@
   
   .details .content
     min-height:     60px
-    padding:        1.25em 0 0 1.55em
+    padding:        2.35em 0 0 1.55em !important
     overflow:       hidden
     
     .artwork
@@ -36,21 +36,32 @@
       float:          left
       margin-bottom:  1em
       width:          38.6%
+      position:       relative
       
-      // Top dark shadow and right dark shadow of first column
-      background-image:     -webkit-linear-gradient(left, transparent, rgba(0,0,0,.1) 50%), -webkit-linear-gradient(bottom, transparent, rgba(0,0,0,.1) 1.5em), -webkit-linear-gradient(bottom, transparent, rgba(255,255,255,.1) 1.5em)
-      background-repeat:    no-repeat
-      background-size:      100% 1px, 2px 100%, 1px 100%
-      background-position:  left top, right bottom, right bottom
-      
+      // Hide an empty column
       &.empty
         display:  none
+      
+      // Top dark shadow and right light shadow of first column
+      background-image:     -webkit-linear-gradient(left, transparent, rgba(0,0,0,.2) 50%), -webkit-linear-gradient(bottom, transparent, rgba(255,255,255,.15) 1.5em)
+      background-repeat:    no-repeat
+      background-size:      100% 1px, 1px 100%
+      background-position:  left top, right bottom
+      // Right dark shadow of first column
+      &::before
+        content:    ''
+        position:   absolute
+        right:      1px
+        top:        0
+        bottom:     0
+        width:      1px
+        background: -webkit-linear-gradient(bottom, transparent, rgba(0,0,0,.2) 1.5em) no-repeat right bottom
       
       li
         @include display-box
         
         // Top bright shadow and right dark shadow of first column rows
-        background-image:     -webkit-linear-gradient(left, transparent, rgba(255,255,255,.1) 50%), -webkit-linear-gradient(left, transparent, rgba(0,0,0,.1) 50%)
+        background-image:     -webkit-linear-gradient(left, transparent, rgba(255,255,255,.15) 50%), -webkit-linear-gradient(left, transparent, rgba(0,0,0,.2) 50%)
         background-size:      100% 1px, 100% 1px
         background-repeat:    no-repeat
         background-position:  left top, left bottom
@@ -60,7 +71,7 @@
           margin-top: 1px
         // No bottom shadow on last row of first column
         &:last-child
-          background-image: -webkit-linear-gradient(left, transparent, rgba(255,255,255,.1) 50%), -webkit-linear-gradient(left, transparent, transparent)
+          background-image: -webkit-linear-gradient(left, transparent, rgba(255,255,255,.15) 50%), -webkit-linear-gradient(left, transparent, transparent)
         
         span
           padding:      1.1em 0 1.05em 0
@@ -78,9 +89,11 @@
             width:        6.4em
       
       + ol
-        background-image: -webkit-linear-gradient(right, transparent, rgba(0,0,0,.1) 50%)
+        background-image: -webkit-linear-gradient(right, transparent, rgba(0,0,0,.2) 50%)
+        &::before
+          content: none
         li
-          background-image:     -webkit-linear-gradient(right, transparent, rgba(255,255,255,.1) 50%), -webkit-linear-gradient(right, transparent, rgba(0,0,0,.1) 50%)
+          background-image:     -webkit-linear-gradient(right, transparent, rgba(255,255,255,.15) 50%), -webkit-linear-gradient(right, transparent, rgba(0,0,0,.2) 50%)
           background-position:  left top, left bottom
           &:last-child
-            background-image:     -webkit-linear-gradient(right, transparent, rgba(255,255,255,.1) 50%), -webkit-linear-gradient(right, transparent, transparent)
+            background-image:     -webkit-linear-gradient(right, transparent, rgba(255,255,255,.15) 50%), -webkit-linear-gradient(right, transparent, transparent)

@@ -5,7 +5,7 @@
 /* line 9, ../sass/full.sass */
 .scroll_list.albums .details .content {
   min-height: 60px;
-  padding: 1.25em 0 0 1.55em;
+  padding: 2.35em 0 0 1.55em !important;
   overflow: hidden;
 }
 /* line 14, ../sass/full.sass */
@@ -46,47 +46,58 @@
   float: left;
   margin-bottom: 1em;
   width: 38.6%;
-  background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1) 50%), -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.1) 1.5em), -webkit-linear-gradient(bottom, transparent, rgba(255, 255, 255, 0.1) 1.5em);
+  position: relative;
+  background-image: -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2) 50%), -webkit-linear-gradient(bottom, transparent, rgba(255, 255, 255, 0.15) 1.5em);
   background-repeat: no-repeat;
-  background-size: 100% 1px, 2px 100%, 1px 100%;
-  background-position: left top, right bottom, right bottom;
+  background-size: 100% 1px, 1px 100%;
+  background-position: left top, right bottom;
 }
-/* line 46, ../sass/full.sass */
+/* line 42, ../sass/full.sass */
 .scroll_list.albums .details .content ol.empty {
   display: none;
 }
-/* line 49, ../sass/full.sass */
+/* line 51, ../sass/full.sass */
+.scroll_list.albums .details .content ol::before {
+  content: "";
+  position: absolute;
+  right: 1px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.2) 1.5em) no-repeat right bottom;
+}
+/* line 60, ../sass/full.sass */
 .scroll_list.albums .details .content ol li {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
-  background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.1) 50%), -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.1) 50%);
+  background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-size: 100% 1px, 100% 1px;
   background-repeat: no-repeat;
   background-position: left top, left bottom;
 }
-/* line 59, ../sass/full.sass */
+/* line 70, ../sass/full.sass */
 .scroll_list.albums .details .content ol li:first-child {
   margin-top: 1px;
 }
-/* line 62, ../sass/full.sass */
+/* line 73, ../sass/full.sass */
 .scroll_list.albums .details .content ol li:last-child {
-  background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.1) 50%), -webkit-linear-gradient(left, transparent, transparent);
+  background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, transparent);
 }
-/* line 65, ../sass/full.sass */
+/* line 76, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span {
   padding: 1.1em 0 1.05em 0;
   display: block;
 }
-/* line 69, ../sass/full.sass */
+/* line 80, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:first-child {
   width: 3.15em;
   padding-right: 1em;
   text-align: right;
   font-weight: bold;
 }
-/* line 74, ../sass/full.sass */
+/* line 85, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -96,20 +107,24 @@
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 77, ../sass/full.sass */
+/* line 88, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:last-child {
   width: 6.4em;
 }
-/* line 80, ../sass/full.sass */
+/* line 91, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol {
-  background-image: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.1) 50%);
+  background-image: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
 }
-/* line 82, ../sass/full.sass */
+/* line 93, ../sass/full.sass */
+.scroll_list.albums .details .content ol + ol::before {
+  content: none;
+}
+/* line 95, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol li {
-  background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.1) 50%), -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.1) 50%);
+  background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-position: left top, left bottom;
 }
-/* line 85, ../sass/full.sass */
+/* line 98, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol li:last-child {
-  background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.1) 50%), -webkit-linear-gradient(right, transparent, transparent);
+  background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
 }
