@@ -1,21 +1,21 @@
 @import url(reset.css);
-/* line 1, ../sass/_touch.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_touch.sass */
 body {
   -webkit-user-select: none;
   -webkit-touch-callout: none;
 }
 
-/* line 9, ../sass/_touch.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_touch.sass */
 .scrollable {
   -webkit-overflow-scrolling: touch;
 }
 
-/* line 15, ../sass/_touch.sass */
+/* line 15, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_touch.sass */
 a, input {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* line 5, ../sass/_pages.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > * {
   overflow: hidden;
   display: -webkit-box;
@@ -23,41 +23,41 @@ a, input {
   display: -ms-box;
   display: box;
 }
-/* line 15, ../sass/_pages.sass */
+/* line 15, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > * > * {
   -webkit-transition-property: -webkit-transform;
   -webkit-transition-duration: 0.2s;
   -webkit-transition-timing-function: ease;
   width: 100%;
 }
-/* line 29, ../sass/_pages.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > * > * + * {
   margin-left: -100%;
 }
-/* line 43, ../sass/_pages.sass */
+/* line 43, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > header > * {
   -webkit-transition-property: -webkit-transform, opacity;
 }
-/* line 51, ../sass/_pages.sass */
+/* line 51, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > header > *.prev {
   opacity: 0;
   pointer-events: none;
 }
-/* line 59, ../sass/_pages.sass */
+/* line 59, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > header > *.next {
   -webkit-transform: translate3d(50%, 0, 0);
   opacity: 0;
 }
-/* line 79, ../sass/_pages.sass */
+/* line 79, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > :not(header) > *.prev {
   -webkit-transform: translate3d(-100%, 0, 0);
 }
-/* line 85, ../sass/_pages.sass */
+/* line 85, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/_pages.sass */
 .pages > :not(header) > *.next {
   -webkit-transform: translate3d(100%, 0, 0);
 }
 
-/* line 7, ../sass/full/browser/_layout.sass */
+/* line 7, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_layout.sass */
 #browser {
   display: -webkit-box;
   display: -moz-box;
@@ -68,29 +68,29 @@ a, input {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 15, ../sass/full/browser/_layout.sass */
+/* line 15, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_layout.sass */
 #browser > header {
   height: 61px;
   position: relative;
   z-index: 2;
 }
-/* line 25, ../sass/full/browser/_layout.sass */
+/* line 25, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_layout.sass */
 #browser > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 31, ../sass/full/browser/_layout.sass */
+/* line 31, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_layout.sass */
 #browser > div#connecting {
   display: none;
 }
-/* line 37, ../sass/full/browser/_layout.sass */
+/* line 37, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_layout.sass */
 #browser > footer {
   height: 44px;
 }
 
-/* line 53, ../sass/full/browser/_header.sass */
+/* line 53, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header {
   display: -webkit-box;
   display: -moz-box;
@@ -99,68 +99,68 @@ a, input {
   padding: 0 12px 0 14px;
   background-image: -webkit-image-set(url(../images/remote/ChromeTop.png) 1x, url(../images/remote/ChromeTop@2x.png) 2x);
 }
-/* line 61, ../sass/full/browser/_header.sass */
+/* line 61, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > * {
   display: block;
 }
-/* line 77, ../sass/full/browser/_header.sass */
+/* line 77, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button {
   height: 61px;
   width: 66px;
 }
-/* line 5, ../sass/full/browser/_header.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=prev] {
   background-image: -webkit-image-set(url(../images/remote/Chromeprev.png) 1x, url(../images/remote/Chromeprev@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_header.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=prev][disabled] {
   background-image: -webkit-image-set(url(../images/remote/ChromeprevDisabled.png) 1x, url(../images/remote/ChromeprevDisabled@2x.png) 2x);
 }
-/* line 13, ../sass/full/browser/_header.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=prev]:active:not([disabled]) {
   background-image: -webkit-image-set(url(../images/remote/ChromeprevPressed.png) 1x, url(../images/remote/ChromeprevPressed@2x.png) 2x);
 }
-/* line 5, ../sass/full/browser/_header.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=next] {
   background-image: -webkit-image-set(url(../images/remote/Chromenext.png) 1x, url(../images/remote/Chromenext@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_header.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=next][disabled] {
   background-image: -webkit-image-set(url(../images/remote/ChromenextDisabled.png) 1x, url(../images/remote/ChromenextDisabled@2x.png) 2x);
 }
-/* line 13, ../sass/full/browser/_header.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=next]:active:not([disabled]) {
   background-image: -webkit-image-set(url(../images/remote/ChromenextPressed.png) 1x, url(../images/remote/ChromenextPressed@2x.png) 2x);
 }
-/* line 5, ../sass/full/browser/_header.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=play] {
   background-image: -webkit-image-set(url(../images/remote/Chromeplay.png) 1x, url(../images/remote/Chromeplay@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_header.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=play][disabled] {
   background-image: -webkit-image-set(url(../images/remote/ChromeplayDisabled.png) 1x, url(../images/remote/ChromeplayDisabled@2x.png) 2x);
 }
-/* line 13, ../sass/full/browser/_header.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=play]:active:not([disabled]) {
   background-image: -webkit-image-set(url(../images/remote/ChromeplayPressed.png) 1x, url(../images/remote/ChromeplayPressed@2x.png) 2x);
 }
-/* line 5, ../sass/full/browser/_header.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=pause] {
   background-image: -webkit-image-set(url(../images/remote/Chromepause.png) 1x, url(../images/remote/Chromepause@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_header.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=pause][disabled] {
   background-image: -webkit-image-set(url(../images/remote/ChromepauseDisabled.png) 1x, url(../images/remote/ChromepauseDisabled@2x.png) 2x);
 }
-/* line 13, ../sass/full/browser/_header.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=pause]:active:not([disabled]) {
   background-image: -webkit-image-set(url(../images/remote/ChromepausePressed.png) 1x, url(../images/remote/ChromepausePressed@2x.png) 2x);
 }
-/* line 91, ../sass/full/browser/_header.sass */
+/* line 91, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header > button[data-button=pause] {
   display: none;
 }
-/* line 99, ../sass/full/browser/_header.sass */
+/* line 99, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd {
   display: -webkit-box;
   display: -moz-box;
@@ -175,11 +175,11 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDGlassLandscape.png) 1x, url(../images/remote/LCDGlassLandscape@2x.png) 2x) 10 10 10 10 stretch;
   border-width: 10px 10px 10px 10px;
 }
-/* line 111, ../sass/full/browser/_header.sass */
+/* line 111, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd > * {
   display: block;
 }
-/* line 121, ../sass/full/browser/_header.sass */
+/* line 121, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd.disabled::before {
   content: "";
   display: block;
@@ -191,11 +191,11 @@ a, input {
   margin-left: -13px;
   background-image: -webkit-image-set(url(../images/remote/LCDAppleLogo.png) 1x, url(../images/remote/LCDAppleLogo@2x.png) 2x);
 }
-/* line 141, ../sass/full/browser/_header.sass */
+/* line 141, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd.disabled > * {
   display: none !important;
 }
-/* line 149, ../sass/full/browser/_header.sass */
+/* line 149, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_artwork {
   width: 40px;
   height: 40px;
@@ -210,7 +210,7 @@ a, input {
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
   background-image: url(../images/remote/missing-music-artwork.png);
 }
-/* line 167, ../sass/full/browser/_header.sass */
+/* line 167, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_artwork:active::before {
   display: block;
   content: "";
@@ -220,7 +220,7 @@ a, input {
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 181, ../sass/full/browser/_header.sass */
+/* line 181, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -228,25 +228,25 @@ a, input {
   box-flex: 1;
   margin-top: -1px;
 }
-/* line 187, ../sass/full/browser/_header.sass */
+/* line 187, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd > div > span {
   display: block;
   text-align: center;
   padding: 0 7px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 197, ../sass/full/browser/_header.sass */
+/* line 197, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd > div > div {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
 }
-/* line 201, ../sass/full/browser/_header.sass */
+/* line 201, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd > div > div > * {
   display: block;
 }
-/* line 209, ../sass/full/browser/_header.sass */
+/* line 209, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_title {
   font-weight: bold;
   padding-bottom: 4px;
@@ -255,7 +255,7 @@ a, input {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 219, ../sass/full/browser/_header.sass */
+/* line 219, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_container {
   font-size: 85%;
   height: 11px;
@@ -263,126 +263,126 @@ a, input {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 21, ../sass/full/browser/_header.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue] {
   width: 42;
   height: 42;
   background-image: -webkit-image-set(url(../images/remote/LCDqueue.png) 1x, url(../images/remote/LCDqueue@2x.png) 2x);
 }
-/* line 29, ../sass/full/browser/_header.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue]:active {
   background-image: -webkit-image-set(url(../images/remote/LCDqueuePressed.png) 1x, url(../images/remote/LCDqueuePressed@2x.png) 2x);
 }
-/* line 33, ../sass/full/browser/_header.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue][disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDqueueDisabled.png) 1x, url(../images/remote/LCDqueueDisabled@2x.png) 2x);
 }
-/* line 37, ../sass/full/browser/_header.sass */
+/* line 37, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue].on {
   background-image: -webkit-image-set(url(../images/remote/LCDqueueOn.png) 1x, url(../images/remote/LCDqueueOn@2x.png) 2x);
 }
-/* line 41, ../sass/full/browser/_header.sass */
+/* line 41, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue].on:active {
   background-image: -webkit-image-set(url(../images/remote/LCDqueueOnPressed.png) 1x, url(../images/remote/LCDqueueOnPressed@2x.png) 2x);
 }
-/* line 45, ../sass/full/browser/_header.sass */
+/* line 45, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDqueueOnDisabled.png) 1x, url(../images/remote/LCDqueueOnDisabled@2x.png) 2x);
 }
-/* line 233, ../sass/full/browser/_header.sass */
+/* line 233, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue] {
   margin: -1px 5px 0 0;
 }
-/* line 21, ../sass/full/browser/_header.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle] {
   width: 31;
   height: 31;
   background-image: -webkit-image-set(url(../images/remote/LCDshuffle.png) 1x, url(../images/remote/LCDshuffle@2x.png) 2x);
 }
-/* line 29, ../sass/full/browser/_header.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle]:active {
   background-image: -webkit-image-set(url(../images/remote/LCDshufflePressed.png) 1x, url(../images/remote/LCDshufflePressed@2x.png) 2x);
 }
-/* line 33, ../sass/full/browser/_header.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle][disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDshuffleDisabled.png) 1x, url(../images/remote/LCDshuffleDisabled@2x.png) 2x);
 }
-/* line 37, ../sass/full/browser/_header.sass */
+/* line 37, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle].on {
   background-image: -webkit-image-set(url(../images/remote/LCDshuffleOn.png) 1x, url(../images/remote/LCDshuffleOn@2x.png) 2x);
 }
-/* line 41, ../sass/full/browser/_header.sass */
+/* line 41, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle].on:active {
   background-image: -webkit-image-set(url(../images/remote/LCDshuffleOnPressed.png) 1x, url(../images/remote/LCDshuffleOnPressed@2x.png) 2x);
 }
-/* line 45, ../sass/full/browser/_header.sass */
+/* line 45, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDshuffleOnDisabled.png) 1x, url(../images/remote/LCDshuffleOnDisabled@2x.png) 2x);
 }
-/* line 239, ../sass/full/browser/_header.sass */
+/* line 239, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle] {
   margin: -7px 2px 0 0;
 }
-/* line 21, ../sass/full/browser/_header.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat] {
   width: 31;
   height: 31;
   background-image: -webkit-image-set(url(../images/remote/LCDrepeat.png) 1x, url(../images/remote/LCDrepeat@2x.png) 2x);
 }
-/* line 29, ../sass/full/browser/_header.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat]:active {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatPressed.png) 1x, url(../images/remote/LCDrepeatPressed@2x.png) 2x);
 }
-/* line 33, ../sass/full/browser/_header.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat][disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatDisabled.png) 1x, url(../images/remote/LCDrepeatDisabled@2x.png) 2x);
 }
-/* line 37, ../sass/full/browser/_header.sass */
+/* line 37, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].on {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatOn.png) 1x, url(../images/remote/LCDrepeatOn@2x.png) 2x);
 }
-/* line 41, ../sass/full/browser/_header.sass */
+/* line 41, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].on:active {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatOnPressed.png) 1x, url(../images/remote/LCDrepeatOnPressed@2x.png) 2x);
 }
-/* line 45, ../sass/full/browser/_header.sass */
+/* line 45, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatOnDisabled.png) 1x, url(../images/remote/LCDrepeatOnDisabled@2x.png) 2x);
 }
-/* line 245, ../sass/full/browser/_header.sass */
+/* line 245, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat] {
   margin: -7px 0 0 5px;
 }
-/* line 249, ../sass/full/browser/_header.sass */
+/* line 249, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1On.png) 1x, url(../images/remote/LCDRepeat1On@2x.png) 2x);
 }
-/* line 253, ../sass/full/browser/_header.sass */
+/* line 253, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one:active {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnPressed.png) 1x, url(../images/remote/LCDRepeat1OnPressed@2x.png) 2x);
 }
-/* line 257, ../sass/full/browser/_header.sass */
+/* line 257, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnDisabled.png) 1x, url(../images/remote/LCDRepeat1OnDisabled@2x.png) 2x);
 }
-/* line 265, ../sass/full/browser/_header.sass */
+/* line 265, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_current,
 #browser > header #lcd #lcd_position_duration {
   font-size: 80%;
   margin-top: 4px;
   white-space: nowrap;
 }
-/* line 275, ../sass/full/browser/_header.sass */
+/* line 275, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_current {
   margin-right: 4px;
   margin-left: 3px;
 }
-/* line 281, ../sass/full/browser/_header.sass */
+/* line 281, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_duration {
   margin-right: 1px;
   margin-left: 5px;
 }
-/* line 291, ../sass/full/browser/_header.sass */
+/* line 291, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -395,12 +395,12 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrackEmpty.png) 1x, url(../images/remote/LCDTrackEmpty@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 305, ../sass/full/browser/_header.sass */
+/* line 305, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position:not(.ui-slider-disabled) {
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrack.png) 1x, url(../images/remote/LCDTrack@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 313, ../sass/full/browser/_header.sass */
+/* line 313, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position > div {
   height: 100%;
   margin-left: -4px;
@@ -411,7 +411,7 @@ a, input {
   border-width: 0px 4px 0px 4px;
   border-right-width: 0px;
 }
-/* line 329, ../sass/full/browser/_header.sass */
+/* line 329, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position > a {
   position: absolute;
   height: 11px;
@@ -420,7 +420,7 @@ a, input {
   margin: -2px 0 0 -4px;
   background-image: -webkit-image-set(url(../images/remote/LCDTrackThumb.png) 1x, url(../images/remote/LCDTrackThumb@2x.png) 2x);
 }
-/* line 347, ../sass/full/browser/_header.sass */
+/* line 347, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output {
   width: 198px;
   display: -webkit-box;
@@ -429,7 +429,7 @@ a, input {
   display: box;
   padding-right: 20px;
 }
-/* line 359, ../sass/full/browser/_header.sass */
+/* line 359, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output #volume {
   width: 178px;
   height: 21px;
@@ -443,7 +443,7 @@ a, input {
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 379, ../sass/full/browser/_header.sass */
+/* line 379, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output #volume > div {
   height: 100%;
   margin-left: -11px;
@@ -453,7 +453,7 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackFilled.png) 1x, url(../images/remote/VolumeTrackFilled@2x.png) 2x) 0 11 0 11 stretch;
   border-width: 0px 11px 0px 11px;
 }
-/* line 393, ../sass/full/browser/_header.sass */
+/* line 393, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output #volume > a {
   position: absolute;
   height: 32px;
@@ -462,11 +462,11 @@ a, input {
   margin: -5px 0 0 -16px;
   background-image: -webkit-image-set(url(../images/remote/VolumeKnob.png) 1x, url(../images/remote/VolumeKnob@2x.png) 2x);
 }
-/* line 407, ../sass/full/browser/_header.sass */
+/* line 407, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output #volume > a:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeKnobPressed.png) 1x, url(../images/remote/VolumeKnobPressed@2x.png) 2x);
 }
-/* line 417, ../sass/full/browser/_header.sass */
+/* line 417, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay] {
   display: none;
   height: 47px;
@@ -476,38 +476,38 @@ a, input {
   background-position: right center;
   background-repeat: no-repeat;
 }
-/* line 435, ../sass/full/browser/_header.sass */
+/* line 435, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay]:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressed.png) 1x, url(../images/remote/VolumeAirPlayPressed@2x.png) 2x);
 }
-/* line 439, ../sass/full/browser/_header.sass */
+/* line 439, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayOn.png) 1x, url(../images/remote/VolumeAirPlayOn@2x.png) 2x);
 }
-/* line 443, ../sass/full/browser/_header.sass */
+/* line 443, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
 }
-/* line 451, ../sass/full/browser/_header.sass */
+/* line 451, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output.disabled > * {
   display: none;
 }
-/* line 459, ../sass/full/browser/_header.sass */
+/* line 459, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output.airplay {
   padding-right: 0;
 }
-/* line 463, ../sass/full/browser/_header.sass */
+/* line 463, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
 #browser > header #output.airplay > [data-button=airplay] {
   display: block;
 }
 
 @media screen and (max-width: 900px) {
-  /* line 477, ../sass/full/browser/_header.sass */
+  /* line 477, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_header.sass */
   #browser > header #lcd [data-button=queue] {
     margin-right: -3px;
   }
 }
-/* line 1, ../sass/full/browser/_footer.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer {
   background-image: -webkit-image-set(url(../images/remote/ChromeBottom.png) 1x, url(../images/remote/ChromeBottom@2x.png) 2x);
   padding: 8px 8px 0 8px;
@@ -520,11 +520,11 @@ a, input {
   box-shadow: 0 0 3px 1px rgba(0, 0, 0, 0.3);
   position: relative;
 }
-/* line 21, ../sass/full/browser/_footer.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer > div:first-child, #browser > footer > div:last-child {
   width: 200px;
 }
-/* line 27, ../sass/full/browser/_footer.sass */
+/* line 27, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer > div:nth-child(2) {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -532,11 +532,11 @@ a, input {
   box-flex: 1;
   text-align: center;
 }
-/* line 33, ../sass/full/browser/_footer.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer > div:nth-child(2) > div {
   display: inline-block;
 }
-/* line 43, ../sass/full/browser/_footer.sass */
+/* line 43, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav] {
   line-height: 30px;
   margin-top: -1px;
@@ -546,24 +546,24 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 57, ../sass/full/browser/_footer.sass */
+/* line 57, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav]:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 61, ../sass/full/browser/_footer.sass */
+/* line 61, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer button[data-button=nav].music {
   background: no-repeat 6px 5px;
   background-image: -webkit-image-set(url(../images/remote/SourceListMusicGray.png) 1x, url(../images/remote/SourceListMusicGray@2x.png) 2x);
   background-size: 20px;
 }
-/* line 73, ../sass/full/browser/_footer.sass */
+/* line 73, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer h1 {
   font-size: 120%;
   text-shadow: 0 1px 0 white;
   line-height: 28px;
 }
-/* line 85, ../sass/full/browser/_footer.sass */
+/* line 85, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav {
   display: -webkit-box;
   display: -moz-box;
@@ -571,7 +571,7 @@ a, input {
   display: box;
   max-width: 546px;
 }
-/* line 95, ../sass/full/browser/_footer.sass */
+/* line 95, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a {
   display: block;
   text-shadow: 0 1px 0 white;
@@ -586,7 +586,7 @@ a, input {
   line-height: 30px;
   padding-left: 9px;
 }
-/* line 131, ../sass/full/browser/_footer.sass */
+/* line 131, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a::before {
   content: "";
   display: block;
@@ -597,7 +597,7 @@ a, input {
   width: 9px;
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonDivider.png) 1x, url(../images/remote/ChromeButtonDivider@2x.png) 2x);
 }
-/* line 153, ../sass/full/browser/_footer.sass */
+/* line 153, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a::after {
   content: "";
   display: block;
@@ -610,47 +610,47 @@ a, input {
   border-width: 1px 4px 1px 4px;
   border-width: 1px 0 !important;
 }
-/* line 177, ../sass/full/browser/_footer.sass */
+/* line 177, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child {
   padding-left: 4px;
 }
-/* line 181, ../sass/full/browser/_footer.sass */
+/* line 181, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x);
   width: 4px;
 }
-/* line 187, ../sass/full/browser/_footer.sass */
+/* line 187, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a:first-child::after {
   left: 4px;
 }
-/* line 195, ../sass/full/browser/_footer.sass */
+/* line 195, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a:last-child {
   padding-right: 5px;
 }
-/* line 199, ../sass/full/browser/_footer.sass */
+/* line 199, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a:last-child::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
   border-width: 1px 4px 1px 0 !important;
 }
-/* line 211, ../sass/full/browser/_footer.sass */
+/* line 211, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedRight.png) 1x, url(../images/remote/ChromeButtonSelectedRight@2x.png) 2x);
 }
-/* line 215, ../sass/full/browser/_footer.sass */
+/* line 215, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
 }
-/* line 219, ../sass/full/browser/_footer.sass */
+/* line 219, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected + a::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedLeft.png) 1x, url(../images/remote/ChromeButtonSelectedLeft@2x.png) 2x);
 }
-/* line 223, ../sass/full/browser/_footer.sass */
+/* line 223, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer nav > a.selected:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x);
 }
-/* line 233, ../sass/full/browser/_footer.sass */
+/* line 233, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer input[name=search] {
   float: right;
   width: 100%;
@@ -661,12 +661,12 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearch.png) 1x, url(../images/remote/ChromeSearch@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 249, ../sass/full/browser/_footer.sass */
+/* line 249, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer input[name=search][disabled] {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearchDisabled.png) 1x, url(../images/remote/ChromeSearchDisabled@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 253, ../sass/full/browser/_footer.sass */
+/* line 253, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
 #browser > footer input[name=search].filled {
   padding-right: 8px;
   -webkit-border-image: -webkit-image-set(url(../images/ChromeSearchClear.png) 1x, url(../images/ChromeSearchClear@2x.png) 2x) 0 24 0 25 stretch;
@@ -674,12 +674,12 @@ a, input {
 }
 
 @media screen and (max-width: 900px) {
-  /* line 271, ../sass/full/browser/_footer.sass */
+  /* line 271, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_footer.sass */
   #browser > footer > div:first-child, #browser > footer > div:last-child {
     width: 179px;
   }
 }
-/* line 1, ../sass/full/browser/_connecting.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
 #browser > #connecting {
   text-align: center;
   font-weight: bold;
@@ -689,7 +689,7 @@ a, input {
   background-image: -webkit-image-set(url(../images/ConnectingShadow.png) 1x, url(../images/ConnectingShadow@2x.png) 2x);
   background-size: 200px;
 }
-/* line 11, ../sass/full/browser/_connecting.sass */
+/* line 11, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
 #browser > #connecting > div {
   height: 200px;
   background: no-repeat center;
@@ -699,35 +699,35 @@ a, input {
   -webkit-animation: connectingSpin 1s linear infinite;
 }
 @media screen and (max-width: 900px) {
-  /* line 1, ../sass/full/browser/_connecting.sass */
+  /* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
   #browser > #connecting {
     padding-top: 323px;
     background-position: center 323px;
   }
-  /* line 22, ../sass/full/browser/_connecting.sass */
+  /* line 22, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
   #browser > #connecting > div {
     margin-bottom: 44px;
   }
 }
 
 @-webkit-keyframes connectingSpin {
-  /* line 26, ../sass/full/browser/_connecting.sass */
+  /* line 26, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
   from {
     -webkit-transform: rotate3d(0, 0, 0, 0deg);
   }
 
-  /* line 28, ../sass/full/browser/_connecting.sass */
+  /* line 28, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
   50% {
     -webkit-transform: rotate3d(0, 0, 0, 180deg);
   }
 
-  /* line 30, ../sass/full/browser/_connecting.sass */
+  /* line 30, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_connecting.sass */
   to {
     -webkit-transform: rotate3d(0, 0, 0, 360deg);
   }
 }
 
-/* line 1, ../sass/full/browser/_contents.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_contents.sass */
 #browser #contents {
   display: -webkit-box;
   display: -moz-box;
@@ -738,7 +738,7 @@ a, input {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 5, ../sass/full/browser/_contents.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_contents.sass */
 #browser #contents > *:not(.index) {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -746,13 +746,13 @@ a, input {
   box-flex: 1;
 }
 
-/* line 31, ../sass/full/browser/_media.sass */
+/* line 31, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup {
   width: 334px;
   left: 360px;
   min-height: 226px;
 }
-/* line 43, ../sass/full/browser/_media.sass */
+/* line 43, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .pages h1 {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -760,7 +760,7 @@ a, input {
   padding-left: 54px;
   padding-right: 54px;
 }
-/* line 51, ../sass/full/browser/_media.sass */
+/* line 51, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .pages h1 button.back {
   float: left;
   width: 48px;
@@ -768,56 +768,56 @@ a, input {
   background: no-repeat 2px center;
   background-image: -webkit-image-set(url(../images/remote/SourceSwitcherGlyph.png) 1x, url(../images/remote/SourceSwitcherGlyph@2x.png) 2x);
 }
-/* line 73, ../sass/full/browser/_media.sass */
+/* line 73, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListFolderGray.png) 1x, url(../images/remote/SourceListFolderGray@2x.png) 2x);
 }
-/* line 77, ../sass/full/browser/_media.sass */
+/* line 77, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListFolderHighlight.png) 1x, url(../images/remote/SourceListFolderHighlight@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_media.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.local::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharinggray.png) 1x, url(../images/remote/SourceListHomeSharinggray@2x.png) 2x);
 }
-/* line 19, ../sass/full/browser/_media.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.local.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharingHighlight.png) 1x, url(../images/remote/SourceListHomeSharingHighlight@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_media.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.web::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListRadiogray.png) 1x, url(../images/remote/SourceListRadiogray@2x.png) 2x);
 }
-/* line 19, ../sass/full/browser/_media.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.web.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListRadioHighlight.png) 1x, url(../images/remote/SourceListRadioHighlight@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_media.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.bluray_video::before {
   background-image: -webkit-image-set(url(../images/SourceListBlurayDiscGray.png) 1x, url(../images/SourceListBlurayDiscGray@2x.png) 2x);
 }
-/* line 19, ../sass/full/browser/_media.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.bluray_video.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListBlurayDiscHighlight.png) 1x, url(../images/SourceListBlurayDiscHighlight@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_media.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.removeable_drive::before {
   background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveGray.png) 1x, url(../images/SourceListRemoveableDriveGray@2x.png) 2x);
 }
-/* line 19, ../sass/full/browser/_media.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.removeable_drive.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveHighlight.png) 1x, url(../images/SourceListRemoveableDriveHighlight@2x.png) 2x);
 }
-/* line 9, ../sass/full/browser/_media.sass */
+/* line 9, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.music::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListmusicgray.png) 1x, url(../images/remote/SourceListmusicgray@2x.png) 2x);
 }
-/* line 19, ../sass/full/browser/_media.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/browser/_media.sass */
 #media_popup .list > *.music.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListmusicHighlight.png) 1x, url(../images/remote/SourceListmusicHighlight@2x.png) 2x);
 }
 
-/* line 35, ../sass/full/_browser.sass */
+/* line 31, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_browser.sass */
 #browser {
   background-color: #f2f2f2;
   background-repeat: no-repeat;
@@ -828,14 +828,14 @@ a, input {
   height: 748px;
 }
 @media screen and (max-width: 900px) {
-  /* line 35, ../sass/full/_browser.sass */
+  /* line 31, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_browser.sass */
   #browser {
     width: 768px;
     height: 1004px;
   }
 }
 
-/* line 1, ../sass/full/_typeface.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_typeface.sass */
 body {
   font-family: "Helvetica", "Helvetica Neue", "Calibri", Arial;
   font-size: 0.8em;
@@ -843,63 +843,63 @@ body {
   color: #4c4c4c;
 }
 
-/* line 13, ../sass/full/_typeface.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_typeface.sass */
 input, textarea, select, button, table {
   font-size: inherit;
   font-family: inherit;
 }
 
-/* line 21, ../sass/full/_typeface.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_typeface.sass */
 button {
   color: #4c4c4c;
 }
 
-/* line 1, ../sass/full/_elements.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* line 7, ../sass/full/_elements.sass */
+/* line 7, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 h1 {
   font-weight: bold;
 }
 
-/* line 13, ../sass/full/_elements.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 table {
   border-collapse: collapse;
 }
 
-/* line 19, ../sass/full/_elements.sass */
+/* line 19, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 .left {
   float: left;
 }
 
-/* line 23, ../sass/full/_elements.sass */
+/* line 23, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 .right {
   float: right;
 }
 
-/* line 33, ../sass/full/_elements.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 .ui-slider.ui-slider-disabled .ui-slider-range, .ui-slider.ui-slider-disabled .ui-slider-handle {
   display: none;
 }
 
-/* line 39, ../sass/full/_elements.sass */
+/* line 39, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_elements.sass */
 .index:not(tr) {
   position: absolute;
   width: 100%;
   z-index: 1;
 }
 
-/* line 5, ../sass/full/_list.sass */
+/* line 5, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list {
   background: white;
   font-weight: bold;
   font-size: 130%;
   margin-bottom: -1px;
 }
-/* line 17, ../sass/full/_list.sass */
+/* line 17, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > * {
   display: -webkit-box;
   display: -moz-box;
@@ -912,7 +912,7 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 31, ../sass/full/_list.sass */
+/* line 31, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > * > span {
   display: block;
   -webkit-box-flex: 1;
@@ -923,17 +923,17 @@ table {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 43, ../sass/full/_list.sass */
+/* line 43, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > *.more::after, .list > *.loading::after {
   display: block;
   margin-top: 15px;
   margin-right: 2px;
 }
-/* line 53, ../sass/full/_list.sass */
+/* line 53, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > *.more::after {
   content: -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x);
 }
-/* line 59, ../sass/full/_list.sass */
+/* line 59, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > *.selected {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #90b0d3), color-stop(100%, #7097bd));
   background: -webkit-linear-gradient(#90b0d3, #7097bd);
@@ -942,11 +942,11 @@ table {
   background: linear-gradient(#90b0d3, #7097bd);
   color: white;
 }
-/* line 65, ../sass/full/_list.sass */
+/* line 65, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list > *.selected.more::after {
   content: -webkit-image-set(url(../images/ListNextHighlight.png) 1x, url(../images/ListNextHighlight@2x.png) 2x);
 }
-/* line 73, ../sass/full/_list.sass */
+/* line 73, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_list.sass */
 .list.icons > *::before {
   content: "";
   display: block;
@@ -956,7 +956,7 @@ table {
   background: no-repeat center center;
 }
 
-/* line 1, ../sass/full/_button.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button, .button {
   display: inline-block;
   border: none;
@@ -966,7 +966,7 @@ button, .button {
   font-size: 12px !important;
   font-weight: bold;
 }
-/* line 21, ../sass/full/_button.sass */
+/* line 21, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios, .button.ios {
   line-height: 30px;
   vertical-align: middle;
@@ -978,105 +978,105 @@ button.ios, .button.ios {
   border-width: 0px 4px 0px 4px;
   text-shadow: 0 1px 0 white;
 }
-/* line 39, ../sass/full/_button.sass */
+/* line 39, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black, button.ios.dark, button.ios.blue, .button.ios.black, .button.ios.dark, .button.ios.blue {
   color: white;
   text-shadow: 0 -1px 0 black;
 }
-/* line 49, ../sass/full/_button.sass */
+/* line 49, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios:active, .button.ios:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonPressed.png) 1x, url(../images/remote/ScreenButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 57, ../sass/full/_button.sass */
+/* line 57, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.back, .button.ios.back {
   padding-left: 0;
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 63, ../sass/full/_button.sass */
+/* line 63, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.back:active, button.ios.back.active, .button.ios.back:active, .button.ios.back.active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 71, ../sass/full/_button.sass */
+/* line 71, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.chrome, .button.ios.chrome {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 75, ../sass/full/_button.sass */
+/* line 75, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.chrome:active, .button.ios.chrome:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 79, ../sass/full/_button.sass */
+/* line 79, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.chrome.back, .button.ios.chrome.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 83, ../sass/full/_button.sass */
+/* line 83, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.chrome.back:active, .button.ios.chrome.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 91, ../sass/full/_button.sass */
+/* line 91, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black, .button.ios.black {
   -webkit-border-image: -webkit-image-set(url(../images/remote/NowPlayingButton.png) 1x, url(../images/remote/NowPlayingButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 95, ../sass/full/_button.sass */
+/* line 95, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black:active, .button.ios.black:active {
   -webkit-border-image: -webkit-image-set(url(../images/NowPlayingButtonPressed.png) 1x, url(../images/NowPlayingButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 99, ../sass/full/_button.sass */
+/* line 99, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black.back, .button.ios.black.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueBack.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 103, ../sass/full/_button.sass */
+/* line 103, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black.back:active, .button.ios.black.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackBackPressed.png) 1x, url(../images/remote/UINavigationBarBlackBackPressed@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 107, ../sass/full/_button.sass */
+/* line 107, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black.forward, .button.ios.black.forward {
   padding-right: 0;
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueForward.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueForward@2x.png) 2x) 0 13 0 4 stretch;
   border-width: 0px 13px 0px 4px;
 }
-/* line 113, ../sass/full/_button.sass */
+/* line 113, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.black.forward:active, .button.ios.black.forward:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackForwardPressed.png) 1x, url(../images/remote/UINavigationBarBlackForwardPressed@2x.png) 2x) 0 13 0 4 stretch;
   border-width: 0px 13px 0px 4px;
 }
-/* line 121, ../sass/full/_button.sass */
+/* line 121, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.blue, .button.ios.blue {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDone.png) 1x, url(../images/remote/ScreenButtonDone@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 125, ../sass/full/_button.sass */
+/* line 125, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.blue:active, .button.ios.blue:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDonePressed.png) 1x, url(../images/remote/ScreenButtonDonePressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 135, ../sass/full/_button.sass */
+/* line 135, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.darkblue.back, .button.ios.darkblue.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBack_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBack_OS5@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 139, ../sass/full/_button.sass */
+/* line 139, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_button.sass */
 button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBackPressed_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBackPressed_OS5@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
 
-/* line 3, ../sass/full/_layout.sass */
+/* line 3, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 * {
   -webkit-box-sizing: border-box;
 }
 
-/* line 11, ../sass/full/_layout.sass */
+/* line 11, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 body {
   width: 100%;
   height: 100%;
@@ -1084,33 +1084,33 @@ body {
   background: black;
   overflow: hidden;
 }
-/* line 27, ../sass/full/_layout.sass */
+/* line 27, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 body > section:not(.popup) {
   width: 100%;
   height: 100%;
 }
 
-/* line 37, ../sass/full/_layout.sass */
+/* line 37, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 .scrollable {
   overflow: auto;
   overflow-x: hidden;
 }
-/* line 43, ../sass/full/_layout.sass */
+/* line 43, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 .scrollable::-webkit-scrollbar {
   width: 5px;
   display: none;
 }
-/* line 49, ../sass/full/_layout.sass */
+/* line 49, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 .scrollable::-webkit-scrollbar-thumb {
   background-color: white;
   border-radius: 3px;
 }
-/* line 57, ../sass/full/_layout.sass */
+/* line 57, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 .scrollable:hover::-webkit-scrollbar-thumb {
   background-color: #7f7f7f !important;
 }
 
-/* line 63, ../sass/full/_layout.sass */
+/* line 63, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_layout.sass */
 .overlay {
   position: absolute;
   top: 0;
@@ -1119,7 +1119,7 @@ body > section:not(.popup) {
   height: 100%;
 }
 
-/* line 17, ../sass/full/_popup.sass */
+/* line 17, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup {
   position: absolute;
   z-index: 10;
@@ -1146,18 +1146,18 @@ body > section:not(.popup) {
   -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.8), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
-/* line 49, ../sass/full/_popup.sass */
+/* line 49, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.animate {
   -webkit-transition: opacity 0.2s ease;
   -moz-transition: opacity 0.2s ease;
   -o-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
 }
-/* line 53, ../sass/full/_popup.sass */
+/* line 53, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.hidden {
   opacity: 0;
 }
-/* line 63, ../sass/full/_popup.sass */
+/* line 63, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.resize, .popup.resize > .arrow {
   -webkit-transition: 0.2s ease;
   -moz-transition: 0.2s ease;
@@ -1168,7 +1168,7 @@ body > section:not(.popup) {
   -o-transition-property: top, height;
   transition-property: top, height;
 }
-/* line 73, ../sass/full/_popup.sass */
+/* line 73, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup h1 {
   text-align: center;
   font-size: 150%;
@@ -1177,7 +1177,7 @@ body > section:not(.popup) {
   margin-top: -6px;
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
 }
-/* line 91, ../sass/full/_popup.sass */
+/* line 91, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages {
   display: -webkit-box;
   display: -moz-box;
@@ -1193,15 +1193,15 @@ body > section:not(.popup) {
   box-flex: 1;
   position: relative;
 }
-/* line 101, ../sass/full/_popup.sass */
+/* line 101, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages > header {
   margin-top: -6px;
 }
-/* line 105, ../sass/full/_popup.sass */
+/* line 105, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages > header > h1 {
   margin-top: 0;
 }
-/* line 109, ../sass/full/_popup.sass */
+/* line 109, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -1214,7 +1214,7 @@ body > section:not(.popup) {
   border-radius: 5px;
   background: white;
 }
-/* line 121, ../sass/full/_popup.sass */
+/* line 121, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages > div .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -1222,7 +1222,7 @@ body > section:not(.popup) {
   box-flex: 1;
   background: transparent;
 }
-/* line 131, ../sass/full/_popup.sass */
+/* line 131, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .pages::before {
   content: "";
   position: absolute;
@@ -1238,15 +1238,15 @@ body > section:not(.popup) {
   box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
-/* line 151, ../sass/full/_popup.sass */
+/* line 151, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.with_header > .pages::before {
   top: 37px;
 }
-/* line 159, ../sass/full/_popup.sass */
+/* line 159, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup > .arrow {
   display: none;
 }
-/* line 169, ../sass/full/_popup.sass */
+/* line 169, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow > .arrow {
   display: block;
   position: absolute;
@@ -1255,7 +1255,7 @@ body > section:not(.popup) {
   height: 37px;
   padding: 6px 0 0 6px;
 }
-/* line 187, ../sass/full/_popup.sass */
+/* line 187, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow > .arrow::before {
   content: "";
   display: block;
@@ -1265,17 +1265,17 @@ body > section:not(.popup) {
   border-style: solid;
   border-width: 1px 0 0 1px;
 }
-/* line 209, ../sass/full/_popup.sass */
+/* line 209, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
   left: 50%;
   margin-left: -19px;
 }
-/* line 219, ../sass/full/_popup.sass */
+/* line 219, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.top > .arrow {
   top: -19px;
   -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
 }
-/* line 225, ../sass/full/_popup.sass */
+/* line 225, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.top > .arrow::before {
   border-color: #363636;
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
@@ -1292,12 +1292,12 @@ body > section:not(.popup) {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-/* line 239, ../sass/full/_popup.sass */
+/* line 239, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow {
   bottom: -19px;
   -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
 }
-/* line 245, ../sass/full/_popup.sass */
+/* line 245, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow::before {
   border-color: #02060e;
   background: #0c1934;
@@ -1310,22 +1310,22 @@ body > section:not(.popup) {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
 }
-/* line 261, ../sass/full/_popup.sass */
+/* line 261, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
   top: 50%;
   margin-top: -19px;
 }
-/* line 267, ../sass/full/_popup.sass */
+/* line 267, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
   border-color: #3f3f3f;
   background: #0c1934;
 }
-/* line 277, ../sass/full/_popup.sass */
+/* line 277, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.left > .arrow {
   left: -19px;
   -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
 }
-/* line 283, ../sass/full/_popup.sass */
+/* line 283, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -1336,12 +1336,12 @@ body > section:not(.popup) {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
 }
-/* line 293, ../sass/full/_popup.sass */
+/* line 293, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.right > .arrow {
   right: -19px;
   -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
 }
-/* line 299, ../sass/full/_popup.sass */
+/* line 299, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_popup.sass */
 .popup.arrow.right > .arrow::before {
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
@@ -1353,7 +1353,7 @@ body > section:not(.popup) {
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 0 0 0 rgba(255, 255, 255, 0.3);
 }
 
-/* line 1, ../sass/full/_scroll_list.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_scroll_list.sass */
 .scroll_list {
   position: relative;
   display: -webkit-box;
@@ -1365,12 +1365,12 @@ body > section:not(.popup) {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 6, ../sass/full/_scroll_list.sass */
+/* line 6, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/_scroll_list.sass */
 .scroll_list > .scrollable {
   -webkit-box-flex: 1;
 }
 
-/* line 1, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 1, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll {
   position: absolute;
   top: 6px;
@@ -1383,7 +1383,7 @@ body > section:not(.popup) {
   border: solid transparent;
   border-width: 12px 0;
 }
-/* line 15, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 15, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll::after {
   content: "";
   position: absolute;
@@ -1393,7 +1393,7 @@ body > section:not(.popup) {
   bottom: -3px;
   left: 9px;
 }
-/* line 25, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 25, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll::before {
   content: "";
   position: absolute;
@@ -1405,18 +1405,18 @@ body > section:not(.popup) {
   width: 3px;
 }
 @media screen and (max-width: 900px) {
-  /* line 25, ../sass/full/scroll_list/_quickscroll.sass */
+  /* line 25, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll::before {
     top: 6px;
     bottom: 6px;
   }
 }
-/* line 41, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 41, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.hover {
   -webkit-border-image: -webkit-image-set(url(../images/remote/quickScroll-track.png) 1x, url(../images/remote/quickScroll-track@2x.png) 2x) 12 0 12 0 stretch;
   border-width: 12px 0px 12px 0px;
 }
-/* line 46, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 46, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha {
   width: 28px;
   font-weight: bold;
@@ -1427,43 +1427,43 @@ body > section:not(.popup) {
   background-image: none;
   border-width: 14px 0;
 }
-/* line 58, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 58, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha::before, .scroll_list .quickscroll.alpha::after {
   display: none;
 }
-/* line 65, ../sass/full/scroll_list/_quickscroll.sass */
+/* line 65, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
 .scroll_list .quickscroll.alpha li:first-child {
   margin-top: -9px;
 }
 @media screen and (max-width: 900px) {
-  /* line 46, ../sass/full/scroll_list/_quickscroll.sass */
+  /* line 46, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll.alpha {
     line-height: 33px;
   }
-  /* line 69, ../sass/full/scroll_list/_quickscroll.sass */
+  /* line 69, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_quickscroll.sass */
   .scroll_list .quickscroll.alpha li:first-child {
     margin-top: -16px;
   }
 }
 
-/* line 3, ../sass/full/scroll_list/_table.sass */
+/* line 3, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table {
   border-collapse: separate;
   border-spacing: 0;
   table-layout: fixed;
   width: 100%;
 }
-/* line 10, ../sass/full/scroll_list/_table.sass */
+/* line 10, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr.odd td {
   background-color: #fafafa;
   border-top-color: white;
 }
-/* line 13, ../sass/full/scroll_list/_table.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr:not(.odd):not(.index) td {
   background-color: #f2f4f5;
   border-top-color: #fbfbfb;
 }
-/* line 16, ../sass/full/scroll_list/_table.sass */
+/* line 16, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td {
   height: 40px;
   padding: 1px 0 0 13px;
@@ -1476,16 +1476,16 @@ body > section:not(.popup) {
   color: #070707;
   font-size: 110%;
 }
-/* line 26, ../sass/full/scroll_list/_table.sass */
+/* line 26, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td:first-child {
   font-weight: bold;
 }
-/* line 29, ../sass/full/scroll_list/_table.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td:last-child {
   padding-right: 85px;
   text-align: right;
 }
-/* line 33, ../sass/full/scroll_list/_table.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr.selected td, .scroll_list.table table tr:not(.index):active td {
   border-bottom-color: #6285a6;
   border-top-color: #e5ecf4;
@@ -1496,34 +1496,34 @@ body > section:not(.popup) {
   background: linear-gradient(#91b0d3, #7198be);
   color: white;
 }
-/* line 40, ../sass/full/scroll_list/_table.sass */
+/* line 40, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table.songs > table td:first-child {
   width: 31.5%;
 }
-/* line 42, ../sass/full/scroll_list/_table.sass */
+/* line 42, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table.songs > table td:nth-child(2) {
   width: 27.5%;
 }
-/* line 44, ../sass/full/scroll_list/_table.sass */
+/* line 44, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 .scroll_list.table.songs > table td:last-child {
   width: 135px;
 }
 @media screen and (max-width: 900px) {
-  /* line 48, ../sass/full/scroll_list/_table.sass */
+  /* line 48, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
   .scroll_list.table.songs > table td:first-child {
     width: 46%;
   }
-  /* line 50, ../sass/full/scroll_list/_table.sass */
+  /* line 50, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
   .scroll_list.table.songs > table td:nth-child(2) {
     width: auto;
   }
-  /* line 52, ../sass/full/scroll_list/_table.sass */
+  /* line 52, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
   .scroll_list.table.songs > table td:nth-child(3) {
     display: none;
   }
 }
 
-/* line 56, ../sass/full/scroll_list/_table.sass */
+/* line 56, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 div.scroll_list-table-index {
   line-height: 23px;
   border-style: solid;
@@ -1533,7 +1533,7 @@ div.scroll_list-table-index {
   color: #070707;
 }
 
-/* line 64, ../sass/full/scroll_list/_table.sass */
+/* line 64, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_table.sass */
 div.scroll_list-table-index, .scroll_list.table tr.index td {
   height: 27px;
   font-size: 130%;
@@ -1548,11 +1548,11 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   background: linear-gradient(#dddddd, #d7d7d7);
 }
 
-/* line 4, ../sass/full/scroll_list/_tiles.sass */
+/* line 4, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable {
   position: relative;
 }
-/* line 8, ../sass/full/scroll_list/_tiles.sass */
+/* line 8, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul {
   overflow: hidden;
   -webkit-transition: padding-bottom 0.4s ease;
@@ -1560,7 +1560,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: padding-bottom 0.4s ease;
   transition: padding-bottom 0.4s ease;
 }
-/* line 13, ../sass/full/scroll_list/_tiles.sass */
+/* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li {
   display: inline-block;
   vertical-align: top;
@@ -1588,20 +1588,20 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   transition-property: -webkit-transform, width, height, margin, margin-right, margin-top, padding-top;
   -webkit-transform: translate3d(0, 0, 0);
 }
-/* line 29, ../sass/full/scroll_list/_tiles.sass */
+/* line 29, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 33, ../sass/full/scroll_list/_tiles.sass */
+/* line 33, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:first-child {
   padding-bottom: 3px;
   font-weight: bold;
   margin-top: 7px;
 }
-/* line 38, ../sass/full/scroll_list/_tiles.sass */
+/* line 38, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:nth-child(2) {
   padding-bottom: 3px;
   -webkit-transition-property: margin-top, opacity;
@@ -1613,28 +1613,45 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: 0.2s ease;
   transition: 0.2s ease;
 }
+/* line 44, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom {
+  width: 154px;
+  height: 154px;
+  margin: 16px 8px 26px 7px;
+  padding-top: 154px;
+}
+/* line 49, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom span:nth-child(2) {
+  margin-top: -17px;
+  opacity: 0;
+}
 @media screen and (max-width: 900px) {
-  /* line 13, ../sass/full/scroll_list/_tiles.sass */
+  /* line 13, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
   .scroll_list.tiles > .scrollable > ul > li {
     margin-right: 2px;
     margin-left: 18px;
   }
+  /* line 57, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
+  .scroll_list.tiles > .scrollable > ul > li.zoom {
+    margin-right: -11px;
+    margin-left: 5px;
+  }
 }
-/* line 67, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > .scrollable > ul > li.noanim {
+/* line 71, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul.noanim > li, .scroll_list.tiles > .scrollable > ul > li.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 69, ../sass/full/scroll_list/_tiles.sass */
-.scroll_list.tiles > .scrollable > ul > li.noanim span:nth-child(2) {
+/* line 73, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul.noanim > li span:nth-child(2), .scroll_list.tiles > .scrollable > ul > li.noanim span:nth-child(2) {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 78, ../sass/full/scroll_list/_tiles.sass */
+/* line 78, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details {
   position: absolute;
   top: 0;
@@ -1652,7 +1669,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition-property: -webkit-transform, background-color;
   transition-property: -webkit-transform, background-color;
 }
-/* line 99, ../sass/full/scroll_list/_tiles.sass */
+/* line 99, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > svg {
   position: absolute;
   z-index: 1;
@@ -1661,21 +1678,21 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
 }
-/* line 103, ../sass/full/scroll_list/_tiles.sass */
+/* line 103, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > svg path.shadow {
   filter: url(#arrow_line_dropshadow);
 }
-/* line 105, ../sass/full/scroll_list/_tiles.sass */
+/* line 105, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > svg path.fill {
   fill: #f2f2f2;
 }
-/* line 107, ../sass/full/scroll_list/_tiles.sass */
+/* line 107, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > svg path.stroke {
   stroke: rgba(0, 0, 0, 0.23);
   fill: none;
   stroke-width: 1px;
 }
-/* line 113, ../sass/full/scroll_list/_tiles.sass */
+/* line 113, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover {
   position: absolute;
   z-index: 3;
@@ -1694,7 +1711,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.46);
   -webkit-transform: translate3d(0, 13px, 0);
 }
-/* line 127, ../sass/full/scroll_list/_tiles.sass */
+/* line 127, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover > .arrow {
   position: absolute;
   z-index: 4;
@@ -1711,22 +1728,22 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
 }
-/* line 141, ../sass/full/scroll_list/_tiles.sass */
+/* line 141, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover.open > .arrow {
   -webkit-transform: scale(0.01) rotateZ(45deg);
 }
-/* line 145, ../sass/full/scroll_list/_tiles.sass */
+/* line 145, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy {
   visibility: hidden;
 }
-/* line 147, ../sass/full/scroll_list/_tiles.sass */
+/* line 147, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy, .scroll_list.tiles > .scrollable div.details.dummy > svg {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 151, ../sass/full/scroll_list/_tiles.sass */
+/* line 151, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content {
   -webkit-transition: opacity 0.4s ease;
   -moz-transition: opacity 0.4s ease;
@@ -1734,18 +1751,18 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   transition: opacity 0.4s ease;
   padding-top: 1.1em;
 }
-/* line 155, ../sass/full/scroll_list/_tiles.sass */
+/* line 155, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.outgoing {
   position: absolute;
   left: 0;
   right: 0;
   opacity: 0;
 }
-/* line 160, ../sass/full/scroll_list/_tiles.sass */
+/* line 160, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.incoming {
   opacity: 0;
 }
-/* line 162, ../sass/full/scroll_list/_tiles.sass */
+/* line 162, /Volumes/Users/HT/Documents/Code/Touchee/Touchee/bin/Debug/web/app/assets/sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content .sec {
   color: #959fad;
 }

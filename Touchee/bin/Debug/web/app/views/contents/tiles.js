@@ -18,18 +18,26 @@ define([
     indicesShow:  false,
     extraRows:    10,
     
+    
     // Tiles view properties
     line1:        'id',
     line2:        'id',
     
+    
     // Override the size of the artwork to be loaded for each tile
     artworkSize:  null,
+    
     
     // Backbone view properties
     events: {
       'click .scrollable > ul > li': 'clickedTile'
     },
     
+    
+    
+    
+    // ScrollList overrides
+    // --------------------
     
     // Additional calculation for the zoom state of the tiles
     calculateSizes: function() {
@@ -63,22 +71,8 @@ define([
     },
     
     
-    // Gets the value for the given attribute for the given model
-    getAttributeValue: function(model, attr) {
-      var val = attr.call ? attr.call(model, model) : model.get(attr);
-      if ((!val || val == "") && _.isString(attr))
-        val = this.getUnknownAttributeValue(model, attr);
-      return val || "";
-    },
-    
-    
-    // Gets the unknown value for the given attribute of the model
-    getUnknownAttributeValue: function(model, attr) {
-      return "";
-    },
-    
-    
     // Renders each item of the list
+    // VIRTUAL
     renderItem: function(item, i, options) {
       var zoomed    = this.data.zoomed == item,
           style     = this.getStyle(item, {string:true, zoomed:zoomed, afterDetails:this.details && i > this.details.afterIdx}),
@@ -87,9 +81,9 @@ define([
       var rendered = '<li' + (style ? ' style="'+style+'"' : '') + (klass ? ' class="'+klass+'"' : '') + ">";
       
       if (this.line1)
-        rendered += "<span>" + this.getAttributeValue(item, this.line1) + "</span>";
+        rendered += "<span>" + this.getAttribute(item, this.line1) + "</span>";
       if (this.line2)
-        rendered += "<span>" + this.getAttributeValue(item, this.line2) + "</span>";
+        rendered += "<span>" + this.getAttribute(item, this.line2) + "</span>";
         
       rendered += "</li>";
       
@@ -97,7 +91,90 @@ define([
     },
     
     
+    // Called when the render is complete
+    // Starts the iterative getting of artwork
+    // VIRTUAL
+    afterRender: function(items) {
+      
+      // Do nothing if we have no items in view or no artwork provisioning
+      if (!items.count || !this.getArtworkUrl) return;
+      
+      // Store the last render items
+      this._lastRender = items;
+      
+      // Start setting artwork on the first element in view
+      this._setArtworkIter(
+        items.firstInView,
+        items.firstInView - (items.firstInView - items.first),
+        items.firstInView + items.countInView - 1,
+        items.timestamp
+      );
+      
+    },
+    
+    
+    // Called after a resize.
+    // Clears the details view and resets any zooms
+    // VIRTUAL
+    onResize: function() {
+      var $children;
+      
+      if (this.details) {
+        // Remove the details
+        this.details.$el.remove();
+        // Set noanim for faster switching
+        var $inner = this.$inner.addClass('noanim');
+        // Reset position
+        $children = this.$inner.children().css('-webkit-transform', "");
+        // Disable noaim
+        _.defer(function(){ $inner.removeClass('noanim'); });
+        // Remove storage
+        delete this.details;
+      }
+      
+      if (this.data.zoomed) {
+        // Get children if we have not yet
+        if (!$children) $children = this.$inner.children();
+        // Remove zoom from the class
+        $children.eq( this.getElementIndex(this.data.zoomed) ).removeClass('zoom');
+        // Remove storage
+        delete this.data.zoomed;
+      }
+      
+      // Call original onResize
+      ScrollListView.prototype.onResize.apply(this, arguments);
+    },
+    
+    
+    
+    
+    // Attribute value getting
+    // -----------------------
+    
+    // Gets the value for the given attribute for the given model
+    // VIRTUAL
+    getAttribute: function(model, attr) {
+      var val = attr.call ? attr.call(model, model) : model.get(attr);
+      if ((!val || val == "") && _.isString(attr))
+        val = this.getUnknownAttributeValue(model, attr);
+      return val || "";
+    },
+    
+    
+    // Gets the unknown value for the given attribute of the model
+    // VIRTUAL
+    getUnknownAttributeValue: function(model, attr) {
+      return "&nbsp;";
+    },
+    
+    
+    
+    
+    // Rendering helpers
+    // -----------------
+    
     // Gets the style used for displaying the tile
+    // VIRTUAL
     getStyle: function(item, options) {
       options || (options = {});
       var artwork = Artwork.fromCache(item),
@@ -145,26 +222,6 @@ define([
       }
       
       return style;
-      
-    },
-    
-    
-    // Called when the render is complete
-    afterRender: function(items) {
-      
-      // Do nothing if we have no items in view or no artwork provisioning
-      if (!items.count || !this.getArtworkUrl) return;
-      
-      // Store the last render items
-      this._lastRender = items;
-      
-      // Start setting artwork on the first element in view
-      this._setArtworkIter(
-        items.firstInView,
-        items.firstInView - (items.firstInView - items.first),
-        items.firstInView + items.countInView - 1,
-        items.timestamp
-      );
       
     },
     
@@ -227,6 +284,11 @@ define([
     },
     
     
+    
+    
+    // Details view
+    // ------------
+    
     // (un)Zoomes the given tile
     zoomTile: function($el, zoom) {
       var el          = $el[0],
@@ -264,7 +326,7 @@ define([
       
       // Toggle zoom
       else {
-        this.zoomTile($el, !$el.hasClass('zoom'));
+        this.zoomTile($el, item != this.data.zoomed);
       }
       
       return $el.hasClass('zoom');
@@ -278,6 +340,9 @@ define([
           props     = {},
           view      = this,
           $moved;
+      
+      // Do nothing if we have no details view function or there is nothing to remove
+      if (!this.getDetailsView || (remove && !existing)) return;
       
       // The item that is detailed
       props.item      = remove ? existing.item : this.getItem($el);
@@ -387,9 +452,6 @@ define([
         .find('> .cover > .arrow')
         .css('left', props.arrowLeft + 'px');
       
-      // Set padding to make room for the details
-      this.$inner.css('padding-bottom', props.height + "px");
-        
       // Set scroll top
       if (props.scrollTop) {
         this.disableRendering();
@@ -403,7 +465,10 @@ define([
       }
       
       // The rest
-      _.defer(function(){
+      _.defer(_.bind(function(){
+        
+        // Set padding to make room for the details
+        this.$inner.css('padding-bottom', props.height + "px");
         
         // Move the tiles after the details down
         $moved.css('-webkit-transform', "translate3d(0," + props.height + "px,0)");
@@ -416,7 +481,7 @@ define([
           .addClass('open')
           .css('-webkit-transform', "translate3d(0," + (props.height-1) + "px,0)");
         
-      });
+      }, this));
       
       // 
       return this.details = props;

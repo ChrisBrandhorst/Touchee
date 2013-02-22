@@ -1,47 +1,47 @@
-/* line 6, ../sass/full.sass */
+/* line 9, ../sass/full.sass */
 .scroll_list.albums > .scrollable > ul > li {
   background-image: url(../../../../assets/images/remote/missing-music-white.png);
 }
-/* line 9, ../sass/full.sass */
+/* line 13, ../sass/full.sass */
 .scroll_list.albums .details .content {
   min-height: 60px;
   padding: 2.35em 0 0 1.55em !important;
   overflow: hidden;
 }
-/* line 14, ../sass/full.sass */
+/* line 19, ../sass/full.sass */
 .scroll_list.albums .details .content .artwork {
   -webkit-box-reflect: below -1px -webkit-linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.4));
   float: right;
   margin: -1.25em 0 0 -250px;
 }
-/* line 18, ../sass/full.sass */
+/* line 23, ../sass/full.sass */
 .scroll_list.albums .details .content .artwork img {
   width: 250px;
   -webkit-mask-image: -webkit-linear-gradient(top, transparent, rgba(0, 0, 0, 0.7) 16%), -webkit-linear-gradient(left, transparent 0, rgba(0, 0, 0, 0.7) 18%);
   -webkit-mask-composite: source-in, xor;
 }
-/* line 23, ../sass/full.sass */
+/* line 29, ../sass/full.sass */
 .scroll_list.albums .details .content .prim, .scroll_list.albums .details .content .sec {
-  -webkit-transition: background-color 0.4s ease;
-  -moz-transition: background-color 0.4s ease;
-  -o-transition: background-color 0.4s ease;
-  transition: background-color 0.4s ease;
+  -webkit-transition: color 0.4s ease;
+  -moz-transition: color 0.4s ease;
+  -o-transition: color 0.4s ease;
+  transition: color 0.4s ease;
 }
-/* line 26, ../sass/full.sass */
+/* line 33, ../sass/full.sass */
 .scroll_list.albums .details .content h1 {
   font-size: 2em;
   margin-bottom: 0.16em;
 }
-/* line 29, ../sass/full.sass */
+/* line 37, ../sass/full.sass */
 .scroll_list.albums .details .content h2 {
   font-size: 1.3em;
   margin-bottom: 0.65em;
 }
-/* line 33, ../sass/full.sass */
+/* line 42, ../sass/full.sass */
 .scroll_list.albums .details .content h2 + ol, .scroll_list.albums .details .content ol.empty + ol {
   margin-left: -1.55em;
 }
-/* line 35, ../sass/full.sass */
+/* line 46, ../sass/full.sass */
 .scroll_list.albums .details .content ol {
   float: left;
   margin-bottom: 1em;
@@ -52,11 +52,11 @@
   background-size: 100% 1px, 1px 100%;
   background-position: left top, right bottom;
 }
-/* line 42, ../sass/full.sass */
+/* line 53, ../sass/full.sass */
 .scroll_list.albums .details .content ol.empty {
   display: none;
 }
-/* line 51, ../sass/full.sass */
+/* line 62, ../sass/full.sass */
 .scroll_list.albums .details .content ol::before {
   content: "";
   position: absolute;
@@ -66,7 +66,7 @@
   width: 1px;
   background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.2) 1.5em) no-repeat right bottom;
 }
-/* line 60, ../sass/full.sass */
+/* line 72, ../sass/full.sass */
 .scroll_list.albums .details .content ol li {
   display: -webkit-box;
   display: -moz-box;
@@ -75,29 +75,34 @@
   background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-size: 100% 1px, 100% 1px;
   background-repeat: no-repeat;
-  background-position: left top, left bottom;
+  background-position: left top, -1px bottom;
+  -webkit-transition: background-color 0.4s ease;
+  -moz-transition: background-color 0.4s ease;
+  -o-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+  background-color: transparent;
 }
-/* line 70, ../sass/full.sass */
+/* line 82, ../sass/full.sass */
 .scroll_list.albums .details .content ol li:first-child {
   margin-top: 1px;
 }
-/* line 73, ../sass/full.sass */
+/* line 85, ../sass/full.sass */
 .scroll_list.albums .details .content ol li:last-child {
   background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, transparent);
 }
-/* line 76, ../sass/full.sass */
+/* line 89, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span {
   padding: 1.1em 0 1.05em 0;
   display: block;
 }
-/* line 80, ../sass/full.sass */
+/* line 94, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:first-child {
   width: 3.15em;
   padding-right: 1em;
   text-align: right;
   font-weight: bold;
 }
-/* line 85, ../sass/full.sass */
+/* line 100, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -107,24 +112,40 @@
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 88, ../sass/full.sass */
+/* line 104, ../sass/full.sass */
 .scroll_list.albums .details .content ol li span:last-child {
   width: 6.4em;
 }
-/* line 91, ../sass/full.sass */
+/* line 110, ../sass/full.sass */
+.scroll_list.albums .details .content ol li.clicked {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  background-color: #4c4c4c;
+}
+/* line 113, ../sass/full.sass */
+.scroll_list.albums .details .content ol li.clicked span {
+  -webkit-transition: none;
+  -moz-transition: none;
+  -o-transition: none;
+  transition: none;
+  color: white !important;
+}
+/* line 118, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol {
   background-image: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
 }
-/* line 93, ../sass/full.sass */
+/* line 120, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol::before {
   content: none;
 }
-/* line 95, ../sass/full.sass */
+/* line 122, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol li {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-position: left top, left bottom;
 }
-/* line 98, ../sass/full.sass */
+/* line 125, ../sass/full.sass */
 .scroll_list.albums .details .content ol + ol li:last-child {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
 }

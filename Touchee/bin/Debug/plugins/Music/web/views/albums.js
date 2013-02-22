@@ -51,6 +51,7 @@ define([
       switch (attr) {
         case 'album':       val += " " + I18n.p.music.models.album.one;   break;
         case 'albumArtist': val += " " + I18n.p.music.models.artist.one;  break;
+        case 'title':       val += " " + I18n.p.music.models.song.one;    break;
       }
       return val;
     },
@@ -64,7 +65,7 @@ define([
     },
     
     
-    // 
+    // When an album is clicked, zoom the tile and show the details
     clickedTile: function(ev) {
       var $el     = $(ev.target).closest('li'),
           zoomed  = this.zoomTile($el);
@@ -72,10 +73,13 @@ define([
     },
     
     
-    
-    // 
+    // Getss the view for the given detail view
     getDetailsView: function(track, $target) {
-      return new AlbumDetailsView({model:track,el:$target[0]}).render();
+      return new AlbumDetailsView({
+        model:  track,
+        el:     $target[0],
+        master: this
+      }).render();
     }
     
     

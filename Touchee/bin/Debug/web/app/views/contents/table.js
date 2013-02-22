@@ -20,6 +20,7 @@ define([
     
     
     // Renders each item of the table
+    // VIRTUAL
     renderItem: function(item, options) {
       var table = this;
       var rendered = '<tr' + (options.odd ? ' class="odd"' : '') + '>';
@@ -34,6 +35,7 @@ define([
     
     
     // Renders an index item
+    // VIRTUAL
     renderIndex: function(index) {
       var rendered = '<tr class="index" data-index="' + index + '"><td>' + index + '</td>';
       for (var i = 1; i < this.columns.length; i++)
@@ -55,6 +57,7 @@ define([
     getUnknownColumnValue: function(model, attr) {
       return "";
     }
+    
     
   });
   

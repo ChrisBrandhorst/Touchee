@@ -7,10 +7,18 @@ define([
   
   var ScrollList = Backbone.View.extend({
     
+    
+    
     // Backbone View options
+    // ---------------------
     tagName:      'section',
     className:    'scroll_list',
     
+    
+    
+    
+    // ScrollList View options
+    // -----------------------
     
     // Type of scrolllist
     listType:       '',
@@ -37,9 +45,19 @@ define([
     quickscroll:    true,
     
     
+    
+    
+    // Privates
+    // -----------------------
+    
     // Rendering is enabled
     _renderingEnabled: true,
     
+    
+    
+    
+    // Initialization
+    // --------------
     
     // Constructor
     initialize: function() {
@@ -70,7 +88,7 @@ define([
       
       // Build the floating index if required
       if (this.indicesShow && this.indexAttribute)
-        this.renderFloatingIndex();
+        this._renderFloatingIndex();
         
       // Set quickscroll
       if (this.quickscroll && this.indexAttribute)
@@ -78,10 +96,10 @@ define([
       
       // Calculate size of elements and capacity
       this.calculateSizes();
-      this.calculateCapacity();
+      this._calculateCapacity();
       
       // Bind events
-      this.bind();
+      this._bind();
       
       // Do first render
       this.contentChanged();
@@ -93,7 +111,8 @@ define([
     
     
     // Bind all event handlers for the list
-    bind: function() {
+    // PRIVATE
+    _bind: function() {
       var touching    = false,
           scrolling   = false,
           scrollList  = this,
@@ -136,7 +155,7 @@ define([
       
       // Recalculate capacity when the view is resized
       $(window).bind('resize.scroll_list-' + this.id, _.debounce(
-        _.bind(this.calculateCapacity, this), 100, true
+        _.bind(this.onResize, this), 100
       ));
       
       // Bind stuff for quickscroll
@@ -150,7 +169,8 @@ define([
     
     
     // Unbind all event handlers for the list
-    unbind: function() {
+    // PRIVATE
+    _unbind: function() {
       $(window).unbind('resize.scroll_list-' + this.id);
       this.$scroller.unbind('.scroll_list');
       if (this.quickscroll)
@@ -158,16 +178,98 @@ define([
     },
     
     
-    // Enable or disable rendering
-    enableRendering:  function() { this._renderingEnabled = true; },
-    disableRendering: function() { this._renderingEnabled = false; },
+    // Called when the view is disposed
+    // VIRTUAL
+    onDispose: function() {
+      this._unbind();
+    },
     
     
-    // Calculates the size of shown elements
+    
+    
+    // (En/Dis)able rendering
+    // ----------------------
+    
+    // Enable rendering
+    enableRendering:  function() {
+      this._renderingEnabled = true;
+    },
+    
+    
+    // Disable rendering
+    disableRendering: function() {
+      this._renderingEnabled = false;
+    },
+    
+    
+    
+    
+    // Model querying
+    // --------------
+    
+    // Gets the model count
+    // ABSTRACT
+    getCount: function() {
+      throw('NotImplementedException');
+    },
+    
+    
+    // Gets the set of models for the given range
+    // ABSTRACT
+    getModels: function(first, count) {
+      throw('NotImplementedException');
+    },
+    
+    
+    // Gets the model for the given model index
+    getModel: function(idx) {
+      var models = this.getModels(idx, 1);
+      return models && models.length ? models[0] : null;
+    },
+    
+    
+    // Gets the index of the given item
+    // ABSTRACT
+    getIndex: function(item) {
+      throw('NotImplementedException');
+    },
+    
+    
+    // Gets the index of the element representing the given item
+    getElementIndex: function(item) {
+      return this.getIndex(item) + this.data.lastRender.first;
+    },
+    
+    
+    // Gets the item for the given rendered element
+    getItem: function(el) {
+      return !el || !el.length
+        ? null
+        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length );
+    },
+    
+    
+    // Should be called when the content of the model which is viewed is changed
+    contentChanged: function() {
+      if (this.indexAttribute)
+        this.indices = this.getIndices();
+      this.renderInView(true);
+    },
+    
+    
+    
+    
+    // Calculation of content
+    // ----------------------
+    
+    // Calculates the size of shown elements]
+    // VIRTUAL
     calculateSizes: function() {
-      var $children = this.$inner.children(),
-          size      = {},
+      var $children = this.$inner.children(':not(.index)'),
           $dummy, $item;
+      
+      // Get the rows if we have a tbody
+      if ($children.is('tbody')) $children = $children.children(':not(.index)');
       
       // Get a reference to a child item. If there are no children, create a dummy
       if (!$children.length)
@@ -175,24 +277,15 @@ define([
       else
         $item = $children.first();
       
-      // If we have a table, get the height based on the inner height of the table
-      // and the number of rows. Width is irrelevant
-      if (this.$inner.is('table'))
-        size = {
-          height: this.$inner.innerHeight() / this.$inner.children().length,
-          width:  this.$inner.outerWidth()
-        };
-      
-      // Else, get both the height and width including padding, border and margin
-      else {
-        size = {
-          height: $item.outerHeight(true),
-          width:  $item.outerWidth(true)
-        }
-      }
+      // Get both the height and width including padding, border and margin
+      var size = {
+        height: $item.outerHeight(true),
+        width:  $item.outerWidth(true)
+      };
       
       // Set margins and 'inner' size
       var margins = _.map($item.css('margin').replace(/px/g, "").split(" "), function(m){return +m;});
+      
       size.margin = {
         top:    margins[0],
         right:  margins[1],
@@ -213,13 +306,13 @@ define([
       
       // Set data in model
       this.calculated.size = size;
-      
     },
     
     
     // Calculates the capacity of the view
-    calculateCapacity: function() {
-      var scroller = this.$scroller[0],
+    // PRIVATE
+    _calculateCapacity: function() {
+      var scroller  = this.$scroller[0],
           capacity  = {};
       
       // Calculates the capacity of items within the viewport
@@ -238,15 +331,8 @@ define([
     },
     
     
-    // Should be called when the content of the model which is viewed is changed
-    contentChanged: function() {
-      if (this.indexAttribute)
-        this.indices = this.getIndices();
-      this.renderInView(true);
-    },
-    
-    
     // Default indices getter
+    // VIRTUAL
     getIndices: function() {
       var models  = this.getModels(0, this.getCount()),
           data    = {indices:[],count:[],items:[],cumulCountMap:{},posMap:{}},
@@ -276,6 +362,11 @@ define([
       return data;
     },
     
+    
+    
+    
+    // Rendering
+    // ---------
     
     // Renders the visible items
     renderInView: function(force) {
@@ -399,77 +490,8 @@ define([
     },
     
     
-    // Get information about the index who's block is intersected by the top line of the view
-    _getBlockInfo: function() {
-      var size        = this.calculated.size,
-          height      = 0,
-          blockHeight = 0,
-          idxIdx      = 0;
-      
-      do {
-        height += blockHeight;
-        blockHeight = size.indexHeight + Math.ceil(this.indices.count[idxIdx]) * size.height;
-      } while ((height + blockHeight < this.scroller.scrollTop) && ++idxIdx);
-      
-      return {
-        height:       height,
-        blockHeight:  blockHeight,
-        idxIdx:       idxIdx
-      };
-      
-    },
-    
-    
-    // Positions the floating index
-    _positionFloatingIndex: function() {
-      
-      if (!this.indices.indices.length)
-        return;
-      else if (this.el.scrollTop < 0)
-        this.$index[0].style.display = 'none';
-      else
-        this.$index[0].style.display = '';
-      
-      var blockInfo = this._getBlockInfo();
-      
-      // Store the top of the index which is below the top line of the view
-      var nextIndexTop = blockInfo.height + blockInfo.blockHeight - this.scroller.scrollTop,
-          nextIndexIdx = this.indices.indices[blockInfo.idxIdx];
-      
-      // Set floating index
-      var diff = Math.min(0, nextIndexTop - this.calculated.size.indexHeight);
-      this.$index[0].innerHTML = this._processIndex(nextIndexIdx);
-      this.$index[0].style.webkitTransform = "translate3d(0," + diff + "px,0)";
-      
-    },
-    
-    
-    // Modify the index value to group non-alpha chars
-    _processIndex: function(index) {
-      return index == Touchee.nonAlphaSortValue ? "#" : index;
-    },
-    
-    
-    // Gets the model count
-    getCount: function() {
-      throw('NotImplementedException');
-    },
-    
-    
-    // Gets the set of models for the given range
-    getModels: function(first, count) {
-      throw('NotImplementedException');
-    },
-    
-    
-    // Gets the model for the given model index
-    getModel: function(idx) {
-      var models = this.getModels(idx, 1);
-      return models && models.length ? models[0] : null;
-    },
-    
-    
     // Renders a set of item
+    // VIRTUAL
     renderItems: function(models, options) {
       var html    = "",
           odd     = options.first % 2 == 0,
@@ -496,26 +518,103 @@ define([
     
     
     // Renders a single item
+    // ABSTRACT
     renderItem: function(item, i, options) {
       throw('NotImplementedException');
     },
     
     
     // Renders an index item
+    // ABSTRACT
     renderIndex: function(index) {
       throw('NotImplementedException');
     },
     
     
     // Renders the floating index
-    renderFloatingIndex: function(index) {
+    _renderFloatingIndex: function(index) {
       this.$index = $(this.floatingIndex)
         .addClass('scroll_list-' + this.listType + '-index index')
         .prependTo(this.$el).hide();
     },
     
     
+    // Called when a render has completed
+    // VIRTUAL
+    afterRender: function(items) {
+    },
+    
+    
+    // Called after a resize
+    // VIRTUAL
+    onResize: function() {
+      this.calculateSizes();
+      this._calculateCapacity();
+      this.renderInView();
+    },
+    
+    
+    
+    
+    // Rendering helpers
+    // -----------------
+    
+    // Get information about the index who's block is intersected by the top line of the view
+    // PRIVATE
+    _getBlockInfo: function() {
+      var size        = this.calculated.size,
+          height      = 0,
+          blockHeight = 0,
+          idxIdx      = 0;
+      
+      do {
+        height += blockHeight;
+        blockHeight = size.indexHeight + Math.ceil(this.indices.count[idxIdx]) * size.height;
+      } while ((height + blockHeight < this.scroller.scrollTop) && ++idxIdx);
+      
+      return {
+        height:       height,
+        blockHeight:  blockHeight,
+        idxIdx:       idxIdx
+      };
+      
+    },
+    
+    
+    // Modify the index value to group non-alpha chars
+    // PRIVATE
+    _processIndex: function(index) {
+      return index == Touchee.nonAlphaSortValue ? "#" : index;
+    },
+    
+    
+    // Positions the floating index
+    // PRIVATE
+    _positionFloatingIndex: function() {
+      
+      if (!this.indices.indices.length)
+        return;
+      else if (this.el.scrollTop < 0)
+        this.$index[0].style.display = 'none';
+      else
+        this.$index[0].style.display = '';
+      
+      var blockInfo = this._getBlockInfo();
+      
+      // Store the top of the index which is below the top line of the view
+      var nextIndexTop = blockInfo.height + blockInfo.blockHeight - this.scroller.scrollTop,
+          nextIndexIdx = this.indices.indices[blockInfo.idxIdx];
+      
+      // Set floating index
+      var diff = Math.min(0, nextIndexTop - this.calculated.size.indexHeight);
+      this.$index[0].innerHTML = this._processIndex(nextIndexIdx);
+      this.$index[0].style.webkitTransform = "translate3d(0," + diff + "px,0)";
+      
+    },
+    
+    
     // Renders the quickscroll element
+    // PRIVATE
     _renderQuickscroll: function() {
       
       // Build element
@@ -551,7 +650,13 @@ define([
     },
     
     
+    
+    
+    // Quickscroll
+    // -----------
+    
     // Called when a quickscroll is started
+    // PRIVATE
     _qsStart: function(ev) {
       delete this._qs.last;
       this._qsScroll(ev);
@@ -559,6 +664,7 @@ define([
     
     
     // Called when the user is scrolling the quickscroll
+    // PRIVATE
     _qsScroll: function(ev) {
       
       // Get the fraction of the height the user is touching
@@ -590,7 +696,8 @@ define([
     },
     
     
-    // Called when the quickscroll is over
+    // Called when the quickscroll is over;
+    // PRIVATE
     _qsEnd: function(ev) {
       this._qs.$el.removeClass('hover').hide().show();
     },
@@ -614,19 +721,8 @@ define([
       }
       
       this.scroller.scrollTop = scrollTop;
-    },
-    
-    
-    // Called when a render has completed
-    afterRender: function(items) { },
-    
-    
-    // Gets the item for the given rendered element
-    getItem: function(el) {
-      return !el
-        ? null
-        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length );
     }
+    
     
     
   });

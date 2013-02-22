@@ -9,10 +9,17 @@ define([
   
   var AlbumDetailsView = Backbone.View.extend({
     
+    
+    events: {
+      'click li': 'clickedTrack'
+    },
+    
+    
     // Constructor
     initialize: function(options) {
       this.model.on('artwork', this.setArtwork, this);
       this.model.on('colors', this.setColors, this);
+      this.master = options.master;
     },
     
     
@@ -22,7 +29,8 @@ define([
       this.$el.html(
         albumDetailsTemplate({
           artwork:  artwork,
-          tracks:   this.model.getTracksOfAlbum()
+          tracks:   this.model.getTracksOfAlbum(),
+          master:   this.master
         })
       );
       this.setArtwork(artwork);
@@ -46,12 +54,31 @@ define([
           .css('backgroundColor', "rgb(" + colors.background + ")")
           .find('.prim').css('color', "rgb(" + colors.foreground + ")");
         this.$el.find('.sec').css('color', "rgb(" + colors.foreground2 + ")");
+        this.colors = colors;
       }
       else {
         this.$el.css('backgroundColor', "");
+        delete this.colors;
       }
       
+    },
+    
+    
+    // 
+    clickedTrack: function(ev) {
+      var $li = $(ev.target).closest('li'),
+          id  = $li.attr('data-id');
+      
+      // Return if no id
+      if (!id) return;
+      
+      // Set click animation
+      var bgColor = this.colors && this.colors.foreground2;
+      $li.css('background-color', bgColor ? "rgb(" + bgColor + ")" : "").addClass('clicked');
+      _.defer(function(){ $li.removeClass('clicked').css('background-color', ""); });
     }
+    
+    
     
   });
   

@@ -2,77 +2,77 @@ $tileSize:      128px
 $tileSizeZoom:  154px
 
 .scroll_list.tiles > .scrollable
-  
   position: relative
   
+  // The entire list
   > ul
     overflow: hidden
     @include  transition(padding-bottom .4s ease)
-  
-  // Each tile
-  > ul > li
-    display:        inline-block
-    // float: left
-    vertical-align: top
-    width:          $tileSize
-    height:         $tileSize
-    margin:         25px 21px 43px 20px
-    padding-top:    $tileSize
     
-    // Background of the tiles
-    background-size:      cover
-    background-repeat:    no-repeat
-    background-position:  bottom left
-    @include              box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
+    // Each tile
+    > li
+      display:        inline-block
+      // float: left
+      vertical-align: top
+      width:          $tileSize
+      height:         $tileSize
+      margin:         25px 21px 43px 20px
+      padding-top:    $tileSize
+      
+      // Background of the tiles
+      background-size:      cover
+      background-repeat:    no-repeat
+      background-position:  bottom left
+      @include              box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
+      
+      // The texts of the tiles
+      span
+        display:  block
+        @include  ellipsis
+        // First line
+        &:first-child
+          padding-bottom: 3px
+          font-weight:    bold
+          margin-top:     7px
+        // Line 2
+        &:nth-child(2)
+          padding-bottom: 3px
+          @include        transition-property(margin-top, opacity)
+          @include        transition(.2s ease)
+      
+      // Zoom state
+      &.zoom
+        width:        $tileSizeZoom
+        height:       $tileSizeZoom
+        margin:       16px 8px 26px 7px
+        padding-top:  $tileSizeZoom
+        span:nth-child(2)
+          margin-top: -17px
+          opacity:    0
+      
+      // When the screen gets narrower, adjust the margins
+      @media screen and (max-width: 900px)
+        margin-right: 2px
+        margin-left:  18px
+        &.zoom
+          margin-right: -11px
+          margin-left:  5px
+      
+      // Nice transition for zooming
+      @include  transition-duration(.4s, .2s, .2s, .2s, .2s, .2s, .2s)
+      @include  transition-timing-function(ease)
+      @include  transition-property(-webkit-transform, width, height, margin, margin-right, margin-top, padding-top)
+      
+      // Already transform it, so modifying this value happens without hick-up
+      -webkit-transform: translate3d(0,0,0)
     
-    // The texts of the tiles
-    span
-      display:  block
-      @include  ellipsis
-      // First line
-      &:first-child
-        padding-bottom: 3px
-        font-weight:    bold
-        margin-top:     7px
-      // Line 2
-      &:nth-child(2)
-        padding-bottom: 3px
-        @include        transition-property(margin-top, opacity)
-        @include        transition(.2s ease)
     
-    // Zoom state
-    // &.zoom
-    //   width:        $tileSizeZoom
-    //   height:       $tileSizeZoom
-    //   margin:       16px 8px 26px 7px
-    //   padding-top:  $tileSizeZoom
-    //   span:nth-child(2)
-    //     margin-top: -17px
-    //     opacity:    0
-    
-    // When the screen gets narrower, adjust the margins
-    @media screen and (max-width: 900px)
-      margin-right: 2px
-      margin-left:  18px
-      // &.zoom
-      //   margin-right: -11px
-      //   margin-left:  5px
-        
-    // Nice transition for zooming
-    @include  transition-duration(.4s, .2s, .2s, .2s, .2s, .2s, .2s)
-    @include  transition-timing-function(ease)
-    @include  transition-property(-webkit-transform, width, height, margin, margin-right, margin-top, padding-top)
-    
-    // No anim class
-    &.noanim
+    // Animation disable
+    &.noanim > li, > li.noanim
       @include transition(none)
       span:nth-child(2)
         @include transition(none)
-    
-    
-    // Already transform it, so modifying this value happens without hick-up
-    -webkit-transform: translate3d(0,0,0)
-  
+      
   
   // Details view
   div.details

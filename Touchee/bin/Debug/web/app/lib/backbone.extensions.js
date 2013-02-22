@@ -7,7 +7,6 @@ define([
   // View disposal
   Backbone.View.prototype.dispose = function(){
     this.remove();
-    this.unbind();
     if (typeof this.onDispose == 'function')
       this.onDispose();
   };

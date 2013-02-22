@@ -35,8 +35,8 @@ define([
     
     
     // Gets the models
-    getModels: function(items) {
-      return this.model.models.slice(items.first, items.first + items.count);
+    getModels: function(first, count) {
+      return this.model.models.slice(first, first + count);
     }
     
   });
