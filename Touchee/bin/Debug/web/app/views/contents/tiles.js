@@ -126,6 +126,8 @@ define([
         var $inner = this.$inner.addClass('noanim');
         // Reset position
         $children = this.$inner.children().css('-webkit-transform', "");
+        // Reset bottom padding
+        this.$inner.css('padding-bottom', "");
         // Disable noaim
         _.defer(function(){ $inner.removeClass('noanim'); });
         // Remove storage
@@ -351,7 +353,8 @@ define([
       // The index of the item after which the other items should make room for the details
       props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
       // The DOM elements which should make room
-      $moved          = this.$inner.children().eq(Math.min(props.afterIdx - this._lastRender.first, this.getCount()-1)).nextAll();
+      var afterElIdx  = props.afterIdx + 1 < this._lastRender.first ? 0 : Math.min(props.afterIdx - this._lastRender.first, this.getCount()-1);
+      $moved          = this.$inner.children().eq(afterElIdx).nextAll();
       
       // Remove the detail view if asked
       if (remove) {
@@ -371,7 +374,7 @@ define([
       }
       
       // Build the details element
-      var $details    = $(tilesDetailsTemplate()).addClass('dummy').insertBefore(this.$inner),
+      var $details    = $(tilesDetailsTemplate({item:props.item})).addClass('dummy').insertBefore(this.$inner),
           $content    = $details.children('.content'),
           contentView = this.getDetailsView(props.item, $content),
           onSameRow   = existing && existing.afterIdx == props.afterIdx,

@@ -1,21 +1,14 @@
 <div class="details">
-  <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="20">
-    <defs>
-      <filter id="arrow_line_dropshadow" height="20">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="3" /><!-- stdDeviation is how much to blur -->
-        <feOffset dx="0" dy="-3" result="offsetblur"/><!-- how much to offset -->
-        <feMerge>
-          <feMergeNode/><!-- this contains the offset blurred image -->
-        </feMerge>
-      </filter>
-    </defs>
-    <g transform="translate(1000,0)">
-      <path class="shadow" d="M-1000,0 L-1000,14 L-14,14 L0,0 L14,14 L1000,14 L1000,0 Z"/>
-      <path class="fill" transform="translate(0,-.5)" d="M-1000,0 L-1000,14 L-14,14 L0,0 L14,14 L1000,14 L1000,0 Z"/>
-      <path class="stroke" d="M-1000,13.5 L-12.9,13.5 L0,0.55 L12.9,13.5 L1000,13.5"/>
-    </g>
-  </svg>
   
   <div class="content"></div>
   <div class="cover"><div class="arrow"></div></div>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" width="2000" height="20">
+    <g transform="translate(1000,0)">
+      <path class="shadow"  d="M-1000,0 L-1000,14 L-14,14 L0,0 L14,14 L1000,14 L1000,0 Z" />
+      <path class="fill"    d="M-1000,0 L-1000,14 L-14,14 L0,0 L14,14 L1000,14 L1000,0 Z" transform="translate(0,-.5)" />
+      <path class="stroke"  d="M-1000,13.5 L-12.9,13.5 L0,0.55 L12.9,13.5 L1000,13.5" />
+    </g>
+  </svg>
+  
 </div>
