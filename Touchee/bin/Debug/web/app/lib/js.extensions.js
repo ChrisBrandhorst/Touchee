@@ -16,13 +16,13 @@ String.prototype.htmlEncode = function() {
     return String.htmlEncodeMap[c];
   });
 };
-String.prototype.encodeForParams = function() {
-  return encodeForParams(this);
-};
+// String.prototype.encodeForParams = function() {
+//   return encodeForParams(this);
+// };
 
-function encodeForParams(str) {
-  return typeof str === 'string' ? encodeURIComponent(str.replace(',', "\\,")) : str;
-}
+// function encodeForParams(str) {
+//   return typeof str === 'string' ? encodeURIComponent(str.replace(',', "\\,")) : str;
+// }
 
 var second = 1000, minute = 60 * second, hour = 60 * minute;
 String.duration = function(ms) {

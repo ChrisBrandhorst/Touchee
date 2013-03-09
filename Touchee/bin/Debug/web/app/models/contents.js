@@ -1,17 +1,15 @@
 define([
   'underscore',
   'Backbone',
-  'models/params'
-], function(_, Backbone, Params){
+  'Touchee'
+], function(_, Backbone, Touchee){
   
   var Contents = Backbone.Collection.extend({
     
     
     // Backbone collection options
-    url:      function() {
-      var url = this.container.url() + "/contents";
-      if (this.params && this.params.count) url += "/" + this.params.toString();
-      return url;
+    url: function(params) {
+      return this.container.url(_.extend({}, this.params, params));
     },
     
     

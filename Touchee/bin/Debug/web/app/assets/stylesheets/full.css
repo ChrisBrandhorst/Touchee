@@ -819,7 +819,8 @@ a, input {
 
 /* line 31, ../sass/full/_browser.sass */
 #browser {
-  background-color: #f2f2f2;
+  background-color: #fafafa;
+  background-image: url(../images/_screenshots/IMG_0118.PNG);
   background-repeat: no-repeat;
   background-size: 100%;
   background-position: 0 -20px;
@@ -1455,15 +1456,14 @@ body > section:not(.popup) {
 }
 /* line 10, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr.odd td {
-  background-color: #fafafa;
   border-top-color: white;
 }
-/* line 13, ../sass/full/scroll_list/_table.sass */
+/* line 12, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr:not(.odd):not(.index) td {
   background-color: #f2f4f5;
   border-top-color: #fbfbfb;
 }
-/* line 16, ../sass/full/scroll_list/_table.sass */
+/* line 15, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td {
   height: 40px;
   padding: 1px 0 0 13px;
@@ -1476,17 +1476,20 @@ body > section:not(.popup) {
   color: #070707;
   font-size: 110%;
 }
-/* line 26, ../sass/full/scroll_list/_table.sass */
+/* line 25, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td:first-child {
   font-weight: bold;
 }
-/* line 29, ../sass/full/scroll_list/_table.sass */
+/* line 28, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table table tr td:last-child {
   padding-right: 85px;
+}
+/* line 30, ../sass/full/scroll_list/_table.sass */
+.scroll_list.table table tr td:last-child:not(:first-child) {
   text-align: right;
 }
 /* line 33, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table table tr.selected td, .scroll_list.table table tr:not(.index):active td {
+.scroll_list.table table tr.selected td {
   border-bottom-color: #6285a6;
   border-top-color: #e5ecf4;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #91b0d3), color-stop(100%, #7198be));
@@ -1496,34 +1499,17 @@ body > section:not(.popup) {
   background: linear-gradient(#91b0d3, #7198be);
   color: white;
 }
-/* line 40, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table.songs > table td:first-child {
-  width: 31.5%;
+
+/* line 41, ../sass/full/scroll_list/_table.sass */
+.split_view > .scroll_list.table:first-child table tr:not(.odd):not(.index) td {
+  background-color: transparent;
 }
-/* line 42, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table.songs > table td:nth-child(2) {
-  width: 27.5%;
-}
-/* line 44, ../sass/full/scroll_list/_table.sass */
-.scroll_list.table.songs > table td:last-child {
-  width: 135px;
-}
-@media screen and (max-width: 900px) {
-  /* line 48, ../sass/full/scroll_list/_table.sass */
-  .scroll_list.table.songs > table td:first-child {
-    width: 46%;
-  }
-  /* line 50, ../sass/full/scroll_list/_table.sass */
-  .scroll_list.table.songs > table td:nth-child(2) {
-    width: auto;
-  }
-  /* line 52, ../sass/full/scroll_list/_table.sass */
-  .scroll_list.table.songs > table td:nth-child(3) {
-    display: none;
-  }
+/* line 43, ../sass/full/scroll_list/_table.sass */
+.split_view > .scroll_list.table:first-child table tr td:last-child {
+  padding-right: 50px;
 }
 
-/* line 56, ../sass/full/scroll_list/_table.sass */
+/* line 46, ../sass/full/scroll_list/_table.sass */
 div.scroll_list-table-index {
   line-height: 23px;
   border-style: solid;
@@ -1533,7 +1519,7 @@ div.scroll_list-table-index {
   color: #070707;
 }
 
-/* line 64, ../sass/full/scroll_list/_table.sass */
+/* line 54, ../sass/full/scroll_list/_table.sass */
 div.scroll_list-table-index, .scroll_list.table tr.index td {
   height: 27px;
   font-size: 130%;
@@ -1548,11 +1534,12 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   background: linear-gradient(#dddddd, #d7d7d7);
 }
 
-/* line 4, ../sass/full/scroll_list/_tiles.sass */
+/* line 5, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable {
   position: relative;
+  background-color: #f2f2f2;
 }
-/* line 8, ../sass/full/scroll_list/_tiles.sass */
+/* line 10, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul {
   overflow: hidden;
   -webkit-transition: padding-bottom 0.4s ease;
@@ -1560,7 +1547,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: padding-bottom 0.4s ease;
   transition: padding-bottom 0.4s ease;
 }
-/* line 13, ../sass/full/scroll_list/_tiles.sass */
+/* line 15, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li {
   display: inline-block;
   vertical-align: top;
@@ -1574,86 +1561,120 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -webkit-box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
   -moz-box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
   box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
-  -webkit-backface-visibility: hidden;
-  -webkit-transition-duration: 0.4s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.1s;
-  -moz-transition-duration: 0.4s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.1s;
-  -o-transition-duration: 0.4s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.1s;
-  transition-duration: 0.4s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.2s, 0.1s;
-  -webkit-transition-timing-function: ease;
-  -moz-transition-timing-function: ease;
-  -o-transition-timing-function: ease;
-  transition-timing-function: ease;
-  -webkit-transition-property: -webkit-transform, width, height, margin, margin-right, margin-top, padding-top, font-size;
-  -moz-transition-property: -webkit-transform, width, height, margin, margin-right, margin-top, padding-top, font-size;
-  -o-transition-property: -webkit-transform, width, height, margin, margin-right, margin-top, padding-top, font-size;
-  transition-property: -webkit-transform, width, height, margin, margin-right, margin-top, padding-top, font-size;
+  -webkit-transition: -webkit-transform 0.4s ease;
+  -moz-transition: -webkit-transform 0.4s ease;
+  -o-transition: -webkit-transform 0.4s ease;
+  transition: -webkit-transform 0.4s ease;
+  -webkit-transform-origin: 64px 64px 0 50%;
+  -moz-transform-origin: 64px 64px 0 50%;
+  -ms-transform-origin: 64px 64px 0 50%;
+  -o-transform-origin: 64px 64px 0 50%;
+  transform-origin: 64px 64px 0 50%;
   -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
 }
-/* line 29, ../sass/full/scroll_list/_tiles.sass */
+@media screen and (max-width: 900px) {
+  /* line 15, ../sass/full/scroll_list/_tiles.sass */
+  .scroll_list.tiles > .scrollable > ul > li {
+    margin-right: 2px;
+    margin-left: 18px;
+  }
+}
+/* line 41, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 33, ../sass/full/scroll_list/_tiles.sass */
+/* line 45, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:first-child {
   padding-bottom: 3px;
   font-weight: bold;
   margin-top: 7px;
+  width: 100%;
+  -webkit-transition-property: -webkit-transform, width;
+  -moz-transition-property: -webkit-transform, width;
+  -o-transition-property: -webkit-transform, width;
+  transition-property: -webkit-transform, width;
+  -webkit-transition: 0.4s ease;
+  -moz-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
+  -webkit-transform-origin: left top 0 50%;
+  -moz-transform-origin: left top 0 50%;
+  -ms-transform-origin: left top 0 50%;
+  -o-transform-origin: left top 0 50%;
+  transform-origin: left top 0 50%;
 }
-/* line 38, ../sass/full/scroll_list/_tiles.sass */
+/* line 54, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:nth-child(2) {
   padding-bottom: 3px;
-  -webkit-transition-property: margin-top, opacity;
-  -moz-transition-property: margin-top, opacity;
-  -o-transition-property: margin-top, opacity;
-  transition-property: margin-top, opacity;
-  -webkit-transition: 0.2s ease;
-  -moz-transition: 0.2s ease;
-  -o-transition: 0.2s ease;
-  transition: 0.2s ease;
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -webkit-transform, opacity;
+  -o-transition-property: -webkit-transform, opacity;
+  transition-property: -webkit-transform, opacity;
+  -webkit-transition: 0.4s ease;
+  -moz-transition: 0.4s ease;
+  -o-transition: 0.4s ease;
+  transition: 0.4s ease;
 }
-/* line 45, ../sass/full/scroll_list/_tiles.sass */
+/* line 60, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.zoom {
-  -webkit-transform-origin: 64px 64px;
-  -webkit-transform: scale(1.2);
-  font-size: 0.833em;
+  -webkit-transform: scale(1.2, 1.2);
+  -moz-transform: scale(1.2, 1.2);
+  -ms-transform: scale(1.2, 1.2);
+  -o-transform: scale(1.2, 1.2);
+  transform: scale(1.2, 1.2);
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  -ms-backface-visibility: hidden;
+  -o-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
-/* line 53, ../sass/full/scroll_list/_tiles.sass */
+/* line 64, ../sass/full/scroll_list/_tiles.sass */
+.scroll_list.tiles > .scrollable > ul > li.zoom span:first-child {
+  -webkit-transform: scale(0.833, 0.833);
+  -moz-transform: scale(0.833, 0.833);
+  -ms-transform: scale(0.833, 0.833);
+  -o-transform: scale(0.833, 0.833);
+  transform: scale(0.833, 0.833);
+  width: 120%;
+}
+/* line 67, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.zoom span:nth-child(2) {
-  margin-top: -17px;
+  -webkit-transform: translateY(-17px);
+  -moz-transform: translateY(-17px);
+  -ms-transform: translateY(-17px);
+  -o-transform: translateY(-17px);
+  transform: translateY(-17px);
   opacity: 0;
 }
-@media screen and (max-width: 900px) {
-  /* line 13, ../sass/full/scroll_list/_tiles.sass */
-  .scroll_list.tiles > .scrollable > ul > li {
-    margin-right: 2px;
-    margin-left: 18px;
-  }
-}
-/* line 74, ../sass/full/scroll_list/_tiles.sass */
+/* line 72, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 76, ../sass/full/scroll_list/_tiles.sass */
+/* line 74, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noaim > li, .scroll_list.tiles > .scrollable > ul > li.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 78, ../sass/full/scroll_list/_tiles.sass */
+/* line 76, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noaim > li span:nth-child(2), .scroll_list.tiles > .scrollable > ul > li.noanim span:nth-child(2) {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 83, ../sass/full/scroll_list/_tiles.sass */
+/* line 81, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details {
   position: absolute;
   top: 0;
@@ -1662,6 +1683,10 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   overflow: hidden;
   background-color: #e4e9f0;
   -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform: translate3d(0, 0, 0);
+  -ms-transform: translate3d(0, 0, 0);
+  -o-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
   -webkit-transition: 0.4s ease;
   -moz-transition: 0.4s ease;
   -o-transition: 0.4s ease;
@@ -1671,7 +1696,7 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition-property: -webkit-transform, background-color;
   transition-property: -webkit-transform, background-color;
 }
-/* line 104, ../sass/full/scroll_list/_tiles.sass */
+/* line 93, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg {
   position: absolute;
   top: 0;
@@ -1681,21 +1706,21 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
 }
-/* line 109, ../sass/full/scroll_list/_tiles.sass */
+/* line 98, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.shadow {
   filter: url(#arrow_line_dropshadow);
 }
-/* line 111, ../sass/full/scroll_list/_tiles.sass */
+/* line 100, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.fill {
   fill: #f2f2f2;
 }
-/* line 113, ../sass/full/scroll_list/_tiles.sass */
+/* line 102, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.stroke {
   stroke: rgba(0, 0, 0, 0.23);
   fill: none;
   stroke-width: 1px;
 }
-/* line 119, ../sass/full/scroll_list/_tiles.sass */
+/* line 108, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover {
   position: absolute;
   z-index: 3;
@@ -1713,8 +1738,12 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   -moz-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.46);
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.46);
   -webkit-transform: translate3d(0, 13px, 0);
+  -moz-transform: translate3d(0, 13px, 0);
+  -ms-transform: translate3d(0, 13px, 0);
+  -o-transform: translate3d(0, 13px, 0);
+  transform: translate3d(0, 13px, 0);
 }
-/* line 133, ../sass/full/scroll_list/_tiles.sass */
+/* line 122, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover > .arrow {
   position: absolute;
   z-index: 4;
@@ -1725,28 +1754,36 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   background: #f2f2f2;
   border: solid #b0b0b0;
   border-width: 1px 0 0 2px;
-  -webkit-transform: rotateZ(45deg);
   -webkit-transition: -webkit-transform 0.4s ease;
   -moz-transition: -webkit-transform 0.4s ease;
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
+  -webkit-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
 }
-/* line 147, ../sass/full/scroll_list/_tiles.sass */
+/* line 136, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover.open > .arrow {
   -webkit-transform: scale(0.01) rotateZ(45deg);
+  -moz-transform: scale(0.01) rotateZ(45deg);
+  -ms-transform: scale(0.01) rotateZ(45deg);
+  -o-transform: scale(0.01) rotateZ(45deg);
+  transform: scale(0.01) rotateZ(45deg);
 }
-/* line 151, ../sass/full/scroll_list/_tiles.sass */
+/* line 140, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy {
   visibility: hidden;
 }
-/* line 153, ../sass/full/scroll_list/_tiles.sass */
+/* line 142, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy, .scroll_list.tiles > .scrollable div.details.dummy > svg {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 157, ../sass/full/scroll_list/_tiles.sass */
+/* line 146, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content {
   -webkit-transition: opacity 0.4s ease;
   -moz-transition: opacity 0.4s ease;
@@ -1754,23 +1791,47 @@ div.scroll_list-table-index, .scroll_list.table tr.index td {
   transition: opacity 0.4s ease;
   padding-top: 1.1em;
 }
-/* line 161, ../sass/full/scroll_list/_tiles.sass */
+/* line 150, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.outgoing {
   position: absolute;
   left: 0;
   right: 0;
   opacity: 0;
 }
-/* line 166, ../sass/full/scroll_list/_tiles.sass */
+/* line 155, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.incoming {
   opacity: 0;
 }
-/* line 168, ../sass/full/scroll_list/_tiles.sass */
+/* line 157, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content .sec {
   color: #959fad;
 }
 
-/* line 37, ../sass/full.sass */
+/* line 1, ../sass/full/_split_view.sass */
+section.split_view {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+}
+/* line 5, ../sass/full/_split_view.sass */
+section.split_view > *:first-child {
+  width: 227px;
+  border-right: 1px solid #bbbbbb;
+  background-image: -webkit-image-set(url(../images/remote/ChromeBackground.png) 1x, url(../images/remote/ChromeBackground@2x.png) 2x);
+  -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
+  -moz-box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.24);
+}
+/* line 11, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+}
+
+/* line 39, ../sass/full.sass */
 #svg_defs {
   position: absolute;
   left: -10000px;

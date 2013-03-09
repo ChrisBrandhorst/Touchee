@@ -259,14 +259,14 @@ namespace Touchee {
             }
         }
 
-        /// <summary>
-        /// Gets an array containing the path segments that make up the specified URI. The returned path segments do not contain any slashes.
-        /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public static string[] GetSegments(this Uri uri, bool withSlashes = false) {
-            return withSlashes ? uri.Segments : uri.Segments.Where(s => s != "/").Select(s => s.TrimEnd(new char[] { '/' })).ToArray();
-        }
+        ///// <summary>
+        ///// Gets an array containing the path segments that make up the specified URI. The returned path segments do not contain any slashes.
+        ///// </summary>
+        ///// <param name="uri"></param>
+        ///// <returns></returns>
+        //public static string[] GetSegments(this Uri uri, bool withSlashes = false) {
+        //    return withSlashes ? uri.Segments : uri.Segments.Where(s => s != "/").Select(s => s.TrimEnd(new char[] { '/' })).ToArray();
+        //}
 
 
         /// <summary>

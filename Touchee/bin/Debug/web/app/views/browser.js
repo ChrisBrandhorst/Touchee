@@ -103,7 +103,9 @@ define([
     
     
     
-    // === Model callbacks ===
+    
+    // Model callbacks
+    // ---------------
     
     // Called when the websocket has connected
     connected: function() {
@@ -142,17 +144,11 @@ define([
     statusChanged: function() {
     },
     
-    // === / ===
     
     
-    // popup: null,
-    // 
-    // clickedAlbum: function(ev) {
-    //   if (!this.popup)
-    //     this.popup = new PopupView();
-    //   this.popup.showRelativeTo( $(ev.currentTarget) );
-    //   
-    // }
+    
+    // ???????????????
+    // ---------------
     
     // Called when a container selection is made
     setSelectedContainer: function(container, selectedView) {
@@ -231,8 +227,10 @@ define([
     },
     
     
-    // === Subview handling ===
     
+    
+    // Subview handling
+    // ----------------
     
     // 
     getView: function(fragment) {
@@ -259,6 +257,7 @@ define([
         view.render();
     },
     
+    
     // Remove the given view from the browser
     removeView: function(view) {
       if (this.views[view.fragment]) {
@@ -268,23 +267,20 @@ define([
     },
     
     
-    // === / ===
     
     
-    
-    // === Buttons ===
+    // Buttons
+    // -------
     
     showNav: function(ev) {
       MediaPopupView.showRelativeTo(ev.target);
     },
     
-    // === / ===
     
     
     
-    // === Transport ===
-    
-    // === / ===
+    // Transport
+    // -------
     
   }));
   

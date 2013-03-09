@@ -303,7 +303,7 @@ namespace Touchee.Meta {
                                 break;
                         }
 
-                        Console.WriteLine("cbox counts: " + (box.GetCount()) + ", " + (box1.GetCount()) + ", " + (box2.GetCount()));
+                        //Console.WriteLine("cbox counts: " + (box.GetCount()) + ", " + (box1.GetCount()) + ", " + (box2.GetCount()));
 
                         return new ColorBox[2] { box1, box2 };
                     }

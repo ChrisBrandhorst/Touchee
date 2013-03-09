@@ -12,7 +12,6 @@ define([
   'models/collections/containers',
   
   'models/contents',
-  'models/params',
   'models/control_request',
     
   'views/browser',
@@ -21,7 +20,7 @@ define([
             BaseModule,
             ServerInfo,
             Media, Containers,
-            Contents, Params,
+            Contents,
             ControlRequest,
             BrowserView, MediaPopupView
 ){
@@ -68,17 +67,20 @@ define([
       if (!container) return;
       
       // Build params object
-      params = new Params(decodeURIComponent(params || ""));
+      params = Touchee.Params.parse(params || "");
       
       // If we were not given any specific type to show in the params, we get the first viewType
-      var view      = params.get('view') || _.keys(container.views)[0],
+      var view      = params.view || _.keys(container.views)[0],
           viewModel = container.views[view];
       if (!viewModel)
-        return this.Log.error("No valid viewmodel class specified for container " + containerID) + " (" + view + ")";
+        return this.Log.error("No valid viewmodel class specified for container " + containerID + " (" + view + ")");
       
-      // Explicitly set the view in the params and update the fragment
-      params.set('view', view);
-      var fragment = [Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0], "/", params.toString()].join("");
+      // Find the base and full fragments
+      delete params.view;
+      var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0] + "/view/" + view,
+          paramsStr     = Touchee.Params.compose(params);
+          fragment      = viewFragment + (paramsStr.length ? "/" : "") + paramsStr;
+      params.view = view;
       Backbone.history.navigate(fragment, {replace:true});
       
       // Get the module for this container
@@ -89,7 +91,7 @@ define([
       BrowserView.setSelectedContainer(container, view);
       
       // Build the view
-      module.showContents(container, params, fragment);
+      module.showContents(container, params, viewFragment);
       
       
       // TODO: necessary?

@@ -1,7 +1,8 @@
 define([
   'underscore',
-  'Backbone'
-], function(_, Backbone){
+  'Backbone',
+  'Touchee'
+], function(_, Backbone, Touchee){
   
   var ContentsPart = Backbone.Collection.extend({
     
@@ -10,9 +11,16 @@ define([
     comparator: "_",
     
     
+    // Gets the URL for this contents part
+    url: function(params) {
+      return this.contents.url(_.extend({}, this.params, params));
+    },
+    
+    
     // Constructor
     initialize: function(models, options) {
       this.contents = options.contents;
+      this.params   = options.params;
       
       this.contents.on('reset',   this._contentsReset,  this);
       this.contents.on('change',  this._contentsChange, this);
@@ -54,7 +62,7 @@ define([
     },
     
     
-    // Resets the collection with the models from the given colleciton,
+    // Resets the collection with the models from the given collection,
     // filtered by the sieve method
     _contentsReset: function(collection, options) {
       var models = this.sieve(collection.models);
@@ -65,6 +73,12 @@ define([
     // Resort the view model when an item changes
     _contentsChange: function(model, options) {
       this.sort();
+    },
+    
+    
+    // Override this for getting the URL for the given item
+    getUrl: function(item) {
+      throw("NotImplementedException");
     }
     
     

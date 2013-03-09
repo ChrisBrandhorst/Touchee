@@ -1,0 +1,13 @@
+section.split_view
+  @include display-box
+  
+  > *
+    &:first-child
+      width:        227px
+      border-right: 1px solid #bbb
+      @include      remote-image(ChromeBackground)
+      @include      box-shadow(0 0 5px 0 rgba(0,0,0,.24))
+      
+    &:last-child:not(:first-child)
+      @include box-flex(1)
+  

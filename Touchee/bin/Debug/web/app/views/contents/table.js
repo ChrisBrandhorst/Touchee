@@ -13,20 +13,25 @@ define([
     innerTagName: 'table',
     indicesShow:  true,
     quickscroll:  'alpha',
-    
+    selectable:   'tr:not(.index)',
     
     // The columns to show
     columns:        ['id'],
     
     
+    
+    
+    // ScrollList overrides
+    // --------------------
+    
     // Renders each item of the table
     // VIRTUAL
-    renderItem: function(item, options) {
+    renderItem: function(item, i) {
       var table = this;
-      var rendered = '<tr' + (options.odd ? ' class="odd"' : '') + '>';
+      var rendered = '<tr' + (i % 2 == 0 ? ' class="odd"' : '') + '>';
       
       _.each(this.columns, function(col){
-        rendered += "<td>" + table.getColumnValue(item, col).htmlEncode() + "</td>";
+        rendered += "<td>" + table.getAttribute(item, col).htmlEncode() + "</td>";
       });
       
       rendered += "</tr>";
@@ -44,18 +49,32 @@ define([
     },
     
     
-    // Gets the value for the given column for the given model
-    getColumnValue: function(model, col) {
-      var val = col.call ? col.call(model, model) : model.get(col);
-      if ((!val || val == "") && _.isString(col))
-        val = this.getUnknownColumnValue(model, col);
+    // An item has been selected
+    // VIRTUAL
+    selected: function(item, $item) {
+      Backbone.history.navigate(this.model.getUrl(item), {trigger:true});
+    },
+    
+    
+    
+    
+    // Attribute value getting
+    // -----------------------
+    
+    // Gets the value for the given attribute for the given model
+    // VIRTUAL
+    getAttribute: function(model, attr) {
+      var val = attr.call ? attr.call(model, model) : model.get(attr);
+      if ((!val || val == "") && _.isString(attr))
+        val = this.getUnknownAttributeValue(model, attr);
       return val || "";
     },
     
     
     // Gets the unknown value for the given attribute of the model
-    getUnknownColumnValue: function(model, attr) {
-      return "";
+    // VIRTUAL
+    getUnknownAttributeValue: function(model, attr) {
+      return "&nbsp;";
     }
     
     

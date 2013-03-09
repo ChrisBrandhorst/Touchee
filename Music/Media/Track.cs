@@ -73,23 +73,24 @@ namespace Music.Media {
 
             // Set properties if we have a tag
             if (tagFile != null) {
-                if (!String.IsNullOrEmpty(tag.TitleSort))
-                    this.TitleSort = Util.ToSortName(tag.TitleSort);
+
+                 if (!String.IsNullOrEmpty(tag.TitleSort))
+                    this.TitleSort = tag.TitleSort;
                 if (!String.IsNullOrEmpty(tag.Title))
                     this.Title = tag.Title;
 
                 if (!String.IsNullOrEmpty(tag.JoinedPerformersSort))
-                    this.ArtistSort = Util.ToSortName(tag.JoinedPerformersSort);
+                    this.ArtistSort = tag.JoinedPerformersSort;
                 if (!String.IsNullOrEmpty(tag.JoinedPerformers))
                     this.Artist = tag.JoinedPerformers;
 
                 if (!String.IsNullOrEmpty(tag.AlbumSort))
-                    this.AlbumSort = Util.ToSortName(tag.AlbumSort);
+                    this.AlbumSort = tag.AlbumSort;
                 if (!String.IsNullOrEmpty(tag.Album))
                     this.Album = tag.Album;
 
                 if (tag.AlbumArtistsSort.Length > 0)
-                    this.AlbumSort = Util.ToSortName(String.Join("; ", tag.AlbumArtistsSort));
+                    this.AlbumSort = String.Join("; ", tag.AlbumArtistsSort);
                 if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
                     this.AlbumArtist = tag.JoinedAlbumArtists;
 
@@ -180,7 +181,7 @@ namespace Music.Media {
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AlbumArtist {
-            get { return _albumArtist ?? _artist; }
+            get { return _albumArtist; }
             set { _albumArtist = value; }
         }
 
@@ -214,7 +215,7 @@ namespace Music.Media {
         /// </summary>
         [DataMember(EmitDefaultValue = false)]
         public string AlbumArtistSort {
-            get { return Util.ToSortName(_albumArtistSort ?? AlbumArtist ?? Artist); }
+            get { return Util.ToSortName(_albumArtistSort ?? AlbumArtist); }
             set { _albumArtistSort = value; }
         }
 

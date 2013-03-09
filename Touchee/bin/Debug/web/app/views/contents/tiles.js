@@ -73,7 +73,7 @@ define([
     
     // Renders each item of the list
     // VIRTUAL
-    renderItem: function(item, i, options) {
+    renderItem: function(item, i) {
       var zoomed    = this.data.zoomed == item,
           style     = this.getStyle(item, {string:true, zoomed:zoomed, afterDetails:this.details && i > this.details.afterIdx}),
           klass     = zoomed ? "zoom" : null;

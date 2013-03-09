@@ -8,7 +8,6 @@
     
     tr
       &.odd td
-        background-color: #fafafa
         border-top-color: #ffffff
       &:not(.odd):not(.index) td
         background-color: #f2f4f5
@@ -28,30 +27,21 @@
         
         &:last-child
           padding-right: 85px
-          text-align:   right
+          &:not(:first-child)
+            text-align:   right
       
-      &.selected td, &:not(.index):active td
+      &.selected td
         border-bottom-color:  #6285A6
         border-top-color:     #E5ECF4
         @include              background(linear-gradient(#91B0D3, #7198BE))
         color:                white
-  
-  &.songs > table td
-    &:first-child
-      width: 31.5%
-    &:nth-child(2)
-      width: 27.5%
-    &:last-child
-      width: 135px
-    
-    @media screen and (max-width: 900px)
-      &:first-child
-        width:  46%
-      &:nth-child(2)
-        width: auto
-      &:nth-child(3)
-        display:  none
-        
+
+.split_view > .scroll_list.table:first-child table
+  tr
+    &:not(.odd):not(.index) td
+      background-color: transparent
+    td:last-child
+      padding-right: 50px
 
 div.scroll_list-table-index
   line-height:          23px

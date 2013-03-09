@@ -1,15 +1,16 @@
 define([
   'underscore',
   'Backbone',
-  'models/params'
-], function(_, Backbone, Params){
+  'Touchee'
+], function(_, Backbone, Touchee){
   
   var Track = Backbone.Model.extend({
     
     artworkUrl: function(params) {
-      var parts = [this.collection.container.url(), "artwork/id", this.id];
-      if (params) parts.push(new Params(params).toString());
-      return parts.join('/');
+      return Touchee.getUrl(
+        [this.collection.container.url(), "artwork/id", this.id].join('/'),
+        params
+      );
     },
     
     

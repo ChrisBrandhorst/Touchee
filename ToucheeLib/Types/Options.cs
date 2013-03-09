@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Touchee {
 
@@ -24,12 +24,10 @@ namespace Touchee {
                 return options;
 
             try {
-
-                var parts = Regex.Split(optionsString, @"(?<!\\)\/");
-
+                var parts = optionsString.Split('/');
                 if (parts.Length % 2 == 0) {
                     for (var i = 0; i < parts.Length - 1; i += 2)
-                        options[parts[i]] = new OptionValue(Regex.Unescape(parts[i + 1]));
+                        options[parts[i]] = new OptionValue( HttpUtility.UrlDecode(parts[i + 1]) );
                 }
 
             }

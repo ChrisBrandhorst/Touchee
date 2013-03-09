@@ -3,18 +3,26 @@ define([
   'Backbone',
   'models/container',
   './../track',
-  './../view_models/songs',
-  './../view_models/albums'
-], function(_, Backbone, Container, Track, Songs, Albums){
+  './../view_models/tracks',
+  './../view_models/albums',
+  './../view_models/artists',
+  './../view_models/artist_tracks'
+], function(_, Backbone, Container,
+            Track,
+            Tracks, Albums, Artists,
+            ArtistTracks
+  ){
   
   var MasterPlaylist = Container.extend({
     
     views: {
-      album:    Albums,
-      song:     Songs,
-      artist:   {},
-      genre:    {},
-      playlist: {}
+      artists:    Artists,
+      albums:     Albums,
+      tracks:     Tracks,
+      genres:     {},
+      playlists:  {},
+      
+      artist:     ArtistTracks
     },
     
     contentsItemModel: Track

@@ -51,7 +51,7 @@ define([
       switch (attr) {
         case 'album':       val += " " + I18n.p.music.models.album.one;   break;
         case 'albumArtist': val += " " + I18n.p.music.models.artist.one;  break;
-        case 'title':       val += " " + I18n.p.music.models.song.one;    break;
+        case 'title':       val += " " + I18n.p.music.models.track.one;   break;
       }
       return val;
     },

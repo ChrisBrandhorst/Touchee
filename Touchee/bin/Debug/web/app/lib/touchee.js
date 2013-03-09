@@ -165,6 +165,56 @@ define([
   
   
   
+  // Touchee.Params
+  // -----------------
+  
+  // ...
+  Touchee.Params = {
+    
+    // Parses an params string (with escaped values) to an object
+    parse: function(str) {
+      
+      var parts = str.split('/');
+      if (parts.length % 2 != 0)
+        return {};
+      
+      var parsed = {};
+      for (var i = 0; i < parts.length - 1; i += 2) {
+        var val = decodeURIComponent(parts[i + 1]);
+        parsed[ parts[i] ] = val == "" ? null : val;
+      }
+      
+      return parsed;
+    },
+    
+    // Ouputs an ordered, escaped string representation of the params
+    compose: function(params) {
+      return _.map(
+        _.keys(params),//.sort(),
+        function(key) {
+          return key + "/" + encodeURIComponent(params[key] || "");
+        }
+      ).join('/');
+    }
+    
+  };
+  
+  
+  
+  // Utils
+  // -----------------
+  
+  Touchee.getUrl = function(base, params) {
+    var url = base;
+    if (params) {
+      params = Touchee.Params.compose(params);
+      if (params.length)
+        url += (base.charAt(base.length - 1) == '/' ? '' : '/') + params;
+    }
+    return url;
+  };
+  
+  
   // Set up inheritance for the module and plugin.
   Plugin.extend = Backbone.Model.extend;
   

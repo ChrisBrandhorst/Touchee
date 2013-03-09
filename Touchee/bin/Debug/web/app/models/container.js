@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'models/contents',
-  'models/params'
-], function($, _, Backbone, Contents, Params){
+  'Touchee',
+  'models/contents'
+], function($, _, Backbone, Touchee, Contents){
   
   var Container = Backbone.Model.extend({
     
@@ -35,19 +35,13 @@ define([
     
     // Gets the URL for the container, optionally appended by params
     url: function(params) {
-      var url = Backbone.Model.prototype.url.call(this);
-      if (params) {
-        params = new Params(params);
-        if (params.count) url += "/" + params.toString();
-      }
-      return url;
+      return Touchee.getUrl(Backbone.Model.prototype.url.call(this), params);
     },
-    
     
     
     // Builds an instance of the ViewModel for the given params
     buildViewModel: function(params) {
-      var viewModelClass  = this.views[params.get('view')],
+      var viewModelClass  = this.views[params.view],
           contents        = this.buildContents(params);
       return new viewModelClass(null, {
         contents: contents,

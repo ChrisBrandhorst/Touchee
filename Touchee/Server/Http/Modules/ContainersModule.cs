@@ -20,8 +20,8 @@ namespace Touchee.Server.Http.Modules {
 
         public ContainersModule() : base("/media/{mediaID}/containers") {
             Get["/"] = _ => Index(_);
-            Get["/{containerID}/contents"] = _ => GetContents(_);
-            Get["/{containerID}/contents/{filter}"] = _ => GetContents(_);
+            Get["/{containerID}"] = _ => GetContents(_);
+            Get["/{containerID}/{filter}"] = _ => GetContents(_);
             Get["/{containerID}/artwork/{filter}"] = _ => GetArtwork(_);
         }
 

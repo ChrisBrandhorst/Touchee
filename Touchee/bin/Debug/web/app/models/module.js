@@ -52,11 +52,13 @@ define([
     // Shows the contents for the given parameters. Default implementation is as follows:
     // - Build a view for the given container and params;
     // - Sets the view in the browser view;
-    // - Fetch the contents of the view model.
+    // - Fetch the contents of the view model;
+    // - Start the inner navigation of the view.
     showContents: function(container, params, fragment) {
       var view = this.getView(fragment) || this.buildView(container, params, fragment);
       this.setView(view);
       this.fetchViewContents(view);
+      this.navigate(view, params);
     },
     
     
@@ -68,14 +70,13 @@ define([
     
     // Build the view object for the given container and params.
     buildView: function(container, params, fragment) {
-      var view      = params.get('view'),
+      var view      = params.view,
           viewClass = this.views[view];
       if (!viewClass)
-        return this.Log.error("No valid viewmodel class specified for module " + container.get('plugin') || 'base') + " (" + params.get('view') + ")";
+        return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
       
       var viewInstance = new viewClass({
-        model:  container.buildViewModel(params),
-        params: params
+        model:  container.buildViewModel(params)
       });
       viewInstance.fragment = fragment;
       
@@ -92,6 +93,12 @@ define([
     // 
     fetchViewContents: function(view) {
       view.model.fetch();
+    },
+    
+    
+    //
+    navigate: function(view, params) {
+      // view.navigate(params);
     }
     
     

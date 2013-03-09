@@ -1,10 +1,12 @@
 define([
   'underscore',
   'models/module',
-  './views/songs',
+  './views/tracks',
   './views/albums',
+  './views/artists',
+  './views/_artist',
   './models/containers/master_playlist'
-], function(_, BaseModule, SongsView, AlbumsView){
+], function(_, BaseModule, TracksView, AlbumsView, ArtistsView, ArtistView){
   
   var MusicModule = BaseModule.extend({
     
@@ -12,8 +14,10 @@ define([
     // The different views that are available for this module, together
     // with the corresponding view class.
     views: {
-      song:   SongsView,
-      album:  AlbumsView
+      tracks:  TracksView,
+      albums:  AlbumsView,
+      artists: ArtistsView,
+      artist:  ArtistView
     },
     
     
@@ -21,6 +25,27 @@ define([
     getContainerClass: function(type) {
       // Can't use './models' here....
       return require('plugins/music/models/containers/' + type);
+    },
+    
+    
+    // 
+    navigate: function(view, params) {
+      
+      // We have selected an artist from the artist list
+      if (view instanceof ArtistsView) {
+        
+        // Get the artist
+        var artist = params.artist;
+        if (_.isUndefined(artist)) return;
+        
+        // Build the artist view
+        var artistView = this.buildView( view.model.contents.container, _.extend(params, {view:'artist'}) );
+        artistView.model.fetch();
+        
+        // Set view
+        view.setRight(artistView);
+      }
+      
     }
     
     

@@ -1,7 +1,7 @@
 define({root:{
   
   models: {
-    song: {
+    track: {
       one:  'song',
       more: 'songs'
     },

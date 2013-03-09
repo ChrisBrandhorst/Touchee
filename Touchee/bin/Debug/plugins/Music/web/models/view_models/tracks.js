@@ -4,7 +4,8 @@ define([
   'models/contents_part'
 ], function(_, Backbone, ContentsPart){
   
-  var Songs = ContentsPart.extend({
+  var Tracks = ContentsPart.extend({
+    
     
     // 
     order: function(enumerator) {
@@ -13,8 +14,9 @@ define([
         .ThenBy("m => m.attributes.artistSort");
     }
     
+    
   });
   
-  return Songs;
+  return Tracks;
 
 });

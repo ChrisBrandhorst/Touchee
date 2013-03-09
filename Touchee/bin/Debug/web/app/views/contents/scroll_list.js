@@ -2,10 +2,26 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee'
-], function($, _, Backbone, Touchee) {
+  'Touchee',
+  'views/contents/base'
+], function($, _, Backbone, Touchee, BaseView) {
   
-  var ScrollList = Backbone.View.extend({
+  
+  var selectionDefaults = {
+    // The delay before the selection kicks in
+    delay:      0,
+    // The pixel distance to scroll before the selection is cancelled
+    distance:   5,
+    // The class to apply to selected items
+    klass:      'selected',
+    // Whether to keep the selection after the touch / click has ended
+    keep:       false
+  };
+  
+  
+  
+  
+  var ScrollList = BaseView.extend({
     
     
     
@@ -43,6 +59,10 @@ define([
     extraRows:      80,
     // Sets the quickscroll: false for none, true for default and 'alpha' for alpha version
     quickscroll:    true,
+    // The selector for the selectable items. False if nothing can be selected
+    selectable:     false,
+    // Override for item selection options
+    selection:      {},
     
     
     
@@ -66,6 +86,9 @@ define([
       
       this.calculated = {};
       this.data = {};
+      
+      if (this.selectable)
+        this.selection = _.extend({}, selectionDefaults, this.selection);
     },
     
     
@@ -121,12 +144,12 @@ define([
       // If we have touches, do some advanced events for efficiency
       if ('ontouchstart' in document.documentElement) {
         // Start touch
-        this.$scroller.bind('touchstart.scroll_list', function(ev){
+        this.$scroller.bind(Touchee.START_EVENT+'.scroll_list', function(ev){
           touching = true;
           scrolling = false;
         });
         // Touch end: if we are scrolling, do a render after a small delay
-        this.$scroller.bind('touchend.scroll_list', function(){
+        this.$scroller.bind(Touchee.END_EVENT+'.scroll_list', function(){
           touching = false;
           if (scrolling)
             scrollTimeout = setTimeout(function(){
@@ -160,10 +183,14 @@ define([
       
       // Bind stuff for quickscroll
       if (this.quickscroll) {
-        this._qs.$el.bind('touchstart mousedown', _.bind(this._qsStart, this));
-        this._qs.$el.bind('touchmove mousemove', _.bind(this._qsScroll, this));
-        this._qs.$el.bind('touchend mouseup mouseout', _.bind(this._qsEnd, this));
+        this._qs.$el.bind(Touchee.START_EVENT, _.bind(this._qsStart, this));
+        this._qs.$el.bind(Touchee.MOVE_EVENT, _.bind(this._qsScroll, this));
+        this._qs.$el.bind(Touchee.END_EVENT, _.bind(this._qsEnd, this));
       }
+      
+      // Touch scroll selection
+      if (this.selectable)
+        this.$scroller.on(Touchee.START_EVENT+'.scroll_list', this.selectable, _.bind(this._selectionStart, this));
       
     },
     
@@ -245,7 +272,7 @@ define([
     getItem: function(el) {
       return !el || !el.length
         ? null
-        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.noitem)').length );
+        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.index)').length );
     },
     
     
@@ -510,7 +537,7 @@ define([
         }
         
         // Render the item
-        html += this.renderItem(model, options.first + i, {odd:odd});
+        html += this.renderItem(model, options.first + i);
         odd = !odd;
       }, this));
       return html;
@@ -519,7 +546,7 @@ define([
     
     // Renders a single item
     // ABSTRACT
-    renderItem: function(item, i, options) {
+    renderItem: function(item, i) {
       throw('NotImplementedException');
     },
     
@@ -721,8 +748,126 @@ define([
       }
       
       this.scroller.scrollTop = scrollTop;
-    }
+    },
     
+    
+    
+    
+    // Touch selection
+    // ---------------
+    
+    // An item has been selected
+    // ABSTRACT
+    selected: function(item, $item) {
+      throw("NotImplentedException");
+    },
+    
+    
+    // Called when a touch selection has started
+    // PRIVATE
+    _selectionStart: function(ev) {
+      
+      // Get the item
+      var $item = $(ev.currentTarget);
+      
+      // Set the onclick handler for anchors
+      if ($item[0].tagName.toLowerCase() == 'a')
+        $item[0].onclick = "return false;";
+      
+      // Get currently selected items
+      var $previous = $item.siblings('.' + this.selection.klass);
+      
+      // Selection setter
+      var doSelect = function() {
+        $item.addClass(this.selection.klass);
+        $previous.removeClass(this.selection.klass);
+      };
+      
+      // Set selection data
+      this.data.selection = {
+        $item:      $item,
+        $previous:  $previous,
+        timeout:    _.delay(_.bind(doSelect, this), this.selection.delay),
+        y:          ev.getCoords().y
+      };
+      
+      // Set bindings
+      this.$scroller.on(Touchee.MOVE_EVENT+'.tss', _.bind(this._selectionMove, this));
+      this.$scroller.on(Touchee.END_EVENT+'.tss',  _.bind(this._selectionEnd, this));
+    },
+    
+    
+    // Called when a touch selection is in progress and the touch position has moved
+    // PRIVATE
+    _selectionMove: function(ev) {
+      
+      // Get the data
+      var data = this.data.selection;
+      if (!data) return;
+      
+      // If we are moving enough
+      var diff = Math.abs(data.y - ev.getCoords().y);
+      if (diff > this.selection.distance) {
+        
+        // If we are moving within the timeout, kill the timeout so the new selection is not set
+        if (data.timeout)
+          clearTimeout(data.timeout);
+        
+        // Set that we have moved
+        data.moved = true;
+        
+        // Remove selection on the target item
+        data.$item.removeClass(this.selection.klass);
+        
+        // We do not need move callbacks anymore
+        this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
+      }
+    },
+    
+    
+    // Called when a touch selection is ended
+    // PRIVATE
+    _selectionEnd: function(ev) {
+      
+      // Get the data
+      var data = this.data.selection;
+      if (!data) return;
+      
+      // If we stopped within the timeout, kill the timeout so the new selection is not set
+      if (data.timeout)
+        clearTimeout(data.timeout);
+      
+      // If we have moved, reset the original selection
+      if (data.moved)
+        data.$previous.addClass(this.selection.klass);
+      
+      // Else, select the new item
+      else {
+        
+        // Set selection class (for when we have ended the touch during the timeout)
+        if (this.selection.keep) {
+          data.$item.addClass(this.selection.klass);
+          data.$previous.removeClass(this.selection.klass);
+        }
+        else
+          data.$item.removeClass(this.selection.klass);
+        
+        // If we have a callback function, call that
+        if (_.isFunction(this.selected))
+          this.selected.call(this, this.getItem(data.$item), data.$item);
+        
+        // Else, navigate to the anchor
+        else if (data.$item.is('a'))
+          Backbone.history.navigate(data.$item.attr('href'), {trigger:true});
+      }
+      
+      // Unbind all
+      this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
+      this.$scroller.off(Touchee.END_EVENT + '.tss');
+      delete this.data.selection;
+      
+      return false;
+    }
     
     
   });

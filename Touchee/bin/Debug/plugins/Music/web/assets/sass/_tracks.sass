@@ -1,0 +1,16 @@
+// Tracks view
+.scroll_list.table.tracks > table td
+  &:first-child
+    width: 31.5%
+  &:nth-child(2)
+    width: 27.5%
+  &:last-child
+    width: 135px
+  
+  @media screen and (max-width: 900px)
+    &:first-child
+      width:  46%
+    &:nth-child(2)
+      width: auto
+    &:nth-child(3)
+      display:  none

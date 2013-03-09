@@ -5,19 +5,16 @@ define([
   'views/contents/table'
 ], function($, _, Backbone, TableView) {
   
-  var SongsView = TableView.extend({
+  var ArtistsView = TableView.extend({
     
     // ScrollList properties
-    contentType:    'songs',
-    indexAttribute: 'titleSort',
+    contentType:    'artists',
+    indexAttribute: 'artistSort',
     
     
     // Table properties
     columns: [
-      'title',
-      'artist',
-      'album',
-      function(song){ return String.duration(song.get('duration')); }
+      'artist'
     ],
     
     
@@ -37,10 +34,23 @@ define([
     // Gets the models
     getModels: function(first, count) {
       return this.model.models.slice(first, first + count);
+    },
+    
+    
+    // Gets the index of the given item
+    getIndex: function(item) {
+      return this.model.models.indexOf(item);
+    },
+    
+    
+    // Gets the unknown value for the given attribute of the model
+    getUnknownAttributeValue: function(model, attr) {
+      return I18n.unknown + " " + I18n.p.music.models.artist.one;
     }
+    
     
   });
   
-  return SongsView;
-  
+  return ArtistsView;
+
 });
