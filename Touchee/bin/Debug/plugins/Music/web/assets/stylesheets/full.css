@@ -27,7 +27,7 @@
 
 /* line 5, ../sass/_albums.sass */
 .scroll_list.albums > .scrollable > ul > li {
-  background-image: url(../../../../assets/images/remote/missing-music-white.png);
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/missing-music-white.png) 1x, url(../../../../assets/images/remote/missing-music-white@2x.png) 2x);
 }
 /* line 9, ../sass/_albums.sass */
 .scroll_list.albums .details .content {
@@ -181,12 +181,84 @@
 .split_view.artists > .artist {
   color: #606060;
 }
-/* line 5, ../sass/_artist.sass */
-.split_view.artists > .artist h1 {
-  font-size: 1.8em;
-  padding: 14px 0 0 11px;
+/* line 6, ../sass/_artist.sass */
+.split_view.artists > .artist header h1 {
+  padding: 14px 14px 0 11px;
+  display: -webkit-flex;
 }
 /* line 9, ../sass/_artist.sass */
-.split_view.artists > .artist h2 {
-  padding: 4px 0 0 11px;
+.split_view.artists > .artist header h1 span {
+  min-width: 0;
+  font-size: 1.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 13, ../sass/_artist.sass */
+.split_view.artists > .artist header h1 div {
+  margin: -3px 0 0 8px;
+  white-space: nowrap;
+}
+/* line 17, ../sass/_artist.sass */
+.split_view.artists > .artist header button {
+  width: 46px;
+  height: 26px;
+  background: no-repeat center;
+  vertical-align: top;
+}
+/* line 22, ../sass/_artist.sass */
+.split_view.artists > .artist header button[data-button=play] {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkPlay.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkPlay@2x.png) 2x);
+}
+/* line 23, ../../../../../web/app/assets/sass/_mixins.sass */
+.split_view.artists > .artist header button[data-button=play]:active {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkPlayPressed.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkPlayPressed@2x.png) 2x);
+}
+/* line 24, ../sass/_artist.sass */
+.split_view.artists > .artist header button[data-button=shuffle] {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkShuffle.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkShuffle@2x.png) 2x);
+}
+/* line 23, ../../../../../web/app/assets/sass/_mixins.sass */
+.split_view.artists > .artist header button[data-button=shuffle]:active {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkShufflePressed.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkShufflePressed@2x.png) 2x);
+}
+/* line 26, ../sass/_artist.sass */
+.split_view.artists > .artist header button[data-button=menu] {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkMenu.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkMenu@2x.png) 2x);
+}
+/* line 23, ../../../../../web/app/assets/sass/_mixins.sass */
+.split_view.artists > .artist header button[data-button=menu]:active {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterDarkMenuPressed.png) 1x, url(../../../../assets/images/remote/ControlClusterDarkMenuPressed@2x.png) 2x);
+}
+/* line 29, ../sass/_artist.sass */
+.split_view.artists > .artist header button:nth-child(n+2) {
+  position: relative;
+}
+/* line 31, ../sass/_artist.sass */
+.split_view.artists > .artist header button:nth-child(n+2)::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  top: 0;
+  left: -2px;
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/ControlClusterSeparatorDark.png) 1x, url(../../../../assets/images/remote/ControlClusterSeparatorDark@2x.png) 2x);
+}
+/* line 41, ../sass/_artist.sass */
+.split_view.artists > .artist header > div {
+  padding: 4px 0 11px 11px;
+}
+/* line 47, ../sass/_artist.sass */
+.split_view.artists > .artist > .artist_tracks img {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/missing-music-white.png) 1x, url(../../../../assets/images/remote/missing-music-white@2x.png) 2x);
+}
+/* line 51, ../sass/_artist.sass */
+.split_view.artists > .artist > .artist_tracks td:first-child {
+  color: #999999;
+  width: 34px;
+  text-align: right;
+}
+/* line 55, ../sass/_artist.sass */
+.split_view.artists > .artist > .artist_tracks td:last-child {
+  width: 135px;
 }

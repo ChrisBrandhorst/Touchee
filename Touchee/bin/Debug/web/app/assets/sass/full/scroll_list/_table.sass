@@ -1,17 +1,17 @@
+// Scroll list table view
 .scroll_list.table
   
+  // Entire table
   table
     border-collapse:  separate
     border-spacing:   0
     table-layout:     fixed
     width:            100%
     
+    // Each row
     tr
-      &.odd td
-        border-top-color: #ffffff
-      &:not(.odd):not(.index) td
-        background-color: #f2f4f5
-        border-top-color: #fbfbfb
+
+      // Each cell
       td
         height:         40px
         padding:        1px 0 0 13px
@@ -22,40 +22,55 @@
         color:          #070707
         font-size:      110%
         
+        // First column is bold
         &:first-child
           font-weight: bold
         
+        // Last column aligned to the right
         &:last-child
           padding-right: 85px
           &:not(:first-child)
             text-align:   right
-      
+
+      // Color odd and even rows different
+      &.odd td
+        border-top-color: #ffffff
+      &:not(.odd):not(.index) td
+        background-color: #f2f4f5
+        border-top-color: #fbfbfb
+
+      // Selected row
       &.selected td
         border-bottom-color:  #6285A6
         border-top-color:     #E5ECF4
         @include              background(linear-gradient(#91B0D3, #7198BE))
         color:                white
 
+  // Floating index
+  .scroll_list-table-index
+    line-height:          23px
+    border-style:         solid
+    border-width:         1px 0
+    font-weight:          bold
+    padding:              1px 0 0 13px
+    color:                #070707
+
+  // Floating index & inline index
+  .scroll_list-table-index, tr.index td
+    height:               27px
+    font-size:            130%
+    text-transform:       capitalize
+    @include              text-shadow(0 1px 0 white)
+    border-top-color:     #e6e6e6
+    border-bottom-color:  #a9a9a9
+    @include              background(linear-gradient(#ddd, #d7d7d7))
+
+
+// When in spliy view, do not use background color
+// and change the spacing for the quickscroll
 .split_view > .scroll_list.table:first-child table
   tr
     &:not(.odd):not(.index) td
       background-color: transparent
     td:last-child
       padding-right: 50px
-
-div.scroll_list-table-index
-  line-height:          23px
-  border-style:         solid
-  border-width:         1px 0
-  font-weight:          bold
-  padding:              1px 0 0 13px
-  color:                #070707
-  
-div.scroll_list-table-index, .scroll_list.table tr.index td
-  height:               27px
-  font-size:            130%
-  text-transform:       capitalize
-  @include              text-shadow(0 1px 0 white)
-  border-top-color:     #e6e6e6
-  border-bottom-color:  #a9a9a9
-  @include              background(linear-gradient(#ddd, #d7d7d7))

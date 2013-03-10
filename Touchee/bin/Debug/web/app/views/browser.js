@@ -212,6 +212,9 @@ define([
     
     // Gets the view text for the given container and view
     _getViewText: function(container, view) {
+      if (view == "tracks") {
+        debugger;
+      }
       var plugin  = container.get('plugin'),
           key     = 'p.'+plugin+'.views.'+view,
           text    = I18n.t(key);

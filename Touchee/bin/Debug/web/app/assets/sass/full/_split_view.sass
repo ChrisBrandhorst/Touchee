@@ -3,11 +3,23 @@ section.split_view
   
   > *
     &:first-child
-      width:        227px
+      width:        228px
       border-right: 1px solid #bbb
       @include      remote-image(ChromeBackground)
       @include      box-shadow(0 0 5px 0 rgba(0,0,0,.24))
+      position:     relative
+      z-index:      3
       
     &:last-child:not(:first-child)
-      @include box-flex(1)
-  
+      @include	box-flex(1)
+      @include 	display-box
+      @include	box-orient(vertical)
+
+      > header
+        position:       relative
+        z-index:        2
+        border-bottom:  1px solid #e1e1e1
+        @include        background( $browserBackgroundColor linear-gradient(top, #f9f9f9, #fafafa, #fefefe, #f6f6f6) no-repeat bottom left)
+        @include        background-size(100% 4px)
+        + *
+          @include      box-flex(1)

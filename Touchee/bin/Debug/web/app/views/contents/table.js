@@ -7,13 +7,15 @@ define([
   
   var TableView = ScrollListView.extend({
     
+    
     // ScrollList properties
     dummy:        '<tr><td colspan="4">&nbsp;</td></tr>',
     listType:     'table',
     innerTagName: 'table',
-    indicesShow:  true,
+    showIndex:    true,
     quickscroll:  'alpha',
     selectable:   'tr:not(.index)',
+    
     
     // The columns to show
     columns:        ['id'],
@@ -31,7 +33,7 @@ define([
       var rendered = '<tr' + (i % 2 == 0 ? ' class="odd"' : '') + '>';
       
       _.each(this.columns, function(col){
-        rendered += "<td>" + table.getAttribute(item, col).htmlEncode() + "</td>";
+        rendered += "<td>" + table.getAttribute(item, col).toString().htmlEncode() + "</td>";
       });
       
       rendered += "</tr>";
@@ -65,16 +67,7 @@ define([
     // VIRTUAL
     getAttribute: function(model, attr) {
       var val = attr.call ? attr.call(model, model) : model.get(attr);
-      if ((!val || val == "") && _.isString(attr))
-        val = this.getUnknownAttributeValue(model, attr);
       return val || "";
-    },
-    
-    
-    // Gets the unknown value for the given attribute of the model
-    // VIRTUAL
-    getUnknownAttributeValue: function(model, attr) {
-      return "&nbsp;";
     }
     
     

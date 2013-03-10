@@ -9,7 +9,7 @@ define([
     
     // Get all tracks for the current artist
     sieve: function(models) {
-      var artist = this.params.artist.toLowerCase();
+      var artist = this.params.artist ? this.params.artist.toLowerCase() : null;
       return _.filter(models, function(track){
         var a = track.get('artist');
         return a == null ? artist == null : a.toLowerCase() == artist;

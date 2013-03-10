@@ -36,16 +36,12 @@ define([
     initialize: function(){},
     
     
-    // Build the container object for the given container attribetus
+    // Build the container object for the given container attributes
+    // Implement the getContainerClass method for custom behaviour
+    // PRIVATE
     buildContainer: function(attrs, options) {
-      var containerClass = this.getContainerClass(attrs.type);
+      var containerClass = (_.isFunction(this.getContainerClass) && this.getContainerClass.call(this, attrs.type)) || Container;
       return new containerClass(attrs, options);
-    },
-    
-    
-    // Get the container class for the given type
-    getContainerClass: function(type) {
-      return Container;
     },
     
     
@@ -71,7 +67,7 @@ define([
     // Build the view object for the given container and params.
     buildView: function(container, params, fragment) {
       var view      = params.view,
-          viewClass = this.views[view];
+          viewClass = this._getViewClass(view);
       if (!viewClass)
         return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
       
@@ -81,6 +77,14 @@ define([
       viewInstance.fragment = fragment;
       
       return viewInstance;
+    },
+
+
+    // Gets the view class for the given view description
+    // Implement the getViewClass method for custom behaviour
+    // PRIVATE
+    _getViewClass: function(view) {
+      return (_.isFunction(this.getViewClass) && this.getViewClass.apply(this, arguments)) || this.views[view];
     },
     
     

@@ -9,6 +9,7 @@ define({root:{
       one:  'artist',
       more: 'artists'
     },
+    albumArtist: 'artist',
     album: {
       one:  'album',
       more: 'albums'

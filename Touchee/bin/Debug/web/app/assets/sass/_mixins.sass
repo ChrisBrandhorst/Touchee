@@ -5,9 +5,12 @@
   white-space:    nowrap
 
 
-// Background image with retina alternative
-@mixin retina-image($image)
+// Background image with retina alternative and optional pressed state
+@mixin retina-image($image, $pressed: false)
   background-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x)
+  @if $pressed == pressed
+    &:active
+      background-image: -webkit-image-set(url(#{$image}Pressed.png) 1x, url(#{$image}Pressed@2x.png) 2x)
 
 // Border image
 @mixin border-image($image, $top, $right, $bottom, $left, $mode: stretch)
@@ -20,10 +23,16 @@
   border-width:         $top+px $right+px $bottom+px $left+px
 
 
-// Remote background image with retina alternative
-@mixin remote-image($image)
-  @include retina-image("../images/remote/#{$image}")
-
+// Remote background image with retina alternative and optional pressed state
+@mixin remote-image($image, $a: false, $b: false)
+  $pressed: false
+  $plugin: false
+  $path: ".."
+  @if $a == pressed or $b == pressed
+    $pressed: pressed
+  @if $a == plugin or $b == plugin
+    $path: "../../../../assets"
+  @include retina-image("#{$path}/images/remote/#{$image}", $pressed)
 
 // Remote border image with retina alternative
 @mixin remote-border-image($image, $top, $right, $bottom, $left, $mode: stretch)

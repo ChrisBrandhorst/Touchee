@@ -15,17 +15,27 @@ define([
   
   var MasterPlaylist = Container.extend({
     
+    
+    // The model used for the items within the contents object
+    contentsItemModel: Track,
+    
+    
+    // The different views that are available for this container, together
+    // with the corresponding viewmodel class.
     views: {
-      artists:    Artists,
-      albums:     Albums,
-      tracks:     Tracks,
-      genres:     {},
-      playlists:  {},
-      
-      artist:     ArtistTracks
+      artist:    Artists,
+      album:     Albums,
+      track:     Tracks,
+      genre:     {},
+      playlist:  {}
     },
     
-    contentsItemModel: Track
+    
+    // Gets the view model class for the given view description
+    getViewModelClass: function(view) {
+      if (view == 'artist_track') return ArtistTracks;
+    }
+
     
   });
 

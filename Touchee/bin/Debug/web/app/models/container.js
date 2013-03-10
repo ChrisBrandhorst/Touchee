@@ -41,7 +41,7 @@ define([
     
     // Builds an instance of the ViewModel for the given params
     buildViewModel: function(params) {
-      var viewModelClass  = this.views[params.view],
+      var viewModelClass  = this._getViewModelClass(params.view),
           contents        = this.buildContents(params);
       return new viewModelClass(null, {
         contents: contents,
@@ -57,7 +57,7 @@ define([
       if (this._contents)
         contents = this._contents;
       else {
-        var contentsClass = this.getContentsClass(params),
+        var contentsClass = this._getContentsClass(params),
         contents = new contentsClass(null, {
           container:  this,
           params:     params,
@@ -69,33 +69,23 @@ define([
       
       return contents;
     },
-    
-    
+
+
+    // Gets the view model class for the given view description
+    // Implement the getViewModelClass method for custom behaviour
+    // PRIVATE
+    _getViewModelClass: function(view) {
+      return (_.isFunction(this.getViewModelClass) && this.getViewModelClass.apply(this, arguments)) || this.views[view];
+    },
+
+
     // Returns the Contents class for the given params
-    getContentsClass: function(params) {
-      return Contents;
+    // Implement the getContentsClass method for custom behaviour
+    // PRIVATE
+    _getContentsClass: function(view) {
+      return (_.isFunction(this.getContentsClass) && this.getContentsClass.apply(this, arguments)) || Contents;
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    // getArtworkUrl: function(options) {
-    //   options = _.extend({
-    //     ratio: window.devicePixelRatio
-    //   }, options || {});
-    //   
-    //   var item = options.item;
-    //   if (item) delete options.item;
-    //   
-    //   options = $.param(options);
-    //   return [this.url(), "/artwork?", options, (options.length ? "&" : ""), "item=", item ? encodeForParams(item) : ""].join('');
-    // }
     
   });
   

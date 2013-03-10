@@ -15,13 +15,14 @@ define([
     dummy:        '<li>&nbsp;<span>&nbsp;</span></li>',
     listType:     'tiles',
     innerTagName: 'ul',
-    indicesShow:  false,
+    showIndex:  false,
     extraRows:    10,
     
     
     // Tiles view properties
     line1:        'id',
     line2:        'id',
+    artwork:      true,
     
     
     // Override the size of the artwork to be loaded for each tile
@@ -97,7 +98,7 @@ define([
     afterRender: function(items) {
       
       // Do nothing if we have no items in view or no artwork provisioning
-      if (!items.count || !this.getArtworkUrl) return;
+      if (!items.count || this.artwork === false) return;
       
       // Store the last render items
       this._lastRender = items;
@@ -106,7 +107,7 @@ define([
       this._setArtworkIter(
         items.firstInView,
         items.firstInView - (items.firstInView - items.first),
-        items.firstInView + items.countInView - 1,
+        items.firstInView + (items.full ? items.count : items.countInView) - 1,
         items.timestamp
       );
       
@@ -157,16 +158,7 @@ define([
     // VIRTUAL
     getAttribute: function(model, attr) {
       var val = attr.call ? attr.call(model, model) : model.get(attr);
-      if ((!val || val == "") && _.isString(attr))
-        val = this.getUnknownAttributeValue(model, attr);
       return val || "";
-    },
-    
-    
-    // Gets the unknown value for the given attribute of the model
-    // VIRTUAL
-    getUnknownAttributeValue: function(model, attr) {
-      return "&nbsp;";
     },
     
     
@@ -349,7 +341,7 @@ define([
       // The item that is detailed
       props.item      = remove ? existing.item : this.getItem($el);
       // The index of the item
-      props.itemIdx   = this.getIndex(props.item);
+      props.itemIdx   = this.getModelIndex(props.item);
       // The index of the item after which the other items should make room for the details
       props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
       // The DOM elements which should make room

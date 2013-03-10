@@ -3,9 +3,8 @@ define([
   'underscore',
   'Backbone',
   'views/contents/split',
-  './_artists_list',
-  './_artist'
-], function($, _, Backbone, SplitView, ArtistsListView, ArtistView) {
+  './_artists_list'
+], function($, _, Backbone, SplitView, ArtistsListView) {
   
   
   var ArtistsView = SplitView.extend({

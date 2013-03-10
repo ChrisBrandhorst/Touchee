@@ -1,11 +1,14 @@
 define([
   'underscore',
   'Backbone',
-  'Touchee'
-], function(_, Backbone, Touchee){
+  'Touchee',
+  'models/item'
+], function(_, Backbone, Touchee, Item){
   
-  var Track = Backbone.Model.extend({
+  var Track = Item.extend({
     
+
+    // The artwork URL for this track (and thus, the album)
     artworkUrl: function(params) {
       return Touchee.getUrl(
         [this.collection.container.url(), "artwork/id", this.id].join('/'),
@@ -14,11 +17,14 @@ define([
     },
     
     
+    // The string representation of the album. Needed for getting all unique albums
+    // TODO: create an albumID
     getAlbumSelector: function() {
       return (this.get('album') || Touchee.nonAlphaSortValue) + "|" + (this.get('albumArtist') || this.get('artist') || Touchee.nonAlphaSortValue).toLowerCase();
     },
     
     
+    // Gets all tracks of the album the current tack is on
     getTracksOfAlbum: function() {
       var selector = this.getAlbumSelector(),
           tracks   = this.collection.filter(function(track){ return track.getAlbumSelector() == selector; });
@@ -27,6 +33,17 @@ define([
         .OrderBy("t => t.discNumber || Touchee.nonAlphaSortValue")
         .ThenBy("t => t.trackNumber || Touchee.nonAlphaSortValue")
         .ToArray();
+    },
+
+
+    // 
+    get$: function(attr, val) {
+      switch(attr) {
+        case 'duration':
+          return String.duration(this.get('duration'));
+        case 'albumSelector':
+          return this.getAlbumSelector();
+      }
     }
     
     

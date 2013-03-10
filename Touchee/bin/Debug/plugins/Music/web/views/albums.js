@@ -3,11 +3,11 @@ define([
   'underscore',
   'Backbone',
   'models/artwork',
-  'views/contents/tiles',
+  'views/contents/common_tiles',
   './_album_details'
-], function($, _, Backbone, Artwork, TilesView, AlbumDetailsView) {
+], function($, _, Backbone, Artwork, CommonTilesView, AlbumDetailsView) {
   
-  var AlbumsView = TilesView.extend({
+  var AlbumsView = CommonTilesView.extend({
     
     // ScrollList properties
     contentType:    'albums',
@@ -15,55 +15,8 @@ define([
     
     
     // Tiles view properties
-    line1:      'album',
-    line2:      'albumArtist',
-    artworkSize: 250,
-    
-    
-    // Constructor
-    initialize: function(options) {
-      TilesView.prototype.initialize.apply(this, arguments);
-      this.model.on('reset add remove change', this.contentChanged, this);
-    },
-    
-    
-    // Gets the model count
-    getCount: function() {
-      return this.model.length;
-    },
-    
-    
-    // Gets the set of models for the given range
-    getModels: function(first, count) {
-      return this.model.models.slice(first, first + count);
-    },
-    
-    
-    // Gets the index of the given item
-    getIndex: function(item) {
-      return this.model.models.indexOf(item);
-    },
-    
-    
-    // Gets the unknown value for the given attribute of the model
-    getUnknownAttributeValue: function(model, attr) {
-      var val = I18n.unknown;
-      switch (attr) {
-        case 'album':       val += " " + I18n.p.music.models.album.one;   break;
-        case 'albumArtist': val += " " + I18n.p.music.models.artist.one;  break;
-        case 'title':       val += " " + I18n.p.music.models.track.one;   break;
-      }
-      return val;
-    },
-    
-    
-    // Gets the artwork url for the given item
-    getArtworkUrl: function(item, size) {
-      return item.artworkUrl
-        ? item.artworkUrl( {size: size || this.calculated.size.inner.width} )
-        : null;
-    },
-    
+    line1:      'album$',
+    line2:      'albumArtist$',
     
     // When an album is clicked, zoom the tile and show the details
     clickedTile: function(ev) {

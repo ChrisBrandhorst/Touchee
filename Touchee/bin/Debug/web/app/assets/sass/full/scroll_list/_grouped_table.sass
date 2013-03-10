@@ -1,0 +1,87 @@
+$columnWidth:           155px
+$groupedTableImageSize: 135px
+
+// Scroll list grouped table view
+.scroll_list.grouped_table
+  
+  // Area seperator
+  &::before
+    content:      ''
+    position:     absolute
+    z-index:      2
+    top:          0
+    left:         $columnWidth
+    bottom:       0
+    width:        0
+    border-left:  1px solid rgba(0,0,0,.15)
+    border-right: 1px solid rgba(0,0,0,.02)
+
+  // The entire list
+  ul
+
+    // Each group
+    li
+      margin-left:  $columnWidth
+
+      img
+        width:            $groupedTableImageSize
+        height:           $groupedTableImageSize
+        background-size:  100%
+        margin-left:      ($columnWidth - $groupedTableImageSize) / 2 - $columnWidth
+        @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
+        @include          translate3d(0,0,0)
+
+      // Group title
+      h2
+        margin-top:   -$groupedTableImageSize
+
+      // Items per group
+      table
+        width:            100%
+        border-collapse:  separate
+        border-spacing:   0
+
+        // Each row
+        tr
+          // Each cell
+          td
+            height:         40px
+            padding:        0 5px
+            font-size:      1.1em
+            vertical-align: middle
+            color:          #292929
+            border-top:     1px solid #fefefe
+            border-bottom:  1px solid #e1e1e1
+
+            // First colum is bold
+            &:first-child
+              font-weight: bold
+
+            // Last column aligned to the right
+            &:last-child
+              padding-right:  59px
+              &:not(:first-child)
+                text-align:   right
+
+          // Selected row
+          &.selected td
+            border-bottom-color:  #6285A6
+            border-top-color:     white
+            @include              background(linear-gradient(#91B0D3, #7198BE))
+            color:                white !important
+
+  // Floating index
+  .scroll_list-grouped_table-index
+    left: $columnWidth
+
+  // Floating index & group title (inline index)
+  .scroll_list-grouped_table-index, ul li h2
+    height:           40px
+    padding:          10px 0 0 13px
+    font-weight:      bold
+    font-size:        1.4em
+    color:            #454751
+    text-shadow:      0 1px 1px white
+    border-top:       1px solid #d7d7d7
+    @include          box-shadow(0 1px 0 0 #fefefe)
+    background-color: #ebebeb
