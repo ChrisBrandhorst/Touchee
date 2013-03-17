@@ -16,24 +16,42 @@ $groupedTableImageSize: 135px
     border-left:  1px solid rgba(0,0,0,.15)
     border-right: 1px solid rgba(0,0,0,.02)
 
+
+  ul li img, .index img
+    width:            $groupedTableImageSize
+    height:           $groupedTableImageSize
+    background-size:  100%
+    margin-left:      ($columnWidth - $groupedTableImageSize) / 2 - $columnWidth
+    @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
+    @include          translate3d(0,0,0)
+
+  .index img
+    position: absolute
+    top:      10px - 1px
+    left:     0
+
   // The entire list
   ul
-
+    position: relative
     // Each group
     li
       margin-left:  $columnWidth
 
       img
-        width:            $groupedTableImageSize
-        height:           $groupedTableImageSize
-        background-size:  100%
+        // width:            $groupedTableImageSize
+        // height:           $groupedTableImageSize
+        // background-size:  100%
         margin-left:      ($columnWidth - $groupedTableImageSize) / 2 - $columnWidth
-        @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
-        @include          translate3d(0,0,0)
+        // @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
+        // @include          translate3d(0,0,0)
+        position:             absolute
+
+        &.hidden
+          @include translate3d(-10000px, 0, 0)
 
       // Group title
       h2
-        margin-top:   -$groupedTableImageSize
+        // margin-top:   -$groupedTableImageSize
 
       // Items per group
       table

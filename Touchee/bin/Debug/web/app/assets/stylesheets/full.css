@@ -88,6 +88,8 @@ a, input {
 /* line 37, ../sass/full/browser/_layout.sass */
 #browser > footer {
   height: 44px;
+  position: relative;
+  z-index: 4;
 }
 
 /* line 53, ../sass/full/browser/_header.sass */
@@ -1546,12 +1548,8 @@ body > section:not(.popup) {
   border-left: 1px solid rgba(0, 0, 0, 0.15);
   border-right: 1px solid rgba(0, 0, 0, 0.02);
 }
-/* line 23, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li {
-  margin-left: 155px;
-}
-/* line 26, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li img {
+/* line 20, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li img, .scroll_list.grouped_table .index img {
   width: 135px;
   height: 135px;
   background-size: 100%;
@@ -1565,17 +1563,40 @@ body > section:not(.popup) {
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
 }
-/* line 35, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li h2 {
-  margin-top: -135px;
+/* line 28, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table .index img {
+  position: absolute;
+  top: 9px;
+  left: 0;
 }
-/* line 39, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 34, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul {
+  position: relative;
+}
+/* line 37, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li {
+  margin-left: 155px;
+}
+/* line 40, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li img {
+  margin-left: -145px;
+  position: absolute;
+}
+/* line 49, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li img.hidden {
+  -webkit-transform: translate3d(-10000px, 0, 0);
+  -moz-transform: translate3d(-10000px, 0, 0);
+  -ms-transform: translate3d(-10000px, 0, 0);
+  -o-transform: translate3d(-10000px, 0, 0);
+  transform: translate3d(-10000px, 0, 0);
+}
+/* line 57, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
-/* line 47, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 65, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td {
   height: 40px;
   padding: 0 5px;
@@ -1585,19 +1606,19 @@ body > section:not(.popup) {
   border-top: 1px solid #fefefe;
   border-bottom: 1px solid #e1e1e1;
 }
-/* line 57, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 75, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:first-child {
   font-weight: bold;
 }
-/* line 61, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 79, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:last-child {
   padding-right: 59px;
 }
-/* line 63, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 81, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:last-child:not(:first-child) {
   text-align: right;
 }
-/* line 67, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 85, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr.selected td {
   border-bottom-color: #6285a6;
   border-top-color: white;
@@ -1608,11 +1629,11 @@ body > section:not(.popup) {
   background: linear-gradient(#91b0d3, #7198be);
   color: white !important;
 }
-/* line 74, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 92, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table .scroll_list-grouped_table-index {
   left: 155px;
 }
-/* line 78, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 96, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table .scroll_list-grouped_table-index, .scroll_list.grouped_table ul li h2 {
   height: 40px;
   padding: 10px 0 0 13px;

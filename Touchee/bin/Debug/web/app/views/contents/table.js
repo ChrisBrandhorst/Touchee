@@ -29,8 +29,13 @@ define([
     // Renders each item of the table
     // VIRTUAL
     renderItem: function(item, i) {
-      var table = this;
-      var rendered = '<tr' + (i % 2 == 0 ? ' class="odd"' : '') + '>';
+      var table = this,
+          klass = i % 2 == 0 ? "odd" : null;
+      
+      if (this.data.selection && this.data.selection.item == item)
+        klass = (klass || "") + " " + this.selection.klass;
+
+      var rendered = '<tr' + (klass ? ' class="' + klass + '"' : '') + '>';
       
       _.each(this.columns, function(col){
         rendered += "<td>" + table.getAttribute(item, col).toString().htmlEncode() + "</td>";

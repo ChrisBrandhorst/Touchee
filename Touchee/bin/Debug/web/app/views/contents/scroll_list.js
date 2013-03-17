@@ -51,14 +51,14 @@ define([
     scroller:       false,
 
     // Whether to show indices in the list
-    showIndex:    false,
+    showIndex:      false,
     // The attribute to use as index value. If set to falsy, the scroller will not be indexed
     indexAttribute: null,
 
     // From which number of items the list is rendered in one piece
     min:            0,
     // The number of extra rows to render outside the visible portion
-    extraRows:      0,
+    extraRows:      80,
     // Sets the quickscroll: false for none, true for default and 'alpha' for alpha version
     quickscroll:    true,
     // The selector for the selectable items. False if nothing can be selected
@@ -66,6 +66,8 @@ define([
     // Override for item selection options
     selection:      {},
     
+    // The render delay to use (after how many ms of no scrolling a re-render is done)
+    renderDelay:    100,
     
     
     
@@ -149,29 +151,35 @@ define([
           scrolling = false;
         });
         // Touch end: if we are scrolling, do a render after a small delay
-        this.$scroller.bind(Touchee.END_EVENT+'.scroll_list', function(){
+        this.$scroller.bind(Touchee.END_EVENT+'.scroll_list touchcancel.scroll_list', function(){
           touching = false;
           if (scrolling)
             scrollTimeout = setTimeout(function(){
-              scrollList.renderInView();
+              scrollList._calculateInView();
+              scrollList._renderInView();
+              if (scrollList.showIndex)
+                scrollList._positionFloatingIndex();
               scrollTimeout = null;
-            }, 100);
+            }, scrollList.renderDelay * 2);
           scrolling = false;
         });
         // If we are scrolling, position the floating index.
         // We only render if we are scrolling without touching
         this.$scroller.bind('scroll.scroll_list', function(){
           scrolling = touching;
+          if (!touching && !scrollTimeout) {
+            scrollList._calculateInView();
+            scrollList._renderInView();
+          }
           if (scrollList.showIndex)
             scrollList._positionFloatingIndex();
-          if (!touching && !scrollTimeout)
-            scrollList.renderInView();
         });
       }
       
       // Else, just use regular debounce on scroll
       else {
-        this.$scroller.bind('scroll.scroll_list', _.debounce(_.bind(this.renderInView, this), 100));
+        this.$scroller.bind('scroll.scroll_list', _.bind(this._calculateInView, this));
+        this.$scroller.bind('scroll.scroll_list', _.debounce(_.bind(this._renderInView, this), scrollList.renderDelay));
         if (scrollList.showIndex)
           this.$scroller.bind('scroll.scroll_list', _.bind(this._positionFloatingIndex, this));
       }
@@ -185,7 +193,7 @@ define([
       if (this.quickscroll) {
         this._qs.$el.bind(Touchee.START_EVENT, _.bind(this._qsStart, this));
         this._qs.$el.bind(Touchee.MOVE_EVENT, _.bind(this._qsScroll, this));
-        this._qs.$el.bind(Touchee.END_EVENT+' mouseout', _.bind(this._qsEnd, this));
+        this._qs.$el.bind(Touchee.END_EVENT+' mouseout touchcancel', _.bind(this._qsEnd, this));
       }
       
       // Touch scroll selection
@@ -199,7 +207,7 @@ define([
     // PRIVATE
     _unbind: function() {
       $(window).unbind('resize.scroll_list-' + this.id);
-      this.$scroller.unbind('.scroll_list');
+      this.$scroller.unbind('.scroll_list').off('.scroll_list');
       if (this.quickscroll)
         this._qs.$el.unbind();
     },
@@ -284,7 +292,8 @@ define([
         this.contentChanged();
       if (this.index)
         this.calculated.indices = this.getIndices();
-      this.renderInView(true);
+      this._calculateInView();
+      this._renderInView(true);
     },
 
 
@@ -305,26 +314,20 @@ define([
     // Calculates the size of shown elements]
     // VIRTUAL
     calculateSizes: function() {
-      var $children = this.$inner.children(':not(.index)'),
-          $dummy, $item;
+      var $children = this.$inner.children(':not(.index)');
       
-      // Get the rows if we have a tbody
-      if ($children.is('tbody')) $children = $children.children(':not(.index)');
-      
-      // Get a reference to a child item. If there are no children, create a dummy
-      if (!$children.length)
-        $item = $dummy = $( _.result(this, 'dummy') ).appendTo(this.$inner);
-      else
-        $item = $children.first();
+      // Create a dummy
+      // if (!$children.length)
+      var $dummy = $( _.result(this, 'dummy') ).appendTo(this.$inner);
       
       // Get both the height and width including padding, border and margin
       var size = {
-        height: $item.outerHeight(true),
-        width:  $item.outerWidth(true)
+        height: $dummy.outerHeight(true),
+        width:  $dummy.outerWidth(true)
       };
       
       // Set margins and 'inner' size
-      var margins = _.map($item.css('margin').replace(/px/g, "").split(" "), function(m){return +m;});
+      var margins = _.map($dummy.css('margin').replace(/px/g, "").split(" "), function(m){return +m;});
       
       size.margin = {
         top:    margins[0],
@@ -338,8 +341,7 @@ define([
       };
       
       // Remove dummy
-      if ($dummy)
-        $dummy.remove();
+      $dummy.remove();
       
       // Calculate size of indices
       if (this.$index)
@@ -409,10 +411,11 @@ define([
     // Rendering
     // ---------
     
-    // Renders the visible items
-    renderInView: function(force) {
+    // Calculates what should be rendered
+    // PRIVATE
+    _calculateInView: function() {
       if (!this._renderingEnabled) return;
-      
+
       var scroller  = this.scroller,
           size      = this.calculated.size,
           capacity  = this.calculated.capacity,
@@ -426,9 +429,9 @@ define([
       //   scroller.style.webkitOverflowScrolling = "touch";
       
       // If we are already fully rendered, but we're not forced, bail out
-      if (data.lastRender) {
-        if (data.lastRender.full && !force) return;
-        else data.lastRender.full = false;
+      if (data.lastCalc) {
+        if (data.lastCalc.full && !force) return;
+        else data.lastCalc.full = false;
       }
       
       // Get the total number of items
@@ -442,14 +445,16 @@ define([
           items         = {
             first:    0,
             count:    total,
+            total:    total,
             indices:  {above:0,below:0}
-          };
+          },
+          blockInfo;
       
       // Calculate which item we should show if we are not fully rendering the list
       if (!fullRender) {
         
         // Calculate the extra rows to be added to the top and bottom
-        var scrolledUp      = scrollTop < (data.lastRender && data.lastRender.scrollTop),
+        var scrolledUp      = scrollTop < (data.lastCalc && data.lastCalc.scrollTop),
             extraCount      = this.extraRows * capacity.hori,
             extraRowsAbove  = Math.round(this.extraRows * (scrolledUp ? .75 : .25)),
             extraAbove      = extraRowsAbove * capacity.hori,
@@ -459,8 +464,8 @@ define([
         if (renderIndices) {
           
           // Calculate the first item in view
-          var blockInfo = this._getBlockInfo(),
-              inBlock   = Math.floor(Math.max(0, scrollTop - blockInfo.height - size.indexHeight) / size.height),
+          blockInfo = this._getBlockInfo();
+          var inBlock   = Math.floor(Math.max(0, scrollTop - blockInfo.height - size.indexHeight) / size.height),
               idx       = this.calculated.indices.indices[blockInfo.idxIdx - 1];
           firstInView = (idx ? this.calculated.indices.cumulCountMap[idx] : 0) + inBlock;
           
@@ -473,7 +478,7 @@ define([
           items.indices.above = this.calculated.indices.posMap[firstIdx];
           var lastIdx = this.calculated.indices.items[items.first + items.count - 1];
           items.indices.below = this.calculated.indices.indices.length - this.calculated.indices.posMap[lastIdx] - 1;
-          
+
         }
         
         // Else, simply use the viewport to calculate which items to show
@@ -490,38 +495,54 @@ define([
       }
       
       // Set after render props
-      var thisRender = _.extend({
+      data.lastCalc = _.extend({
         full:         fullRender,
         firstInView:  firstInView,
-        countInView:  Math.min(total - firstInView, capacity.vert * capacity.hori),
+        countInView:  Math.min(items.total - firstInView, capacity.vert * capacity.hori),
         scrollTop:    scrollTop,
-        timestamp:    new Date().getTime()
+        timestamp:    new Date().getTime(),
+        block:        blockInfo
       }, items);
 
+    },
+
+
+    // Renders the visible items
+    // PRIVATE
+    _renderInView: function(force) {
+      if (!this._renderingEnabled) return;
+
+      var items         = this.data.lastCalc,
+          size          = this.calculated.size,
+          capacity      = this.calculated.capacity,
+          renderIndices = this.index && this.showIndex;
+
       // Set the HTML
-      this.$inner[0].innerHTML = this.renderItems(thisRender)
+      this.$inner[0].innerHTML = this.renderItems(items);
       
       // Calculate margins
       var marginTop     = (items.first / capacity.hori) * size.height,
-          marginBottom  = Math.ceil((total - items.count - items.first) / capacity.hori) * size.height;
+          marginBottom  = Math.ceil((items.total - items.count - items.first) / capacity.hori) * size.height;
+
       // Correct for indices
       if (renderIndices) {
         marginTop     += items.indices.above * size.indexHeight;
         marginBottom  += items.indices.below * size.indexHeight;
       }
+
       // Set margins
       this.$inner[0].style.marginTop    = marginTop + 'px';
       this.$inner[0].style.marginBottom = marginBottom + 'px';
-      
-      // Store stuff for reference
-      data.lastRender = thisRender;
-      
+
+      // Save the items which were rendered
+      this.data.lastRender = items;
+
       // Position index on force render
-      if (force && renderIndices)
+      if (renderIndices)
         this._positionFloatingIndex();
 
       // After render
-      this.afterRender(thisRender);
+      this.afterRender(items);
     },
     
     
@@ -586,7 +607,8 @@ define([
     onResize: function() {
       this.calculateSizes();
       this._calculateCapacity();
-      this.renderInView();
+      this._calculateInView();
+      this._renderInView(true);
     },
     
     
@@ -620,7 +642,8 @@ define([
     // Positions the floating index
     // PRIVATE
     _positionFloatingIndex: function() {
-      
+
+      // Hide / show index based on scroll position
       if (!this.showIndex || !this.calculated.indices || !this.calculated.indices.indices.length)
         return;
       else if (this.el.scrollTop < 0)
@@ -628,19 +651,27 @@ define([
       else
         this.$index[0].style.display = '';
       
-      var blockInfo = this._getBlockInfo();
+      // Get the latest calculated block data
+      var block = this.data.lastCalc.block;
 
       // Store the top of the index which is below the top line of the view
-      var nextIndexTop = blockInfo.height + blockInfo.blockHeight - this.scroller.scrollTop,
-          nextIndexIdx = this.calculated.indices.indices[blockInfo.idxIdx];
+      var nextIndexTop = block.height + block.blockHeight - this.scroller.scrollTop,
+          nextIndexIdx = this.calculated.indices.indices[block.idxIdx];
       
       // Set floating index
       var diff = Math.min(0, nextIndexTop - this.calculated.size.indexHeight),
           left = this.scroller.scrollTop < 0 ? -10000 : 0;
-      this.$index[0].innerHTML = this.getIndexDisplay(nextIndexIdx);
+      this.setIndexDisplay(this.$index, nextIndexIdx);
       this.$index[0].style.webkitTransform = "translate3d(" + left + "px," + diff + "px,0)";
-      
-      return blockInfo.idxIdx;
+
+      return diff;
+    },
+
+
+    // Sets the index display
+    // VIRTUAL
+    setIndexDisplay: function($index, index) {
+      $index[0].innerHTML = this.getIndexDisplay(index);
     },
 
 
@@ -649,8 +680,8 @@ define([
     getIndexDisplay: function(index) {
       return index == Touchee.nonAlphaSortValue ? "#" : index;
     },
-    
-    
+
+
     // Renders the quickscroll element
     // PRIVATE
     _renderQuickscroll: function() {
@@ -777,34 +808,36 @@ define([
     // Called when a touch selection has started
     // PRIVATE
     _selectionStart: function(ev) {
-      
-      // Get the item
-      var $item = $(ev.currentTarget);
+
+      // Get the element
+      var $el = $(ev.currentTarget);
       
       // Set the onclick handler for anchors
-      if ($item[0].tagName.toLowerCase() == 'a')
-        $item[0].onclick = "return false;";
+      if ($el[0].tagName.toLowerCase() == 'a')
+        $el[0].onclick = "return false;";
       
       // Get currently selected items
-      var $previous = $item.siblings('.' + this.selection.klass);
+      var $previous = $el.siblings('.' + this.selection.klass);
       
       // Selection setter
       var doSelect = function() {
-        $item.addClass(this.selection.klass);
+        $el.addClass(this.selection.klass);
         $previous.removeClass(this.selection.klass);
       };
       
       // Set selection data
       this.data.selection = {
-        $item:      $item,
+        $el:        $el,
         $previous:  $previous,
         timeout:    _.delay(_.bind(doSelect, this), this.selection.delay),
-        y:          ev.getCoords().y
+        y:          ev.getCoords().y,
+        item:       this.getItem($el),
+        previous:   this.data.selection && this.data.selection.item
       };
       
       // Set bindings
       this.$scroller.on(Touchee.MOVE_EVENT+'.tss', _.bind(this._selectionMove, this));
-      this.$scroller.on(Touchee.END_EVENT+'.tss',  _.bind(this._selectionEnd, this));
+      this.$scroller.on(Touchee.END_EVENT+'.tss touchcancel.tss',  _.bind(this._selectionEnd, this));
     },
     
     
@@ -814,7 +847,7 @@ define([
       
       // Get the data
       var data = this.data.selection;
-      if (!data) return;
+      // if (!data) return;
       
       // If we are moving enough
       var diff = Math.abs(data.y - ev.getCoords().y);
@@ -825,10 +858,10 @@ define([
           clearTimeout(data.timeout);
         
         // Set that we have moved
-        data.moved = true;
+        data.moved  = true;
         
-        // Remove selection on the target item
-        data.$item.removeClass(this.selection.klass);
+        // Remove selection on the target element
+        data.$el.removeClass(this.selection.klass);
         
         // We do not need move callbacks anymore
         this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
@@ -842,40 +875,42 @@ define([
       
       // Get the data
       var data = this.data.selection;
-      if (!data) return;
+      // if (!data) return;
       
       // If we stopped within the timeout, kill the timeout so the new selection is not set
       if (data.timeout)
         clearTimeout(data.timeout);
       
       // If we have moved, reset the original selection
-      if (data.moved)
+      if (data.moved) {
         data.$previous.addClass(this.selection.klass);
+        data.previous = data.item;
+      }
       
-      // Else, select the new item
+      // Else, select the new element
       else {
         
         // Set selection class (for when we have ended the touch during the timeout)
         if (this.selection.keep) {
-          data.$item.addClass(this.selection.klass);
+          data.$el.addClass(this.selection.klass);
           data.$previous.removeClass(this.selection.klass);
         }
         else
-          data.$item.removeClass(this.selection.klass);
+          data.$el.removeClass(this.selection.klass);
         
         // If we have a callback function, call that
         if (_.isFunction(this.selected))
-          this.selected.call(this, this.getItem(data.$item), data.$item);
+          this.selected.call(this, data.item, data.$el);
         
         // Else, navigate to the anchor
-        else if (data.$item.is('a'))
-          Backbone.history.navigate(data.$item.attr('href'), {trigger:true});
+        else if (data.$el.is('a'))
+          Backbone.history.navigate(data.$el.attr('href'), {trigger:true});
       }
       
       // Unbind all
       this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
-      this.$scroller.off(Touchee.END_EVENT + '.tss');
-      delete this.data.selection;
+      this.$scroller.off(Touchee.END_EVENT + '.tss touchcancel.tss');
+      // delete this.data.selection;
       
       return false;
     }

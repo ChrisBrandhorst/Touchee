@@ -184,7 +184,10 @@
 /* line 6, ../sass/_artist.sass */
 .split_view.artists > .artist header h1 {
   padding: 14px 14px 0 11px;
-  display: -webkit-flex;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
 }
 /* line 9, ../sass/_artist.sass */
 .split_view.artists > .artist header h1 span {

@@ -11,6 +11,7 @@ define([
     // ScrollList properties
     contentType:  'artists',
     index:        'artistSort',
+    selection:    { keep:true },
     
     
     // Table properties

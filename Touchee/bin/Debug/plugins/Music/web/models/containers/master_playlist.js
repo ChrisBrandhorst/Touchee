@@ -24,8 +24,8 @@ define([
     // with the corresponding viewmodel class.
     views: {
       artist:    Artists,
-      album:     Albums,
       track:     Tracks,
+      album:     Albums,
       genre:     {},
       playlist:  {}
     },

@@ -15,7 +15,7 @@ define([
     showIndex:  true,
     quickscroll:  true,
     selectable:   'tr:not(.index)',
-    
+    floatingIndex:  '<div><img/><span></span></div>',
 
     // The columns to show
     columns:  ['id'],
@@ -32,17 +32,13 @@ define([
     renderItems: function(items) {
 
       // Get the first and last groups
-      var firstGroupIdx = this.indexToGroup[items.first];
-      var lastGroupIdx = this.indexToGroup[items.first + items.count - 1];
+      var firstGroupIdx = this.indexToGroup[items.first],
+          lastGroupIdx = this.indexToGroup[items.first + items.count - 1];
 
       // Modify the given object to reflect the actual rendering
-      var first = this.indexToGroup.indexOf(firstGroupIdx);
-      items.count = this.indexToGroup.lastIndexOf(lastGroupIdx) - first + 1;
-      if (first != items.first) {
-        items.count++;
-        items.first = first;
-      }
-
+      items.first = this.indexToGroup.indexOf(firstGroupIdx),
+      items.count = this.indexToGroup.lastIndexOf(lastGroupIdx) - items.first + 1;
+      
       // var firstGroupInViewIdx = this.indexToGroup(items.firstInView);
 
       // Go through all groups that should be rendered
@@ -52,9 +48,29 @@ define([
         // Get the group
         var group = this.groups[i];
         
-        // Render the base and title
+        // Render the base
         var margin = Math.max(3 - group.length, 0) * this.calculated.size.height;
-        rendered += '<li style="padding-bottom:' + margin + 'px"><img /><h2 class="index">' + this.getIndex(group[0]) + '</h2><table>';
+        rendered += '<li style="padding-bottom:' + margin + 'px">';
+
+        // Image
+        switch(items.block.idxIdx) {
+          // case i:
+          //   rendered += '<img class="hidden" />';
+          //   break;
+          // case i - 1:
+          //   var a = Math.max(
+          //     0,
+          //     10 - (items.block.height + items.block.blockHeight - items.scrollTop)
+          //   );
+          //   rendered += '<img style="-webkit-transform:translate3d(0,'+a+'px,0)" />';
+          //   break;
+          default:
+            rendered += '<img/>';
+            break;
+        }
+
+        // Title
+        rendered += '<h2 class="index">' + this.getIndex(group[0]) + '</h2><table>';
 
         _.each(group, function(item, i){
           rendered += '<tr>';
@@ -71,6 +87,13 @@ define([
     },
 
 
+    // Sets the index display
+    // VIRTUAL
+    setIndexDisplay: function($index, index) {
+      $index[0].childNodes[1].innerText = index;
+    },
+
+
     // Gets the index for the given item
     // VIRTUAL
     getIndex: function(item) {
@@ -80,33 +103,49 @@ define([
     },
 
 
-//     //
-//     // PRIVATE
-//     _positionFloatingIndex: function() {
-//       var groupIdx  = ScrollListView.prototype._positionFloatingIndex.apply(this, arguments);
+    //
+    // PRIVATE
+    _positionFloatingIndex: function() {
 
-//       var elIdx = this.data.lastRender.indices.above - groupIdx;
+      var lastCalc    = this.data.lastCalc,
+          lastRender  = this.data.lastRender;
+
+      // Position the index, and get the resulting offset
+      var indexOffset = ScrollListView.prototype._positionFloatingIndex.apply(this, arguments),
+          // The index element
+          $index      = this.$index,
+          // The image in the index
+          img         = $index[0].childNodes[0],
+          // Calculate the offset of the current index image
+          imgOffset   = lastCalc.block.height + lastCalc.block.blockHeight - this.scroller.scrollTop - img.height - 9;
+
+      // Set the image offset
+      img.style.webkitTransform = "translate3d(0," + (Math.min(imgOffset, 0) - indexOffset) + "px,0)";
+
+      // The visible element index
+      var elIdx     = lastRender.block.idxIdx - lastRender.indices.above,
+          // The blocks in view
+          $blocks   = this.$inner.children(),
+          // The block element corresponding to the current index
+          current   = $blocks[elIdx],
+          // The previous block
+          before    = $blocks[elIdx - 1],
+          // The next block
+          after     = $blocks[elIdx + 1];
+
+      // Hide the image in the current block and show the others
+      current.childNodes[0].style.display = 'none';
       
-//       var $el   = this.$inner.children().eq(elIdx),
-//           $img  = $el.find('img');
+      if (before) before.childNodes[0].style.display = '';
+      if (after)  after.childNodes[0].style.display = '';
 
-//       var min = 10;
-//       var max = $el.position().top + $el.outerHeight();
-//       var top = $img.position().top;
-// console.log(max + " " + top);
-//       var newTop = Math.max(top, min);
-//       newTop = Math.min(newTop, max - $img.outerHeight());
+      if (after) {
+        var b = lastRender.block.height + lastRender.block.blockHeight - this.scroller.scrollTop;
+        b = 10 - Math.max(0, Math.min(10, b));
+        after.childNodes[0].style.webkitTransform = "translate3d(0,"+b+"px,0)";
+      }
 
-//       var diff = newTop - top;
-      
-//       $img.css('-webkit-transform', "translate3d(0," + diff + "px,0)");
-
-//       if (max <= min) {
-//         $el = $el.next();
-//         $img = $el.find('img');
-//         $img.css('-webkit-transform', "translate3d(0," + (min-max) + "px,0)");
-//       }
-//     },
+    },
 
 
 

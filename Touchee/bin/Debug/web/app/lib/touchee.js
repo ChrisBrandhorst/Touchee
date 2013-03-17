@@ -41,9 +41,9 @@ define([
   
   // Interaction events are dependent on the touch capabilities of the device
   _.extend(Touchee, {
-    START_EVENT:  touch ? 'touchstart' : 'mousedown',
-    MOVE_EVENT:   touch ? 'touchmove'  : 'mousemove',
-    END_EVENT:    touch ? 'touchend'   : 'mouseup'
+    START_EVENT:  touch ? 'touchstart'  : 'mousedown',
+    MOVE_EVENT:   touch ? 'touchmove'   : 'mousemove',
+    END_EVENT:    touch ? 'touchend'    : 'mouseup'
   });
   
   
