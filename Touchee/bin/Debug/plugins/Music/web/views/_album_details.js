@@ -19,7 +19,6 @@ define([
     initialize: function(options) {
       this.model.on('artwork', this.setArtwork, this);
       this.model.on('colors', this.setColors, this);
-      this.master = options.master;
     },
     
     
@@ -29,8 +28,7 @@ define([
       this.$el.html(
         albumDetailsTemplate({
           artwork:  artwork,
-          tracks:   this.model.getTracksOfAlbum(),
-          master:   this.master
+          tracks:   this.model.getTracksOfAlbum()
         })
       );
       this.setArtwork(artwork);

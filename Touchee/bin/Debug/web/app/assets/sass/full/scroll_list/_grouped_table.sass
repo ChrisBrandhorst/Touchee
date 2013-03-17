@@ -17,18 +17,16 @@ $groupedTableImageSize: 135px
     border-right: 1px solid rgba(0,0,0,.02)
 
 
-  ul li img, .index img
+  ul li aside, aside.index
     width:            $groupedTableImageSize
     height:           $groupedTableImageSize
     background-size:  100%
-    margin-left:      ($columnWidth - $groupedTableImageSize) / 2 - $columnWidth
-    @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
+    // @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
     @include          translate3d(0,0,0)
+    @include          box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
 
-  .index img
-    position: absolute
-    top:      10px - 1px
-    left:     0
+  aside.index
+    left: 10px
 
   // The entire list
   ul
@@ -37,17 +35,14 @@ $groupedTableImageSize: 135px
     li
       margin-left:  $columnWidth
 
-      img
-        // width:            $groupedTableImageSize
-        // height:           $groupedTableImageSize
-        // background-size:  100%
+      aside
         margin-left:      ($columnWidth - $groupedTableImageSize) / 2 - $columnWidth
-        // @include          box-shadow(0 1px 7px 1px rgba(0,0,0,0.15))
-        // @include          translate3d(0,0,0)
         position:             absolute
 
         &.hidden
           @include translate3d(-10000px, 0, 0)
+        &.current
+          @include translate3d(0, 10px, 0)
 
       // Group title
       h2
@@ -89,11 +84,11 @@ $groupedTableImageSize: 135px
             color:                white !important
 
   // Floating index
-  .scroll_list-grouped_table-index
+  div.scroll_list-grouped_table-index
     left: $columnWidth
 
   // Floating index & group title (inline index)
-  .scroll_list-grouped_table-index, ul li h2
+  div.scroll_list-grouped_table-index, ul li h2
     height:           40px
     padding:          10px 0 0 13px
     font-weight:      bold

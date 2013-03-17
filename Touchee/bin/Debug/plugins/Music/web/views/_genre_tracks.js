@@ -5,14 +5,14 @@ define([
   'views/contents/common_grouped_table'
 ], function($, _, Backbone, CommonGroupedTableView) {  
   
-  var ArtistTracksView = CommonGroupedTableView.extend({
+  var GenreTracksView = CommonGroupedTableView.extend({
     
 
     // ScrollList properties
     contentType:  'tracks',
     quickscroll:  true,
     index:        function(item) {
-      return item.get('album$');
+      return item.get('album$') + " - " + item.get('albumArtist$');
     },
     
     
@@ -27,6 +27,6 @@ define([
 
   });
   
-  return ArtistTracksView;
+  return GenreTracksView;
   
 });

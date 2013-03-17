@@ -27,8 +27,8 @@ define([
     // 
     order: function(enumerator) {
       return enumerator
-        .OrderBy("m => m.attributes.albumArtistSort")
-        .ThenBy("m => m.attributes.albumSort");
+        .OrderBy("m => m.get('albumArtistSort$')")
+        .ThenBy("m => m.get('albumSort')");
     }
     
     

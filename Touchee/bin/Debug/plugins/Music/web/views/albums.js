@@ -15,8 +15,9 @@ define([
     
     
     // Tiles view properties
-    line1:      'album$',
-    line2:      'albumArtist$',
+    line1:        'album$',
+    line2:        'albumArtist$',
+    
     
     // When an album is clicked, zoom the tile and show the details
     clickedTile: function(ev) {
@@ -30,8 +31,7 @@ define([
     getDetailsView: function(track, $target) {
       return new AlbumDetailsView({
         model:  track,
-        el:     $target[0],
-        master: this
+        el:     $target[0]
       }).render();
     }
     

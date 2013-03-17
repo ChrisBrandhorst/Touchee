@@ -6,11 +6,13 @@ define([
   './../view_models/tracks',
   './../view_models/albums',
   './../view_models/artists',
-  './../view_models/artist_tracks'
+  './../view_models/genres',
+  './../view_models/artist_tracks',
+  './../view_models/genre_tracks'
 ], function(_, Backbone, Container,
             Track,
-            Tracks, Albums, Artists,
-            ArtistTracks
+            Tracks, Albums, Artists, Genres,
+            ArtistTracks, GenreTracks
   ){
   
   var MasterPlaylist = Container.extend({
@@ -23,17 +25,20 @@ define([
     // The different views that are available for this container, together
     // with the corresponding viewmodel class.
     views: {
-      artist:    Artists,
-      track:     Tracks,
-      album:     Albums,
-      genre:     {},
-      playlist:  {}
+      track:    Tracks,
+      album:    Albums,
+      artist:   Artists,
+      genre:    Genres,
+      playlist: {}
     },
     
     
     // Gets the view model class for the given view description
     getViewModelClass: function(view) {
-      if (view == 'artist_track') return ArtistTracks;
+      switch(view) {
+        case 'artist_track':  return ArtistTracks;
+        case 'genre_track':   return GenreTracks;
+      }
     }
 
     

@@ -25,7 +25,7 @@ define([
     
     // Returns whether the artwork is available
     exists: function() {
-      return this.get('exists');
+      return this.get('exists') === true;
     },
     
     
@@ -120,10 +120,14 @@ define([
         if (options.error) options.error("Item has no artworkUrl");
         return;
       }
-      
+
       // Get artwork from cache
       var artwork = this.fromCache(item);
-      
+
+      // Build URL
+      var query = {}, url;
+      if (options.size) query.size = options.size;
+
       // If we have a cache
       if (artwork) {
         var exists = artwork.exists();
@@ -134,7 +138,7 @@ define([
         }
         // If the artwork exists and the correct size is present
         else if (exists === true && artwork.hasSize(options.size)) {
-          if (options.success) options.success(artwork);
+          if (options.success) options.success(artwork, artwork.url(query));
           return;
         }
       }
@@ -150,12 +154,8 @@ define([
         return;
       }
       
-      // Build URL
-      var query = {};
-      if (options.size) query.size = options.size;
-      url = artwork.url(query);
-      
       // Get the image from remote. If it is cached by the browser, the onload will immediately run
+      url = artwork.url(query);
       var img = new Image();
       img.onload = function() {
         artwork.set({
@@ -163,9 +163,12 @@ define([
           queried:  true
         });
         artwork.setSize(options.size || null, img.width, img.height, url);
-        if (options.toCache) _cache[item.id] = artwork;
-        if (options.success) options.success(artwork, img);
-        if (options.colors && !artwork.colors) artwork.getColors();
+        if (options.toCache)
+          _cache[item.id] = artwork;
+        if (options.success)
+          options.success(artwork, url, img);
+        if (options.colors && !artwork.colors)
+          artwork.getColors();
         item.trigger('artwork', artwork, item);
       };
       img.onerror = function(){

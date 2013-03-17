@@ -422,7 +422,7 @@
                   '">'
                 ];
                 for (i in r) {
-                  addHTML.push('<td>', r[i] ? r[i].toString().htmlEncode() : "", '</td>');
+                  addHTML.push('<td>', r[i] ? _.escape(r[i]) : "", '</td>');
                 }
               }
               

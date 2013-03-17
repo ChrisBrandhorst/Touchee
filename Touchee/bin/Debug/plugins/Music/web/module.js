@@ -3,10 +3,15 @@ define([
   'models/module',
   './views/tracks',
   './views/albums',
+
   './views/artists',
+  './views/genres',
+
   './views/artist',
+  './views/genre',
+
   './models/containers/master_playlist'
-], function(_, BaseModule, TracksView, AlbumsView, ArtistsView, ArtistView){
+], function(_, BaseModule, TracksView, AlbumsView, ArtistsView, GenresView, ArtistView, GenreView){
   
   var MusicModule = BaseModule.extend({
     
@@ -16,7 +21,8 @@ define([
     views: {
       track:  TracksView,
       album:  AlbumsView,
-      artist: ArtistsView
+      artist: ArtistsView,
+      genre:  GenresView
     },
     
     
@@ -29,14 +35,17 @@ define([
 
     // Gets the view class for the given view description
     getViewClass: function(view) {
-      if (view == 'artist_track') return ArtistView;
+      switch(view) {
+        case 'artist_track':  return ArtistView;
+        case 'genre_track':   return GenreView;
+      }
     },
     
     
     // 
     navigate: function(view, params) {
-      
-      // We have selected an artist from the artist list
+
+      // We have selected an artist from the artists list
       if (view instanceof ArtistsView) {
         
         // Get the artist
@@ -50,7 +59,22 @@ define([
         // Set view
         view.setRight(artistView);
       }
-      
+
+      // We have selected an genre from the genres list
+      else if (view instanceof GenresView) {
+        
+        // Get the genre
+        var genre = params.genre;
+        if (_.isUndefined(genre)) return;
+        
+        // Build the genre view
+        var genreView = this.buildView( view.model.contents.container, _.extend(params, {view:'genre_track'}) );
+        genreView.model.fetch();
+        
+        // Set view
+        view.setRight(genreView);
+      }
+
     }
     
     

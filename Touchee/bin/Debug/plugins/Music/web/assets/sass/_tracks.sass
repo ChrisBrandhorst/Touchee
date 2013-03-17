@@ -1,4 +1,4 @@
-// Tracks view
+// Tracks table view
 .scroll_list.table.tracks > table td
   &:first-child
     width: 31.5%
@@ -14,3 +14,18 @@
       width: auto
     &:nth-child(3)
       display:  none
+
+
+// Tracks group view
+.scroll_list.grouped_table.tracks
+
+  aside
+    @include retina-image("../images/WildcatNoArtPlaceholder-MusicMod")
+
+  td
+    &:first-child
+      color:        #999
+      width:        34px
+      text-align:   right
+    &:last-child
+      width:        135px

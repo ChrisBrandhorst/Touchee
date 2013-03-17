@@ -78,6 +78,7 @@ namespace Touchee.Server.Http.Modules {
             if (artwork != null) {
 
                 // Size artwork
+                // TODO: check if size is really an int
                 if (Request.Query.ContainsKey("size")) {
                     int size = Request.Query["size"];
                     var sized = artwork.Resize(new Size(size, size), ResizeMode.ContainAndShrink);

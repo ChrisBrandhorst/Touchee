@@ -4,10 +4,10 @@ define([
   './grouped_tracks'
 ], function(_, Backbone, GroupedTracks){
   
-  var ArtistTracks = GroupedTracks.extend({
-    groupByAttr: 'artist'
+  var GenreTracks = GroupedTracks.extend({
+    groupByAttr: 'genre'
   });
   
-  return ArtistTracks;
+  return GenreTracks;
 
 });

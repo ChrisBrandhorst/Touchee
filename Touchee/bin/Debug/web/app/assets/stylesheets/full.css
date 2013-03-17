@@ -831,6 +831,10 @@ a, input {
   position: relative;
   width: 1024px;
   height: 748px;
+  width: 100%;
+  height: 100%;
+  max-width: 1024px;
+  max-height: 748px;
 }
 @media screen and (max-width: 900px) {
   /* line 31, ../sass/full/_browser.sass */
@@ -1549,54 +1553,59 @@ body > section:not(.popup) {
   border-right: 1px solid rgba(0, 0, 0, 0.02);
 }
 /* line 20, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li img, .scroll_list.grouped_table .index img {
+.scroll_list.grouped_table ul li aside, .scroll_list.grouped_table aside.index {
   width: 135px;
   height: 135px;
   background-size: 100%;
-  margin-left: -145px;
-  -webkit-box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
-  -moz-box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 7px 1px rgba(0, 0, 0, 0.15);
   -webkit-transform: translate3d(0, 0, 0);
   -moz-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
   -o-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
+  -webkit-box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+  -moz-box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
+  box-shadow: 0 2px 7px 0 rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 0 0 2px rgba(255, 255, 255, 0.4) inset;
 }
 /* line 28, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table .index img {
-  position: absolute;
-  top: 9px;
-  left: 0;
+.scroll_list.grouped_table aside.index {
+  left: 10px;
 }
-/* line 34, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 32, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul {
   position: relative;
 }
-/* line 37, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 35, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li {
   margin-left: 155px;
 }
-/* line 40, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li img {
+/* line 38, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li aside {
   margin-left: -145px;
   position: absolute;
 }
-/* line 49, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table ul li img.hidden {
+/* line 42, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li aside.hidden {
   -webkit-transform: translate3d(-10000px, 0, 0);
   -moz-transform: translate3d(-10000px, 0, 0);
   -ms-transform: translate3d(-10000px, 0, 0);
   -o-transform: translate3d(-10000px, 0, 0);
   transform: translate3d(-10000px, 0, 0);
 }
-/* line 57, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 44, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table ul li aside.current {
+  -webkit-transform: translate3d(0, 10px, 0);
+  -moz-transform: translate3d(0, 10px, 0);
+  -ms-transform: translate3d(0, 10px, 0);
+  -o-transform: translate3d(0, 10px, 0);
+  transform: translate3d(0, 10px, 0);
+}
+/* line 52, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0;
 }
-/* line 65, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 60, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td {
   height: 40px;
   padding: 0 5px;
@@ -1606,19 +1615,19 @@ body > section:not(.popup) {
   border-top: 1px solid #fefefe;
   border-bottom: 1px solid #e1e1e1;
 }
-/* line 75, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 70, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:first-child {
   font-weight: bold;
 }
-/* line 79, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 74, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:last-child {
   padding-right: 59px;
 }
-/* line 81, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 76, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr td:last-child:not(:first-child) {
   text-align: right;
 }
-/* line 85, ../sass/full/scroll_list/_grouped_table.sass */
+/* line 80, ../sass/full/scroll_list/_grouped_table.sass */
 .scroll_list.grouped_table ul li table tr.selected td {
   border-bottom-color: #6285a6;
   border-top-color: white;
@@ -1629,12 +1638,12 @@ body > section:not(.popup) {
   background: linear-gradient(#91b0d3, #7198be);
   color: white !important;
 }
-/* line 92, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table .scroll_list-grouped_table-index {
+/* line 87, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table div.scroll_list-grouped_table-index {
   left: 155px;
 }
-/* line 96, ../sass/full/scroll_list/_grouped_table.sass */
-.scroll_list.grouped_table .scroll_list-grouped_table-index, .scroll_list.grouped_table ul li h2 {
+/* line 91, ../sass/full/scroll_list/_grouped_table.sass */
+.scroll_list.grouped_table div.scroll_list-grouped_table-index, .scroll_list.grouped_table ul li h2 {
   height: 40px;
   padding: 10px 0 0 13px;
   font-weight: bold;
@@ -1953,8 +1962,9 @@ section.split_view > *:last-child:not(:first-child) {
   -moz-box-orient: vertical;
   -ms-box-orient: vertical;
   box-orient: vertical;
+  color: #606060;
 }
-/* line 18, ../sass/full/_split_view.sass */
+/* line 20, ../sass/full/_split_view.sass */
 section.split_view > *:last-child:not(:first-child) > header {
   position: relative;
   z-index: 2;
@@ -1969,12 +1979,82 @@ section.split_view > *:last-child:not(:first-child) > header {
   -o-background-size: 100% 4px;
   background-size: 100% 4px;
 }
-/* line 24, ../sass/full/_split_view.sass */
+/* line 26, ../sass/full/_split_view.sass */
 section.split_view > *:last-child:not(:first-child) > header + * {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
+}
+/* line 29, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header h1 {
+  padding: 14px 14px 0 11px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+}
+/* line 32, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header h1 span {
+  min-width: 0;
+  font-size: 1.8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 36, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header h1 div {
+  margin: -3px 0 0 8px;
+  white-space: nowrap;
+}
+/* line 40, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button {
+  width: 46px;
+  height: 26px;
+  background: no-repeat center;
+  vertical-align: top;
+}
+/* line 45, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=play] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlay.png) 1x, url(../images/remote/ControlClusterDarkPlay@2x.png) 2x);
+}
+/* line 23, ../sass/_mixins.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=play]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlayPressed.png) 1x, url(../images/remote/ControlClusterDarkPlayPressed@2x.png) 2x);
+}
+/* line 47, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=shuffle] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShuffle.png) 1x, url(../images/remote/ControlClusterDarkShuffle@2x.png) 2x);
+}
+/* line 23, ../sass/_mixins.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=shuffle]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShufflePressed.png) 1x, url(../images/remote/ControlClusterDarkShufflePressed@2x.png) 2x);
+}
+/* line 49, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=menu] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenu.png) 1x, url(../images/remote/ControlClusterDarkMenu@2x.png) 2x);
+}
+/* line 23, ../sass/_mixins.sass */
+section.split_view > *:last-child:not(:first-child) > header button[data-button=menu]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenuPressed.png) 1x, url(../images/remote/ControlClusterDarkMenuPressed@2x.png) 2x);
+}
+/* line 52, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button:nth-child(n+2) {
+  position: relative;
+}
+/* line 54, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header button:nth-child(n+2)::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  top: 0;
+  left: -2px;
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterSeparatorDark.png) 1x, url(../images/remote/ControlClusterSeparatorDark@2x.png) 2x);
+}
+/* line 63, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header > div {
+  padding: 4px 0 11px 11px;
 }
 
 /* line 39, ../sass/full.sass */

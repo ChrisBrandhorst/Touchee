@@ -2,25 +2,32 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/artwork',
   'views/contents/scroll_list'
-], function($, _, Backbone, ScrollListView) {
+], function($, _, Backbone, Artwork, ScrollListView) {
   
   var GroupedTableView = ScrollListView.extend({
-    
+
 
     // ScrollList properties
-    dummy:        '<li><table><tr><td colspan="4">&nbsp;</td></tr></table></li>',
-    listType:     'grouped_table',
-    innerTagName: 'ul',
-    showIndex:  true,
-    quickscroll:  true,
-    selectable:   'tr:not(.index)',
-    floatingIndex:  '<div><img/><span></span></div>',
+    dummy:          '<li><aside></aside><table><tr><td colspan="4">&nbsp;</td></tr></table></li>',
+    listType:       'grouped_table',
+    innerTagName:   'ul',
+    showIndex:      true,
+    quickscroll:    true,
+    selectable:     'tr:not(.index)',
+    floatingIndex:  '<div></div>',
 
+
+    // Grouped Table properties
     // The columns to show
     columns:  ['id'],
     // The attribute or function used for grouping
     groupBy:  'id',
+    // Whether artwork is to be loaded
+    artwork:        true,
+    // Override the size of the artwork to be loaded for each tile
+    artworkSize:    null,
 
 
 
@@ -28,6 +35,22 @@ define([
     // ScrollList overrides
     // --------------------
     
+    // Additional calculation for the size of the artwork
+    calculateSizes: function() {
+      var $dummy = ScrollListView.prototype.calculateSizes.apply(this, arguments).appendTo(this.$inner);
+
+      // Get the metrics
+      var size  = this.calculated.size,
+          img   = $dummy[0].childNodes[0];
+      size.artwork = {
+        height: img.clientHeight,
+        width:  img.clientWidth
+      };
+      
+      return $dummy.remove();
+    },
+
+
     // Renders a set of items
     renderItems: function(items) {
 
@@ -38,8 +61,6 @@ define([
       // Modify the given object to reflect the actual rendering
       items.first = this.indexToGroup.indexOf(firstGroupIdx),
       items.count = this.indexToGroup.lastIndexOf(lastGroupIdx) - items.first + 1;
-      
-      // var firstGroupInViewIdx = this.indexToGroup(items.firstInView);
 
       // Go through all groups that should be rendered
       var rendered = "", view = this;
@@ -53,29 +74,17 @@ define([
         rendered += '<li style="padding-bottom:' + margin + 'px">';
 
         // Image
-        switch(items.block.idxIdx) {
-          // case i:
-          //   rendered += '<img class="hidden" />';
-          //   break;
-          // case i - 1:
-          //   var a = Math.max(
-          //     0,
-          //     10 - (items.block.height + items.block.blockHeight - items.scrollTop)
-          //   );
-          //   rendered += '<img style="-webkit-transform:translate3d(0,'+a+'px,0)" />';
-          //   break;
-          default:
-            rendered += '<img/>';
-            break;
-        }
+        var style = this.getArtworkStyle(group[0], {string:true});
+        rendered += '<aside' + (style ? ' style="'+style+'"' : '') + '></aside>';
 
         // Title
         rendered += '<h2 class="index">' + this.getIndex(group[0]) + '</h2><table>';
 
+        // Items per group
         _.each(group, function(item, i){
           rendered += '<tr>';
           _.each(view.columns, function(col){
-            rendered += "<td>" + view.getAttribute(item, col).toString().htmlEncode() + "</td>";
+            rendered += "<td>" + _.escape(view.getAttribute(item, col)) + "</td>";
           });
           rendered += '</tr>';
         });
@@ -87,10 +96,46 @@ define([
     },
 
 
+    // Called when the render is complete
+    // Starts the iterative getting of artwork
+    // VIRTUAL
+    afterRender: function(items) {
+      
+      // Do nothing if we have no items in view or no artwork provisioning
+      if (!items.count || this.artwork === false) return;
+      
+      // Start setting artwork on the first element in view
+      this._setArtworkIter(
+        this.indexToGroup[items.first],
+        this.indexToGroup[items.first + items.count - 1],
+        items.indices.above,
+        items.timestamp
+      );
+    },
+
+
+    // Renders the floating index
+    // VIRTUAL
+    renderFloatingIndex: function() {
+      // Render index title
+      ScrollListView.prototype.renderFloatingIndex.apply(this, arguments);
+
+      // Render index image
+      this.$indexArtwork = $('<aside/>')
+        .addClass('scroll_list-' + this.listType + '-index_artwork index')
+        .prependTo(this.$el).hide();
+      this.indexArtwork = this.$indexArtwork[0];
+    },
+
+
     // Sets the index display
     // VIRTUAL
-    setIndexDisplay: function($index, index) {
-      $index[0].childNodes[1].innerText = index;
+    updateFloatingIndex: function($index, index) {
+      // Set index title
+      ScrollListView.prototype.updateFloatingIndex.apply(this, arguments);
+
+      // Set image
+      this.updateFloatingIndexArtwork();
     },
 
 
@@ -103,48 +148,156 @@ define([
     },
 
 
-    //
-    // PRIVATE
-    _positionFloatingIndex: function() {
 
-      var lastCalc    = this.data.lastCalc,
-          lastRender  = this.data.lastRender;
 
-      // Position the index, and get the resulting offset
-      var indexOffset = ScrollListView.prototype._positionFloatingIndex.apply(this, arguments),
-          // The index element
-          $index      = this.$index,
-          // The image in the index
-          img         = $index[0].childNodes[0],
-          // Calculate the offset of the current index image
-          imgOffset   = lastCalc.block.height + lastCalc.block.blockHeight - this.scroller.scrollTop - img.height - 9;
+    // Rendering helpers
+    // -----------------
 
-      // Set the image offset
-      img.style.webkitTransform = "translate3d(0," + (Math.min(imgOffset, 0) - indexOffset) + "px,0)";
+    // Sets the index artwork
+    // VIRTUAL
+    updateFloatingIndexArtwork: function() {
 
-      // The visible element index
-      var elIdx     = lastRender.block.idxIdx - lastRender.indices.above,
+      // Collect some vars
+      var pulled        = this.scroller.scrollTop < 0,
+          lastBlock     = this.data.lastCalc.block;
+      
+      // Set the appropriate image
+      var group = this.groups[lastBlock.idxIdx];
+      var item = group[0];
+      
+      var artwork = Artwork.fromCache(item);
+      if (artwork && artwork.exists())
+        _.extend(this.indexArtwork.style, this.getArtworkStyle(item));
+      else
+        _.extend(this.indexArtwork.style, {backgroundImage:'',height:'',width:''});
+
+      // Hide index artwork if we are pulling
+      this.indexArtwork.style.display = pulled ? 'none' : '';
+
+      // Set index artwork offset
+      var artworkOffset = Math.min(
+        lastBlock.height + lastBlock.blockHeight - this.scroller.scrollTop - this.indexArtwork.clientHeight + 1 - 10,
+        0
+      ) + 10;
+      this.indexArtwork.style.webkitTransform = "translate3d(0," + artworkOffset + "px,0)";
+
+      // Get the corresponding block elements
+      var lastRender  = this.data.lastRender,
+          elIdx       = lastBlock.idxIdx - lastRender.indices.above,
           // The blocks in view
-          $blocks   = this.$inner.children(),
+          $blocks     = this.$inner.children(),
           // The block element corresponding to the current index
-          current   = $blocks[elIdx],
+          current     = $blocks[elIdx],
           // The previous block
-          before    = $blocks[elIdx - 1],
+          before      = $blocks[elIdx - 1],
           // The next block
-          after     = $blocks[elIdx + 1];
+          after       = $blocks[elIdx + 1];
 
       // Hide the image in the current block and show the others
-      current.childNodes[0].style.display = 'none';
-      
-      if (before) before.childNodes[0].style.display = '';
-      if (after)  after.childNodes[0].style.display = '';
+      if (current) {
+        current.childNodes[0].style.webkitTransform = '';
+        current.childNodes[0].className = pulled ? 'current' : 'hidden';
+      }
+      if (before) before.childNodes[0].className = '';
+      if (after)  after.childNodes[0].className = '';
 
+      // Set the offset of the next image
       if (after) {
-        var b = lastRender.block.height + lastRender.block.blockHeight - this.scroller.scrollTop;
+        var b = lastBlock.height + lastBlock.blockHeight - this.scroller.scrollTop;
         b = 10 - Math.max(0, Math.min(10, b));
         after.childNodes[0].style.webkitTransform = "translate3d(0,"+b+"px,0)";
       }
 
+    },
+
+
+    // Gets the style used for displaying the artwork of a group
+    // VIRTUAL
+    getArtworkStyle: function(item, options) {
+      options || (options = {});
+      var artwork = Artwork.fromCache(item),
+          style   = {};
+
+      // If we have any artwork
+      if (artwork && artwork.exists() === true) {
+
+        // Get data
+        var artworkElementSize  = this.calculated.size.artwork,
+            artworkSize         = options.size || this.artworkSize || artworkElementSize.width;
+
+        // The image
+        style['background-image'] = "url(" + (options.url || artwork.url({size:artworkSize})) + ")";
+
+        // Square artwork: nothing special
+        if (artwork.isSquare()) { }
+        // Portrait artwork
+        else if (artwork.isPortrait())
+          style['width'] = Math.ceil(artworkElementSize.height * artwork.get('ratio')) + 'px';
+        // Landscape artwork
+        else
+          style['height'] = Math.ceil(artworkElementSize.width / artwork.get('ratio')) + 'px';
+      }
+
+      // Convert to string representation if requested
+      return options.string ? _.asCssString(style) : style;
+    },
+
+
+    // Sets the artwork for the groups iteratively
+    _setArtworkIter: function(groupIdx, lastGroupIdx, groupsAbove, timestamp) {
+      
+      // Remember that we are busy with the current index
+      this.data.lastRender.artworkIdx = groupIdx;
+      
+      // Function for doing the next group
+      var view = this, doNext = function() {
+        // Bail out if we have a different timestamp (new render) or if all groups in view are done
+        if (view.data.lastRender.timestamp != timestamp || groupIdx + 1 >= lastGroupIdx) return;
+        view._setArtworkIter(
+          groupIdx + 1,
+          lastGroupIdx,
+          groupsAbove,
+          timestamp
+        );
+      };
+
+      // Get the element
+      var el = this.$inner[0].childNodes[groupIdx - groupsAbove].childNodes[0];
+      
+      // See if we already have an image
+      if (el.src) {
+        doNext();
+      }
+      
+      // If not, load an image
+      else {
+
+        // Get some params
+        var item  = this.groups[groupIdx][0];
+        
+        var onArtwork = function(){
+          item.off('artwork', onArtwork);
+          view.updateFloatingIndexArtwork();
+        };
+        item.on('artwork', onArtwork);
+
+        // Get the artwork
+        Artwork.fetch(item, {
+          size:     this.artworkSize,
+          colors:   true,
+          success:  function(artwork, url, img) {
+            // If we have artwork, set it
+            if (artwork.exists() === true) {
+              _.extend(el.style, view.getArtworkStyle(item, {url:url}));
+            }
+            // Do the next item
+            doNext();
+          },
+          none:   doNext,
+          error:  doNext
+        });
+
+      }
     },
 
 

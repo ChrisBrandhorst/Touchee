@@ -15,6 +15,8 @@ section.split_view
       @include 	display-box
       @include	box-orient(vertical)
 
+      color: #606060
+
       > header
         position:       relative
         z-index:        2
@@ -23,3 +25,40 @@ section.split_view
         @include        background-size(100% 4px)
         + *
           @include      box-flex(1)
+
+        h1
+          padding:  14px 14px 0 11px
+          @include  display-box
+          span
+            min-width:  0
+            font-size:  1.8em
+            @include    ellipsis
+          div
+            margin:       -3px 0 0 8px
+            white-space:  nowrap
+
+        button
+          width:      46px
+          height:     26px
+          background: no-repeat center
+          vertical-align: top
+          &[data-button=play]
+            @include remote-image(ControlClusterDarkPlay, pressed)
+          &[data-button=shuffle]
+            @include remote-image(ControlClusterDarkShuffle, pressed)
+          &[data-button=menu]
+            @include remote-image(ControlClusterDarkMenu, pressed)
+
+          &:nth-child(n+2)
+            position: relative
+            &::after
+              content: ''
+              position: absolute
+              height:   100%
+              width:    2px
+              top:      0
+              left:     -2px
+              @include remote-image(ControlClusterSeparatorDark)
+
+        > div
+          padding:  4px 0 11px 11px

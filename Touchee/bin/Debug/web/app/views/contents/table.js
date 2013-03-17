@@ -38,7 +38,7 @@ define([
       var rendered = '<tr' + (klass ? ' class="' + klass + '"' : '') + '>';
       
       _.each(this.columns, function(col){
-        rendered += "<td>" + table.getAttribute(item, col).toString().htmlEncode() + "</td>";
+        rendered += "<td>" + _.escape(table.getAttribute(item, col)) + "</td>";
       });
       
       rendered += "</tr>";

@@ -46,6 +46,7 @@ require([
   '../lib/jquery-ui-1.9.2.custom.min',
   
   // Other
+  'lib/underscore.extensions',
   'lib/js.extensions',
   '../lib/fastclick.min',
   '../lib/linq'

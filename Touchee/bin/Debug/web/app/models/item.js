@@ -19,8 +19,8 @@ define([
       if (!custom) return val;
       
       // Then go for a custom display if present
-      if (_.isFunction(this.get$))
-        val = this.get$(attr, val) || val;
+      if (this.computed && _.isFunction(this.computed[attr]))
+        val = this.computed[attr].call(this, val);
       
       // If we have nothing yet, try the "unknown ..."
       if (!val) {

@@ -4,7 +4,7 @@ define([
   'models/contents_part'
 ], function(_, Backbone, ContentsPart){
   
-  var Artists = ContentsPart.extend({
+  var Genres = ContentsPart.extend({
     
     
     // Filters the models from the contents collection.
@@ -12,36 +12,36 @@ define([
       
       // Group all tracks by artist
       var groups = _.groupBy(models, function(track){
-        var artist = track.get('artist');
-        return artist ? artist.toLowerCase() : null;
+        var genre = track.get('genre');
+        return genre ? genre.toLowerCase() : null;
       });
       
       // Get the first track from each group
-      var artists = _.map(groups, function(group){
+      var genres = _.map(groups, function(group){
         return group[0];
       });
       
-      return artists;
+      return genres;
     },
     
     
-    // Sort by artist sort value
+    // Sort by genre sort value
     order: function(enumerator) {
       return enumerator
-        .OrderBy("m => m.get('artistSort')");
+        .OrderBy("m => m.get('genreSort')");
     },
     
     
-    // Get the artist URL for the given track
+    // Get the genre URL for the given track
     getUrl: function(track) {
       return this.url({
-        artist: track.get('artist')
+        genre: track.get('genre')
       });
     }
     
     
   });
   
-  return Artists;
+  return Genres;
 
 });

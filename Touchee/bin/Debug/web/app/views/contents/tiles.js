@@ -15,7 +15,7 @@ define([
     dummy:        '<li>&nbsp;<span>&nbsp;</span></li>',
     listType:     'tiles',
     innerTagName: 'ul',
-    showIndex:  false,
+    showIndex:    false,
     extraRows:    10,
     
     
@@ -23,8 +23,6 @@ define([
     line1:        'id',
     line2:        'id',
     artwork:      true,
-    
-    
     // Override the size of the artwork to be loaded for each tile
     artworkSize:  null,
     
@@ -42,16 +40,14 @@ define([
     
     // Additional calculation for the zoom state of the tiles
     calculateSizes: function() {
-      ScrollListView.prototype.calculateSizes.apply(this, arguments);
+      var $dummy = ScrollListView.prototype.calculateSizes.apply(this, arguments);
       
       // Generate a dummy
-      var $dummy = $( _.result(this, 'dummy') )
-        .addClass('zoom')
+      $dummy.addClass('zoom')
         .css({
           position:   'absolute',
           visibility: 'hidden'
-        })
-        .appendTo(this.$inner);
+        }).appendTo(this.$inner);
       
       // Get the metrics
       var zoomMargins = _.map($dummy.css('margin').replace(/px/g, "").split(" "), function(m){return +m;}),
@@ -69,6 +65,7 @@ define([
         }
       };
       
+      return $dummy;
     },
     
     
@@ -100,9 +97,6 @@ define([
       // Do nothing if we have no items in view or no artwork provisioning
       if (!items.count || this.artwork === false) return;
       
-      // Store the last render items
-      this._lastRender = items;
-      
       // Start setting artwork on the first element in view
       this._setArtworkIter(
         items.firstInView,
@@ -110,7 +104,6 @@ define([
         items.firstInView + (items.full ? items.count : items.countInView) - 1,
         items.timestamp
       );
-      
     },
     
     
@@ -175,22 +168,21 @@ define([
           style   = {};
       
       // If we have any artwork
-      if (artwork && artwork.exists() === true) {
+      if (artwork && artwork.exists()) {
         
         // Get data
         var tileSize    = options.zoomed ? this.calculated.size.zoom : this.calculated.size,
-            artworkSize = this.artworkSize || this.calculated.size.zoom.inner.width,
-            style       = {};
-        
+            artworkSize = options.size || this.artworkSize || this.calculated.size.zoom.inner.width;
+
         // The image
-        style['background-image'] = "url(" + artwork.url({size:artworkSize}) + ")";
+        style['background-image'] = "url(" + (options.url || artwork.url({size:artworkSize})) + ")";
         
         // Square artwork: nothing special
         if (artwork.isSquare()) { }
         
         // Portrait artwork
         else if (artwork.isPortrait()) {
-          var imgWidth          = Math.ceil(tileSize.inner.height / artwork.get('ratio'));
+          var imgWidth          = Math.ceil(tileSize.inner.height * artwork.get('ratio'));
           style['width']        = imgWidth + 'px';
           style['margin-right'] = tileSize.margin.right + (tileSize.inner.width - imgWidth) + 'px';
         }
@@ -208,15 +200,8 @@ define([
         style['-webkit-transform'] = "translate3d(0," + this.details.height + "px,0)";
       }
       
-      // Convert to string representation
-      if (options.string) {
-        style = _.map(_.keys(style), function(k) {
-          return k + ":" + style[k];
-        }).join(';');
-      }
-      
-      return style;
-      
+      // Convert to string representation if requested
+      return options.string ? _.asCssString(style) : style;
     },
     
     
@@ -224,12 +209,12 @@ define([
     _setArtworkIter: function(itemIdx, elOffset, lastItemIdx, timestamp) {
       
       // Remember that we are busy with the current index
-      this._lastRender.artworkIdx = itemIdx;
+      this.data.lastRender.artworkIdx = itemIdx;
       
       // Function for doing the next item
       var view = this, doNext = function() {
         // Bail out if we have a different timestamp (new render) or if all tiles in view are done
-        if (view._lastRender.timestamp != timestamp || itemIdx + 1 == lastItemIdx) return;
+        if (view.data.lastRender.timestamp != timestamp || itemIdx + 1 >= lastItemIdx) return;
         view._setArtworkIter(
           itemIdx + 1,
           elOffset,
@@ -256,10 +241,10 @@ define([
         Artwork.fetch(item, {
           size:     this.artworkSize || this.calculated.size.zoom.inner.width,
           colors:   true,
-          success:  function(artwork) {
+          success:  function(artwork, url, img) {
             // If we have artwork, set it
             if (artwork.exists() === true) {
-              var artworkStyle  = view.getStyle(item, {zoomed: view.data.zoomed == item}),
+              var artworkStyle  = view.getStyle(item, {url:url, zoomed:view.data.zoomed == item}),
                   $el           = $(el).addClass('noanim');
               _.extend(el.style, artworkStyle);
               _.defer(function(){
@@ -274,7 +259,6 @@ define([
         });
         
       }
-      
     },
     
     
@@ -345,7 +329,7 @@ define([
       // The index of the item after which the other items should make room for the details
       props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
       // The DOM elements which should make room
-      var afterElIdx  = props.afterIdx + 1 < this._lastRender.first ? 0 : Math.min(props.afterIdx - this._lastRender.first, this.getCount()-1);
+      var afterElIdx  = props.afterIdx + 1 < this.data.lastRender.first ? 0 : Math.min(props.afterIdx - this.data.lastRender.first, this.getCount()-1);
       $moved          = this.$inner.children().eq(afterElIdx).nextAll();
       
       // Remove the detail view if asked
@@ -406,8 +390,8 @@ define([
           existing.$el.css('height', "");
         });
         
-        // Defer the removal of the hide class on the new content
-        _.defer(function(){ $content.removeClass('incoming'); });
+        // Remove the incoming clas son the new content
+        $content.removeClass('incoming');
         
         // Remove the dummy details, and redirect the var to the existing one
         $details.remove();
@@ -448,7 +432,7 @@ define([
         .css('left', props.arrowLeft + 'px');
       
       // Set scroll top
-      if (props.scrollTop) {
+      if (_.isNumber(props.scrollTop)) {
         this.disableRendering();
         this.$scroller.animate(
           { scrollTop:props.scrollTop },

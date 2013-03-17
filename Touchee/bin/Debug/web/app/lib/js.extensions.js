@@ -4,18 +4,6 @@ String.prototype.toTitleCase = function() {
 String.prototype.numberValue = function() {
   return Number(this.replace(/[^0-9\.\-]+/, ""));
 };
-String.htmlEncodeMap = {
-  "&": "&amp;",
-  "'": "&#39;",
-  '"': "&quot;",
-  "<": "&lt;",
-  ">": "&gt;"
-};
-String.prototype.htmlEncode = function() {
-  return this.replace(/[&"'\<\>]/g, function(c) {
-    return String.htmlEncodeMap[c];
-  });
-};
 // String.prototype.encodeForParams = function() {
 //   return encodeForParams(this);
 // };

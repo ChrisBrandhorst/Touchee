@@ -36,14 +36,12 @@ define([
     },
 
 
-    // 
-    get$: function(attr, val) {
-      switch(attr) {
-        case 'duration':
-          return String.duration(this.get('duration'));
-        case 'albumSelector':
-          return this.getAlbumSelector();
-      }
+    // Computed properties
+    computed: {
+      duration:         function() { return String.duration(this.attributes.duration); },
+      albumSelector:    function() { return this.getAlbumSelector(); },
+      albumArtist:      function() { return this.attributes.albumArtist || this.attributes.artist; },
+      albumArtistSort:  function() { return this.attributes.albumArtist ? this.attributes.albumArtistSort : this.attributes.artistSort; }
     }
     
     
