@@ -41,6 +41,7 @@ define([
     },
     
     
+    // 
     setLeft: function(view, options) {
       if (this.left) this.left.$el.remove();
       view.$el.prependTo(this.$el);
@@ -49,11 +50,26 @@ define([
     },
     
     
+    // 
     setRight: function(view, options) {
       if (this.right) this.right.$el.remove();
       view.$el.appendTo(this.$el);
       if (!options || options.render !== false) view.render();
       this.right = view;
+    },
+
+
+    // 
+    navigate: function(params, fragment, module) {
+      // Check if any subview is selected
+      if (!params[params.view]) return;
+
+      // Build the subview
+      var subView = module.buildView( this.model.contents.container, params, fragment, this.subView );
+      subView.model.fetch();
+
+      // Set in the right panel
+      this.setRight(subView);
     }
     
     

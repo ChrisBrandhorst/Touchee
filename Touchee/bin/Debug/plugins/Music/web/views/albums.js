@@ -2,10 +2,10 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'models/artwork',
+  './../models/view_models/albums',
   'views/contents/common_tiles',
   './_album_details'
-], function($, _, Backbone, Artwork, CommonTilesView, AlbumDetailsView) {
+], function($, _, Backbone, Albums, CommonTilesView, AlbumDetailsView) {
   
   var AlbumsView = CommonTilesView.extend({
     
@@ -18,7 +18,11 @@ define([
     line1:        'album$',
     line2:        'albumArtist$',
     
+
+    // Which model this view is supposed to show
+    viewModel:    Albums,
     
+
     // When an album is clicked, zoom the tile and show the details
     clickedTile: function(ev) {
       var $el     = $(ev.target).closest('li'),

@@ -252,7 +252,7 @@ define([
       // Function for doing the next group
       var view = this, doNext = function() {
         // Bail out if we have a different timestamp (new render) or if all groups in view are done
-        if (view.data.lastRender.timestamp != timestamp || groupIdx + 1 >= lastGroupIdx) return;
+        if (view.data.lastRender.timestamp != timestamp || groupIdx >= lastGroupIdx) return;
         view._setArtworkIter(
           groupIdx + 1,
           lastGroupIdx,

@@ -70,10 +70,7 @@ define([
       params = Touchee.Params.parse(params || "");
       
       // If we were not given any specific type to show in the params, we get the first viewType
-      var view      = params.view || _.keys(container.views)[0],
-          viewModel = container.views[view];
-      if (!viewModel)
-        return this.Log.error("No valid viewmodel class specified for container " + containerID + " (" + view + ")");
+      var view = params.view || container.views[0];
       
       // Find the base and full fragments
       delete params.view;

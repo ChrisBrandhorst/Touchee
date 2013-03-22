@@ -1,0 +1,19 @@
+<%
+
+var views = container.views;
+
+// Only one view? Show text only
+if (views.length == 1) {
+  %><h1><%= viewText(container, views[0]) %></h1><%
+
+// Else, show list of buttons
+} else { %>
+  <nav>
+    <% _.each(views, function(view){ %>
+      <a href="#<%= container.url({view:view}) %>" data-view="<%= view %>" class="button<%= view == selectedView ? ' selected' : '' %>">
+        <%= viewText(container, view) %>
+      </a>
+    <% }); %>
+  </nav>
+
+<% } %>

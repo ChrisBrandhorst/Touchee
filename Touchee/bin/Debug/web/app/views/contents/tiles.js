@@ -214,7 +214,7 @@ define([
       // Function for doing the next item
       var view = this, doNext = function() {
         // Bail out if we have a different timestamp (new render) or if all tiles in view are done
-        if (view.data.lastRender.timestamp != timestamp || itemIdx + 1 >= lastItemIdx) return;
+        if (view.data.lastRender.timestamp != timestamp || itemIdx >= lastItemIdx) return;
         view._setArtworkIter(
           itemIdx + 1,
           elOffset,

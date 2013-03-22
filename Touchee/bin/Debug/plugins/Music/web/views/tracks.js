@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  './../models/view_models/tracks',
   'views/contents/common_table'
-], function($, _, Backbone, CommonTableView) {
+], function($, _, Backbone, Tracks, CommonTableView) {
   
   var TracksView = CommonTableView.extend({
     
@@ -19,7 +20,11 @@ define([
       'artist',
       'album',
       'duration$'
-    ]
+    ],
+    
+    
+    // Which model this view is supposed to show
+    viewModel: Tracks
     
     
   });

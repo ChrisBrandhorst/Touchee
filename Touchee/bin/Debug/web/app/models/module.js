@@ -2,8 +2,10 @@ define([
   'underscore',
   'Backbone',
   'Touchee',
-  'views/browser'
-], function(_, Backbone, Touchee, BrowserView) {
+  'models/container',
+  'views/browser',
+  'views/contents/split'
+], function(_, Backbone, Touchee, Container, BrowserView, SplitView) {
   
   
   // Touchee.Module
@@ -16,6 +18,7 @@ define([
   };
   Module.extend = Backbone.Model.extend;
   
+
   // Set up all inheritable **Touchee.Module** properties and methods.
   _.extend(Module.prototype, Backbone.Events, {
     
@@ -29,7 +32,11 @@ define([
     views: {
       // viewID: ViewClass
     },
-    
+
+
+    // The default container model
+    containerModel: Container,
+
     
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
@@ -37,11 +44,9 @@ define([
     
     
     // Build the container object for the given container attributes
-    // Implement the getContainerClass method for custom behaviour
-    // PRIVATE
+    // VIRTUAL
     buildContainer: function(attrs, options) {
-      var containerClass = (_.isFunction(this.getContainerClass) && this.getContainerClass.call(this, attrs.type)) || Container;
-      return new containerClass(attrs, options);
+      return new this.containerModel(attrs, options);
     },
     
     
@@ -51,10 +56,13 @@ define([
     // - Fetch the contents of the view model;
     // - Start the inner navigation of the view.
     showContents: function(container, params, fragment) {
-      var view = this.getView(fragment) || this.buildView(container, params, fragment);
+      var existingView = this.getView(fragment);
+      var view = existingView || this.buildView(container, params, fragment);
       this.setView(view);
-      this.fetchViewContents(view);
-      this.navigate(view, params);
+      if (existingView)
+        this.navigate(view, params, fragment);
+      else
+        this.fetchViewContents(view);
     },
     
     
@@ -65,26 +73,27 @@ define([
     
     
     // Build the view object for the given container and params.
-    buildView: function(container, params, fragment) {
-      var view      = params.view,
-          viewClass = this._getViewClass(view);
+    buildView: function(container, params, fragment, viewClass) {
+      var view            = params.view,
+          viewClass       = viewClass || this.views[view],
+          viewModelClass  = viewClass.prototype.viewModel;
+
       if (!viewClass)
         return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
-      
+      if (!viewModelClass)
+        return this.Log.error("No valid view model class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
+
+      var viewModel = new viewModelClass(null, {
+        contents: container.buildContents(params),
+        params:   params
+      });
+
       var viewInstance = new viewClass({
-        model:  container.buildViewModel(params)
+        model:  viewModel
       });
       viewInstance.fragment = fragment;
       
       return viewInstance;
-    },
-
-
-    // Gets the view class for the given view description
-    // Implement the getViewClass method for custom behaviour
-    // PRIVATE
-    _getViewClass: function(view) {
-      return (_.isFunction(this.getViewClass) && this.getViewClass.apply(this, arguments)) || this.views[view];
     },
     
     
@@ -94,15 +103,17 @@ define([
     },
     
     
-    // 
+    // Fetch the contents of a view
     fetchViewContents: function(view) {
       view.model.fetch();
     },
     
     
-    //
-    navigate: function(view, params) {
-      // view.navigate(params);
+    // Navigate further into a view
+    navigate: function(view, params, fragment) {
+      // If the view has its own custom navigate, do that
+      if (_.isFunction(view.navigate))
+        view.navigate(params, fragment, this);
     }
     
     

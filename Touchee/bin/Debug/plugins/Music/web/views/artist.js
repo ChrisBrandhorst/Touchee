@@ -2,9 +2,10 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  './../models/view_models/artist_tracks',
   './_artist_tracks',
   'text!./_artist_header.html'
-], function($, _, Backbone, ArtistTracksView, artistHeaderTemplate) {  
+], function($, _, Backbone, ArtistTracks, ArtistTracksView, artistHeaderTemplate) {  
   artistHeaderTemplate = _.template(artistHeaderTemplate);
   
   var ArtistView = Backbone.View.extend({
@@ -14,7 +15,11 @@ define([
     tagName:      'section',
     className:    'artist',
     
+
+    // Which model this view is supposed to show
+    viewModel:    ArtistTracks,
     
+
     // Constructor
     initialize: function(options) {
       this.$header = $('<header/>').appendTo(this.$el);

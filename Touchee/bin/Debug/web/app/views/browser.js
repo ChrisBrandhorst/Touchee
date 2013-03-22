@@ -7,14 +7,16 @@ define([
   'models/status',
   'views/media/popup',
   'i18n!nls/locale',
-  'text!views/browser.html'
+  'text!views/browser.html',
+  'text!views/_browser_views.html'
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
             MediaPopupView,
             I18n,
-            browserTemplate) {
+            browserTemplate, browserViewsTemplate) {
   
   browserTemplate = _.template(browserTemplate);
+  browserViewsTemplate = _.template(browserViewsTemplate);
   
   
   var BrowserView = new(Backbone.View.extend({
@@ -82,8 +84,9 @@ define([
       this.$search = this.$('input[name=search]');
       this.$contents = this.$('#contents');
       this.$connecting = this.$('#connecting');
-      this.$viewButtons = this.$('#view_buttons');
-      this.$viewName = this.$('#view_name');
+      // this.$viewButtons = this.$('#view_buttons');
+      // this.$viewName = this.$('#view_name');
+      this.$views = this.$('#views');
       
       // Set controls as if we are disconnected
       this.disconnected();
@@ -158,63 +161,21 @@ define([
         .addClass(container.get('contentType'))
         .html(container.get('name'));
       
-      // Get the views
-      var views = _.keys(container.views);
-        
-      // If we have a different container, set the new view buttons
-      if (container != this.selectedContainer) {
-        this.selectedContainer = container;
-        
-        // Clear the buttons list
-        var $viewButtons = this.$viewButtons.empty();
-        
-        // If only one view, set it as text
-        if (views.length == 1) {
-          this.$viewName.html(this._getViewText(container, views[0]));
-          $viewButtons.hide();
-        }
-        
-        // Otherwise, set the buttons
-        else {
-          
-          // Loop through the views
-          _.each(views, function(view){
-            // Get the text
-            var text = BrowserView._getViewText(container, view);
-            // Make the button
-            var $button = $('<a href="#" class="button" />')
-              .text(text)
-              .attr({
-                href:         "#" + container.url({view:view}),
-                'data-view':  view
-              });
-            // Set selected class if this is the selected view
-            if (selectedView == view) $button.addClass('selected');
-            // Place the button
-            $viewButtons.append($button);
-          });
-          
-          this.$viewName.html("").hide();
-          $viewButtons.show();
-        }
-      }
+      this.$views.html(
+        browserViewsTemplate({
+          container:    container,
+          viewText:     this._getViewText,
+          selectedView: selectedView
+        })
+      );
       
-      // Else, only set the selection
-      else if (views.length > 1) {
-        this.$viewButtons.children()
-          .removeClass('selected')
-          .filter('[data-view='+selectedView+']')
-          .addClass('selected');
-      }
+      this.selectedContainer = container;
       
     },
     
     
     // Gets the view text for the given container and view
     _getViewText: function(container, view) {
-      if (view == "tracks") {
-        debugger;
-      }
       var plugin  = container.get('plugin'),
           key     = 'p.'+plugin+'.views.'+view,
           text    = I18n.t(key);

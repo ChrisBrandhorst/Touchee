@@ -2,9 +2,10 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  './../models/view_models/genre_tracks',
   './_genre_tracks',
   'text!./_genre_header.html'
-], function($, _, Backbone, GenreTracksView, genreHeaderTemplate) {  
+], function($, _, Backbone, GenreTracks, GenreTracksView, genreHeaderTemplate) {  
   genreHeaderTemplate = _.template(genreHeaderTemplate);
   
   var GenreView = Backbone.View.extend({
@@ -13,6 +14,10 @@ define([
     // Backbone View options
     tagName:      'section',
     className:    'genre',
+    
+
+    // Which model this view is supposed to show
+    viewModel:    GenreTracks,
     
     
     // Constructor
