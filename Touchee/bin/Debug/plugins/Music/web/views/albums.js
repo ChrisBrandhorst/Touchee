@@ -10,7 +10,7 @@ define([
   var AlbumsView = CommonTilesView.extend({
     
     // ScrollList properties
-    contentType:    'albums',
+    className:      'albums',
     indexAttribute: 'albumArtistSort',
     
     

@@ -13,7 +13,7 @@ define([
     
     
     // The different views that are available for this container
-    views: ['artist', 'track', 'album', 'genre', 'playlist']
+    views: ['album', 'artist', 'track', 'genre', 'playlist']
 
     
   });

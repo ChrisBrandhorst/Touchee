@@ -10,8 +10,8 @@ define([
     
     
     // ScrollList properties
-    contentType:  'tracks',
-    index:        'titleSort',
+    className:  'tracks',
+    index:      'titleSort',
     
     
     // Table properties

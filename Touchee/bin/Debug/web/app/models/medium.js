@@ -14,12 +14,13 @@ define([
       
       // If the containers collection is reset, trigger event for rendering the local medium page
       if (!this.isLocal()) {
-        this.containers.on('reset', function(){
-          this.trigger('reset:containers', this);
-        }, this);
-        this.containers.on('update', function(){
-          this.trigger('update:containers', this);
-        }, this);
+        this
+          .listenTo(this.containers, 'reset', function(){
+            this.trigger('reset:containers', this);
+          })
+          .listenTo(this.containers, 'update', function(){
+            this.trigger('update:containers', this);
+          });
       }
     },
     

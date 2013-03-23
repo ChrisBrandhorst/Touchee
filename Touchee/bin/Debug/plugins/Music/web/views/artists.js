@@ -3,30 +3,45 @@ define([
   'underscore',
   'Backbone',
   './../models/view_models/artists',
-  'views/contents/split',
-  './_artists_list',
-  './artist'
-], function($, _, Backbone, Artists, SplitView, ArtistsListView, ArtistView) {
+  './../models/view_models/grouped_tracks',
+  'views/contents/common_table',
+  'views/contents/common_split',
+  'views/contents/common_split_details',
+  'views/contents/common_grouped_table',
+  'text!./_artist_header.html'
+], function($, _, Backbone, Artists, GroupedTracks, CommonTableView, CommonSplitView, CommonSplitDetailsView, CommonGroupedTableView, artistHeaderTemplate) {
   
-  
-  var ArtistsView = SplitView.extend({
-    
+
+  var ArtistsView = CommonSplitView.extend({
     
     // SplitView options
-    contentType:  'artists',
-    
-
-    // Which model this view is supposed to show
+    className:    'artists',
     viewModel:    Artists,
-    subView:      ArtistView,
+    
+    // View for the left list
+    listView:     CommonTableView.extend({
+      className:    'artists',
+      index:        'artistSort',
+      selection:    { keep:true },
+      columns:      ['artist$']
+    }),
 
-    
-    // Constructor
-    initialize: function(options) {
-      this.left = new ArtistsListView(options);
-      SplitView.prototype.initialize.apply(this, arguments);
-    }
-    
+    // Combined view for the right details
+    detailView:   CommonSplitDetailsView.extend({
+      className:    'artist',
+      viewModel:    GroupedTracks.extend({ groupByAttr:'artist' }),
+      header:       _.template(artistHeaderTemplate),
+
+      // The actual detail list
+      contentView:  CommonGroupedTableView.extend({
+        className:    'tracks',
+        quickscroll:  true,
+        index:        function(item) { return item.get('album$'); },
+        columns:      ['trackNumber', 'title', 'duration$'],
+        artworkSize:  250
+      })
+      
+    })
     
   });
   

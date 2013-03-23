@@ -40,15 +40,18 @@ namespace Music.Media {
         /// <summary>
         /// The tracks of this playlist
         /// </summary>
-        public IEnumerable<ITrack> Tracks { get { return _tracks; } }
+        public virtual IEnumerable<ITrack> Tracks { get { return _tracks; } }
 
 
         /// <summary>
         /// Add a track to this playlist
         /// </summary>
         /// <param name="track">The track to add</param>
-        public void Add(ITrack track) {
-            _tracks.Add(track);
+        public virtual void Add(ITrack track) {
+            lock (_tracks) {
+                _tracks.Add(track);
+            }
+            this.NotifyContentChanged();
         }
 
 
@@ -58,10 +61,13 @@ namespace Music.Media {
         /// <param name="track">The track to add</param>
         /// <param name="index">The index to add the track</param>
         /// <exception cref="ArgumentOutOfRangeException">If the position exceeds the size of the playlist</exception>
-        public void Add(ITrack track, uint index) {
+        public virtual void Add(ITrack track, uint index) {
             if (index > _tracks.Count)
                 throw new ArgumentOutOfRangeException("The index exceeds the size of the playlist");
-            _tracks.Insert((int)index, track);
+            lock (_tracks) {
+                _tracks.Insert((int)index, track);
+            }
+            this.NotifyContentChanged();
         }
 
 
@@ -69,8 +75,13 @@ namespace Music.Media {
         /// Remove a track from this playlist
         /// </summary>
         /// <param name="track">The track to remove</param>
-        public void Remove(ITrack track) {
-            _tracks.Remove(track);
+        public virtual bool Remove(ITrack track) {
+            bool removed;
+            lock (_tracks) {
+                removed = _tracks.Remove(track);
+            }
+            this.NotifyContentChanged();
+            return removed;
         }
 
 

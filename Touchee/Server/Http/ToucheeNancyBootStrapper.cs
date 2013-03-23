@@ -16,7 +16,8 @@ namespace Touchee.Server.Http {
     public class ToucheeNancyBootStrapper : DefaultNancyBootstrapper {
 
         protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, IPipelines pipelines) {
-            StaticConfiguration.DisableCaches = false;
+            StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
+            StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
         }
 
         protected override void ConfigureConventions(NancyConventions conventions) {

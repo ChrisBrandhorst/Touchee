@@ -17,8 +17,9 @@ define([
     
     // Constructor
     initialize: function(options) {
-      this.model.on('artwork', this.setArtwork, this);
-      this.model.on('colors', this.setColors, this);
+      this
+        .listenTo(this.model, 'artwork', this.setArtwork)
+        .listenTo(this.model, 'colors', this.setColors);
     },
     
     

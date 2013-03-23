@@ -93,16 +93,16 @@ define([
     // Starts the iterative getting of artwork
     // VIRTUAL
     afterRender: function(items) {
-      
+
       // Do nothing if we have no items in view or no artwork provisioning
       if (!items.count || this.artwork === false) return;
-      
+
       // Start setting artwork on the first element in view
       this._setArtworkIter(
         items.firstInView,
         items.firstInView - (items.firstInView - items.first),
         items.firstInView + (items.full ? items.count : items.countInView) - 1,
-        items.timestamp
+        this.data.lastRender.timestamp
       );
     },
     

@@ -20,11 +20,11 @@ namespace Music {
 
             // Get the track by ID;
             int id = filter["id"];
-            if (!Track.Exists(id)) return null;
-            var track = Track.Find(id);
+            if (!FileTrack.Exists(id)) return null;
+            var track = FileTrack.Find(id);
 
             // Get all tracks of the album
-            var tracks = Track.GetAlbum(track);
+            var tracks = FileTrack.GetAlbum(track);
 
             // Get the artwork from one of the tracks of the album
             Image artwork = null;

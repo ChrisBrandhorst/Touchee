@@ -47,7 +47,7 @@ namespace Touchee {
             //);
 
             string m = String.Format(
-                "{0}: {3} @ {1}#{2}",
+                "[{0}]: {3} @ {1}#{2}",
                 level.ToString(),
                 methodBase.ReflectedType.FullName,
                 methodBase.Name,

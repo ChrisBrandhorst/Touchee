@@ -28,7 +28,6 @@ define([
     // Backbone View options
     // ---------------------
     tagName:      'section',
-    className:    'scroll_list',
     
     
     
@@ -38,8 +37,6 @@ define([
     
     // Type of scrolllist
     listType:       '',
-    // Type of content
-    contentType:    '',
     // Element used as floating index
     floatingIndex:  '<div/>',
     // jQuery object for the inner element. If this is not given, a new element is made
@@ -56,7 +53,7 @@ define([
     indexAttribute: null,
 
     // From which number of items the list is rendered in one piece
-    min:            200,
+    min:            0,
     // The number of extra rows to render outside the visible portion
     extraRows:      80,
     // Sets the quickscroll: false for none, true for default and 'alpha' for alpha version
@@ -86,7 +83,7 @@ define([
     // Constructor
     initialize: function() {
       this.$el.addClass(this.listType);
-      this.$el.addClass(this.contentType);
+      this.$el.addClass('scroll_list');
       
       this.calculated = {};
       this.data = {};
@@ -94,7 +91,7 @@ define([
       if (this.selectable)
         this.selection = _.extend({}, selectionDefaults, this.selection);
 
-      this.model.on('reset add remove change', this._contentChanged, this);
+      this.listenTo(this.model, 'reset add remove change', this._contentChanged);
     },
     
     
@@ -143,7 +140,7 @@ define([
           scrollList  = this,
           deBounceRender = _.debounce(_.bind(this._renderInView, this), this.renderDelay),
           scrollTimeout;
-      
+
       // If we have touches, do some advanced events for efficiency
       if ('ontouchstart' in document.documentElement) {
         // Start touch
@@ -216,9 +213,8 @@ define([
     
     // Called when the view is disposed
     // VIRTUAL
-    onDispose: function() {
+    onRemove: function() {
       this._unbind();
-      this.model.off('reset add remove change', this._contentChanged);
     },
     
     
@@ -442,59 +438,45 @@ define([
         block:        renderIndices ? this._getBlockInfo() : null,
         first:        0,
         count:        total,
-        indices:      { above:0, below:0 },
-        timestamp:    new Date().getTime()
+        indices:      { above:0, below:0 }
       };
       
       // If we are already fully rendered, but we're not forced, we don't need another render
       if (data.lastCalc && data.lastCalc.fullRender && force !== true)
         calc.needsRender = false;
       
-      // Calculate which item we should show if we are not fully rendering the list
-      if (!calc.fullRender) {
-        
-        // Calculate the extra rows to be added to the top and bottom
-        var scrolledUp      = calc.scrollTop < (data.lastCalc && data.lastCalc.scrollTop),
-            extraCount      = this.extraRows * capacity.hori,
-            extraRowsAbove  = Math.round(this.extraRows * (scrolledUp ? .75 : .25)),
-            extraAbove      = extraRowsAbove * capacity.hori;
-        
-        // If we show indices, do fancy calculation
-        if (renderIndices) {
-          
-          // Calculate the first item in view
-          var inBlock   = Math.floor(Math.max(0, calc.scrollTop - calc.block.height - size.indexHeight) / size.height),
-              idx       = this.calculated.indices.indices[calc.block.idxIdx - 1];
-          calc.firstInView = (idx ? this.calculated.indices.cumulCountMap[idx] : 0) + inBlock;
-          
-          // Correct for extra rows
-          calc.first = Math.max(0, calc.firstInView - extraAbove);
-          calc.count = Math.min(calc.total - calc.first, capacity.vert * capacity.hori + extraCount);
-          
-          // Set indices above / below
-          var firstIdx = this.calculated.indices.items[calc.first];
-          calc.indices.above = this.calculated.indices.posMap[firstIdx];
-          var lastIdx = this.calculated.indices.items[calc.first + calc.count - 1];
-          calc.indices.below = this.calculated.indices.indices.length - this.calculated.indices.posMap[lastIdx] - 1;
-
-        }
-        
-        // Else, simply use the viewport to calculate which items to show
-        else {
-          // Calculate the first and last in view based on the viewport
-          calc.firstInView = Math.floor(calc.scrollTop / size.height) * capacity.hori;
-          calc.count = capacity.vert * capacity.hori;
-          
-          // Make sure all is within bounds, including the extra rows
-          calc.first = Math.max(0, calc.firstInView - extraAbove);
-          calc.count = Math.min(calc.total - calc.first, calc.count + extraCount);
-        }
-        
+      // Calculate the extra rows to be added to the top and bottom
+      var scrolledUp      = calc.scrollTop < (data.lastCalc && data.lastCalc.scrollTop),
+          extraCount      = calc.fullRender ? total : this.extraRows * capacity.hori,
+          extraRowsAbove  = Math.round(this.extraRows * (scrolledUp ? .75 : .25)),
+          extraAbove      = calc.fullRender ? total : extraRowsAbove * capacity.hori;
+      
+      // If we show indices, do fancy calculation for first item in view
+      if (renderIndices) {
+        var inBlock   = Math.floor(Math.max(0, calc.scrollTop - calc.block.height - size.indexHeight) / size.height),
+            idx       = this.calculated.indices.indices[calc.block.idxIdx - 1];
+        calc.firstInView = (idx ? this.calculated.indices.cumulCountMap[idx] : 0) + inBlock;
       }
 
+      // Else, calculate the first and last in view based on the viewport
+      else {
+        calc.firstInView = Math.floor(calc.scrollTop / size.height) * capacity.hori;
+      }
+
+      // Correct for extra rows
+      calc.first = Math.max(0, calc.firstInView - extraAbove);
+      calc.count = Math.min(calc.total - calc.first, capacity.vert * capacity.hori + extraCount);
       // Count the number of items in the view
       calc.countInView = Math.min(calc.total - calc.firstInView, capacity.vert * capacity.hori);
-      
+
+      // Set indices above / below
+      if (renderIndices) {
+        var firstIdx = this.calculated.indices.items[calc.first];
+        calc.indices.above = this.calculated.indices.posMap[firstIdx];
+        var lastIdx = this.calculated.indices.items[calc.first + calc.count - 1];
+        calc.indices.below = this.calculated.indices.indices.length - this.calculated.indices.posMap[lastIdx] - 1;
+      }
+
       return data.lastCalc = calc;
     },
 
@@ -502,7 +484,7 @@ define([
     // Renders the visible items
     // PRIVATE
     _renderInView: function() {
-      if (!this._renderingEnabled) render;
+      if (!this._renderingEnabled) return;
 
       var items         = this.data.lastCalc,
           size          = this.calculated.size,
@@ -510,31 +492,32 @@ define([
           renderIndices = this.index && this.showIndex;
 
       // Do nothing if we need no render
-      if (items.needsRender === false) return;
+      if (items.needsRender !== false) {
 
-      // Set the HTML
-      this.$inner[0].innerHTML = this.renderItems(items);
-      
-      // Calculate margins
-      var marginTop     = (items.first / capacity.hori) * size.height,
-          marginBottom  = Math.ceil((items.total - items.count - items.first) / capacity.hori) * size.height;
+        // Set the HTML
+        this.$inner[0].innerHTML = this.renderItems(items);
+        
+        // Calculate margins
+        var marginTop     = (items.first / capacity.hori) * size.height,
+            marginBottom  = Math.ceil((items.total - items.count - items.first) / capacity.hori) * size.height;
 
-      // Correct for indices
-      if (renderIndices) {
-        marginTop     += items.indices.above * size.indexHeight;
-        marginBottom  += items.indices.below * size.indexHeight;
+        // Correct for indices
+        if (renderIndices) {
+          marginTop     += items.indices.above * size.indexHeight;
+          marginBottom  += items.indices.below * size.indexHeight;
+        }
+
+        // Set margins
+        this.$inner[0].style.marginTop    = marginTop + 'px';
+        this.$inner[0].style.marginBottom = marginBottom + 'px';
+
+        // Save the items which were rendered
+        this.data.lastRender = _.extend({}, items, {timestamp:new Date().getTime()});
+
+        // Position index
+        if (renderIndices)
+          this.positionFloatingIndex();
       }
-
-      // Set margins
-      this.$inner[0].style.marginTop    = marginTop + 'px';
-      this.$inner[0].style.marginBottom = marginBottom + 'px';
-
-      // Save the items which were rendered
-      this.data.lastRender = items;
-
-      // Position index
-      if (renderIndices)
-        this.positionFloatingIndex();
 
       // After render
       this.afterRender(items);

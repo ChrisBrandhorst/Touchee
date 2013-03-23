@@ -22,10 +22,11 @@ define([
       this.contents = options.contents;
       this.params   = options.params;
       
-      this.contents.on('reset',   this._contentsReset,  this);
-      this.contents.on('change',  this._contentsChange, this);
-      this.contents.on('add',     this.add,             this);
-      this.contents.on('remove',  this.remove,          this);
+      this
+        .listenTo(this.contents, 'reset',   this._contentsReset)
+        .listenTo(this.contents, 'change',  this._contentsChange)
+        .listenTo(this.contents, 'add',     this.add)
+        .listenTo(this.contents, 'remove',  this.remove);
       
       this._contentsReset(this.contents);
     },

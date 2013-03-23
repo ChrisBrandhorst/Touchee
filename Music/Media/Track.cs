@@ -13,7 +13,7 @@ using Touchee.Media.Music;
 namespace Music.Media {
 
     [DataContract(Namespace = "")]
-    public class Track : Collectable<Track>, ITrack {
+    public class FileTrack : Collectable<FileTrack>, ITrack {
 
 
         #region Statics
@@ -24,9 +24,9 @@ namespace Music.Media {
         /// </summary>
         /// <param name="path">The path to search for</param>
         /// <returns>The track with the given path, or null if none found</returns>
-        public static Track GetByPath(string path) {
+        public static FileTrack GetByPath(string path) {
             var uri = new Uri(path);
-            return Media.Track.FirstOrDefault(t => t.Uri.Equals(uri));
+            return Media.FileTrack.FirstOrDefault(t => t.Uri.Equals(uri));
         }
 
 
@@ -40,7 +40,7 @@ namespace Music.Media {
         /// Constructs a new Track object
         /// </summary>
         /// <param name="file">The FileInfo object of the music file</param>
-        public Track(FileInfo file) {
+        public FileTrack(FileInfo file) {
             this.Update(file);
         }
 
@@ -56,7 +56,7 @@ namespace Music.Media {
         /// </summary>
         /// <param name="file">The file to update to</param>
         public void Update(FileInfo file) {
-
+            
             // Set the Uri
             this.Uri = new Uri(file.FullName);
 
@@ -320,8 +320,8 @@ namespace Music.Media {
 
 
 
-        public static IEnumerable<Track> GetAlbum(Track track) {
-            return Track.Where(t => t.Album == track.Album && t.AlbumArtist == track.AlbumArtist).OrderBy(t => t.DiscNumber).ThenBy(t => t.TrackNumber).ThenBy(t => t.TitleSort);
+        public static IEnumerable<FileTrack> GetAlbum(FileTrack track) {
+            return FileTrack.Where(t => t.Album == track.Album && t.AlbumArtist == track.AlbumArtist).OrderBy(t => t.DiscNumber).ThenBy(t => t.TrackNumber).ThenBy(t => t.TitleSort);
         }
 
 

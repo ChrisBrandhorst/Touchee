@@ -92,7 +92,6 @@ namespace Music {
             PluginManager.Register(ArtworkProvider);
 
             return true;
-
         }
 
 

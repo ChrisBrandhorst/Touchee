@@ -319,7 +319,7 @@ namespace Touchee {
                 _table[Id] = this;
                 _sourceTable[SourceId] = this;
             }
-
+            
             // Do create or update and save after callbacks
             if (isNew) {
                 if (Collectable<T>.AfterCreate != null && Id > 0)
@@ -338,24 +338,32 @@ namespace Touchee {
         /// <summary>
         /// Whether this instance has been disposed
         /// </summary>
-        public bool Disposed { get; protected set; }
+        public bool IsDisposed { get; private set; }
 
 
         /// <summary>
         /// Disposes of the instance, informing any listeners if appropriate
         /// </summary>
         public virtual void Dispose() {
-            if (!this.Disposed) {
+            if (!this.IsDisposed) {
                 if (Collectable<T>.BeforeDispose != null && Id > 0)
                     Collectable<T>.BeforeDispose.Invoke(this, new ItemEventArgs(ItemChangeTypes.Deleted, this));
                 if (_table.ContainsKey(this.Id))
                     _table.Remove(this.Id);
                 if (_sourceTable.ContainsKey(this.SourceId))
                     _sourceTable.Remove(this.SourceId);
-                this.Disposed = true;
+                this.IsDisposed = true;
+                this.OnDispose();
                 if (Collectable<T>.AfterDispose != null && Id > 0)
                     Collectable<T>.AfterDispose.Invoke(this, new ItemEventArgs(ItemChangeTypes.Deleted, this));
             }
+        }
+
+
+        /// <summary>
+        /// Called when the object is being disposed
+        /// </summary>
+        public virtual void OnDispose() {
         }
 
         #endregion

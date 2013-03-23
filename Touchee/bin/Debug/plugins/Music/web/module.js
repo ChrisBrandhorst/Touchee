@@ -1,17 +1,14 @@
 define([
   'underscore',
   'models/module',
+  
   './views/tracks',
   './views/albums',
-
   './views/artists',
   './views/genres',
 
-  './views/artist',
-  './views/genre',
-
   './models/containers/master_playlist'
-], function(_, BaseModule, TracksView, AlbumsView, ArtistsView, GenresView, ArtistView, GenreView, MasterPlaylist){
+], function(_, BaseModule, TracksView, AlbumsView, ArtistsView, GenresView, MasterPlaylist){
   
   var MusicModule = BaseModule.extend({
 

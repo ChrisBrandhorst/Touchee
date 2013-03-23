@@ -16,11 +16,6 @@ namespace Touchee {
         string Name { get; }
 
         /// <summary>
-        /// The order number to be used for sorting the containers in the frontend
-        /// </summary>
-        int Order { get; }
-
-        /// <summary>
         /// String array containing names of views by which the contents can be viewed
         /// The first view should be the default one
         /// </summary>

@@ -4,11 +4,24 @@ define([
 ], function(_, Backbone){
   
   
-  // View disposal
-  Backbone.View.prototype.dispose = function(){
-    this.remove();
-    if (typeof this.onDispose == 'function')
+  // View removal callback
+  var viewRemove = Backbone.View.prototype.remove;
+  Backbone.View.prototype.remove = function(){
+    viewRemove.call(this);
+    if (_.isFunction(this.onRemove))
+      this.onRemove();
+    this.trigger('removed');
+    return this;
+  };
+  
+  
+  // Model and Collection disposal
+  Backbone.Model.prototype.dispose = Backbone.Collection.prototype.dispose = function() {
+    this.stopListening();
+    if (_.isFunction(this.onDispose))
       this.onDispose();
+    this.trigger('disposed');
+    return this;
   };
   
   

@@ -85,13 +85,14 @@ namespace Touchee {
             // Instantiate all available MediumWatchers
             // These watch the Medium instances and generate Containers
             _mediumWatchers = PluginManager.GetComponent<IMediumWatcher>().ToList();
-            Medium.AfterCreate += new Collectable<Medium>.ItemEventHandler(Medium_AfterCreate);
-            Medium.AfterDispose += new Collectable<Medium>.ItemEventHandler(Medium_AfterDispose);
+            Medium.AfterCreate += Medium_AfterCreate;
+            Medium.AfterDispose += Medium_AfterDispose;
 
             // Watch for container changes
-            Container.AfterCreate += new Collectable<Container>.ItemEventHandler(Container_AfterCreate);
-            Container.AfterUpdate += new Collectable<Container>.ItemEventHandler(Container_AfterUpdate);
-            Container.AfterDispose += new Collectable<Container>.ItemEventHandler(Container_AfterDispose);
+            Container.AfterCreate += Container_AfterCreate;
+            Container.AfterUpdate += Container_AfterUpdate;
+            Container.AfterDispose += Container_AfterDispose;
+            Container.ContentChanged += Container_ContentChanged;
 
             // Init local and web media
             string name = Program.Config.GetString("name", System.Environment.MachineName);
@@ -159,6 +160,14 @@ namespace Touchee {
         /// </summary>
         void Container_AfterDispose(object sender, Collectable<Container>.ItemEventArgs e) {
             BroadcastContainers(e.Item.Medium);
+        }
+
+        /// <summary>
+        /// Called when the contents of a container have been modified.
+        /// </summary>
+        /// <param name="container">The container which is modified</param>
+        void Container_ContentChanged(Container container) {
+            
         }
 
 

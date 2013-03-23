@@ -21,15 +21,11 @@ namespace Music {
 
         #region Privates
 
-        // The masterplaylist for the medium
-        MasterPlaylist _masterPlaylist;
-
         #endregion
 
 
 
         #region Constructor
-
 
         /// <summary>
         /// Constructs a new MediaFinder
@@ -38,9 +34,6 @@ namespace Music {
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
         public MusicDirectoryWatcher(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions) : base(medium, directory, extensions) {
-            _masterPlaylist = (MasterPlaylist)(medium.Containers.FirstOrDefault(c => c is MasterPlaylist));
-            if (_masterPlaylist == null)
-                throw new ArgumentException("The given medium does not have a master playlist (yet)");
         }
 
         #endregion
@@ -65,9 +58,8 @@ namespace Music {
             
             // A track was created
             if (IsTrack(file)) {
-                var track = new Track(file);
+                var track = new FileTrack(file);
                 track.Save();
-                _masterPlaylist.Add(track);
             }
 
             // A playlist was created
@@ -85,9 +77,10 @@ namespace Music {
 
             // A track was changed
             if (IsTrack(file)) {
-                var track = Track.GetByPath(file.FullName);
+                var track = FileTrack.GetByPath(file.FullName);
                 if (track != null) {
                     track.Update(file);
+                    track.Save();
                 }
             }
 
@@ -106,12 +99,12 @@ namespace Music {
 
             // A track was renamed
             if (IsTrack(file)) {
-                var track = Track.GetByPath(e.OldFullPath);
+                var track = FileTrack.GetByPath(e.OldFullPath);
                 if (track == null) {
                     this.OnFileCreated(file);
                 }
                 else {
-                    track.Update(file);
+                    this.OnFileChanged(file);
                 }
             }
 
@@ -131,10 +124,12 @@ namespace Music {
 
             // A track was deleted
             if (IsTrack(file)) {
-                var track = Track.GetByPath(file.FullName);
+                var track = FileTrack.GetByPath(file.FullName);
                 if (track != null) {
-                    _masterPlaylist.Remove(track);
                     track.Dispose();
+                    foreach (var playlist in Medium.Containers.Where(p => !(p is MasterPlaylist)).Cast<Playlist>()) {
+                        playlist.Remove(track);
+                    }
                 }
             }
 

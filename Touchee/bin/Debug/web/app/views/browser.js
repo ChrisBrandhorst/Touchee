@@ -46,10 +46,11 @@ define([
       this.render();
       
       // Set callbacks from models
-      Communicator.on('connected', this.connected, this);
-      Communicator.on('disconnected', this.disconnected, this);
-      ServerInfo.on('change', this.serverInfoChanged, this);
-      Status.on('change', this.statusChanged, this);
+      this
+        .listenTo(Communicator, 'connected', this.connected)
+        .listenTo(Communicator, 'disconnected', this.disconnected)
+        .listenTo(ServerInfo, 'change', this.serverInfoChanged)
+        .listenTo(Status, 'change', this.statusChanged);
     },
     
     

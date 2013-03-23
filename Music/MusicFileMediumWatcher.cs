@@ -108,12 +108,11 @@ namespace Music {
         protected override void OnUnWatch(Medium medium) {
 
             // Dispose all playlists and tracks for this medium
-            foreach (var c in medium.Containers.Cast<Playlist>()) {
-                foreach (var t in c.Tracks.Cast<Track>()) {
-                    if (!t.Disposed)
-                        t.Dispose();
+            foreach (var playlist in medium.Containers.Cast<Playlist>()) {
+                foreach (var track in playlist.Tracks.Cast<FileTrack>()) {
+                    track.Dispose();
                 }
-                c.Dispose();
+                playlist.Dispose();
             }
 
         }

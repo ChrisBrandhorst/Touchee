@@ -1,10 +1,11 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
-//using System.Linq;
+using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
 
 using Touchee;
+using Touchee.Media.Music;
 
 namespace Music.Media {
     
@@ -14,13 +15,12 @@ namespace Music.Media {
         /// Constructor
         /// </summary>
         /// <param name="medium"></param>
-        public MasterPlaylist(Medium medium) : base(medium, medium.Name) { }
+        public MasterPlaylist(Medium medium) : base(medium, medium.Name) {
 
-        /// <summary>
-        /// The order number to be used for sorting the containers in the frontend.
-        /// If this value is -1, the container is sorted by its name.
-        /// </summary>
-        public override int Order { get { return 0; } }
+            FileTrack.AfterSave += (s, e) => this.NotifyContentChanged();
+            FileTrack.AfterDispose += (s, e) => this.NotifyContentChanged();
+            
+        }
 
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'
@@ -40,6 +40,32 @@ namespace Music.Media {
                     Music.ViewTypes.Genre
                 };
             }
+        }
+
+        /// <summary>
+        /// The tracks of this playlist
+        /// </summary>
+        public override IEnumerable<ITrack> Tracks { get { return FileTrack.All().Cast<ITrack>(); } }
+
+        /// <summary>
+        /// Invalid method
+        /// </summary>
+        public override void Add(Touchee.Media.Music.ITrack track) {
+            throw new InvalidOperationException("Cannot add a track to the master playlist. This playlist is managed automatically.");
+        }
+
+        /// <summary>
+        /// Invalid method
+        /// </summary>
+        public override void Add(Touchee.Media.Music.ITrack track, uint index) {
+            throw new InvalidOperationException("Cannot add a track to the master playlist. This playlist ismanaged automatically.");
+        }
+
+        /// <summary>
+        /// Invalid method
+        /// </summary>
+        public override bool Remove(Touchee.Media.Music.ITrack track) {
+            throw new InvalidOperationException("Cannot remove a track from the master playlist. This playlist ismanaged automatically.");
         }
 
     }

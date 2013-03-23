@@ -21,8 +21,10 @@ define([
     // Constructor
     initialize: function() {
       PageView.prototype.initialize.apply(this, arguments);
-      this.model.on('reset update add remove', this.render, this);
-      this.on('back', this.removeSelection, this);
+
+      this
+        .listenTo(this.model, 'reset update add remove', this.render)
+        .listenTo(this, 'back', this.removeSelection);
     },
     
     

@@ -82,14 +82,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Nancy\src\Nancy.Hosting.Self\Nancy.Hosting.Self.csproj">
-      <Project>{aa7f66eb-ec2c-47de-855f-30b3e6ef2134}</Project>
-      <Name>Nancy.Hosting.Self</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Nancy\src\Nancy\Nancy.csproj">
-      <Project>{34576216-0dca-4b0f-a0dc-9075e75a676f}</Project>
-      <Name>Nancy</Name>
-    </ProjectReference>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">
       <Project>{76b24f44-0f71-46f1-9d79-373ecfbc72bf}</Project>
       <Name>ToucheeLib</Name>
@@ -103,6 +95,12 @@
       <HintPath>..\ToucheeLib\lib\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Nancy">
+      <HintPath>..\packages\Nancy.0.16.1\lib\net40\Nancy.dll</HintPath>
+    </Reference>
+    <Reference Include="Nancy.Hosting.Self">
+      <HintPath>..\packages\Nancy.Hosting.Self.0.16.1\lib\net40\Nancy.Hosting.Self.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
     </Reference>

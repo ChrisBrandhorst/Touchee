@@ -35,7 +35,8 @@ namespace Touchee.Media.Music {
         /// Remove a track from this playlist
         /// </summary>
         /// <param name="track">The track to remove</param>
-        void Remove(ITrack track);
+        /// <returns>True if item is successfully removed; otherwise, false. This method also returns false if item was not found in the Playlist.</returns>
+        bool Remove(ITrack track);
 
 
     }
