@@ -22,6 +22,7 @@ define([
       options || (options = {});
       this.container = options.container;
       this.params = options.params;
+      this.listenTo(this.container, 'notifyContentsChanged', this.notifyContentsChanged);
     },
     
     
@@ -42,6 +43,14 @@ define([
     // Parse the response in order to fill the items collection
     parse: function(response) {
       return response.contents;
+    },
+
+
+    // Called when the server notifies the client of the changing of the contents of the container
+    // VIRTUAL
+    notifyContentsChanged: function() {
+      this.fetch({update:true});
+      // this.trigger('notifyContentsChanged');
     }
     
     

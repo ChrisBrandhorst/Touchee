@@ -43,8 +43,7 @@ define([
       if (this._contents)
         contents = this._contents;
       else {
-        var contentsClass = this.contentsModel,
-        contents = new contentsClass(null, {
+        contents = new this.contentsModel(null, {
           container:  this,
           params:     params,
           model:      this.contentsItemModel
@@ -54,6 +53,13 @@ define([
       }
       
       return contents;
+    },
+
+
+    // Called when the server notifies the client of the changing of the contents
+    // VIRTUAL
+    notifyContentsChanged: function() {
+      this.trigger('notifyContentsChanged');
     }
 
     

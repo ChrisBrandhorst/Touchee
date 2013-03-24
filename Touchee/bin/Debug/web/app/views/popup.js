@@ -28,6 +28,8 @@ define([
         this.$arrow = $('<div class="arrow" />');
         this.$el.prepend(this.$arrow);
       }
+
+      this.render();
     },
     
     
@@ -295,6 +297,7 @@ define([
           }
         });
       
+      return this;
     },
     
     

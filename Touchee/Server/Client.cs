@@ -15,6 +15,7 @@ namespace Touchee.Server {
     /// </remarks>
     public class Client : Collectable<Client> {
 
+
         #region Finders
 
         /// <summary>
@@ -32,7 +33,7 @@ namespace Touchee.Server {
         /// <param name="sessionId">The sessionID to match.</param>
         /// <returns>The first Client found with the same socket connection as the argument, or null if it does not exist</returns>
         public static Client FindBySessionID(string sessionId) {
-            return All().FirstOrDefault(c => c.sessionId == sessionId);
+            return All().FirstOrDefault(c => c.SessionId == sessionId);
         }
 
         /// <summary>
@@ -55,11 +56,12 @@ namespace Touchee.Server {
 
         #endregion
 
+
         // The connection this client is connected with
         IWebSocketConnection _connection;
         
         // The HTTP session ID of this client
-        public string sessionId { get; internal set; }
+        public string SessionId { get; internal set; }
 
         /// <summary>
         /// Instantiates a new Client object

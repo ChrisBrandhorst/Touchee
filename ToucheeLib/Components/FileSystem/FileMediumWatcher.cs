@@ -37,6 +37,15 @@ namespace Touchee.Components.FileSystem {
 
 
         /// <summary>
+        /// Check whether this watcher can watch the given medium
+        /// </summary>
+        /// <param name="medium">The medium to check</param>
+        public bool CanWatch(Medium medium) {
+            return medium == Medium.Local || medium is FileStorageMedium;
+        }
+
+
+        /// <summary>
         /// Start watching the given medium. Only if a medium with type Local or FileStorage
         /// is given, is it going to be watched.
         /// </summary>
@@ -68,6 +77,7 @@ namespace Touchee.Components.FileSystem {
             return true;
         }
         protected virtual void OnWatch(Medium medium) { }
+
 
         /// <summary>
         /// Stop watching the given medium
@@ -183,7 +193,8 @@ namespace Touchee.Components.FileSystem {
                 CollectSequentially(directoryWatcher);
 
             // Start watching
-            directoryWatcher.Start();
+            else
+                directoryWatcher.Start();
         }
         protected abstract TDirectoryWatcher GetDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo);
 
@@ -195,7 +206,7 @@ namespace Touchee.Components.FileSystem {
         /// <param name="directoryWatcher">The directory watcher to start collecting with</param>
         void CollectSequentially(DirectoryWatcher directoryWatcher) {
 
-            // Bail out if we're already collecting. The media finder will be picked up later.
+            // Bail out if we're already collecting. It will be picked up again later.
             if (this.IsCollecting()) return;
 
             // Set callback and start collecting
@@ -206,6 +217,9 @@ namespace Touchee.Components.FileSystem {
 
             // Remove callback
             directoryWatcher.CollectingCompleted -= directoryWatcher_CollectingCompleted;
+            
+            // Start watching
+            directoryWatcher.Start();
 
             // Get next watcher to collect
             var toCollect = _directoryWatchers.FirstOrDefault(dw => dw.CollectionState == CollectionState.CollectionRequired);

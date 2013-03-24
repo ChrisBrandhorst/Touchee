@@ -18,6 +18,7 @@ define([
     // Constructor
     initialize: function(options) {
       this
+        .listenTo(this.model.collection, 'reset change add remove', this.render)
         .listenTo(this.model, 'artwork', this.setArtwork)
         .listenTo(this.model, 'colors', this.setColors);
     },

@@ -26,7 +26,7 @@ namespace Music {
         public bool ProvidesFrontend { get { return true; } }
 
 
-        public IEnumerable<IItem> GetItems(IContainer container, Options filter) {
+        public IEnumerable<IItem> GetItems(Container container, Options filter) {
             if (container is Playlist) {
                 return ((Playlist)container).Tracks;
             }
@@ -35,7 +35,7 @@ namespace Music {
             }
         }
 
-        public object GetContents(IContainer container, Options filter) {
+        public object GetContents(Container container, Options filter) {
             return this.GetItems(container, filter);
         }
 

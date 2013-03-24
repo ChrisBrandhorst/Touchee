@@ -21,17 +21,23 @@ $listRowHeight: 43px
     &.more, &.loading
       &::after
         display:      block
-        margin-top:   15px // -$listRowHeight + 15px
         margin-right: 2px
     
     &.more::after
-      content:  -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x)
+      margin-top: 15px
+      content:    -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x)
     
+    &.loading::after
+      margin-top: 11px
+      content:    -webkit-image-set(url(../images/ListLoading.gif) 1x, url(../images/ListLoading@2x.gif) 2x)
+
     &.selected
       @include  background( linear-gradient(#90B0D3, #7097BD) )
       color:    white
       &.more::after
         content:  -webkit-image-set(url(../images/ListNextHighlight.png) 1x, url(../images/ListNextHighlight@2x.png) 2x)
+      &.loading::after
+        content:  -webkit-image-set(url(../images/ListLoadingHighlight.gif) 1x, url(../images/ListLoadingHighlight@2x.gif) 2x)
   
   &.icons > *
     &::before

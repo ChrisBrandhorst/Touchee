@@ -92,6 +92,7 @@ namespace Music {
 
             // Create a master playlist for the medium
             var masterPlaylist = new MasterPlaylist(medium);
+            masterPlaylist.IsLoading = true;
             masterPlaylist.Save();
             medium.Containers.Add(masterPlaylist);
 
@@ -109,7 +110,7 @@ namespace Music {
 
             // Dispose all playlists and tracks for this medium
             foreach (var playlist in medium.Containers.Cast<Playlist>()) {
-                foreach (var track in playlist.Tracks.Cast<FileTrack>()) {
+                foreach (var track in playlist.Tracks.Cast<Track>()) {
                     track.Dispose();
                 }
                 playlist.Dispose();
@@ -132,11 +133,25 @@ namespace Music {
             var musicDirectoryWatcher = new MusicDirectoryWatcher(medium, directoryInfo, Plugin.Extensions);
 
             // If the directory is not collected yet, mark it as to collect
-            if (!CollectedLocalDirectories.Any(d => d.FullName == directoryInfo.FullName))
+            if (!CollectedLocalDirectories.Any(d => d.FullName == directoryInfo.FullName)) {
                 musicDirectoryWatcher.MarkAsCollectionRequired();
+                musicDirectoryWatcher.CollectingCompleted += musicDirectoryWatcher_CollectingCompleted;
+            }
 
             return musicDirectoryWatcher;
         }
+
+
+
+        void musicDirectoryWatcher_CollectingCompleted(DirectoryWatcher watcher, int count) {
+            watcher.CollectingCompleted -= musicDirectoryWatcher_CollectingCompleted;
+            var done = _directoryWatchers.Where(dw => dw.Medium == watcher.Medium).All(dw => dw.CollectionState == CollectionState.Collected);
+            if (done) {
+                watcher.Medium.MasterContainer.IsLoading = false;
+                watcher.Medium.MasterContainer.Save();
+            }
+        }
+
 
 
         /// <summary>

@@ -41,12 +41,6 @@ namespace Touchee.Server {
         public int WebsocketPort { get; protected set; }
 
 
-        /// <summary>
-        /// The server info
-        /// </summary>
-        public ServerInfoResponse ServerInfo { get { return new ServerInfoResponse(this); } }
-
-
         #endregion
 
 

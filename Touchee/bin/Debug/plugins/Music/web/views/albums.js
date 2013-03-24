@@ -33,10 +33,12 @@ define([
     
     // Getss the view for the given detail view
     getDetailsView: function(track, $target) {
-      return new AlbumDetailsView({
+      var view = new AlbumDetailsView({
         model:  track,
         el:     $target[0]
-      }).render();
+      });
+      view.render();
+      return view;
     }
     
     

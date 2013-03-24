@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Cache.cs" />
+    <Compile Include="Media\FileTrack.cs" />
     <Compile Include="MusicArtworkProvider.cs" />
     <Compile Include="MusicContentProvider.cs" />
     <Compile Include="MusicDirectoryWatcher.cs" />

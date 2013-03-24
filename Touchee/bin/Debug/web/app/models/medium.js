@@ -13,15 +13,11 @@ define([
       this.containers = new Containers([], {medium:this});
       
       // If the containers collection is reset, trigger event for rendering the local medium page
-      if (!this.isLocal()) {
-        this
-          .listenTo(this.containers, 'reset', function(){
-            this.trigger('reset:containers', this);
-          })
-          .listenTo(this.containers, 'update', function(){
-            this.trigger('update:containers', this);
-          });
-      }
+      this
+        .listenTo(this.containers, 'reset',   function(){ this.trigger('reset:containers',  this); })
+        .listenTo(this.containers, 'add',     function(){ this.trigger('add:containers',    this); })
+        .listenTo(this.containers, 'change',  function(){ this.trigger('change:containers', this); })
+        .listenTo(this.containers, 'remove',  function(){ this.trigger('remove:containers', this); });
     },
     
     

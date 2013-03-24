@@ -60,6 +60,8 @@
     <Compile Include="Server\Http\Modules\ToucheeNancyModule.cs" />
     <Compile Include="Server\Http\NancyExtensions.cs" />
     <Compile Include="Server\Responses\ContentsResponse.cs" />
+    <Compile Include="Server\Responses\ContentsChangedResponse.cs" />
+    <Compile Include="Server\Responses\RevisionResponse.cs" />
     <Compile Include="Server\Responses\ServerInfoResponse.cs" />
     <Compile Include="Server\Responses\ToucheeResponse.cs" />
     <Compile Include="Server\ToucheeServer.cs" />

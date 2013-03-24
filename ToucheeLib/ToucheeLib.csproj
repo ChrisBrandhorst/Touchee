@@ -59,7 +59,6 @@
     <Compile Include="Media\Music\WebcastStream.cs" />
     <Compile Include="Organizing\Container.cs" />
     <Compile Include="Components\Media\DriveMediaWatcher.cs" />
-    <Compile Include="Organizing\IContainer.cs" />
     <Compile Include="Components\Media\IMediaWatcher.cs" />
     <Compile Include="Components\Media\IMediumWatcher.cs" />
     <Compile Include="Organizing\Medium.cs" />
@@ -77,7 +76,6 @@
     <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Components\Services\ServiceResultStatus.cs" />
     <Compile Include="CacheObject.cs" />
-    <Compile Include="Types\Contents.cs" />
     <Compile Include="Types\Options.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>

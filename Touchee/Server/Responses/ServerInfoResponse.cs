@@ -46,19 +46,24 @@ namespace Touchee.Server.Responses {
         /// </summary>
         public long UtcOffset { get; protected set; }
 
+        /// <summary>
+        /// The revision number of the library
+        /// </summary>
+        public uint Revision { get; protected set; }
 
         /// <summary>
         /// Constructor
         /// </summary>
-        public ServerInfoResponse(ToucheeServer server) {
+        public ServerInfoResponse(ToucheeServer server, Library library) {
             DateTime now = DateTime.Now;
-            this.Name = Medium.Local == null ? System.Environment.MachineName : Medium.Local.Name;
+            this.Name           = Medium.Local == null ? System.Environment.MachineName : Medium.Local.Name;
             this.WelcomeMessage = Program.Config.GetString("welcomeMessage", "Welcome to Touchee");
-            this.WebsocketPort = server.WebsocketPort;
-            this.UtcTime = (long)now.TimeStamp();
-            this.UtcOffset = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMilliseconds;
-            this.Devices = Program.Config.GetValue("devices", null);
-            this.Plugins = PluginManager.FrontendComponents.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
+            this.WebsocketPort  = server.WebsocketPort;
+            this.UtcTime        = (long)now.TimeStamp();
+            this.UtcOffset      = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMinutes;
+            this.Devices        = Program.Config.GetValue("devices", null);
+            this.Plugins        = PluginManager.FrontendComponents.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
+            this.Revision       = library.Revision;
         }
 
     }

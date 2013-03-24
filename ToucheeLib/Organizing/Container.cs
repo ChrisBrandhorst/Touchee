@@ -12,24 +12,36 @@ namespace Touchee {
     /// <remarks>
     /// A container element
     /// </remarks>
-    public abstract class Container : Collectable<Container>, IContainer {
+    public abstract class Container : Collectable<Container> {
 
         /// <summary>
         /// The name of the container
         /// </summary>
         [DataMember]
         public virtual string Name { get; protected set; }
-        
-        /// <summary>
-        /// Whether this container is busy loading
-        /// </summary>
-        [DataMember]
-        public virtual bool Loading { get; set; }
 
         /// <summary>
         /// The Medium this container belongs to
         /// </summary>
         public virtual Medium Medium { get; protected set; }
+
+        /// <summary>
+        /// Whether this container is busy loading
+        /// </summary>
+        [DataMember]
+        public virtual bool IsLoading { get; set; }
+
+        /// <summary>
+        /// Whether this container is empty
+        /// </summary>
+        [DataMember]
+        public virtual bool IsEmpty { get { return false; } }
+
+        /// <summary>
+        /// Whether this container is a master container
+        /// </summary>
+        [DataMember]
+        public virtual bool IsMaster { get { return false; } }
 
         ///// <summary>
         ///// The collection of items within this container
@@ -76,34 +88,34 @@ namespace Touchee {
             this.Name = name;
             this.Medium = medium;
 
-            _contentChangedDebouncer = new Debouncer(this.OnContentChanged, new TimeSpan(0, 0, 5));
+            _contentsChangedDebouncer = new Debouncer(this.OnContentsChanged, new TimeSpan(0, 0, 1));
         }
 
 
-        # region Content change callback
+        # region Contents change callback
 
         /// <summary>
         /// Internal content change debouncer
         /// </summary>
-        Debouncer _contentChangedDebouncer;
+        Debouncer _contentsChangedDebouncer;
 
         /// <summary>
         /// Should be called whenever the contents of the container are changed
         /// </summary>
-        protected void NotifyContentChanged() {
-            _contentChangedDebouncer.Call();
+        protected void NotifyContentsChanged() {
+            _contentsChangedDebouncer.Call();
         }
 
         /// <summary>
         /// Invokes the content changed event and saves the container
         /// </summary>
-        void OnContentChanged() {
-            if (Container.ContentChanged != null)
-                Container.ContentChanged.Invoke(this);
+        void OnContentsChanged() {
+            if (Container.ContentsChanged != null)
+                Container.ContentsChanged.Invoke(this);
         }
 
-        public delegate void ContentChangedEventHandler(Container container);
-        public static event ContentChangedEventHandler ContentChanged;
+        public delegate void ContentsChangedEventHandler(Container container);
+        public static event ContentsChangedEventHandler ContentsChanged;
 
         #endregion
 

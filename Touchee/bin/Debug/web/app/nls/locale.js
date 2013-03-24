@@ -35,7 +35,8 @@
     
     browser: {
       connecting:   "Connecting to %s...",
-      reconnecting: "Connection lost. Reconnecting to %s..."
+      reconnecting: "Connection lost. Reconnecting to %s...",
+      moreViews:    "More..."
     }
   
   };

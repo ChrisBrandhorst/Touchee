@@ -18,7 +18,6 @@ require.config({
     'Backbone':                           ['underscore'],
     'lib/jquery.extensions':              ['jquery'],
     'lib/jquery.touchscrollselect':       ['jquery'],
-    'lib/jquery.scrolllist':              ['jquery'],
     '../lib/jquery-ui-1.9.2.custom.min':  ['jquery']
   }
   
@@ -42,7 +41,6 @@ require([
   // jQuery extensions & plugins
   'lib/jquery.extensions',
   'lib/jquery.touchscrollselect',
-  'lib/jquery.scrolllist',
   '../lib/jquery-ui-1.9.2.custom.min',
   
   // Other

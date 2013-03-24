@@ -20,6 +20,9 @@ namespace Music {
 
 
         #region Privates
+        
+        // The masterplaylist for the medium
+        MasterPlaylist _masterPlaylist;
 
         #endregion
 
@@ -34,6 +37,9 @@ namespace Music {
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
         public MusicDirectoryWatcher(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions) : base(medium, directory, extensions) {
+            _masterPlaylist = (MasterPlaylist)medium.MasterContainer;
+            if (_masterPlaylist == null)
+                throw new ArgumentException("The medium " + medium.Name + " does not have a master playlist (yet)");
         }
 
         #endregion
@@ -60,6 +66,7 @@ namespace Music {
             if (IsTrack(file)) {
                 var track = new FileTrack(file);
                 track.Save();
+                _masterPlaylist.Add(track);
             }
 
             // A playlist was created
@@ -127,7 +134,7 @@ namespace Music {
                 var track = FileTrack.GetByPath(file.FullName);
                 if (track != null) {
                     track.Dispose();
-                    foreach (var playlist in Medium.Containers.Where(p => !(p is MasterPlaylist)).Cast<Playlist>()) {
+                    foreach (var playlist in Medium.Containers.Cast<Playlist>()) {
                         playlist.Remove(track);
                     }
                 }

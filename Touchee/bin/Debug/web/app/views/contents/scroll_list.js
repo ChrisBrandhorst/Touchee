@@ -432,7 +432,7 @@ define([
       var calc = {
         scrollTop:    scroller.scrollTop,
         total:        total,
-        fullRender:   total < this.min,
+        fullRender:   total <= this.min,
         needsRender:  true,
         firstInView:  0,
         block:        renderIndices ? this._getBlockInfo() : null,
@@ -472,9 +472,9 @@ define([
       // Set indices above / below
       if (renderIndices) {
         var firstIdx = this.calculated.indices.items[calc.first];
-        calc.indices.above = this.calculated.indices.posMap[firstIdx];
+        calc.indices.above = this.calculated.indices.posMap[firstIdx] || 0;
         var lastIdx = this.calculated.indices.items[calc.first + calc.count - 1];
-        calc.indices.below = this.calculated.indices.indices.length - this.calculated.indices.posMap[lastIdx] - 1;
+        calc.indices.below = this.calculated.indices.indices.length - this.calculated.indices.posMap[lastIdx] - 1 || 0;
       }
 
       return data.lastCalc = calc;
@@ -495,7 +495,7 @@ define([
       if (items.needsRender !== false) {
 
         // Set the HTML
-        this.$inner[0].innerHTML = this.renderItems(items);
+        this.$inner[0].innerHTML = items.count ? this.renderItems(items) : "";
         
         // Calculate margins
         var marginTop     = (items.first / capacity.hori) * size.height,

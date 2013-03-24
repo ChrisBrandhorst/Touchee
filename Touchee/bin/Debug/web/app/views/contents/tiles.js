@@ -339,7 +339,10 @@ define([
           $details
             .css('-webkit-transform', "translate3d(0," + (existing.top + (existing.newHeight || 0)) + "px,0)")
             .children('.cover')
-            .on('webkitTransitionEnd', function(){ $details.remove(); })
+            .on('webkitTransitionEnd', function(){
+              existing.view.remove();
+              $details.remove();
+            })
             .removeClass('open')
             .css('-webkit-transform', "")
           $moved.css('-webkit-transform', "");
@@ -360,6 +363,8 @@ define([
       _.extend(props, {
         // The details element
         $el:              $details,
+        // The detail contents view
+        view:             contentView,
         // The content element
         $content:         $content,
         // Whether the details is opened on the same row as the current details (if exists)

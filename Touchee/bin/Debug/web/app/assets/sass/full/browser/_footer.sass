@@ -11,41 +11,45 @@
     &:first-child, &:last-child
       width:  200px
     // Navigation center container
-    &:nth-child(2)
+    &#views
       @include  box-flex(1)
       text-align: center
-      > div
-        display:    inline-block
+      padding:    0 8px
   
   
   // Nav button
-  button[data-button=nav]
+  [data-button=nav]
     line-height:  30px
     margin-top:   -1px
     min-width:    100px
     padding:      0 11px 0 31px
+    max-width:    100%
     @include      text-shadow(0 1px 0 white)
     @include      remote-border-image(ChromeButton, 0, 4, 0, 4)
+    span
+      display:  block
+      @include  ellipsis
     &:active
       @include    remote-border-image(ChromeButtonSelected, 0, 4, 0, 4)
     &.music
       background:       no-repeat 6px 5px
       @include          remote-image(SourceListMusicGray)
       background-size:  20px
-  
+
+
   // 
   h1
     font-size:  120%
     @include    text-shadow(0 1px 0 white)
     line-height:  $footerHeight - 16px
-  
+
+
   // Navigation
   nav
     @include      display-box
-    max-width:    546px
-    
+
     // Viewtype button
-    > a
+    > a.button, > button
       display:      block
       text-shadow:  0 1px 0 white
       
@@ -55,12 +59,12 @@
       width:        1%
       
       // Max size
-      max-width:      135px
-      min-width:      109px
-      line-height:    30px
+      max-width:    130px
+      min-width:    104px
+      line-height:  30px
       
       // Space for divider
-      padding-left:  9px
+      padding-left: 14px
       
       // Divider
       &::before
@@ -87,7 +91,8 @@
       
       // First child has a rounded edge on the right
       &:first-child
-        padding-left: 4px
+        padding-left: 10px
+        min-width:    105px
         &::before
           @include  remote-image(ChromeButton)
           width:    4px
@@ -96,7 +101,8 @@
       
       // Last child has a rounded edge on the left
       &:last-child
-        padding-right: 5px
+        padding-right:  9px
+        min-width:      114px
         &::after
           @include      remote-border-image(ChromeButton, 1, 4, 1, 4)
           border-width: 1px 4px 1px 0 !important
@@ -107,7 +113,7 @@
           @include  remote-image(ChromeButtonSelectedRight)
         &::after
           @include  remote-border-image(ChromeButtonSelected, 1, 4, 1, 4)
-        + a::before
+        + *::before
           @include  remote-image(ChromeButtonSelectedLeft)
         &:first-child::before
           @include  remote-image(ChromeButtonSelected)
@@ -134,4 +140,8 @@
   #browser > footer
     > div
       &:first-child, &:last-child
-        width:  179px
+        width:  180px
+    nav > a
+      min-width:      90px
+      &:first-child
+        min-width:    86px

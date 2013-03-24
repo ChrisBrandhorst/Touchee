@@ -21,13 +21,7 @@ define([
     initialize: function(models, options) {
       this.contents = options.contents;
       this.params   = options.params;
-      
-      this
-        .listenTo(this.contents, 'reset',   this._contentsReset)
-        .listenTo(this.contents, 'change',  this._contentsChange)
-        .listenTo(this.contents, 'add',     this.add)
-        .listenTo(this.contents, 'remove',  this.remove);
-      
+      this.listenTo(this.contents, 'reset change add remove', this._contentsReset);
       this._contentsReset(this.contents);
     },
     
@@ -66,14 +60,9 @@ define([
     // Resets the collection with the models from the given collection,
     // filtered by the sieve method
     _contentsReset: function(collection, options) {
-      var models = this.sieve(collection.models);
-      this.reset(models, options);
-    },
-    
-    
-    // Resort the view model when an item changes
-    _contentsChange: function(model, options) {
-      this.sort();
+      var models = this.sieve(this.contents.models);
+      if (models != this.contents.models || this.length == 0 && models.length != 0)
+        this.reset(models, options);
     },
     
     

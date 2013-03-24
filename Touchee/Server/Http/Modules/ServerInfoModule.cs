@@ -6,7 +6,7 @@ namespace Touchee.Server.Http.Modules {
     public class ServerInfoModule : ToucheeNancyModule {
 
         public ServerInfoModule() : base("/server_info") {
-            Get["/"] = x => Response.AsJson(Library.GetServerInfo());
+            Get["/"] = x => Response.AsJson(Library.GetServerInfoResponse());
         }
 
     }

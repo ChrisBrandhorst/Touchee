@@ -4,7 +4,7 @@ using Touchee.Artwork;
 namespace Touchee.Components.Content {
 
     public interface IArtworkProvider : IComponent {
-        Image GetArtwork(IContainer container, Options filter);
+        Image GetArtwork(Container container, Options filter);
     }
 
 }

@@ -51,7 +51,7 @@ namespace Music.Media {
             lock (_tracks) {
                 _tracks.Add(track);
             }
-            this.NotifyContentChanged();
+            this.NotifyContentsChanged();
         }
 
 
@@ -67,7 +67,7 @@ namespace Music.Media {
             lock (_tracks) {
                 _tracks.Insert((int)index, track);
             }
-            this.NotifyContentChanged();
+            this.NotifyContentsChanged();
         }
 
 
@@ -80,12 +80,13 @@ namespace Music.Media {
             lock (_tracks) {
                 removed = _tracks.Remove(track);
             }
-            this.NotifyContentChanged();
+            this.NotifyContentsChanged();
             return removed;
         }
 
 
         #endregion
+
 
 
         #region Properties

@@ -6,17 +6,16 @@ define([
   'models/server_info',
   'models/status',
   'views/media/popup',
+  'views/_browser_views',
   'i18n!nls/locale',
-  'text!views/browser.html',
-  'text!views/_browser_views.html'
+  'text!views/browser.html'
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
-            MediaPopupView,
+            MediaPopupView, BrowserViewsView,
             I18n,
-            browserTemplate, browserViewsTemplate) {
+            browserTemplate) {
   
   browserTemplate = _.template(browserTemplate);
-  browserViewsTemplate = _.template(browserViewsTemplate);
   
   
   var BrowserView = new(Backbone.View.extend({
@@ -30,13 +29,14 @@ define([
     
     // Events
     events: {
-      'click [data-button=nav]': 'showNav'
+      'click [data-button=nav]':  'showNav'
     },
     
     
     // Custom view options
     views:              [],
     selectedContainer:  null,
+    selectedView:       null,
     
     
     // Constructor
@@ -85,13 +85,13 @@ define([
       this.$search = this.$('input[name=search]');
       this.$contents = this.$('#contents');
       this.$connecting = this.$('#connecting');
-      // this.$viewButtons = this.$('#view_buttons');
-      // this.$viewName = this.$('#view_name');
-      this.$views = this.$('#views');
       
       // Set controls as if we are disconnected
       this.disconnected();
       
+      // Init the views view
+      BrowserViewsView = new BrowserViewsView();
+
       // Show
       this.$el.show();
       
@@ -117,6 +117,7 @@ define([
       this.$volume.show(); // TODO: make sure we can actually set the volume at this stage
       this.$connecting.hide();
       this.$contents.show();
+      this.$search.show();
     },
     
     // Called when the websocket has disconnected
@@ -155,44 +156,24 @@ define([
     // ---------------
     
     // Called when a container selection is made
-    setSelectedContainer: function(container, selectedView) {
+    setSelectedContainer: function(container, view) {
       
       // Set the nav button
       this.buttons.$nav
+        .attr('className', "")
         .addClass(container.get('contentType'))
+        .children()
         .html(container.get('name'));
       
-      this.$views.html(
-        browserViewsTemplate({
-          container:    container,
-          viewText:     this._getViewText,
-          selectedView: selectedView
-        })
-      );
+      // Update views view
+      BrowserViewsView.update(container, view);
       
+      // Remember selected container
       this.selectedContainer = container;
-      
     },
-    
-    
-    // Gets the view text for the given container and view
-    _getViewText: function(container, view) {
-      var plugin  = container.get('plugin'),
-          key     = 'p.'+plugin+'.views.'+view,
-          text    = I18n.t(key);
-      
-      if (key == text) {
-        key     = 'p.'+plugin+'.models.'+view;
-        text    = I18n.t(key, {count:2});
-        if (key == text)
-          text = view;
-      }
-      
-      return text.toTitleCase();
-    },
-    
-    
-    
+
+
+
     
     // Subview handling
     // ----------------
@@ -207,6 +188,10 @@ define([
     setView: function(view, options) {
       options || (options = {});
       
+      // If this view is already selected, do nothing
+      if (view == this.selectedView) return;
+      this.selectedView = view;
+
       // Store the view
       this.views[view.fragment] = view;
       
@@ -220,6 +205,10 @@ define([
       // Render if not excluded
       if (options.render !== false)
         view.render();
+
+      // Set the selected container
+      // this.setSelectedContainer(view.model.contents.container, view.model.params.view);
+
     },
     
     
@@ -237,9 +226,10 @@ define([
     // Buttons
     // -------
     
+    // Shows the navigation popup
     showNav: function(ev) {
       MediaPopupView.showRelativeTo(ev.target);
-    },
+    }
     
     
     

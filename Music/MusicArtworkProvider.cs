@@ -13,18 +13,18 @@ namespace Music {
     /// </summary>
     public class MusicArtworkProvider : IArtworkProvider {
 
-        public Image GetArtwork(IContainer container, Options filter) {
+        public Image GetArtwork(Container container, Options filter) {
 
             // For now, wo only get images based on ID
             if (!filter.ContainsKey("id")) return null;
 
             // Get the track by ID;
             int id = filter["id"];
-            if (!FileTrack.Exists(id)) return null;
-            var track = FileTrack.Find(id);
+            if (!Track.Exists(id)) return null;
+            var track = Track.Find(id);
 
             // Get all tracks of the album
-            var tracks = FileTrack.GetAlbum(track);
+            var tracks = Track.GetAlbum(track);
 
             // Get the artwork from one of the tracks of the album
             Image artwork = null;

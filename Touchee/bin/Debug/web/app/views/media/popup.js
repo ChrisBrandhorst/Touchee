@@ -9,7 +9,7 @@ define([
 ], function($, _, Backbone, PagesView, PopupView, MediaIndexView, MediumShowView) {
   
   
-  var MediaPagesView = new PagesView(); //new (PagesView.extend({  }));
+  var MediaPagesView = new PagesView();
   
   
   var MediaPopupView = PopupView.extend({
@@ -25,11 +25,11 @@ define([
     },
     
     
-    // Constructor
-    initialize: function() {
-      PopupView.prototype.initialize.apply(this, arguments);
-      this.render();
-    },
+    // // Constructor
+    // initialize: function() {
+    //   PopupView.prototype.initialize.apply(this, arguments);
+    //   this.render();
+    // },
     
     
     // 

@@ -530,54 +530,58 @@ a, input {
   width: 200px;
 }
 /* line 27, ../sass/full/browser/_footer.sass */
-#browser > footer > div:nth-child(2) {
+#browser > footer > div#views {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
   text-align: center;
+  padding: 0 8px;
 }
-/* line 33, ../sass/full/browser/_footer.sass */
-#browser > footer > div:nth-child(2) > div {
-  display: inline-block;
-}
-/* line 43, ../sass/full/browser/_footer.sass */
-#browser > footer button[data-button=nav] {
+/* line 41, ../sass/full/browser/_footer.sass */
+#browser > footer [data-button=nav] {
   line-height: 30px;
   margin-top: -1px;
   min-width: 100px;
   padding: 0 11px 0 31px;
+  max-width: 100%;
   text-shadow: 0 1px 0 white;
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
 /* line 57, ../sass/full/browser/_footer.sass */
-#browser > footer button[data-button=nav]:active {
+#browser > footer [data-button=nav] span {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 63, ../sass/full/browser/_footer.sass */
+#browser > footer [data-button=nav]:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 61, ../sass/full/browser/_footer.sass */
-#browser > footer button[data-button=nav].music {
+/* line 67, ../sass/full/browser/_footer.sass */
+#browser > footer [data-button=nav].music {
   background: no-repeat 6px 5px;
   background-image: -webkit-image-set(url(../images/remote/SourceListMusicGray.png) 1x, url(../images/remote/SourceListMusicGray@2x.png) 2x);
   background-size: 20px;
 }
-/* line 73, ../sass/full/browser/_footer.sass */
+/* line 81, ../sass/full/browser/_footer.sass */
 #browser > footer h1 {
   font-size: 120%;
   text-shadow: 0 1px 0 white;
   line-height: 28px;
 }
-/* line 85, ../sass/full/browser/_footer.sass */
+/* line 95, ../sass/full/browser/_footer.sass */
 #browser > footer nav {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
-  max-width: 546px;
 }
-/* line 95, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a {
+/* line 103, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button, #browser > footer nav > button {
   display: block;
   text-shadow: 0 1px 0 white;
   position: relative;
@@ -586,13 +590,13 @@ a, input {
   -ms-box-flex: 1;
   box-flex: 1;
   width: 1%;
-  max-width: 135px;
-  min-width: 109px;
+  max-width: 130px;
+  min-width: 104px;
   line-height: 30px;
-  padding-left: 9px;
+  padding-left: 14px;
 }
-/* line 131, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a::before {
+/* line 139, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button::before, #browser > footer nav > button::before {
   content: "";
   display: block;
   position: absolute;
@@ -602,8 +606,8 @@ a, input {
   width: 9px;
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonDivider.png) 1x, url(../images/remote/ChromeButtonDivider@2x.png) 2x);
 }
-/* line 153, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a::after {
+/* line 161, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button::after, #browser > footer nav > button::after {
   content: "";
   display: block;
   position: absolute;
@@ -615,47 +619,49 @@ a, input {
   border-width: 1px 4px 1px 4px;
   border-width: 1px 0 !important;
 }
-/* line 177, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a:first-child {
-  padding-left: 4px;
+/* line 185, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button:first-child, #browser > footer nav > button:first-child {
+  padding-left: 10px;
+  min-width: 105px;
 }
-/* line 181, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a:first-child::before {
+/* line 191, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button:first-child::before, #browser > footer nav > button:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x);
   width: 4px;
 }
-/* line 187, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a:first-child::after {
+/* line 197, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button:first-child::after, #browser > footer nav > button:first-child::after {
   left: 4px;
 }
-/* line 195, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a:last-child {
-  padding-right: 5px;
+/* line 205, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button:last-child, #browser > footer nav > button:last-child {
+  padding-right: 9px;
+  min-width: 114px;
 }
-/* line 199, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a:last-child::after {
+/* line 211, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button:last-child::after, #browser > footer nav > button:last-child::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
   border-width: 1px 4px 1px 0 !important;
 }
-/* line 211, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a.selected::before {
+/* line 223, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button.selected::before, #browser > footer nav > button.selected::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedRight.png) 1x, url(../images/remote/ChromeButtonSelectedRight@2x.png) 2x);
 }
-/* line 215, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a.selected::after {
+/* line 227, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button.selected::after, #browser > footer nav > button.selected::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
 }
-/* line 219, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a.selected + a::before {
+/* line 231, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button.selected + *::before, #browser > footer nav > button.selected + *::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedLeft.png) 1x, url(../images/remote/ChromeButtonSelectedLeft@2x.png) 2x);
 }
-/* line 223, ../sass/full/browser/_footer.sass */
-#browser > footer nav > a.selected:first-child::before {
+/* line 235, ../sass/full/browser/_footer.sass */
+#browser > footer nav > a.button.selected:first-child::before, #browser > footer nav > button.selected:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x);
 }
-/* line 233, ../sass/full/browser/_footer.sass */
+/* line 245, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search] {
   float: right;
   width: 100%;
@@ -666,12 +672,12 @@ a, input {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearch.png) 1x, url(../images/remote/ChromeSearch@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 249, ../sass/full/browser/_footer.sass */
+/* line 261, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search][disabled] {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearchDisabled.png) 1x, url(../images/remote/ChromeSearchDisabled@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 253, ../sass/full/browser/_footer.sass */
+/* line 265, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search].filled {
   padding-right: 8px;
   -webkit-border-image: -webkit-image-set(url(../images/ChromeSearchClear.png) 1x, url(../images/ChromeSearchClear@2x.png) 2x) 0 24 0 25 stretch;
@@ -679,9 +685,17 @@ a, input {
 }
 
 @media screen and (max-width: 900px) {
-  /* line 271, ../sass/full/browser/_footer.sass */
+  /* line 283, ../sass/full/browser/_footer.sass */
   #browser > footer > div:first-child, #browser > footer > div:last-child {
-    width: 179px;
+    width: 180px;
+  }
+  /* line 287, ../sass/full/browser/_footer.sass */
+  #browser > footer nav > a {
+    min-width: 90px;
+  }
+  /* line 291, ../sass/full/browser/_footer.sass */
+  #browser > footer nav > a:first-child {
+    min-width: 86px;
   }
 }
 /* line 1, ../sass/full/browser/_connecting.sass */
@@ -880,16 +894,21 @@ table {
 }
 
 /* line 19, ../sass/full/_elements.sass */
+input {
+  outline: none;
+}
+
+/* line 25, ../sass/full/_elements.sass */
 .left {
   float: left;
 }
 
-/* line 23, ../sass/full/_elements.sass */
+/* line 29, ../sass/full/_elements.sass */
 .right {
   float: right;
 }
 
-/* line 33, ../sass/full/_elements.sass */
+/* line 39, ../sass/full/_elements.sass */
 .ui-slider.ui-slider-disabled .ui-slider-range, .ui-slider.ui-slider-disabled .ui-slider-handle {
   display: none;
 }
@@ -928,14 +947,19 @@ table {
 /* line 43, ../sass/full/_list.sass */
 .list > *.more::after, .list > *.loading::after {
   display: block;
-  margin-top: 15px;
   margin-right: 2px;
 }
-/* line 53, ../sass/full/_list.sass */
+/* line 51, ../sass/full/_list.sass */
 .list > *.more::after {
+  margin-top: 15px;
   content: -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x);
 }
 /* line 59, ../sass/full/_list.sass */
+.list > *.loading::after {
+  margin-top: 11px;
+  content: -webkit-image-set(url(../images/ListLoading.gif) 1x, url(../images/ListLoading@2x.gif) 2x);
+}
+/* line 67, ../sass/full/_list.sass */
 .list > *.selected {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #90b0d3), color-stop(100%, #7097bd));
   background: -webkit-linear-gradient(#90b0d3, #7097bd);
@@ -944,11 +968,15 @@ table {
   background: linear-gradient(#90b0d3, #7097bd);
   color: white;
 }
-/* line 65, ../sass/full/_list.sass */
+/* line 73, ../sass/full/_list.sass */
 .list > *.selected.more::after {
   content: -webkit-image-set(url(../images/ListNextHighlight.png) 1x, url(../images/ListNextHighlight@2x.png) 2x);
 }
-/* line 73, ../sass/full/_list.sass */
+/* line 77, ../sass/full/_list.sass */
+.list > *.selected.loading::after {
+  content: -webkit-image-set(url(../images/ListLoadingHighlight.gif) 1x, url(../images/ListLoadingHighlight@2x.gif) 2x);
+}
+/* line 85, ../sass/full/_list.sass */
 .list.icons > *::before {
   content: "";
   display: block;

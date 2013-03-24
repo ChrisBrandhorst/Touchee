@@ -68,6 +68,17 @@ namespace Touchee {
 
 
 
+        #region Properties
+
+        /// <summary>
+        /// The library content revision number
+        /// </summary>
+        public uint Revision { get; protected set; }
+
+        #endregion
+
+
+
         #region Init
 
         /// <summary>
@@ -89,10 +100,10 @@ namespace Touchee {
             Medium.AfterDispose += Medium_AfterDispose;
 
             // Watch for container changes
-            Container.AfterCreate += Container_AfterCreate;
-            Container.AfterUpdate += Container_AfterUpdate;
-            Container.AfterDispose += Container_AfterDispose;
-            Container.ContentChanged += Container_ContentChanged;
+            Container.AfterCreate += ContainerCreated;
+            Container.AfterUpdate += ContainerUpdated;
+            Container.AfterDispose += ContainerDisposed;
+            Container.ContentsChanged += ContainerContentsChanged;
 
             // Init local and web media
             string name = Program.Config.GetString("name", System.Environment.MachineName);
@@ -114,15 +125,28 @@ namespace Touchee {
 
         #region Event handlers
 
+
+        /// <summary>
+        /// Ups the revision because a change has occured
+        /// </summary>
+        void Revised() {
+            this.Revision++;
+            //_server.Broadcast(GetRevisionResponse());
+        }
+
+
         /// <summary>
         /// Called when a medium has been detected. Presents this medium to all watchers.
         /// If any watcher watches the medium, the media list is broadcasted.
         /// </summary>
         void Medium_AfterCreate(object sender, Collectable<Medium>.ItemEventArgs e) {
-            var beingWatched = false;
-            _mediumWatchers.ForEach(w => beingWatched |= w.Watch(e.Item));
-            //if (beingWatched)
-                _server.Broadcast(GetMedia());
+            var watchers = _mediumWatchers.Where(w => w.CanWatch(e.Item));
+            if (watchers.Count() > 0) {
+                this.Revised();
+                _server.Broadcast(GetMediaResponse());
+                foreach (var watcher in watchers)
+                    watcher.Watch(e.Item);
+            }
         }
 
 
@@ -131,43 +155,45 @@ namespace Touchee {
         /// If any watcher watches was watching the medium, the media list is broadcasted.
         /// </summary>
         void Medium_AfterDispose(object sender, Collectable<Medium>.ItemEventArgs e) {
-            var beingWatched = false;
-            _mediumWatchers.ForEach(w => beingWatched |= w.UnWatch(e.Item));
-            //if (beingWatched)
-                _server.Broadcast(GetMedia());
+            _mediumWatchers.ForEach(w => w.UnWatch(e.Item));
+            this.Revised();
+            _server.Broadcast(GetMediaResponse());
         }
 
 
         /// <summary>
-        /// Called when a container has been created. All containers of the corresponding
-        /// medium are broadcasted, in order to update the complete list.
+        /// Called when a container has been created. 
         /// </summary>
-        void Container_AfterCreate(object sender, Collectable<Container>.ItemEventArgs e) {
-            BroadcastContainers(e.Item.Medium);
+        void ContainerCreated(object sender, Collectable<Container>.ItemEventArgs e) {
+            _server.Broadcast(GetContainersResponse(e.Item.Medium));
         }
 
-        /// <summary>
-        /// Called when a container has been changed. All containers of the corresponding
-        /// medium are broadcasted, in order to update the complete list.
-        /// </summary>
-        void Container_AfterUpdate(object sender, Collectable<Container>.ItemEventArgs e) {
-            BroadcastContainers(e.Item.Medium);
-        }
 
         /// <summary>
-        /// Called when a container has been removed. All containers of the corresponding
+        /// Called when a container has been updated. All containers of the corresponding
         /// medium are broadcasted, in order to update the complete list.
         /// </summary>
-        void Container_AfterDispose(object sender, Collectable<Container>.ItemEventArgs e) {
-            BroadcastContainers(e.Item.Medium);
+        void ContainerUpdated(object sender, Collectable<Container>.ItemEventArgs e) {
+            _server.Broadcast(GetContainersResponse(e.Item.Medium));
         }
+
+
+        /// <summary>
+        /// Called when a container has been disposed. All containers of the corresponding
+        /// medium are broadcasted, in order to update the complete list.
+        /// </summary>
+        void ContainerDisposed(object sender, Collectable<Container>.ItemEventArgs e) {
+            _server.Broadcast(GetContainersResponse(e.Item.Medium));
+        }
+
 
         /// <summary>
         /// Called when the contents of a container have been modified.
         /// </summary>
         /// <param name="container">The container which is modified</param>
-        void Container_ContentChanged(Container container) {
-            
+        void ContainerContentsChanged(Container container) {
+            this.Revised();
+            _server.Broadcast(new ContentsChangedResponse(container));
         }
 
 
@@ -189,7 +215,8 @@ namespace Touchee {
         /// <param name="medium">The medium to send the containers of</param>
         void BroadcastContainers(Medium medium) {
             ThrottledBroadcast(medium, () => {
-                _server.Broadcast(GetContainers(medium));
+                this.Revised();
+                _server.Broadcast(GetContainersResponse(medium));
             });
         }
 
@@ -230,15 +257,23 @@ namespace Touchee {
         /// <summary>
         /// Gets the server info object
         /// </summary>
-        public ServerInfoResponse GetServerInfo() {
-            return _server.ServerInfo;
+        public ServerInfoResponse GetServerInfoResponse() {
+            return new ServerInfoResponse(_server, this);
+        }
+
+
+        /// <summary>
+        /// Gets the revision response
+        /// </summary>
+        public RevisionResponse GetRevisionResponse() {
+            return new RevisionResponse(this);
         }
 
 
         /// <summary>
         /// Gets a message containing information on all available media
         /// </summary>
-        public MediaResponse GetMedia() {
+        public MediaResponse GetMediaResponse() {
             return new MediaResponse(Medium.All());
         }
 
@@ -246,7 +281,7 @@ namespace Touchee {
         /// <summary>
         /// Gets a message containing information on all available containers of the given medium
         /// </summary>
-        public ContainersResponse GetContainers(Medium medium) {
+        public ContainersResponse GetContainersResponse(Medium medium) {
             return new ContainersResponse(medium);
         }
 
@@ -254,7 +289,7 @@ namespace Touchee {
         /// <summary>
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
-        public ContentsResponse GetContents(Container container, Options filter) {
+        public ContentsResponse GetContentsResponse(Container container, Options filter) {
             var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
             if (contentProvider == null) return null;
 
@@ -271,7 +306,7 @@ namespace Touchee {
 
 
 
-        public Image GetArtwork(IContainer container, Options filter) {
+        public Image GetArtwork(Container container, Options filter) {
 
             // Try to get artwork from cache
             var artwork = this.GetArtworkFromCache(container, filter);
@@ -289,7 +324,7 @@ namespace Touchee {
         }
 
 
-        Image GetArtworkFromCache(IContainer container, Options filter) {
+        Image GetArtworkFromCache(Container container, Options filter) {
             return null;
         }
 
@@ -307,7 +342,7 @@ namespace Touchee {
         ///// <param name="client">The client for which the artwork is retrieved</param>
         ///// <param name="uri">The uri which was called</param>
         ///// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
-        //public ArtworkResult Artwork(IContainer container, IItem item, Client client, Uri uri) {
+        //public ArtworkResult Artwork(Container container, IItem item, Client client, Uri uri) {
         //    // Build empty result object
         //    var noResult = new ArtworkResult();
             
@@ -331,7 +366,7 @@ namespace Touchee {
         ///// <param name="client">The client for which the artwork is retrieved</param>
         ///// <param name="uri">The uri which was called</param>
         ///// <returns>An ArtworkResult object containing the artwork and its status and type</returns>
-        //public ArtworkResult Artwork(IContainer container, Options filter, Client client, Uri uri) {
+        //public ArtworkResult Artwork(Container container, Options filter, Client client, Uri uri) {
 
         //    // Get hash input from filter
         //    var uniqueKey = String.Join(",", 
@@ -358,7 +393,7 @@ namespace Touchee {
         ///// <param name="client">The client for which the artwork is retrieved</param>
         ///// <param name="uri">The uri which was called</param>
         ///// <returns>An ArtworkResult object</returns>
-        //ArtworkResult Artwork(IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
+        //ArtworkResult Artwork(Container container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
 
         //    // Result var
         //    ArtworkResult result;
@@ -430,7 +465,7 @@ namespace Touchee {
         ///// <param name="client">The client for which the artwork is retrieved</param>
         ///// <param name="uri">The uri which was called</param>
         ///// <returns>An image if artwork was found, otherwise null</returns>
-        //ArtworkResult GetNonCachedArtwork(ArtworkResult result, IContainer container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
+        //ArtworkResult GetNonCachedArtwork(ArtworkResult result, Container container, string uniqueKey, IItem item, Options filter, Client client, Uri uri) {
 
         //    // Artwork result object
         //    result.Status = ArtworkStatus.Pending;

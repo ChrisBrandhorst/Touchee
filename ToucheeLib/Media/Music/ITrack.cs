@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Drawing;
 
 namespace Touchee.Media.Music {
 
@@ -77,67 +75,11 @@ namespace Touchee.Media.Music {
         /// </summary>
         Uri Uri { get; }
 
+        /// <summary>
+        /// The artwork for this track
+        /// </summary>
+        Image Artwork { get; }
+
     }
-
-
-    ///// <summary>
-    ///// Comparer for comparing tracks by their artists
-    ///// </summary>
-    //public class ArtistComparer : IComparer<ITrack> {
-    //    int IComparer<ITrack>.Compare(ITrack x, ITrack y) {
-    //        int c;
-
-    //        // First sort on artist
-    //        if (x.SortArtist != null && y.SortArtist != null)
-    //            c = String.CompareOrdinal(x.SortArtist.ToLower(), y.SortArtist.ToLower());
-    //        else if (x.SortArtist == null && y.SortArtist == null)
-    //            c = 0;
-    //        else
-    //            c = x.SortArtist == null ? 1 : -1;
-
-    //        // Equal? Then sort on album
-    //        if (c == 0) {
-    //            if (x.SortAlbum != null && y.SortAlbum != null)
-    //                c = String.CompareOrdinal(x.SortAlbum.ToLower(), y.SortAlbum.ToLower());
-    //            else if (x.SortAlbum == null && y.SortAlbum == null)
-    //                c = 0;
-    //            else
-    //                c = x.SortAlbum == null ? 1 : -1;
-    //        }
-
-    //        return c;
-    //    }
-    //}
-
-
-    ///// <summary>
-    ///// Comparer for comparing tracks by their albums
-    ///// </summary>
-    //public class AlbumComparer : IComparer<ITrack> {
-    //    int IComparer<ITrack>.Compare(ITrack x, ITrack y) {
-    //        int c;
-
-    //        // First sort on album
-    //        if (x.SortAlbum != null && y.SortAlbum != null)
-    //            c = String.CompareOrdinal(x.SortAlbum.ToLower(), y.SortAlbum.ToLower());
-    //        else if (x.SortAlbum == null && y.SortAlbum == null)
-    //            c = 0;
-    //        else
-    //            c = x.SortAlbum == null ? 1 : -1;
-
-    //        // Equal? Then sort on album artist
-    //        if (c == 0) {
-    //            if (x.SortAlbumArtist != null && y.SortAlbumArtist != null)
-    //                c = String.CompareOrdinal(x.SortAlbumArtist.ToLower(), y.SortAlbumArtist.ToLower());
-    //            else if (x.SortAlbumArtist == null && y.SortAlbumArtist == null)
-    //                c = 0;
-    //            else
-    //                c = x.SortAlbumArtist == null ? 1 : -1;
-    //        }
-
-    //        return c;
-    //    }
-    //}
-
 
 }

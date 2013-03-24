@@ -16,10 +16,10 @@ define([
     // The different views that are available for this module, together
     // with the corresponding view class.
     views: {
-      track:        TracksView,
-      artist:       ArtistsView,
-      album:        AlbumsView,
-      genre:        GenresView
+      track:  TracksView,
+      artist: ArtistsView,
+      album:  AlbumsView,
+      genre:  GenresView
     },
 
 

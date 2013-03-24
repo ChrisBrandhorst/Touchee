@@ -35,7 +35,7 @@ namespace Touchee.Server.Http.Modules {
             
             var medium = Medium.Find(mediaID);
             return Response.AsJson(
-                Library.GetContainers(medium)
+                Library.GetContainersResponse(medium)
             );
         }
 
@@ -47,7 +47,7 @@ namespace Touchee.Server.Http.Modules {
             var container = GetContainerFromParams(parameters);
             if (container == null) return null;
 
-            ContentsResponse contents = Library.GetContents(
+            ContentsResponse contents = Library.GetContentsResponse(
                 container,
                 Touchee.Options.Build(parameters.filter)
             );

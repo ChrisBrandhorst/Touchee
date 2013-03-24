@@ -80,10 +80,9 @@ define([
         // (re)Load the library
         Library.load(this.wasConnected);
         
-        // Set that we have connected one time
+        // Set that we have connected at least one time
         this.wasConnected = true;
       }, this));
-      
     },
     
     
@@ -97,19 +96,54 @@ define([
     
     // Called when a message was received over the websocket
     responseReceived: function(response) {
-      
-      
-      return;
-      
-      if (response.media)
-        Media.updateAll(response.media.items);
-      
-      if (response.containers) {
-        var medium = Media.get(response.containers.mediumID);
+      var obj;
+
+      // Revision update
+      if (obj = response.revision) {
+        var current = ServerInfo.get('revision'),
+            next    = obj.revision;
+        if (next > current + 1) {
+          // TODO: RELOAD ALL
+          console.warn('Skipped revision!');
+        }
+        else {
+          // Upcoming data belongs to this new revision
+        }
+        ServerInfo.set('revision', next);
+      }
+
+
+      // The media list has been updated
+      if (obj = response.media) {
+        Media.update(obj.items);
+      }
+
+
+      // The containers of a medium have been changed
+      if (obj = response.containers) {
+        var medium = Media.get(obj.mediumID);
         if (medium)
-          medium.containers.updateAll(response.containers.items);
+          medium.containers.update(obj.items);
       }
       
+
+
+      // The contents of a container has been changed
+      if (obj = response.contentsChanged) {
+        var mediumID    = obj.mediumID,
+            containerID = obj.containerID,
+            medium      = Media.get(mediumID);
+        if (medium) {
+          var container = medium.containers.get(containerID);
+          if (container) {
+            container.notifyContentsChanged();
+          }
+        }
+      }
+
+
+      return;
+
       if (response.contents) {
         var container = Container.get(response.contents.containerID);
         if (container) {

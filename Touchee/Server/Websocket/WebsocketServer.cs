@@ -54,7 +54,7 @@ namespace Touchee.Server.Websocket {
 
 
         /// <summary>
-        /// 
+        /// A message a recieved over the websocket
         /// </summary>
         /// <param name="message"></param>
         void OnMessage(Client client, string message) {
@@ -87,7 +87,7 @@ namespace Touchee.Server.Websocket {
         /// <param name="client"></param>
         /// <param name="args"></param>
         void Identify(Client client, string args) {
-            client.sessionId = args;
+            client.SessionId = args;
         }
 
 

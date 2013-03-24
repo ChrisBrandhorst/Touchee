@@ -18,7 +18,7 @@ define([
       // Get all media
       Media.fetch({
         update:   true,
-        success:  this.mediaLoaded
+        success:  _.bind(this.mediaLoaded, this)
       });
       
     },
@@ -26,13 +26,18 @@ define([
     
     // 
     mediaLoaded: function() {
-      _.each(Media.models, function(medium, i){
-        medium.containers.fetch({
-          success: i > 0 ? null : function(){
-            Backbone.history.navigate(medium.url(), {trigger:true});
-          }
-        });
-      });
+
+      var medium = Media.first();
+      if (medium)
+        medium.containers.on('sync', this.firstMediumLoaded, this);
+
+    },
+
+
+    //
+    firstMediumLoaded: function(containers) {
+      containers.off('sync', this.firstMediumLoaded);
+      Backbone.history.navigate(containers.medium.url(), {trigger:true});
     }
     
     

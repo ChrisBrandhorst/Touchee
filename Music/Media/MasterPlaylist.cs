@@ -15,17 +15,17 @@ namespace Music.Media {
         /// Constructor
         /// </summary>
         /// <param name="medium"></param>
-        public MasterPlaylist(Medium medium) : base(medium, medium.Name) {
-
-            FileTrack.AfterSave += (s, e) => this.NotifyContentChanged();
-            FileTrack.AfterDispose += (s, e) => this.NotifyContentChanged();
-            
-        }
+        public MasterPlaylist(Medium medium) : base(medium, medium.Name) { }
 
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'
         /// </summary>
         public override string Type { get { return "master_playlist"; } }
+
+        /// <summary>
+        /// Whether this container is a master container
+        /// </summary>
+        public override bool IsMaster { get { return true; } }
 
         /// <summary>
         /// String array containing names of views by which the contents can be viewed
@@ -40,32 +40,6 @@ namespace Music.Media {
                     Music.ViewTypes.Genre
                 };
             }
-        }
-
-        /// <summary>
-        /// The tracks of this playlist
-        /// </summary>
-        public override IEnumerable<ITrack> Tracks { get { return FileTrack.All().Cast<ITrack>(); } }
-
-        /// <summary>
-        /// Invalid method
-        /// </summary>
-        public override void Add(Touchee.Media.Music.ITrack track) {
-            throw new InvalidOperationException("Cannot add a track to the master playlist. This playlist is managed automatically.");
-        }
-
-        /// <summary>
-        /// Invalid method
-        /// </summary>
-        public override void Add(Touchee.Media.Music.ITrack track, uint index) {
-            throw new InvalidOperationException("Cannot add a track to the master playlist. This playlist ismanaged automatically.");
-        }
-
-        /// <summary>
-        /// Invalid method
-        /// </summary>
-        public override bool Remove(Touchee.Media.Music.ITrack track) {
-            throw new InvalidOperationException("Cannot remove a track from the master playlist. This playlist ismanaged automatically.");
         }
 
     }

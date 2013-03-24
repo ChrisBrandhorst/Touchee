@@ -4,8 +4,8 @@ namespace Touchee.Components.Content {
 
     public interface IContentProvider : IComponent {
         bool ProvidesFrontend { get; }
-        object GetContents(IContainer container, Options filter);
-        IEnumerable<IItem> GetItems(IContainer container, Options filter);
+        object GetContents(Container container, Options filter);
+        IEnumerable<IItem> GetItems(Container container, Options filter);
     }
 
 }

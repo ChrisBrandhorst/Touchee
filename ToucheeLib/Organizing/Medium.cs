@@ -47,6 +47,13 @@ namespace Touchee {
         } }
 
         /// <summary>
+        /// Returns the master container for this medium
+        /// </summary>
+        public Container MasterContainer {
+            get { return Containers.FirstOrDefault(c => c.IsMaster); }
+        }
+
+        /// <summary>
         /// The local medium
         /// </summary>
         public static Medium Local { get { return LocalMedium.Instance; } }
@@ -132,7 +139,7 @@ namespace Touchee {
         /// Constructor
         /// </summary>
         /// <param name="driveInfo">The drive info for this medium</param>
-        public DriveMedium(DriveInfo driveInfo) : base(driveInfo.VolumeLabel.ToTitleCase()) {
+        public DriveMedium(DriveInfo driveInfo) : base(driveInfo.VolumeLabel == "" ? driveInfo.DriveType.ToString() + " Drive" : driveInfo.VolumeLabel.ToTitleCase()) {
             DriveInfo = driveInfo;
         }
 
