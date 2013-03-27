@@ -2,24 +2,12 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'views/popup',
-  'text!views/_browser_views.html',
-  'text!views/_browser_views_popup.html'
-], function($, _, Backbone, Popup, browserViewsTemplate, browserViewsPopupTemplate) {
+  'views/_browser_views_popup',
+  'text!views/_browser_views.html'
+], function($, _, Backbone, BrowserViewsPopup , browserViewsTemplate) {
   browserViewsTemplate = _.template(browserViewsTemplate);
-  browserViewsPopupTemplate = _.template(browserViewsPopupTemplate);
-  
 
 
-  var BrowserViewsPopup = Popup.extend({
-
-    render: function() {
-
-    }
-
-  });
-
-  
   var BrowserViewsView = Backbone.View.extend({
 
     el: '#views',
@@ -30,23 +18,26 @@ define([
       'click [data-button=more]': 'showMoreViews'
     },
 
+
+    // Contains strings of the views which are hidden
     hiddenViews: [],
 
-    // 
-    render: function() {
+
+    // Constructor
+    initialize: function() {
+      $(window).on('resize', _.bind(this.render, this));
+    },
+
+
+    // Render
+    render: _.debounce(function() {
 
       // Render the buttons
       this.$el.html(
         browserViewsTemplate(this)
       );
 
-      // Check size
-      this.checkSize();
-    },
-
-
-    // 
-    checkSize: function() {
+      // Collect the items which must be out of view and hide them
       var $nav            = this.$('> nav'),
           elWidth         = this.$el.width(),
           buttons         = $nav.children().get(),
@@ -68,8 +59,8 @@ define([
       else
         this.hiddenViews = [];
       
-      $nav.css('margin-left', (elWidth - buttonsWidth) / 2 + 'px');
-    },
+      // $nav.css('margin-left', (elWidth - buttonsWidth) / 2 + 'px');
+    }, 100),
 
 
     // Gets the view text for the given container and view
@@ -89,7 +80,7 @@ define([
     },
 
 
-    //
+    // Update the list
     update: function(container, selectedView) {
       this.container    = container;
       this.selectedView = selectedView;
@@ -97,19 +88,17 @@ define([
     }, 
 
 
-    // 
+    // Open the more views popup
     showMoreViews: function(ev) {
       var $selected = this.$('> nav > .selected').removeClass('selected'),
           $more     = $(ev.target).addClass('selected');
 
-      var popup = new Popup().showRelativeTo($more);
-      popup.$el.append(
-        browserViewsPopupTemplate(this)
-      );
-      // popup.resizeToContents();
-
-      // $more.removeClass('selected');
-      // $selected.addClass('selected');
+      new BrowserViewsPopup({viewsView:this})
+      .showRelativeTo($more)
+      .on('beforeHide', function(){
+        $more.removeClass('selected');
+        $selected.addClass('selected');
+      });
     }
 
   });

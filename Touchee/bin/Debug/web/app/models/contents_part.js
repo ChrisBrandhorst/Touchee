@@ -21,8 +21,8 @@ define([
     initialize: function(models, options) {
       this.contents = options.contents;
       this.params   = options.params;
-      this.listenTo(this.contents, 'reset change add remove', this._contentsReset);
-      this._contentsReset(this.contents);
+      this.listenTo(this.contents, 'reset change add remove', _.debounce(this._contentsReset, 10));
+      this._contentsReset();
     },
     
     
@@ -59,10 +59,10 @@ define([
     
     // Resets the collection with the models from the given collection,
     // filtered by the sieve method
-    _contentsReset: function(collection, options) {
+    _contentsReset: function() {
       var models = this.sieve(this.contents.models);
       if (models != this.contents.models || this.length == 0 && models.length != 0)
-        this.reset(models, options);
+        this.reset(models);
     },
     
     

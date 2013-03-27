@@ -42,12 +42,26 @@ $popupBackground: #0C1934
     margin-top:     -6px
     @include        text-shadow(0 -1px 1px rgba(0,0,0,.5))
   
-  // Popup with list
+  // Popup with pages or list
+  > .pages, > .list
+    @include  box-flex(1)
+    position: relative
+    // Inset shadow
+    &::before
+      content:        ''
+      position:       absolute
+      top:            0px
+      left:           0px
+      right:          0px
+      bottom:         0px
+      @include        border-radius(5px)
+      box-shadow:     inset 0 2px 3px 0px rgba(0,0,0,.3)
+      pointer-events: none
+
+  // Popup with pages
   > .pages
     @include  display-box
     @include  box-orient(vertical)
-    @include  box-flex(1)
-    position: relative
     > header
       margin-top: -6px
       > h1
@@ -61,21 +75,14 @@ $popupBackground: #0C1934
       .list
         @include    box-flex(1)
         background: transparent
-    
-    // Inset shadow
     &::before
-      content:        ''
-      position:       absolute
-      top:            0px
-      left:           0px
-      right:          0px
-      bottom:         0px
-      @include        border-radius(5px)
-      box-shadow:     inset 0 2px 3px 0px rgba(0,0,0,.3)
-      pointer-events: none
-  &.with_header > .pages::before
-    top: 37px
+      top: 37px
   
+  // Popup with list
+  > .list
+    // min-height: 4 * $listRowHeight
+    @include    border-radius(5px)
+
   // Default: do not show arrow
   > .arrow
     display:  none

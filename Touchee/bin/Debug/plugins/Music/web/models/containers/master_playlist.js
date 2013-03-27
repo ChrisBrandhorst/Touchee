@@ -14,7 +14,7 @@ define([
     
     // The different views that are available for this container
     views: ['album', 'artist', 'track',
-      'genre', 'playlist', 'componist'
+      'genre', 'playlist', 'composer'
     ]
 
     

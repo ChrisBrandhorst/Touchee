@@ -1,4 +1,4 @@
-$listRowHeight: 43px
+$listRowHeight: 44px
 
 .list
   background:       white
@@ -8,7 +8,8 @@ $listRowHeight: 43px
   
   > *
     @include          display-box
-    line-height:      $listRowHeight
+    height:           $listRowHeight
+    line-height:      $listRowHeight - 1px
     border-bottom:    1px solid #ccc
     padding:          0 6px
     @include          ellipsis

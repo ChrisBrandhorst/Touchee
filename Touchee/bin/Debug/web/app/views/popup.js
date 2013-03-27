@@ -35,13 +35,13 @@ define([
     
     // Gets the required content height of this popup
     getRequiredContentHeight: function() {
-      return this.$el.outerHeight();
+      // return this.$el.outerHeight();
+      return this.$el.height() + 1;
     },
     
     
     // Resizes the popup nicely to fit the content size (given by getRequiredContentHeight)
     resizeToContents: function() {
-      
       // Get some params
       var requiredContentHeight = this.getRequiredContentHeight() - 7,
           currentInnerHeight    = this.$el.height();
@@ -106,7 +106,8 @@ define([
           view.$el.removeClass('resize');
         }, 200);
       });
-      
+
+      return this;
     },
     
     
@@ -281,30 +282,33 @@ define([
         .css(pos.active)
         .css({height:this.$el.outerHeight()})
         .removeClass('hidden top right bottom left').addClass(pos.active.arrow)
-        .withOverlay({
-          remove: function() {
-            $popup.addClass('animate hidden');
-            _.delay(function(){
-              $popup.removeClass('animate hidden');
-              if (_.isFunction(view.removeOnHide))
-                view.removeOnHide.call(this, $popup);
-              else if (view.removeOnHide === true)
-                $popup.remove();
-              else
-                $popup.hide();
-            }, 200);
-            delete view.$overlay;
-          }
-        });
-      
+        .withOverlay({ remove: _.bind(this.hide, this) });
       return this;
     },
     
     
-    // Hides the popup by triggering the mousedown of the used overlay
-    hide: function() {
+    // Hides or removes the popup
+    hide: function(options) {
       if (!this.$overlay) return;
-      this.$overlay.mousedown();
+      options = _.extend({trigger:true}, options || {});
+
+      if (options.trigger) this.trigger('beforeHide');
+      this.$el
+        .addClass('animate hidden')
+        .on('webkitTransitionEnd', _.bind(function(){
+
+          this.$el.removeClass('animate hidden');
+          var remove = _.isFunction(this.removeOnHide) ? this.removeOnHide.call(this) : this.removeOnHide === true;
+          if (remove !== false)
+            Backbone.View.prototype.remove.apply(this, arguments);
+          else
+            this.$el.hide();
+          if (options.trigger) this.trigger('hide');
+        }, this));
+
+      this.$overlay.remove();
+      delete this.$overlay;
+      return this;
     }
     
     

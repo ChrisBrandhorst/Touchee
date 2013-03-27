@@ -14,7 +14,7 @@
     &#views
       @include  box-flex(1)
       text-align: center
-      padding:    0 8px
+      padding:    0 32px
   
   
   // Nav button
@@ -92,7 +92,7 @@
       // First child has a rounded edge on the right
       &:first-child
         padding-left: 10px
-        min-width:    105px
+        min-width:    99px
         &::before
           @include  remote-image(ChromeButton)
           width:    4px
@@ -102,7 +102,7 @@
       // Last child has a rounded edge on the left
       &:last-child
         padding-right:  9px
-        min-width:      114px
+        min-width:      108px
         &::after
           @include      remote-border-image(ChromeButton, 1, 4, 1, 4)
           border-width: 1px 4px 1px 0 !important
@@ -141,7 +141,12 @@
     > div
       &:first-child, &:last-child
         width:  180px
-    nav > a
-      min-width:      90px
-      &:first-child
-        min-width:    86px
+      &#views
+        padding:  0 12px
+    nav
+      > a.button, button
+        min-width:      90px
+        &:first-child
+          min-width:    86px
+        &:last-child
+          min-width:    94px

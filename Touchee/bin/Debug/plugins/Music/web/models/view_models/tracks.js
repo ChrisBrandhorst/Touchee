@@ -6,7 +6,6 @@ define([
   
   var Tracks = ContentsPart.extend({
     
-    
     // 
     order: function(enumerator) {
       return enumerator

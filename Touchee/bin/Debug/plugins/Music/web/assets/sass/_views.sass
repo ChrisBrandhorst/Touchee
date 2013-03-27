@@ -1,0 +1,8 @@
+#views_popup a.music
+  
+  &.genre::before
+    @include remote-image("Bar-itunes.genres", plugin)
+  &.playlist::before
+    @include remote-image("Bar-itunes.playlistNode", plugin)
+  &.composer::before
+    @include remote-image("Bar-itunes.music.composers", plugin)

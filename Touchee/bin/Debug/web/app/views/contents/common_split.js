@@ -28,7 +28,7 @@ define([
     navigate: function(params, fragment, module) {
 
       // Check if an item is selected
-      if (_.isUndefined(params.view)) return;
+      if (!params.view || _.isUndefined(params[params.view])) return;
 
       // Build the detail view
       var detailView = module.buildView( this.model.contents.container, params, fragment, this.detailView );

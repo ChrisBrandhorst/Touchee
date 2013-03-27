@@ -1,5 +1,5 @@
 <nav class="list scrollable icons touchscrollselect">
   <% _.each(hiddenViews, function(view){ %>
-    <a href="#" class="music "><span><%= getViewText(container, view) %></span></a>
+    <a href="#<%= container.url({view:view}) %>" class="music <%= view %> <%= view == selectedView ? 'selected' : '' %>"><span><%= getViewText(container, view) %></span></a>
   <% }); %>
 </nav>

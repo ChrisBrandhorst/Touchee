@@ -58,6 +58,7 @@ define([
     showContents: function(container, params, fragment) {
       var existingView = this.getView(fragment);
       var view = existingView || this.buildView(container, params, fragment);
+      if (!view) return;
       this.setView(view);
       if (existingView)
         this.navigate(view, params, fragment);
@@ -76,7 +77,7 @@ define([
     buildView: function(container, params, fragment, viewClass) {
       var view            = params.view,
           viewClass       = viewClass || this.views[view],
-          viewModelClass  = viewClass.prototype.viewModel;
+          viewModelClass  = viewClass && viewClass.prototype.viewModel;
 
       if (!viewClass)
         return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
