@@ -115,7 +115,7 @@ define([
 
       // The media list has been updated
       if (obj = response.media) {
-        Media.update(obj.items);
+        Media.set(obj.items);
       }
 
 
@@ -123,7 +123,7 @@ define([
       if (obj = response.containers) {
         var medium = Media.get(obj.mediumID);
         if (medium)
-          medium.containers.update(obj.items);
+          medium.containers.set(obj.items);
       }
       
 

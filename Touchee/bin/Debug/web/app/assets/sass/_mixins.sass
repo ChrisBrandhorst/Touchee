@@ -5,65 +5,63 @@
   white-space:    nowrap
 
 
-// Background image with retina alternative and optional pressed state
-@mixin retina-image($image, $pressed: false)
-  background-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x)
-  @if $pressed == pressed
-    &:active
-      background-image: -webkit-image-set(url(#{$image}Pressed.png) 1x, url(#{$image}Pressed@2x.png) 2x)
+// Image value function
+@function image-value($image, $options)
+  @if type-of($options) == 'string'
+    $options: append((), $options)
+
+  $remote: index($options, remote) != false
+  $retina: index($options, retina) != false
+  $plugin: index($options, plugin) != false
+  $path: $image
+
+  @if $remote
+    $path: "images/remote/#{$image}"
+  @else
+    $path: "images/#{$image}"
+
+  @if $plugin
+    $path: "../../../../assets/#{$path}"
+  @else
+    $path: "../#{$path}"
+
+  @if $retina
+    $path: -webkit-image-set(url(#{$path}.png) 1x, url(#{$path}@2x.png) 2x)
+  @else
+    $path: url(#{$path}.png)
+
+  @return $path
+
 
 // Border image
-@mixin border-image($image, $top, $right, $bottom, $left, $mode: stretch)
-  -webkit-border-image: url(#{$image}.png) $top $right $bottom $left $mode
-  border-width:         $top+px $right+px $bottom+px $left+px
-
-// Border image with retina alternative
-@mixin retina-border-image($image, $top, $right, $bottom, $left, $mode: stretch)
-  -webkit-border-image: -webkit-image-set(url(#{$image}.png) 1x, url(#{$image}@2x.png) 2x) $top $right $bottom $left $mode
-  border-width:         $top+px $right+px $bottom+px $left+px
+@mixin border-img($image, $size, $options: ())
+  -webkit-border-image: image-value($image, $options) $size stretch
+  border-width:         nth($size, 1)+px nth($size, 2)+px nth($size, 3)+px nth($size, 4)+px
 
 
-// Remote background image with retina alternative and optional pressed state
-@mixin remote-image($image, $a: false, $b: false)
-  $pressed: false
-  $plugin: false
-  $path: ".."
-  @if $a == pressed or $b == pressed
-    $pressed: pressed
-  @if $a == plugin or $b == plugin
-    $path: "../../../../assets"
-  @include retina-image("#{$path}/images/remote/#{$image}", $pressed)
-
-// Remote border image with retina alternative
-@mixin remote-border-image($image, $top, $right, $bottom, $left, $mode: stretch)
-  @include retina-border-image("../images/remote/#{$image}", $top, $right, $bottom, $left, $mode)
+// Content image
+@mixin content-img($image, $options: ())
+  content: image-value($image, $options)
 
 
+// Background image
+@mixin background-img($image, $options: (), $alt: false)
+  @if type-of($options) == 'string'
+    $options: append((), $options)
 
-@mixin container_icon($type)
-  &.#{$type}
-    &:before
-      content: url(../images/containers/#{$type}.png)
-    &.selected:before
-      content: url(../images/containers/#{$type}_selected.png)
+  background-image: image-value($image, $options)
 
-@mixin transport_button($button, $color: gray, $active: image)
-  &[data-button=#{$button}]
-    background-image: url(../images/controls/buttons/#{$color}/#{$button}.png)
-    @if $active == image
+  @if index($options, pressed) != false
+    $customAlt: type-of($alt) == 'list'
+
+    @if $customAlt
+      $alt: nth($alt, 1)
+    @else if type-of($alt) != 'string'
+      $alt: Pressed
+
+    @if $customAlt
+      &.#{nth($alt, 2)}
+        background-image: image-value(#{$image}#{nth($alt, 1)}, $options)
+    @else
       &:active
-        background-image: url(../images/controls/buttons/#{$color}/#{$button}_active.png)
-    @else if $active == inset
-      position:   relative
-      &:before
-        position:         absolute
-        content:          ''
-        top:              0
-        right:            0
-        left:             0
-        bottom:           2px
-        border-radius:    26px
-        box-shadow:       0 1px 1px 0 rgba(255,255,255,.3)
-      &:active:before
-        background-color: rgba(0,0,0,.3)
-        box-shadow:       inset 0 0 6px black, 0 1px 1px 0 rgba(255,255,255,.3)
+        background-image: image-value(#{$image}#{$alt}, $options)

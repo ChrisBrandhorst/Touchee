@@ -19,26 +19,32 @@ $listRowHeight: 44px
       @include  box-flex(1)
       @include  ellipsis
     
-    &.more, &.loading
+    &.more, &.loading, &.checked
       &::after
         display:      block
         margin-right: 2px
     
     &.more::after
       margin-top: 15px
-      content:    -webkit-image-set(url(../images/ListNext.png) 1x, url(../images/ListNext@2x.png) 2x)
+      @include  content-img(UITableViewNext)
     
     &.loading::after
       margin-top: 11px
-      content:    -webkit-image-set(url(../images/ListLoading.gif) 1x, url(../images/ListLoading@2x.gif) 2x)
+      @include  content-img(ListLoading)
+
+    &.checked::after
+      margin-top: 15px
+      @include  content-img(UITableViewCheck)
 
     &.selected
       @include  background( linear-gradient(#90B0D3, #7097BD) )
       color:    white
       &.more::after
-        content:  -webkit-image-set(url(../images/ListNextHighlight.png) 1x, url(../images/ListNextHighlight@2x.png) 2x)
+        @include  content-img(UITableViewNextHighlight)
       &.loading::after
-        content:  -webkit-image-set(url(../images/ListLoadingHighlight.gif) 1x, url(../images/ListLoadingHighlight@2x.gif) 2x)
+        @include  content-img(ListLoadingHighlight)
+      &.checked::after
+        @include  content-img(UITableViewCheckHighlight)
   
   &.icons > *
     &::before

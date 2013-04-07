@@ -3,7 +3,7 @@
   
   // Default tile
   > .scrollable > ul > li
-    @include retina-image("../images/WildcatNoArtPlaceholder-MusicMod")
+    @include background-img(WildcatNoArtPlaceholder-MusicMod, retina)
   
   // Details section of album
   .details .content
@@ -80,7 +80,10 @@
         // No bottom shadow on last row of first column
         &:last-child
           background-image: -webkit-linear-gradient(left, transparent, rgba(255,255,255,.15) 50%), -webkit-linear-gradient(left, transparent, transparent)
-        
+        // Empty row almost invisible
+        &.empty
+          height: 1px
+
         // Each item of the track
         span
           padding:      1.1em 0 1.05em 0

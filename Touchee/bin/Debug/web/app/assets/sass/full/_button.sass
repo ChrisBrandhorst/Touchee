@@ -13,7 +13,7 @@ button, .button
     vertical-align: middle
     @include        ellipsis
     max-width:      8em
-    @include        remote-border-image(ScreenButton, 0, 4, 0, 4)
+    @include        border-img(ScreenButton, 0 4 0 4, retina remote)
     @include        text-shadow(0 1px 0 white)
     
     // Dark background, so light text
@@ -23,49 +23,49 @@ button, .button
     
     // Button is pressed
     &:active
-      @include        remote-border-image(ScreenButtonPressed, 0, 4, 0, 4)
+      @include        border-img(ScreenButtonPressed, 0 4 0 4, retina remote)
     
     // Back button
     &.back
       padding-left:   0
-      @include        remote-border-image(ChromeButtonBack, 0, 4, 0, 13)
+      @include        border-img(ChromeButtonBack, 0 4 0 13, retina remote)
       &:active, &.active
-        @include        remote-border-image(ChromeButtonBackSelected, 0, 4, 0, 13)
+        @include        border-img(ChromeButtonBackSelected, 0 4 0 13, retina remote)
     
     // Chrome button
     &.chrome
-      @include        remote-border-image(ChromeButton, 0, 4, 0, 4)
+      @include        border-img(ChromeButton, 0 4 0 4, retina remote)
       &:active
-        @include        remote-border-image(ChromeButtonSelected, 0, 4, 0, 4)
+        @include        border-img(ChromeButtonSelected, 0 4 0 4, retina remote)
       &.back
-        @include        remote-border-image(ChromeButtonBack, 0, 4, 0, 13)
+        @include        border-img(ChromeButtonBack, 0 4 0 13, retina remote)
         &:active
-          @include        remote-border-image(ChromeButtonBackSelected, 0, 4, 0, 13)
+          @include        border-img(ChromeButtonBackSelected, 0 4 0 13, retina remote)
     
     // Black button
     &.black
-      @include        remote-border-image(NowPlayingButton, 0, 4, 0, 4)
+      @include        border-img(NowPlayingButton, 0 4 0 4, retina remote)
       &:active
-        @include        retina-border-image("../images/NowPlayingButtonPressed", 0, 4, 0, 4)
+        @include        border-img(NowPlayingButtonPressed, 0 4 0 4, retina)
       &.back
-        @include        remote-border-image(UINavigationBarBlackOpaqueBack, 0, 4, 0, 13)
+        @include        border-img(UINavigationBarBlackOpaqueBack, 0 4 0 13, retina remote)
         &:active
-          @include        remote-border-image(UINavigationBarBlackBackPressed, 0, 4, 0, 13)
+          @include        border-img(UINavigationBarBlackBackPressed, 0 4 0 13, retina remote)
       &.forward
         padding-right:   0
-        @include        remote-border-image(UINavigationBarBlackOpaqueForward, 0, 13, 0, 4)
+        @include        border-img(UINavigationBarBlackOpaqueForward, 0 13 0 4, retina remote)
         &:active
-          @include        remote-border-image(UINavigationBarBlackForwardPressed, 0, 13, 0, 4)
+          @include        border-img(UINavigationBarBlackForwardPressed, 0 13 0 4, retina remote)
     
     // Bright blue button
     &.blue
-      @include        remote-border-image(ScreenButtonDone, 0, 4, 0, 4)
+      @include        border-img(ScreenButtonDone, 0 4 0 4, retina remote)
       &:active
-        @include        remote-border-image(ScreenButtonDonePressed, 0, 4, 0, 4)
+        @include        border-img(ScreenButtonDonePressed, 0 4 0 4, retina remote)
     
     // Dark blue button
     &.darkblue
       &.back
-        @include        remote-border-image(UINavigationBarDefaultBack_OS5, 0, 4, 0, 13)
+        @include        border-img(UINavigationBarDefaultBack_OS5, 0 4 0 13, retina remote)
         &:active
-          @include        remote-border-image(UINavigationBarDefaultBackPressed_OS5, 0, 4, 0, 13)
+          @include        border-img(UINavigationBarDefaultBackPressed_OS5, 0 4 0 13, retina remote)

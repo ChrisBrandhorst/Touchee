@@ -1,27 +1,27 @@
 // Transport button mixin
 @mixin transportButton($name)
   &[data-button=#{$name}]
-    @include remote-image(Chrome#{$name})
+    @include background-img(Chrome#{$name}, remote retina)
     &[disabled]
-      @include remote-image(Chrome#{$name}Disabled)
+      @include background-img(Chrome#{$name}Disabled, remote retina)
     &:active:not([disabled])
-      @include remote-image(Chrome#{$name}Pressed)
+      @include background-img(Chrome#{$name}Pressed, remote retina)
 
 @mixin lcdButton($name, $size)
   [data-button=#{$name}]
     width:    $size
     height:   $size
-    @include  remote-image(LCD#{$name})
+    @include  background-img(LCD#{$name}, remote retina)
     &:active
-      @include  remote-image(LCD#{$name}Pressed)
+      @include  background-img(LCD#{$name}Pressed, remote retina)
     &[disabled]
-      @include  remote-image(LCD#{$name}Disabled)
+      @include  background-img(LCD#{$name}Disabled, remote retina)
     &.on
-      @include  remote-image(LCD#{$name}On)
+      @include  background-img(LCD#{$name}On, remote retina)
       &:active
-        @include  remote-image(LCD#{$name}OnPressed)
+        @include  background-img(LCD#{$name}OnPressed, remote retina)
       &[disabled]
-        @include  remote-image(LCD#{$name}OnDisabled)
+        @include  background-img(LCD#{$name}OnDisabled, remote retina)
 
 
 #browser > header
@@ -33,7 +33,7 @@
   padding: 0 12px 0 14px
   
   // Background
-  @include  remote-image(ChromeTop)
+  @include  background-img(ChromeTop, remote retina)
   
   // Tiny shade
   @include  box-shadow(0 0 6px rgba(0,0,0,.18))
@@ -55,7 +55,7 @@
     @include  box-flex(1)
     position: relative
     margin:   0 15px 0 13px
-    @include  remote-border-image(LCDGlassLandscape, 10, 10, 10, 10)
+    @include  border-img(LCDGlassLandscape, 10 10 10 10, retina remote)
     > *
       display:  block
     
@@ -70,7 +70,7 @@
         left:         50%
         top:          4px
         margin-left:  -13px
-        @include      remote-image(LCDAppleLogo)
+        @include      background-img(LCDAppleLogo, remote retina)
       > *
         display:  none !important
     
@@ -126,11 +126,11 @@
     [data-button=repeat]
       margin: -7px 0 0 5px
       &.one
-        @include  remote-image(LCDRepeat1On)
+        @include  background-img(LCDRepeat1On, remote retina)
         &:active
-          @include  remote-image(LCDRepeat1OnPressed)
+          @include  background-img(LCDRepeat1OnPressed, remote retina)
         &[disabled]
-          @include  remote-image(LCDRepeat1OnDisabled)
+          @include  background-img(LCDRepeat1OnDisabled, remote retina)
     
     // Time fields
     #lcd_position_current,
@@ -152,16 +152,16 @@
       margin-top: 7px
       position:   relative
       overflow:   visible
-      @include    remote-border-image(LCDTrackEmpty, 0, 4, 0, 4)
+      @include    border-img(LCDTrackEmpty, 0 4 0 4, retina remote)
       &:not(.ui-slider-disabled)
-        @include    remote-border-image(LCDTrack, 0, 4, 0, 4)
+        @include    border-img(LCDTrack, 0 4 0 4, retina remote)
         
       // Volume slider range
       > div
         height:       100%
         margin-left:  -4px
         @include      box-sizing(content-box)
-        @include      remote-border-image(LCDTrackFilled, 0, 4, 0, 4)
+        @include      border-img(LCDTrackFilled, 0 4 0 4, retina remote)
         border-right-width: 0px
       
       // Volume knob
@@ -171,7 +171,7 @@
         width:    11px
         top:      0
         margin:   -2px 0 0 -4px
-        @include  remote-image(LCDTrackThumb)
+        @include  background-img(LCDTrackThumb, remote retina)
     
   // Output options
   #output
@@ -186,7 +186,7 @@
       margin-top: 20px
       position:   relative
       overflow:   visible
-      @include    remote-border-image(VolumeTrackEmpty, 0, 11, 0, 11)
+      @include    border-img(VolumeTrackEmpty, 0 11 0 11, retina remote)
       @include    box-flex(1)
       
       // Volume slider range
@@ -194,7 +194,7 @@
         height:       100%
         margin-left:  -11px
         @include      box-sizing(content-box)
-        @include      remote-border-image(VolumeTrackFilled, 0, 11, 0, 11)
+        @include      border-img(VolumeTrackFilled, 0 11 0 11, retina remote)
       
       // Volume knob
       > a
@@ -203,9 +203,9 @@
         width:    32px
         top:      0
         margin:   -5px 0 0 -16px
-        @include  remote-image(VolumeKnob)
+        @include  background-img(VolumeKnob, remote retina)
         &:active
-          @include  remote-image(VolumeKnobPressed)
+          @include  background-img(VolumeKnobPressed, remote retina)
     
     
     // Airplay button
@@ -214,16 +214,16 @@
       height:               47px
       width:                47px
       margin:               6px 0 0 -11px
-      @include              remote-image(VolumeAirPlay)
+      @include              background-img(VolumeAirPlay, remote retina)
       background-position:  right center
       background-repeat:    no-repeat
       
       &:active
-        @include  remote-image(VolumeAirPlayPressed)
+        @include  background-img(VolumeAirPlayPressed, remote retina)
       &.on
-        @include  remote-image(VolumeAirPlayOn)
+        @include  background-img(VolumeAirPlayOn, remote retina)
         &:active
-          @include  remote-image(VolumeAirPlayPressedOn)
+          @include  background-img(VolumeAirPlayPressedOn, remote retina)
     
     // If disabled, hide all elements
     &.disabled > *

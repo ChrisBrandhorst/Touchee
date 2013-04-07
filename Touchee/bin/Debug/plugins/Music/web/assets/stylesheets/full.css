@@ -145,19 +145,23 @@
 .scroll_list.albums .details .content ol li:last-child {
   background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, transparent);
 }
-/* line 85, ../sass/_albums.sass */
+/* line 84, ../sass/_albums.sass */
+.scroll_list.albums .details .content ol li.empty {
+  height: 1px;
+}
+/* line 88, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span {
   padding: 1.1em 0 1.05em 0;
   display: block;
 }
-/* line 90, ../sass/_albums.sass */
+/* line 93, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:first-child {
   width: 3.15em;
   padding-right: 1em;
   text-align: right;
   font-weight: bold;
 }
-/* line 96, ../sass/_albums.sass */
+/* line 99, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -167,11 +171,11 @@
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 100, ../sass/_albums.sass */
+/* line 103, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:last-child {
   width: 6.4em;
 }
-/* line 106, ../sass/_albums.sass */
+/* line 109, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li.clicked {
   -webkit-transition: none;
   -moz-transition: none;
@@ -179,7 +183,7 @@
   transition: none;
   background-color: #4c4c4c;
 }
-/* line 109, ../sass/_albums.sass */
+/* line 112, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li.clicked span {
   -webkit-transition: none;
   -moz-transition: none;
@@ -187,20 +191,20 @@
   transition: none;
   color: white !important;
 }
-/* line 114, ../sass/_albums.sass */
+/* line 117, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol {
   background-image: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
 }
-/* line 116, ../sass/_albums.sass */
+/* line 119, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol::before {
   content: none;
 }
-/* line 118, ../sass/_albums.sass */
+/* line 121, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol li {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-position: left top, left bottom;
 }
-/* line 121, ../sass/_albums.sass */
+/* line 124, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol li:last-child {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
 }

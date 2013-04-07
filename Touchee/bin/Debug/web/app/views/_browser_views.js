@@ -42,24 +42,29 @@ define([
           elWidth         = this.$el.width(),
           buttons         = $nav.children().get(),
           removedButtons  = [],
+          selectedRemoved = false,
           buttonsWidth;
 
       var getButtonsWidth = function() {
         return _.reduce(buttons, function(sum, b){ return sum + $(b).outerWidth(); }, 0);
       };
 
-      while ((buttonsWidth = getButtonsWidth()) > elWidth && buttons.length) {
+      while ((buttonsWidth = getButtonsWidth()) > elWidth && buttons.length)
         removedButtons.push( buttons.pop() );
-      }
+
       if (removedButtons.length) {
         removedButtons.push( buttons.pop() );
-        $('<button data-button="more">' + I18n.browser.moreViews + '</button>').appendTo($nav);
-        this.hiddenViews = _.map(removedButtons, function(b){ b.parentNode.removeChild(b); return b.getAttribute('data-view'); }).reverse();
+        var $more = $('<button data-button="more">' + I18n.browser.moreViews + '</button>').appendTo($nav).toggleClass('selected', selectedRemoved);
+        this.hiddenViews = _.map(removedButtons, function(b){
+          b.parentNode.removeChild(b);
+          return b.getAttribute('data-view');
+        }).reverse();
+
+        if (!$nav.children('.selected').length) $more.addClass('selected');
       }
       else
         this.hiddenViews = [];
       
-      // $nav.css('margin-left', (elWidth - buttonsWidth) / 2 + 'px');
     }, 100),
 
 
@@ -100,6 +105,7 @@ define([
         $selected.addClass('selected');
       });
     }
+
 
   });
 

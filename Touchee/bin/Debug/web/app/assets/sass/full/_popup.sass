@@ -19,7 +19,7 @@ $popupBackground: #0C1934
   border-top-color: #404040
   @include          border-radius(8px)
   @include          background-image( linear-gradient( #78808F 2px, #25304A 21px, $popupBackground 21px) )
-  @include          box-shadow( 0 0 0 1px rgba(255,255,255,.25), 0 7px 65px 0 rgba(0,0,0,.8), inset 0 0 0 1px rgba(255,255,255,.15) )
+  @include          box-shadow( 0 0 0 1px rgba(255,255,255,.25), 0 7px 65px 0 rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.15) )
   
   // Hidden and animation
   &.animate
@@ -82,6 +82,10 @@ $popupBackground: #0C1934
   > .list
     // min-height: 4 * $listRowHeight
     @include    border-radius(5px)
+    > :first-child
+      @include    border-radius(4px 4px 0 0)
+    > :last-child
+      @include    border-radius(0 0 4px 4px)
 
   // Default: do not show arrow
   > .arrow

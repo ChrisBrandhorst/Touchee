@@ -4,14 +4,14 @@
   &.#{$class}
     &::before
       @if $custom == true
-        @include  retina-image("../images/SourceList#{$icon}Gray")
+        @include  background-img(SourceList#{$icon}Gray, retina)
       @else
-        @include  remote-image(SourceList#{$icon}Gray)
+        @include  background-img(SourceList#{$icon}Gray, remote retina)
     &.selected::before
       @if $custom == true
-        @include  retina-image("../images/SourceList#{$icon}Highlight")
+        @include  background-img(SourceList#{$icon}Highlight, retina)
       @else
-        @include  remote-image(SourceList#{$icon}Highlight)
+        @include  background-img(SourceList#{$icon}Highlight, remote retina)
 
 #media_popup
   width:      334px
@@ -28,7 +28,7 @@
         width:        48px
         margin:       6px 10px 0 -48px
         background:   no-repeat 2px center
-        @include      remote-image(SourceSwitcherGlyph)
+        @include      background-img(SourceSwitcherGlyph, remote retina)
   
   .list
     min-height: 4 * $listRowHeight
@@ -36,9 +36,9 @@
       
       // Default folder icon
       &::before
-        @include  remote-image(SourceListFolderGray)
+        @include  background-img(SourceListFolderGray, remote retina)
       &.selected::before
-        @include  remote-image(SourceListFolderHighlight)
+        @include  background-img(SourceListFolderHighlight, remote retina)
       
       // Icons for different media types
       @include medium_icon(local, HomeSharing)

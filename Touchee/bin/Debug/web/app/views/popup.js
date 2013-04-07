@@ -35,7 +35,6 @@ define([
     
     // Gets the required content height of this popup
     getRequiredContentHeight: function() {
-      // return this.$el.outerHeight();
       return this.$el.height() + 1;
     },
     

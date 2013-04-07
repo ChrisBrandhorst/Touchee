@@ -90,7 +90,7 @@ namespace Music.Media {
                     this.Album = tag.Album;
 
                 if (tag.AlbumArtistsSort.Length > 0)
-                    this.AlbumSort = String.Join("; ", tag.AlbumArtistsSort);
+                    this.AlbumArtistSort = String.Join("; ", tag.AlbumArtistsSort);
                 if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
                     this.AlbumArtist = tag.JoinedAlbumArtists;
 

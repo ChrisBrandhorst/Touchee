@@ -5,7 +5,7 @@ section.split_view
     &:first-child
       width:        228px
       border-right: 1px solid #bbb
-      @include      remote-image(ChromeBackground)
+      @include      background-img(ChromeBackground, remote retina)
       @include      box-shadow(0 0 5px 0 rgba(0,0,0,.24))
       position:     relative
       z-index:      3
@@ -43,11 +43,11 @@ section.split_view
           background: no-repeat center
           vertical-align: top
           &[data-button=play]
-            @include remote-image(ControlClusterDarkPlay, pressed)
+            @include background-img(ControlClusterDarkPlay, remote retina pressed)
           &[data-button=shuffle]
-            @include remote-image(ControlClusterDarkShuffle, pressed)
+            @include background-img(ControlClusterDarkShuffle, remote retina pressed)
           &[data-button=menu]
-            @include remote-image(ControlClusterDarkMenu, pressed)
+            @include background-img(ControlClusterDarkMenu, remote retina pressed)
 
           &:nth-child(n+2)
             position: relative
@@ -58,7 +58,7 @@ section.split_view
               width:    2px
               top:      0
               left:     -2px
-              @include remote-image(ControlClusterSeparatorDark)
+              @include background-img(ControlClusterSeparatorDark, remote retina)
 
         > div
           padding:  4px 0 11px 11px

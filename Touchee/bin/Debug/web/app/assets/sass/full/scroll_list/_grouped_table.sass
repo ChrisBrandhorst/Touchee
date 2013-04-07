@@ -53,6 +53,7 @@ $groupedTableImageSize: 135px
         width:            100%
         border-collapse:  separate
         border-spacing:   0
+        table-layout:     fixed
 
         // Each row
         tr
@@ -65,6 +66,7 @@ $groupedTableImageSize: 135px
             color:          #292929
             border-top:     1px solid #fefefe
             border-bottom:  1px solid #e1e1e1
+            @include        ellipsis
 
             // First colum is bold
             &:first-child
@@ -90,7 +92,7 @@ $groupedTableImageSize: 135px
   // Floating index & group title (inline index)
   div.scroll_list-grouped_table-index, ul li h2
     height:           40px
-    padding:          10px 0 0 13px
+    padding:          10px 59px 0 13px
     font-weight:      bold
     font-size:        1.4em
     color:            #454751
@@ -98,3 +100,4 @@ $groupedTableImageSize: 135px
     border-top:       1px solid #d7d7d7
     @include          box-shadow(0 1px 0 0 #fefefe)
     background-color: #ebebeb
+    @include          ellipsis

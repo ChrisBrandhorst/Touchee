@@ -9,13 +9,13 @@
   
   // Top dot
   background: no-repeat 9px -3px
-  @include    remote-image(quickScroll-dot-large)
+  @include    background-img(quickScroll-dot-large, remote retina)
   
   // Bottom dot
   &::after
     content:  ''
     position: absolute
-    @include  remote-image(quickScroll-dot-large)
+    @include  background-img(quickScroll-dot-large, remote retina)
     width:    5px
     height:   5px
     bottom:   -3px
@@ -26,7 +26,7 @@
     content:    ''
     position:   absolute
     background: repeat-y center -9px
-    @include    retina-image("../images/quickScroll-dot-small")
+    @include    background-img(quickScroll-dot-small, retina)
     top:        5px
     bottom:     5px
     left:       10px
@@ -39,7 +39,7 @@
   border: solid transparent
   border-width: 12px 0
   &.hover
-    @include remote-border-image(quickScroll-track, 12, 0, 12, 0)
+    @include border-img(quickScroll-track, 12 0 12 0, remote retina)
   
   
   // Alpha scoller

@@ -27,7 +27,7 @@ var columnTwoAt = tracks.length <= 5 ? 0 : Math.max(5, Math.ceil(tracks.length /
   // - We have two columns AND the columns are not of equal length
   // - OR we have 5 or less tracks
   if ( i == tracks.length - 1 && ( (tracks.length / columnTwoAt < 2) || i < 5 ) )
-    print('<li class="empty"><span>&nbsp;</span></li>');
+    print('<li class="empty"></li>');
   %>
   
 <% }); %>

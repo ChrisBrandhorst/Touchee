@@ -25,13 +25,6 @@ define([
     },
     
     
-    // // Constructor
-    // initialize: function() {
-    //   PopupView.prototype.initialize.apply(this, arguments);
-    //   this.render();
-    // },
-    
-    
     // 
     render: function() {
       this.$el.append( MediaPagesView.$el );
