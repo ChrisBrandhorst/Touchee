@@ -28,37 +28,10 @@ section.split_view
 
         h1
           padding:  14px 14px 0 11px
-          @include  display-box
-          span
-            min-width:  0
+          > span
             font-size:  1.8em
-            @include    ellipsis
-          div
-            margin:       -3px 0 0 8px
-            white-space:  nowrap
-
-        button
-          width:      46px
-          height:     26px
-          background: no-repeat center
-          vertical-align: top
-          &[data-button=play]
-            @include background-img(ControlClusterDarkPlay, remote retina pressed)
-          &[data-button=shuffle]
-            @include background-img(ControlClusterDarkShuffle, remote retina pressed)
-          &[data-button=menu]
-            @include background-img(ControlClusterDarkMenu, remote retina pressed)
-
-          &:nth-child(n+2)
-            position: relative
-            &::after
-              content: ''
-              position: absolute
-              height:   100%
-              width:    2px
-              top:      0
-              left:     -2px
-              @include background-img(ControlClusterSeparatorDark, remote retina)
+          > div
+            margin-top: -3px
 
         > div
           padding:  4px 0 11px 11px

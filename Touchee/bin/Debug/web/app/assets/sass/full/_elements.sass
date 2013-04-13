@@ -19,3 +19,45 @@ input
   &.ui-slider-disabled
     .ui-slider-range, .ui-slider-handle
       display:  none
+
+h1.with_control_cluster
+  @include  display-box
+
+  > span
+    min-width:  0
+    @include    ellipsis
+
+  > div
+    margin-left:  8px
+    white-space:  nowrap
+
+    button
+      width:          46px
+      height:         26px
+      background:     no-repeat center
+      vertical-align: top
+      &[data-button=play]
+        @include background-img(ControlClusterDarkPlay, remote retina pressed)
+      &[data-button=shuffle]
+        @include background-img(ControlClusterDarkShuffle, remote retina pressed)
+      &[data-button=menu]
+        @include background-img(ControlClusterDarkMenu, remote retina pressed)
+
+      &:nth-child(n+2)
+        position: relative
+        &::after
+          content: ''
+          position: absolute
+          height:   100%
+          width:    2px
+          top:      0
+          left:     -2px
+          @include background-img(ControlClusterSeparatorDark, remote retina)
+
+    &.light button
+      &[data-button=play]
+        @include background-img(ControlClusterLightPlay, remote retina pressed)
+      &[data-button=shuffle]
+        @include background-img(ControlClusterLightShuffle, remote retina pressed)
+      &[data-button=menu]
+        @include background-img(ControlClusterLightMenu, remote retina pressed)

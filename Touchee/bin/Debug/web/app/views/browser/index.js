@@ -6,9 +6,9 @@ define([
   'models/server_info',
   'models/status',
   'views/media/popup',
-  'views/_browser_views',
+  'views/browser/_views',
   'i18n!nls/locale',
-  'text!views/browser.html'
+  'text!views/browser/index.html'
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
             MediaPopupView, BrowserViewsView,
@@ -29,7 +29,7 @@ define([
     
     // Events
     events: {
-      'click [data-button=nav]':  'showNav'
+      'tap [data-button=nav]':  'showNav'
     },
     
     

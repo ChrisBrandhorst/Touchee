@@ -96,13 +96,7 @@ namespace Touchee.Server.Http.Modules {
                 // Check if colors should be added
                 if (Request.Query.ContainsKey("colors")) {
                     var colors = Touchee.Meta.ArtworkColors.Generate(artwork);
-                    var colorJSON = @"{""background"":" + colors.BackgroundColor.ToJSON() + @",""foreground"":" + colors.ForegroundColor.ToJSON() + @",""foreground2"":" + colors.ForegroundColor2.ToJSON() + "}";
-                    //response.Headers.Add("X-Artwork-Colors", colorJSON);
-                    response = Response.AsJson<object>(new {
-                        background = colors.BackgroundColor,
-                        foreground = colors.ForegroundColor,
-                        foreground2 = colors.ForegroundColor2
-                    });
+                    response = Response.AsJson<Touchee.Meta.ArtworkColors>(colors);
                 }
 
                 else {

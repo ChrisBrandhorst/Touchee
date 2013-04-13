@@ -23,7 +23,7 @@
 .scroll_list.table.tracks > table td:last-child {
   width: 135px;
 }
-@media screen and (max-width: 900px) {
+@media #{$portraitMedia} {
   /* line 11, ../sass/_tracks.sass */
   .scroll_list.table.tracks > table td:first-child {
     width: 46%;
@@ -87,16 +87,21 @@
   margin-bottom: 0.16em;
   font-size: 2em;
 }
-/* line 33, ../sass/_albums.sass */
+/* line 32, ../sass/_albums.sass */
+.scroll_list.albums .details .content h1 > div {
+  margin-top: 1px;
+  margin-bottom: -1px;
+}
+/* line 36, ../sass/_albums.sass */
 .scroll_list.albums .details .content h2 {
   margin-bottom: 0.65em;
   font-size: 1.3em;
 }
-/* line 38, ../sass/_albums.sass */
+/* line 41, ../sass/_albums.sass */
 .scroll_list.albums .details .content h2 + ol, .scroll_list.albums .details .content ol.empty + ol {
   margin-left: -1.55em;
 }
-/* line 42, ../sass/_albums.sass */
+/* line 45, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol {
   float: left;
   margin-bottom: 1em;
@@ -107,11 +112,11 @@
   background-size: 100% 1px, 1px 100%;
   background-position: left top, right bottom;
 }
-/* line 49, ../sass/_albums.sass */
+/* line 52, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol.empty {
   display: none;
 }
-/* line 58, ../sass/_albums.sass */
+/* line 61, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol::before {
   content: "";
   position: absolute;
@@ -121,7 +126,7 @@
   width: 1px;
   background: -webkit-linear-gradient(bottom, transparent, rgba(0, 0, 0, 0.2) 1.5em) no-repeat right bottom;
 }
-/* line 68, ../sass/_albums.sass */
+/* line 71, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li {
   display: -webkit-box;
   display: -moz-box;
@@ -137,31 +142,31 @@
   transition: background-color 0.4s ease;
   background-color: transparent;
 }
-/* line 78, ../sass/_albums.sass */
+/* line 81, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li:first-child {
   margin-top: 1px;
 }
-/* line 81, ../sass/_albums.sass */
+/* line 84, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li:last-child {
   background-image: -webkit-linear-gradient(left, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(left, transparent, transparent);
 }
-/* line 84, ../sass/_albums.sass */
+/* line 87, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li.empty {
   height: 1px;
 }
-/* line 88, ../sass/_albums.sass */
+/* line 91, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span {
   padding: 1.1em 0 1.05em 0;
   display: block;
 }
-/* line 93, ../sass/_albums.sass */
+/* line 96, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:first-child {
   width: 3.15em;
   padding-right: 1em;
   text-align: right;
   font-weight: bold;
 }
-/* line 99, ../sass/_albums.sass */
+/* line 102, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:nth-child(2) {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -171,11 +176,13 @@
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 103, ../sass/_albums.sass */
+/* line 106, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li span:last-child {
-  width: 6.4em;
+  padding-right: 55px;
+  text-align: right;
+  width: 7.2em;
 }
-/* line 109, ../sass/_albums.sass */
+/* line 114, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li.clicked {
   -webkit-transition: none;
   -moz-transition: none;
@@ -183,7 +190,7 @@
   transition: none;
   background-color: #4c4c4c;
 }
-/* line 112, ../sass/_albums.sass */
+/* line 117, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol li.clicked span {
   -webkit-transition: none;
   -moz-transition: none;
@@ -191,20 +198,20 @@
   transition: none;
   color: white !important;
 }
-/* line 117, ../sass/_albums.sass */
+/* line 122, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol {
   background-image: -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
 }
-/* line 119, ../sass/_albums.sass */
+/* line 124, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol::before {
   content: none;
 }
-/* line 121, ../sass/_albums.sass */
+/* line 126, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol li {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, rgba(0, 0, 0, 0.2) 50%);
   background-position: left top, left bottom;
 }
-/* line 124, ../sass/_albums.sass */
+/* line 129, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol li:last-child {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
 }

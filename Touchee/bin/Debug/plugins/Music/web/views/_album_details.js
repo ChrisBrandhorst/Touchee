@@ -11,9 +11,8 @@ define([
     
     
     events: {
-      'click li': 'clickedTrack'
+      'tap li': 'clickedTrack'
     },
-    
     
     // Constructor
     initialize: function(options) {
@@ -53,7 +52,8 @@ define([
         this.$el
           .css('backgroundColor', "rgb(" + colors.background + ")")
           .find('.prim').css('color', "rgb(" + colors.foreground + ")");
-        this.$el.find('.sec').css('color', "rgb(" + colors.foreground2 + ")");
+        this.$el.find('.sec').css('color', "rgb(" + (colors.foreground2 || colors.foreground) + ")");
+        this.$el.find('h1 > div').toggleClass('light', !colors.backgroundIsLight);
         this.colors = colors;
       }
       else {

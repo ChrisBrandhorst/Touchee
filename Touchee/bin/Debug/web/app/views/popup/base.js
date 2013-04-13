@@ -9,7 +9,6 @@ define([
     
     // Backbone view options
     tagName:    'section',
-    className:  'popup arrow with_header',
     
     
     // Touchee options
@@ -23,10 +22,10 @@ define([
     initialize: function(options) {
       options || (options = {});
       
-      // this.$el.html(this.dummy);
+      this.$el.addClass('popup');
       if (this.arrow) {
         this.$arrow = $('<div class="arrow" />');
-        this.$el.prepend(this.$arrow);
+        this.$el.addClass('arrow').prepend(this.$arrow);
       }
 
       this.render();

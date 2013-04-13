@@ -89,7 +89,7 @@ define([
       this.data = {};
       
       if (this.selectable)
-        this.selection = _.extend({}, selectionDefaults, this.selection);
+        this.selection = _.extend({}, selectionDefaults, {selectable:this.selectable}, this.selection);
 
       this.listenTo(this.model, 'reset add remove change', this._contentChanged);
     },
@@ -195,8 +195,10 @@ define([
       }
       
       // Touch scroll selection
-      if (this.selectable)
-        this.$scroller.on(Touchee.START_EVENT+'.scroll_list', this.selectable, _.bind(this._selectionStart, this));
+      if (this.selectable) {
+        this.$scroller.touchscrollselect(this.selection);
+        this.$scroller.on('selected', _.bind(this._selected, this));
+      }
       
     },
     
@@ -205,7 +207,7 @@ define([
     // PRIVATE
     _unbind: function() {
       $(window).unbind('resize.scroll_list-' + this.id);
-      this.$scroller.unbind('.scroll_list').off('.scroll_list');
+      this.$scroller.unbind('.scroll_list').touchscrollselect(false);
       if (this.quickscroll)
         this.data.qs.$el.unbind();
     },
@@ -774,122 +776,19 @@ define([
     // ---------------
     
     // An item has been selected
+    // PRIVATE
+    _selected: function(ev, $el) {
+      this.data.selectedItem = this.getItem($el);
+      this.selected(this.data.selectedItem, $el);
+    },
+
+
+    // An item has been selected
     // ABSTRACT
     selected: function(item, $item) {
       throw("NotImplentedException");
-    },
-    
-    
-    // Called when a touch selection has started
-    // PRIVATE
-    _selectionStart: function(ev) {
-
-      // Get the element
-      var $el = $(ev.currentTarget);
-      
-      // Set the onclick handler for anchors
-      if ($el[0].tagName.toLowerCase() == 'a')
-        $el[0].onclick = "return false;";
-      
-      // Get currently selected items
-      var $previous = $el.siblings('.' + this.selection.klass);
-      
-      // Selection setter
-      var doSelect = function() {
-        $el.addClass(this.selection.klass);
-        $previous.removeClass(this.selection.klass);
-      };
-      
-      // Set selection data
-      this.data.selection = {
-        $el:        $el,
-        $previous:  $previous,
-        timeout:    _.delay(_.bind(doSelect, this), this.selection.delay),
-        y:          ev.getCoords().y,
-        item:       this.getItem($el),
-        previous:   this.data.selection && this.data.selection.item
-      };
-      
-      // Set bindings
-      this.$scroller.on(Touchee.MOVE_EVENT+'.tss', _.bind(this._selectionMove, this));
-      this.$scroller.on(Touchee.END_EVENT+'.tss touchcancel.tss',  _.bind(this._selectionEnd, this));
-    },
-    
-    
-    // Called when a touch selection is in progress and the touch position has moved
-    // PRIVATE
-    _selectionMove: function(ev) {
-      
-      // Get the data
-      var data = this.data.selection;
-      // if (!data) return;
-      
-      // If we are moving enough
-      var diff = Math.abs(data.y - ev.getCoords().y);
-      if (diff > this.selection.distance) {
-        
-        // If we are moving within the timeout, kill the timeout so the new selection is not set
-        if (data.timeout)
-          clearTimeout(data.timeout);
-        
-        // Set that we have moved
-        data.moved = true;
-        
-        // Remove selection on the target element
-        data.$el.removeClass(this.selection.klass);
-        
-        // We do not need move callbacks anymore
-        this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
-      }
-    },
-    
-    
-    // Called when a touch selection is ended
-    // PRIVATE
-    _selectionEnd: function(ev) {
-      
-      // Get the data
-      var data = this.data.selection;
-      // if (!data) return;
-      
-      // If we stopped within the timeout, kill the timeout so the new selection is not set
-      if (data.timeout)
-        clearTimeout(data.timeout);
-      
-      // If we have moved, reset the original selection
-      if (data.moved) {
-        data.$previous.addClass(this.selection.klass);
-        data.previous = data.item;
-      }
-      
-      // Else, select the new element
-      else {
-        
-        // Set selection class (for when we have ended the touch during the timeout)
-        if (this.selection.keep) {
-          data.$el.addClass(this.selection.klass);
-          data.$previous.removeClass(this.selection.klass);
-        }
-        else
-          data.$el.removeClass(this.selection.klass);
-        
-        // If we have a callback function, call that
-        if (_.isFunction(this.selected))
-          this.selected.call(this, data.item, data.$el);
-        
-        // Else, navigate to the anchor
-        else if (data.$el.is('a'))
-          Backbone.history.navigate(data.$el.attr('href'), {trigger:true});
-      }
-      
-      // Unbind all
-      this.$scroller.off(Touchee.MOVE_EVENT + '.tss');
-      this.$scroller.off(Touchee.END_EVENT + '.tss touchcancel.tss');
-      // delete this.data.selection;
-      
-      return false;
     }
-    
+
     
   });
   

@@ -2,8 +2,8 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'views/_browser_views_popup',
-  'text!views/_browser_views.html'
+  'views/browser/_views_popup',
+  'text!views/browser/_views.html'
 ], function($, _, Backbone, BrowserViewsPopup , browserViewsTemplate) {
   browserViewsTemplate = _.template(browserViewsTemplate);
 
@@ -15,7 +15,7 @@ define([
 
     // Events
     events: {
-      'click [data-button=more]': 'showMoreViews'
+      'tap [data-button=more]': 'showMoreViews'
     },
 
 
@@ -90,20 +90,24 @@ define([
       this.container    = container;
       this.selectedView = selectedView;
       this.render();
+      if (this.popup)
+        this.popup.render();
     }, 
 
 
     // Open the more views popup
     showMoreViews: function(ev) {
       var $selected = this.$('> nav > .selected').removeClass('selected'),
-          $more     = $(ev.target).addClass('selected');
+          $more     = $(ev.target).addClass('selected'),
+          view      = this;
 
-      new BrowserViewsPopup({viewsView:this})
-      .showRelativeTo($more)
-      .on('beforeHide', function(){
-        $more.removeClass('selected');
-        $selected.addClass('selected');
-      });
+      this.popup = new BrowserViewsPopup({viewsView:this})
+        .showRelativeTo($more)
+        .on('beforeHide', function(){
+          delete view.popup;
+          $more.removeClass('selected');
+          $selected.addClass('selected');
+        });
     }
 
 

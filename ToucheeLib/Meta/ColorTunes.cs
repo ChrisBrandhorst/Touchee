@@ -3,16 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 //using System.Text;
 //using System.Threading.Tasks;
+using System.Runtime.Serialization;
 
 using System.Drawing;
 
 namespace Touchee.Meta {
 
+    [DataContract(Namespace = "")]
     public class ArtworkColors {
 
-        public Color BackgroundColor { get; protected set; }
-        public Color ForegroundColor { get; protected set; }
-        public Color ForegroundColor2 { get; protected set; }
+        [DataMember(EmitDefaultValue = false)]
+        public Color Background { get; protected set; }
+        [DataMember(EmitDefaultValue = false)]
+        public Color Foreground { get; protected set; }
+        [DataMember(EmitDefaultValue = false)]
+        public Color Foreground2 { get; protected set; }
+        [DataMember(EmitDefaultValue = false)]
+        public bool BackgroundIsLight { get; protected set; }
 
         Bitmap _bitmap;
         const int WORKSIZE = 128;
@@ -36,7 +43,9 @@ namespace Touchee.Meta {
                 (int)Math.Floor(_bitmap.Height * .05),
                 4
             );
-            this.BackgroundColor = bgColors[0].GetAverage();
+            this.Background = bgColors[0].GetAverage();
+
+            this.BackgroundIsLight = Distance(this.Background, Color.White) < Distance(this.Background, Color.Black);
 
             var fgColors = this.GetColorMap(
                 0,
@@ -45,11 +54,11 @@ namespace Touchee.Meta {
                 _bitmap.Height,
                 10
             );
-            fgColors.Select(c => Distance(this.BackgroundColor, c.GetAverage())).ToList().Sort();
-            fgColors.Sort( (a, b) => Distance(this.BackgroundColor, b.GetAverage()).CompareTo( Distance(this.BackgroundColor, a.GetAverage()) ) );
-            this.ForegroundColor = fgColors[0].GetAverage();
+            fgColors.Select(c => Distance(this.Background, c.GetAverage())).ToList().Sort();
+            fgColors.Sort( (a, b) => Distance(this.Background, b.GetAverage()).CompareTo( Distance(this.Background, a.GetAverage()) ) );
+            this.Foreground = fgColors[0].GetAverage();
             if (fgColors.Count > 1)
-                this.ForegroundColor2 = fgColors[1].GetAverage();
+                this.Foreground2 = fgColors[1].GetAverage();
         }
 
 

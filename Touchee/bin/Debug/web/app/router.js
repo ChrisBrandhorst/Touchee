@@ -14,7 +14,7 @@ define([
   'models/contents',
   'models/control_request',
     
-  'views/browser',
+  'views/browser/index',
   'views/media/popup'
 ], function($, _, Backbone, Touchee,
             BaseModule,

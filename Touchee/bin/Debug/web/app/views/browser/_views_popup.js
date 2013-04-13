@@ -2,8 +2,8 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'views/popup',
-  'text!views/_browser_views_popup.html'
+  'views/popup/base',
+  'text!views/browser/_views_popup.html'
 ], function($, _, Backbone, Popup, browserViewsPopupTemplate) {
   browserViewsPopupTemplate = _.template(browserViewsPopupTemplate);
 
@@ -19,7 +19,7 @@ define([
 
     // Events
     events: {
-      'click a':    'hide'
+      'tap a':    'hide'
     },
 
 
@@ -32,8 +32,10 @@ define([
 
     // Render
     render: function() {
-      var $list = $(browserViewsPopupTemplate(this.viewsView));
+      var $list     = $(browserViewsPopupTemplate(this.viewsView)),
+          $existing = this.$el.children('nav');
       this.$el.append($list);
+      $existing.remove();
       $list.touchscrollselect();
       this.resizeToContents();
     },

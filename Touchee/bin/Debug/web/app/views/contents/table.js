@@ -32,7 +32,7 @@ define([
       var table = this,
           klass = i % 2 == 0 ? "odd" : null;
       
-      if (this.data.selection && this.data.selection.item == item)
+      if (this.data.selectedItem == item)
         klass = (klass || "") + " " + this.selection.klass;
 
       var rendered = '<tr' + (klass ? ' class="' + klass + '"' : '') + '>';

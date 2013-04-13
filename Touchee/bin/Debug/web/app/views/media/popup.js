@@ -3,7 +3,7 @@ define([
   'underscore',
   'Backbone',
   'views/paged/pages',
-  'views/popup',
+  'views/popup/base',
   'views/media/index',
   'views/media/show'
 ], function($, _, Backbone, PagesView, PopupView, MediaIndexView, MediumShowView) {
@@ -21,7 +21,7 @@ define([
     
     // Events
     events: {
-      'click a':    'hide'
+      'tap a':    'hide'
     },
     
     

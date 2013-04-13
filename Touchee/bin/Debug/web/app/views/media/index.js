@@ -47,7 +47,7 @@ define([
       $oldItems.remove();
       
       if ($selected.length)
-        this.$el.find('[href=' + $selected.attr('href') + ']').addClass('selected');
+        this.$el.find('[href="' + $selected.attr('href') + '"]').addClass('selected');
       
       this.$el.touchscrollselect();
     }, 100),

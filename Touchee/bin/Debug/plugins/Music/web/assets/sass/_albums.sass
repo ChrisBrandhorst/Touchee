@@ -29,6 +29,9 @@
     h1
       margin-bottom:  .16em
       font-size:      2em
+      > div
+        margin-top:     1px
+        margin-bottom:  -1px
     // Album artist
     h2
       margin-bottom:  .65em
@@ -101,7 +104,9 @@
             @include  box-flex(1)
           // Duration
           &:last-child
-            width:        6.4em
+            padding-right:  55px
+            text-align:     right
+            width:          7.2em
         
         // Click animation
         @include          transition(background-color .4s ease)

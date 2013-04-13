@@ -3,7 +3,7 @@ define([
   'Backbone',
   'Touchee',
   'models/container',
-  'views/browser',
+  'views/browser/index',
   'views/contents/split'
 ], function(_, Backbone, Touchee, Container, BrowserView, SplitView) {
   

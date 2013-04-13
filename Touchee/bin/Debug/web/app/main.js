@@ -18,6 +18,7 @@ require.config({
     'Backbone':                           ['underscore'],
     'lib/jquery.extensions':              ['jquery'],
     'lib/jquery.touchscrollselect':       ['jquery'],
+    '../lib/jquery.hammer':               ['jquery'],
     '../lib/jquery-ui-1.9.2.custom.min':  ['jquery']
   }
   
@@ -41,6 +42,7 @@ require([
   // jQuery extensions & plugins
   'lib/jquery.extensions',
   'lib/jquery.touchscrollselect',
+  '../lib/jquery.hammer',
   '../lib/jquery-ui-1.9.2.custom.min',
   
   // Other
@@ -67,7 +69,16 @@ require([
   Touchee.Log.level(Touchee.Config.get('logLevel'));
   
   // Boot fastclick
-  new FastClick(document.body);
+  // new FastClick(document.body);
+  Hammer(document.body,{
+    hold_timeout:           750,
+    drag_min_distance:      5,
+    drag_block_horizontal:  true,
+    show_touches:           false,
+    swipe:                  false,
+    transform:              false,
+    prevent_mouseevents:    Touchee.touch
+  });
   
   // Load the locale file so we can place it in the gloval scope (we are lazy)
   require(['i18n!nls/locale'], function(I18n){

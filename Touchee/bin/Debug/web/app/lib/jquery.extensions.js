@@ -15,7 +15,7 @@ define([
         $this     = this,
         $parent   = options.parent ? $(options.parent) : $this.parent();
     
-    $overlay.bind('touchstart mousedown', function(ev){
+    $overlay.bind('tap', function(ev){
       if ($(ev.target).parents().is($this)) return;
       if (typeof options.remove == 'function')
         options.remove.call($this, $overlay);

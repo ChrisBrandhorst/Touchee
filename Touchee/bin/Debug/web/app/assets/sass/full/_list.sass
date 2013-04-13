@@ -26,25 +26,25 @@ $listRowHeight: 44px
     
     &.more::after
       margin-top: 15px
-      @include  content-img(UITableViewNext)
+      @include  content-img(UITableViewNext, retina)
     
     &.loading::after
       margin-top: 11px
-      @include  content-img(ListLoading)
+      @include  content-img(UITableViewLoading, retina)
 
     &.checked::after
       margin-top: 15px
-      @include  content-img(UITableViewCheck)
+      @include  content-img(UITableViewCheck, retina)
 
     &.selected
       @include  background( linear-gradient(#90B0D3, #7097BD) )
       color:    white
       &.more::after
-        @include  content-img(UITableViewNextHighlight)
+        @include  content-img(UITableViewNextHighlight, retina)
       &.loading::after
-        @include  content-img(ListLoadingHighlight)
+        @include  content-img(UITableViewLoadingHighlight, retina)
       &.checked::after
-        @include  content-img(UITableViewCheckHighlight)
+        @include  content-img(UITableViewCheckHighlight, retina)
   
   &.icons > *
     &::before

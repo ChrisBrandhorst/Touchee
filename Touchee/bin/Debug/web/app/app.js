@@ -7,7 +7,7 @@ define([
   'library',
   'models/server_info',
   'models/collections/media',
-  'views/browser'
+  'views/browser/index'
 ], function($, _, Backbone,
             Communicator, Router, Library,
             ServerInfo, Media,

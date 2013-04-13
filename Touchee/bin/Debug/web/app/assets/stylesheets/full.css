@@ -112,6 +112,95 @@ input {
   display: none;
 }
 
+/* line 23, ../sass/full/_elements.sass */
+h1.with_control_cluster {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+}
+/* line 26, ../sass/full/_elements.sass */
+h1.with_control_cluster > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 30, ../sass/full/_elements.sass */
+h1.with_control_cluster > div {
+  margin-left: 8px;
+  white-space: nowrap;
+}
+/* line 34, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button {
+  width: 46px;
+  height: 26px;
+  background: no-repeat center;
+  vertical-align: top;
+}
+/* line 39, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button[data-button=play] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlay.png) 1x, url(../images/remote/ControlClusterDarkPlay@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div button[data-button=play]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlayPressed.png) 1x, url(../images/remote/ControlClusterDarkPlayPressed@2x.png) 2x);
+}
+/* line 41, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button[data-button=shuffle] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShuffle.png) 1x, url(../images/remote/ControlClusterDarkShuffle@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div button[data-button=shuffle]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShufflePressed.png) 1x, url(../images/remote/ControlClusterDarkShufflePressed@2x.png) 2x);
+}
+/* line 43, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button[data-button=menu] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenu.png) 1x, url(../images/remote/ControlClusterDarkMenu@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div button[data-button=menu]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenuPressed.png) 1x, url(../images/remote/ControlClusterDarkMenuPressed@2x.png) 2x);
+}
+/* line 46, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button:nth-child(n+2) {
+  position: relative;
+}
+/* line 48, ../sass/full/_elements.sass */
+h1.with_control_cluster > div button:nth-child(n+2)::after {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 2px;
+  top: 0;
+  left: -2px;
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterSeparatorDark.png) 1x, url(../images/remote/ControlClusterSeparatorDark@2x.png) 2x);
+}
+/* line 58, ../sass/full/_elements.sass */
+h1.with_control_cluster > div.light button[data-button=play] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightPlay.png) 1x, url(../images/remote/ControlClusterLightPlay@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div.light button[data-button=play]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightPlayPressed.png) 1x, url(../images/remote/ControlClusterLightPlayPressed@2x.png) 2x);
+}
+/* line 60, ../sass/full/_elements.sass */
+h1.with_control_cluster > div.light button[data-button=shuffle] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightShuffle.png) 1x, url(../images/remote/ControlClusterLightShuffle@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div.light button[data-button=shuffle]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightShufflePressed.png) 1x, url(../images/remote/ControlClusterLightShufflePressed@2x.png) 2x);
+}
+/* line 62, ../sass/full/_elements.sass */
+h1.with_control_cluster > div.light button[data-button=menu] {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightMenu.png) 1x, url(../images/remote/ControlClusterLightMenu@2x.png) 2x);
+}
+/* line 66, ../sass/_mixins.sass */
+h1.with_control_cluster > div.light button[data-button=menu]:active {
+  background-image: -webkit-image-set(url(../images/remote/ControlClusterLightMenuPressed.png) 1x, url(../images/remote/ControlClusterLightMenuPressed@2x.png) 2x);
+}
+
 /* line 3, ../sass/full/_list.sass */
 .list {
   background: white;
@@ -152,17 +241,17 @@ input {
 /* line 27, ../sass/full/_list.sass */
 .list > *.more::after {
   margin-top: 15px;
-  content: url(../images/UITableViewNext.png);
+  content: -webkit-image-set(url(../images/UITableViewNext.png) 1x, url(../images/UITableViewNext@2x.png) 2x);
 }
 /* line 31, ../sass/full/_list.sass */
 .list > *.loading::after {
   margin-top: 11px;
-  content: url(../images/ListLoading.png);
+  content: -webkit-image-set(url(../images/UITableViewLoading.png) 1x, url(../images/UITableViewLoading@2x.png) 2x);
 }
 /* line 35, ../sass/full/_list.sass */
 .list > *.checked::after {
   margin-top: 15px;
-  content: url(../images/UITableViewCheck.png);
+  content: -webkit-image-set(url(../images/UITableViewCheck.png) 1x, url(../images/UITableViewCheck@2x.png) 2x);
 }
 /* line 39, ../sass/full/_list.sass */
 .list > *.selected {
@@ -175,15 +264,15 @@ input {
 }
 /* line 42, ../sass/full/_list.sass */
 .list > *.selected.more::after {
-  content: url(../images/UITableViewNextHighlight.png);
+  content: -webkit-image-set(url(../images/UITableViewNextHighlight.png) 1x, url(../images/UITableViewNextHighlight@2x.png) 2x);
 }
 /* line 44, ../sass/full/_list.sass */
 .list > *.selected.loading::after {
-  content: url(../images/ListLoadingHighlight.png);
+  content: -webkit-image-set(url(../images/UITableViewLoadingHighlight.png) 1x, url(../images/UITableViewLoadingHighlight@2x.png) 2x);
 }
 /* line 46, ../sass/full/_list.sass */
 .list > *.selected.checked::after {
-  content: url(../images/UITableViewCheckHighlight.png);
+  content: -webkit-image-set(url(../images/UITableViewCheckHighlight.png) 1x, url(../images/UITableViewCheckHighlight@2x.png) 2x);
 }
 /* line 50, ../sass/full/_list.sass */
 .list.icons > *::before {
@@ -202,7 +291,7 @@ button, .button {
   background-color: transparent;
   margin: 0;
   padding: 0 4px;
-  font-size: 12px !important;
+  font-size: 12px;
   font-weight: bold;
 }
 /* line 11, ../sass/full/_button.sass */
@@ -318,6 +407,10 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   display: -moz-box;
   display: -ms-box;
   display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
   width: 334px;
   min-height: 82px;
   padding: 6px;
@@ -337,18 +430,18 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.25), 0 7px 65px 0 rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.15);
 }
-/* line 25, ../sass/full/_popup.sass */
+/* line 26, ../sass/full/_popup.sass */
 .popup.animate {
   -webkit-transition: opacity 0.2s ease;
   -moz-transition: opacity 0.2s ease;
   -o-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
 }
-/* line 27, ../sass/full/_popup.sass */
+/* line 28, ../sass/full/_popup.sass */
 .popup.hidden {
   opacity: 0;
 }
-/* line 32, ../sass/full/_popup.sass */
+/* line 33, ../sass/full/_popup.sass */
 .popup.resize, .popup.resize > .arrow {
   -webkit-transition: 0.2s ease;
   -moz-transition: 0.2s ease;
@@ -359,16 +452,59 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition-property: top, height;
   transition-property: top, height;
 }
-/* line 37, ../sass/full/_popup.sass */
-.popup h1 {
+/* line 38, ../sass/full/_popup.sass */
+.popup > header {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  margin-top: 8px;
+  padding-bottom: 6px;
   text-align: center;
-  font-size: 150%;
-  color: white;
-  line-height: 43px;
-  margin-top: -6px;
-  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
+  color: rgba(255, 255, 255, 0.7);
+  text-shadow: 0 0 2px black;
 }
-/* line 46, ../sass/full/_popup.sass */
+/* line 47, ../sass/full/_popup.sass */
+.popup > button {
+  display: block;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  height: 42px;
+  margin-top: 8px;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(50%, #ffffff), color-stop(50%, #f3f3f5), color-stop(100%, #dee2ee));
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
+  background-image: -moz-linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
+  background-image: -o-linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
+  background-image: linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
+  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  -moz-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(0, 0, 0, 0.9);
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  -ms-border-radius: 4px;
+  -o-border-radius: 4px;
+  border-radius: 4px;
+  color: black;
+  text-shadow: 0px 1px 0px white;
+  font-size: 155%;
+}
+/* line 62, ../sass/full/_popup.sass */
+.popup > button:active {
+  color: white;
+  text-shadow: 0px 1px 0px black;
+  background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #6687eb), color-stop(50%, #3560e4), color-stop(50%, #1e4ee1), color-stop(100%, #1e4ee1));
+  background-image: -webkit-linear-gradient(#6687eb, #3560e4 50%, #1e4ee1 50%, #1e4ee1);
+  background-image: -moz-linear-gradient(#6687eb, #3560e4 50%, #1e4ee1 50%, #1e4ee1);
+  background-image: -o-linear-gradient(#6687eb, #3560e4 50%, #1e4ee1 50%, #1e4ee1);
+  background-image: linear-gradient(#6687eb, #3560e4 50%, #1e4ee1 50%, #1e4ee1);
+  -webkit-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+}
+/* line 69, ../sass/full/_popup.sass */
 .popup > .pages, .popup > .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -376,7 +512,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-flex: 1;
   position: relative;
 }
-/* line 50, ../sass/full/_popup.sass */
+/* line 73, ../sass/full/_popup.sass */
 .popup > .pages::before, .popup > .list::before {
   content: "";
   position: absolute;
@@ -392,7 +528,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
-/* line 62, ../sass/full/_popup.sass */
+/* line 85, ../sass/full/_popup.sass */
 .popup > .pages {
   display: -webkit-box;
   display: -moz-box;
@@ -403,15 +539,20 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 65, ../sass/full/_popup.sass */
+/* line 88, ../sass/full/_popup.sass */
 .popup > .pages > header {
   margin-top: -6px;
 }
-/* line 67, ../sass/full/_popup.sass */
+/* line 90, ../sass/full/_popup.sass */
 .popup > .pages > header > h1 {
+  text-align: center;
+  font-size: 150%;
+  color: white;
+  line-height: 43px;
+  text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
   margin-top: 0;
 }
-/* line 69, ../sass/full/_popup.sass */
+/* line 98, ../sass/full/_popup.sass */
 .popup > .pages > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -424,7 +565,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   border-radius: 5px;
   background: white;
 }
-/* line 75, ../sass/full/_popup.sass */
+/* line 104, ../sass/full/_popup.sass */
 .popup > .pages > div .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -432,11 +573,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-flex: 1;
   background: transparent;
 }
-/* line 78, ../sass/full/_popup.sass */
+/* line 107, ../sass/full/_popup.sass */
 .popup > .pages::before {
   top: 37px;
 }
-/* line 82, ../sass/full/_popup.sass */
+/* line 111, ../sass/full/_popup.sass */
 .popup > .list {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -444,7 +585,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 85, ../sass/full/_popup.sass */
+/* line 114, ../sass/full/_popup.sass */
 .popup > .list > :first-child {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
@@ -452,7 +593,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-/* line 87, ../sass/full/_popup.sass */
+/* line 116, ../sass/full/_popup.sass */
 .popup > .list > :last-child {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
@@ -460,11 +601,15 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
-/* line 91, ../sass/full/_popup.sass */
+/* line 120, ../sass/full/_popup.sass */
+.popup > .actions {
+  width: 286px;
+}
+/* line 129, ../sass/full/_popup.sass */
 .popup > .arrow {
   display: none;
 }
-/* line 96, ../sass/full/_popup.sass */
+/* line 134, ../sass/full/_popup.sass */
 .popup.arrow > .arrow {
   display: block;
   position: absolute;
@@ -473,7 +618,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   height: 37px;
   padding: 6px 0 0 6px;
 }
-/* line 105, ../sass/full/_popup.sass */
+/* line 143, ../sass/full/_popup.sass */
 .popup.arrow > .arrow::before {
   content: "";
   display: block;
@@ -483,17 +628,17 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   border-style: solid;
   border-width: 1px 0 0 1px;
 }
-/* line 116, ../sass/full/_popup.sass */
+/* line 154, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
   left: 50%;
   margin-left: -19px;
 }
-/* line 121, ../sass/full/_popup.sass */
+/* line 159, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow {
   top: -19px;
   -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
 }
-/* line 124, ../sass/full/_popup.sass */
+/* line 162, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow::before {
   border-color: #363636;
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
@@ -510,12 +655,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-/* line 131, ../sass/full/_popup.sass */
+/* line 169, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow {
   bottom: -19px;
   -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
 }
-/* line 134, ../sass/full/_popup.sass */
+/* line 172, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow::before {
   border-color: #02060e;
   background: #0c1934;
@@ -528,22 +673,22 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
 }
-/* line 142, ../sass/full/_popup.sass */
+/* line 180, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
   top: 50%;
   margin-top: -19px;
 }
-/* line 145, ../sass/full/_popup.sass */
+/* line 183, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
   border-color: #3f3f3f;
   background: #0c1934;
 }
-/* line 150, ../sass/full/_popup.sass */
+/* line 188, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow {
   left: -19px;
   -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
 }
-/* line 153, ../sass/full/_popup.sass */
+/* line 191, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -554,12 +699,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
 }
-/* line 158, ../sass/full/_popup.sass */
+/* line 196, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow {
   right: -19px;
   -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
 }
-/* line 161, ../sass/full/_popup.sass */
+/* line 199, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow::before {
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
@@ -880,12 +1025,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   white-space: nowrap;
 }
 
-/* line 5, ../sass/full/scroll_list/_tiles.sass */
+/* line 6, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable {
   position: relative;
   background-color: #f2f2f2;
 }
-/* line 10, ../sass/full/scroll_list/_tiles.sass */
+/* line 11, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul {
   overflow: hidden;
   -webkit-transition: padding-bottom 0.4s ease;
@@ -893,7 +1038,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition: padding-bottom 0.4s ease;
   transition: padding-bottom 0.4s ease;
 }
-/* line 15, ../sass/full/scroll_list/_tiles.sass */
+/* line 16, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li {
   display: inline-block;
   vertical-align: top;
@@ -923,13 +1068,13 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   transform: translate3d(0, 0, 0);
 }
 @media screen and (max-width: 900px) {
-  /* line 15, ../sass/full/scroll_list/_tiles.sass */
+  /* line 16, ../sass/full/scroll_list/_tiles.sass */
   .scroll_list.tiles > .scrollable > ul > li {
     margin-right: 2px;
     margin-left: 18px;
   }
 }
-/* line 41, ../sass/full/scroll_list/_tiles.sass */
+/* line 42, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span {
   display: block;
   overflow: hidden;
@@ -941,7 +1086,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transform-origin: left top 0 50%;
   transform-origin: left top 0 50%;
 }
-/* line 46, ../sass/full/scroll_list/_tiles.sass */
+/* line 47, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:first-child {
   padding-bottom: 3px;
   font-weight: bold;
@@ -956,7 +1101,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition: 0.4s ease;
   transition: 0.4s ease;
 }
-/* line 54, ../sass/full/scroll_list/_tiles.sass */
+/* line 55, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li span:nth-child(2) {
   padding-bottom: 3px;
   -webkit-transition-property: -webkit-transform, opacity;
@@ -968,7 +1113,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition: 0.4s ease;
   transition: 0.4s ease;
 }
-/* line 60, ../sass/full/scroll_list/_tiles.sass */
+/* line 61, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.zoom {
   -webkit-transform: scale(1.2, 1.2);
   -moz-transform: scale(1.2, 1.2);
@@ -981,7 +1126,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-backface-visibility: hidden;
   backface-visibility: hidden;
 }
-/* line 64, ../sass/full/scroll_list/_tiles.sass */
+/* line 65, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.zoom span:first-child {
   -webkit-transform: scale(0.83333, 0.83333);
   -moz-transform: scale(0.83333, 0.83333);
@@ -990,7 +1135,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   transform: scale(0.83333, 0.83333);
   width: 120%;
 }
-/* line 67, ../sass/full/scroll_list/_tiles.sass */
+/* line 68, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul > li.zoom span:nth-child(2) {
   -webkit-transform: translateY(-14px) scale(0.83333);
   -moz-transform: translateY(-14px) scale(0.83333);
@@ -999,28 +1144,28 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   transform: translateY(-14px) scale(0.83333);
   opacity: 0;
 }
-/* line 72, ../sass/full/scroll_list/_tiles.sass */
+/* line 73, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 74, ../sass/full/scroll_list/_tiles.sass */
+/* line 75, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noaim > li, .scroll_list.tiles > .scrollable > ul > li.noanim {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 76, ../sass/full/scroll_list/_tiles.sass */
+/* line 77, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable > ul.noaim > li span:nth-child(2), .scroll_list.tiles > .scrollable > ul > li.noanim span:nth-child(2) {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 81, ../sass/full/scroll_list/_tiles.sass */
+/* line 82, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details {
   position: absolute;
   top: 0;
@@ -1042,7 +1187,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition-property: -webkit-transform, background-color;
   transition-property: -webkit-transform, background-color;
 }
-/* line 93, ../sass/full/scroll_list/_tiles.sass */
+/* line 94, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg {
   position: absolute;
   top: 0;
@@ -1052,21 +1197,21 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transition: -webkit-transform 0.4s ease;
   transition: -webkit-transform 0.4s ease;
 }
-/* line 98, ../sass/full/scroll_list/_tiles.sass */
+/* line 99, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.shadow {
   filter: url(#arrow_line_dropshadow);
 }
-/* line 100, ../sass/full/scroll_list/_tiles.sass */
+/* line 101, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.fill {
   fill: #f2f2f2;
 }
-/* line 102, ../sass/full/scroll_list/_tiles.sass */
+/* line 103, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details svg path.stroke {
   stroke: rgba(0, 0, 0, 0.23);
   fill: none;
   stroke-width: 1px;
 }
-/* line 108, ../sass/full/scroll_list/_tiles.sass */
+/* line 109, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover {
   position: absolute;
   z-index: 3;
@@ -1089,7 +1234,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transform: translate3d(0, 13px, 0);
   transform: translate3d(0, 13px, 0);
 }
-/* line 122, ../sass/full/scroll_list/_tiles.sass */
+/* line 123, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover > .arrow {
   position: absolute;
   z-index: 4;
@@ -1110,7 +1255,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transform: rotate(45deg);
   transform: rotate(45deg);
 }
-/* line 136, ../sass/full/scroll_list/_tiles.sass */
+/* line 137, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .cover.open > .arrow {
   -webkit-transform: scale(0.01) rotateZ(45deg);
   -moz-transform: scale(0.01) rotateZ(45deg);
@@ -1118,18 +1263,18 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-transform: scale(0.01) rotateZ(45deg);
   transform: scale(0.01) rotateZ(45deg);
 }
-/* line 140, ../sass/full/scroll_list/_tiles.sass */
+/* line 141, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy {
   visibility: hidden;
 }
-/* line 142, ../sass/full/scroll_list/_tiles.sass */
+/* line 143, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details.dummy, .scroll_list.tiles > .scrollable div.details.dummy > svg {
   -webkit-transition: none;
   -moz-transition: none;
   -o-transition: none;
   transition: none;
 }
-/* line 146, ../sass/full/scroll_list/_tiles.sass */
+/* line 147, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content {
   -webkit-transition: opacity 0.4s ease;
   -moz-transition: opacity 0.4s ease;
@@ -1137,18 +1282,18 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   transition: opacity 0.4s ease;
   padding-top: 1.1em;
 }
-/* line 150, ../sass/full/scroll_list/_tiles.sass */
+/* line 151, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.outgoing {
   position: absolute;
   left: 0;
   right: 0;
   opacity: 0;
 }
-/* line 155, ../sass/full/scroll_list/_tiles.sass */
+/* line 156, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content.incoming {
   opacity: 0;
 }
-/* line 157, ../sass/full/scroll_list/_tiles.sass */
+/* line 158, ../sass/full/scroll_list/_tiles.sass */
 .scroll_list.tiles > .scrollable div.details > .content .sec {
   color: #959fad;
 }
@@ -1212,70 +1357,16 @@ section.split_view > *:last-child:not(:first-child) > header + * {
 /* line 29, ../sass/full/_split_view.sass */
 section.split_view > *:last-child:not(:first-child) > header h1 {
   padding: 14px 14px 0 11px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-box;
-  display: box;
 }
-/* line 32, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header h1 span {
-  min-width: 0;
+/* line 31, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header h1 > span {
   font-size: 1.8em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+/* line 33, ../sass/full/_split_view.sass */
+section.split_view > *:last-child:not(:first-child) > header h1 > div {
+  margin-top: -3px;
 }
 /* line 36, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header h1 div {
-  margin: -3px 0 0 8px;
-  white-space: nowrap;
-}
-/* line 40, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button {
-  width: 46px;
-  height: 26px;
-  background: no-repeat center;
-  vertical-align: top;
-}
-/* line 45, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=play] {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlay.png) 1x, url(../images/remote/ControlClusterDarkPlay@2x.png) 2x);
-}
-/* line 66, ../sass/_mixins.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=play]:active {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlayPressed.png) 1x, url(../images/remote/ControlClusterDarkPlayPressed@2x.png) 2x);
-}
-/* line 47, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=shuffle] {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShuffle.png) 1x, url(../images/remote/ControlClusterDarkShuffle@2x.png) 2x);
-}
-/* line 66, ../sass/_mixins.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=shuffle]:active {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShufflePressed.png) 1x, url(../images/remote/ControlClusterDarkShufflePressed@2x.png) 2x);
-}
-/* line 49, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=menu] {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenu.png) 1x, url(../images/remote/ControlClusterDarkMenu@2x.png) 2x);
-}
-/* line 66, ../sass/_mixins.sass */
-section.split_view > *:last-child:not(:first-child) > header button[data-button=menu]:active {
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenuPressed.png) 1x, url(../images/remote/ControlClusterDarkMenuPressed@2x.png) 2x);
-}
-/* line 52, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button:nth-child(n+2) {
-  position: relative;
-}
-/* line 54, ../sass/full/_split_view.sass */
-section.split_view > *:last-child:not(:first-child) > header button:nth-child(n+2)::after {
-  content: "";
-  position: absolute;
-  height: 100%;
-  width: 2px;
-  top: 0;
-  left: -2px;
-  background-image: -webkit-image-set(url(../images/remote/ControlClusterSeparatorDark.png) 1x, url(../images/remote/ControlClusterSeparatorDark@2x.png) 2x);
-}
-/* line 63, ../sass/full/_split_view.sass */
 section.split_view > *:last-child:not(:first-child) > header > div {
   padding: 4px 0 11px 11px;
 }

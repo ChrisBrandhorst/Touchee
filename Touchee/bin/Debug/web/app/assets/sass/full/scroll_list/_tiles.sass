@@ -1,6 +1,7 @@
 $tileSize:              128px
 $tileZoomScale:         1.2
 $tilesBackgroundColor:  #f2f2f2
+$detailsAnimSpeed:      .4s
 
 .scroll_list.tiles > .scrollable
   position:         relative
@@ -9,7 +10,7 @@ $tilesBackgroundColor:  #f2f2f2
   // The entire list
   > ul
     overflow: hidden
-    @include  transition(padding-bottom .4s ease)
+    @include  transition(padding-bottom $detailsAnimSpeed ease)
     
     // Each tile
     > li
@@ -21,7 +22,7 @@ $tilesBackgroundColor:  #f2f2f2
       padding-top:    $tileSize
       
       // When the screen gets narrower, adjust the margins
-      @media screen and (max-width: 900px)
+      @media #{$portraitMedia}
         margin-right: 2px
         margin-left:  18px
       
@@ -32,7 +33,7 @@ $tilesBackgroundColor:  #f2f2f2
       @include              box-shadow(0 2px 7px 0 rgba(0,0,0,.2), 0 0 0 1px rgba(0,0,0,.4) inset, 0 0 0 2px rgba(255,255,255,.4) inset)
       
       // Nice transition for zooming
-      @include  transition(-webkit-transform .4s ease)
+      @include  transition(-webkit-transform $detailsAnimSpeed ease)
       @include  transform-origin(64px 64px 0)
       // Already transform it, so modifying this value happens without hick-up
       @include  translate3d(0,0,0)
@@ -49,12 +50,12 @@ $tilesBackgroundColor:  #f2f2f2
           margin-top:     7px
           width:          100%
           @include        transition-property(-webkit-transform, width)
-          @include        transition(.4s ease)
+          @include        transition($detailsAnimSpeed ease)
         // Line 2
         &:nth-child(2)
           padding-bottom: 3px
           @include        transition-property(-webkit-transform, opacity)
-          @include        transition(.4s ease)
+          @include        transition($detailsAnimSpeed ease)
       
       // Zoom state
       &.zoom
@@ -86,7 +87,7 @@ $tilesBackgroundColor:  #f2f2f2
     overflow:         hidden
     background-color: #E4E9F0
     @include          translate3d(0,0,0)
-    @include          transition(.4s ease)
+    @include          transition($detailsAnimSpeed ease)
     @include          transition-property(-webkit-transform, background-color)
     
     // Top arrow and shade
@@ -94,7 +95,7 @@ $tilesBackgroundColor:  #f2f2f2
       position: absolute
       top:      0
       z-index:  1
-      @include  transition(-webkit-transform .4s ease)
+      @include  transition(-webkit-transform $detailsAnimSpeed ease)
       path.shadow
         filter: url(#arrow_line_dropshadow)
       path.fill
@@ -113,7 +114,7 @@ $tilesBackgroundColor:  #f2f2f2
       right:      0
       bottom:     0
       left:       0
-      @include    transition(-webkit-transform .4s ease)
+      @include    transition(-webkit-transform $detailsAnimSpeed ease)
       border-top: 1px solid rgba(0,0,0,.27)
       @include    box-shadow(0 1px 3px 0 rgba(0,0,0,.46))
       @include    translate3d(0,13px,0)
@@ -129,7 +130,7 @@ $tilesBackgroundColor:  #f2f2f2
         background:   $tilesBackgroundColor
         border:       solid #b0b0b0
         border-width: 1px 0 0 2px
-        @include      transition(-webkit-transform .4s ease)
+        @include      transition(-webkit-transform $detailsAnimSpeed ease)
         @include      rotateZ(45deg)
         
       // Hide the arrow while the details view slides open
@@ -144,7 +145,7 @@ $tilesBackgroundColor:  #f2f2f2
     
     // The contents of the details view
     > .content
-      @include      transition(opacity .4s ease)
+      @include      transition(opacity $detailsAnimSpeed ease)
       padding-top:  1.1em
       // Outgoing and incoming transitions
       &.outgoing

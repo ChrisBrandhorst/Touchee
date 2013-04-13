@@ -14,7 +14,7 @@ define([
     
     // Events
     events: {
-      'click button.back': 'back'
+      'tap button.back': 'back'
     },
     
     

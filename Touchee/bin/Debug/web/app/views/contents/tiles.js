@@ -29,7 +29,7 @@ define([
     
     // Backbone view properties
     events: {
-      'click .scrollable > ul > li': 'clickedTile'
+      'tap .scrollable > ul > li': 'clickedTile'
     },
     
     
@@ -310,7 +310,14 @@ define([
       return $el.hasClass('zoom');
     },
     
-    
+
+    // Gets the tiles which need to be moved if the details should be shown after the item with the given index
+    _getTilesMovedByDetails: function(afterIdx) {
+      var afterElIdx  = afterIdx + 1 < this.data.lastRender.first ? 0 : Math.min(afterIdx - this.data.lastRender.first, this.getCount()-1);
+      return this.$inner.children().eq(afterElIdx).nextAll();
+    },
+
+
     // (un)Shows the detail view for the given tile
     showDetails: function($el) {
       var existing  = this.details,
@@ -328,14 +335,11 @@ define([
       props.itemIdx   = this.getModelIndex(props.item);
       // The index of the item after which the other items should make room for the details
       props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
-      // The DOM elements which should make room
-      var afterElIdx  = props.afterIdx + 1 < this.data.lastRender.first ? 0 : Math.min(props.afterIdx - this.data.lastRender.first, this.getCount()-1);
-      $moved          = this.$inner.children().eq(afterElIdx).nextAll();
       
       // Remove the detail view if asked
       if (remove) {
         _.defer(function(){
-          var $details = existing.$el
+          var $details = existing.$el;
           $details
             .css('-webkit-transform', "translate3d(0," + (existing.top + (existing.newHeight || 0)) + "px,0)")
             .children('.cover')
@@ -345,7 +349,7 @@ define([
             })
             .removeClass('open')
             .css('-webkit-transform', "")
-          $moved.css('-webkit-transform', "");
+          view._getTilesMovedByDetails(existing.afterIdx).css('-webkit-transform', "");
           view.$inner.css('padding-bottom', "");
         });
         delete this.details;
@@ -378,7 +382,7 @@ define([
         // Calculate the top of the new details
         top:              onSameRow ? existing.top : elTop + $el.outerHeight(true) - $el.css('margin-top').numberValue()
       });
-      
+
       // If the new details is on the same row, we should replace the content
       if (props.onSameRow) {
         
@@ -409,7 +413,7 @@ define([
       
       // 
       var startTop = props.top;
-      if (props.newAboveCurrent === false) startTop += props.height;
+      if (props.newAboveCurrent === false) startTop += existing.height;
       
       // Remove the existing details if a new details is not on the same row as the existing
       if (props.onSameRow === false) {
@@ -417,12 +421,9 @@ define([
           existing.newHeight = props.height;
         this.showDetails(false);
       }
-      
-      // Check if details fit in view
-      if (props.top + props.height > this.scroller.scrollTop + this.scroller.clientHeight - 10)
-        props.scrollTop = Math.min(elTop - this.calculated.size.zoom.margin.top, props.top + props.height - this.scroller.clientHeight + 10);
-      else if (elTop - this.calculated.size.zoom.margin.top < this.scroller.scrollTop)
-        props.scrollTop = elTop - this.calculated.size.zoom.margin.top;
+
+      // Store details
+      this.details = props;
       
       // First part animation
       $details
@@ -431,44 +432,78 @@ define([
         // Set arrow position
         .children('svg')
         .css('-webkit-transform', "translate3d(" + (-1000 + props.arrowLeft) + "px,0,0)");
-      // Set other arrow position
+      
+      // Set bottom arrow position
       $details
         .find('> .cover > .arrow')
         .css('left', props.arrowLeft + 'px');
-      
-      // Set scroll top
-      if (_.isNumber(props.scrollTop)) {
-        this.disableRendering();
-        this.$scroller.animate(
-          { scrollTop:props.scrollTop },
-          {
-            duration: 400,
-            complete: function(){ view.enableRendering(); }
-          }
-        );
-      }
-      
-      // The rest
+
+      // Show the details
       _.defer(_.bind(function(){
-        
-        // Set padding to make room for the details
-        this.$inner.css('padding-bottom', props.height + "px");
-        
-        // Move the tiles after the details down
-        $moved.css('-webkit-transform', "translate3d(0," + props.height + "px,0)");
-        
+
         // Slide the details open
         $details
           .removeClass('dummy')
           .css('-webkit-transform', "translate3d(0," + props.top + "px,0)")
           .children('.cover')
-          .addClass('open')
-          .css('-webkit-transform', "translate3d(0," + (props.height-1) + "px,0)");
-        
+          .addClass('open');
+
+        // Resize
+        this.resizeDetails();
       }, this));
       
+      // Listen to resize of the content view
+      this.listenTo(props.view, 'resize', this.resizeDetails);
+
       // 
-      return this.details = props;
+      return props;
+    },
+
+
+    // Resizes the current details view to the given height
+    resizeDetails: function(height) {
+      var props = this.details;
+      if (!props) return;
+      if (!height) height = props.$content.outerHeight(true);
+
+      var $details = props.$el,
+          $moved   = this._getTilesMovedByDetails(props.afterIdx),
+          scrollTop;
+
+      // Check if details fit in view
+      if (props.top + height > this.scroller.scrollTop + this.scroller.clientHeight - 10)
+        scrollTop = Math.min(props.top - this.calculated.size.zoom.margin.top, props.top + height - this.scroller.clientHeight + 10);
+      else if (props.top - this.calculated.size.zoom.margin.top < this.scroller.scrollTop)
+        scrollTop = props.top - this.calculated.size.zoom.margin.top;
+
+      // Set scroll top
+      if (_.isNumber(scrollTop)) {
+        this.disableRendering();
+        this.$scroller.animate(
+          { scrollTop: scrollTop },
+          {
+            duration: 400,
+            complete: _.bind(this.enableRendering, this)
+          }
+        );
+      }
+
+      // Set padding to make room for the details
+      this.$inner.css('padding-bottom', height + "px");
+      
+      // Move the tiles after the details down
+      $moved.css('-webkit-transform', "translate3d(0," + height + "px,0)");
+      
+      // Slide the details open
+      _.defer(function(){
+      $details
+        .children('.cover')
+        .css('-webkit-transform', "translate3d(0," + (height-1) + "px,0)");
+
+      });
+
+      // Store the new height
+      props.height = height;
     }
     
     
