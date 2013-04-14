@@ -6,11 +6,13 @@ define([
   './../models/view_models/grouped_tracks',
   'views/contents/common_table',
   'views/contents/common_split',
-  'views/contents/common_split_details',
-  'views/contents/common_grouped_table',
+  'views/contents/playable_split_details',
+  'views/contents/playable_grouped_table',
   'text!./_genre_header.html'
-], function($, _, Backbone, Genres, GroupedTracks, CommonTableView, CommonSplitView, CommonSplitDetailsView, CommonGroupedTableView, genreHeaderTemplate) {
-  
+], function($, _, Backbone,
+            Genres, GroupedTracks,
+            CommonTableView, CommonSplitView, PlayableSplitDetailsView, PlayableGroupedTableView,
+            genreHeaderTemplate) {
 
   var GenresView = CommonSplitView.extend({
     
@@ -27,13 +29,13 @@ define([
     }),
 
     // Combined view for the right details
-    detailView:   CommonSplitDetailsView.extend({
+    detailView:   PlayableSplitDetailsView.extend({
       className:    'genre',
       viewModel:    GroupedTracks.extend({ groupByAttr:'genre' }),
       header:       _.template(genreHeaderTemplate),
 
       // The actual detail list
-      contentView:  CommonGroupedTableView.extend({
+      contentView:  PlayableGroupedTableView.extend({
         className:    'tracks',
         quickscroll:  true,
         index:        function(item) { return item.get('album$') + " - " + item.get('albumArtist$'); },
@@ -44,7 +46,6 @@ define([
     })
     
   });
-  
   
   return GenresView;
   

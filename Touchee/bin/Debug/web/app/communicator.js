@@ -2,7 +2,6 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee',
   'communicator'
 ], function($, _, Backbone){
   

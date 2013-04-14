@@ -2,9 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone'
-], function($, _, Backbone) {  
+], function($, _, Backbone) {
   
-  var ArtistView = Backbone.View.extend({
+  var CommonSplitDetailsView = Backbone.View.extend({
     
     
     // Backbone View options
@@ -20,6 +20,7 @@ define([
 
     // Constructor
     initialize: function(options) {
+      this.model = options.model;
       this.$header = (this.header instanceof Backbone.View ? this.header.$el : $('<header/>')).appendTo(this.$el);
       this.content = new this.contentView(options);
     },
@@ -43,6 +44,6 @@ define([
     
   });
   
-  return ArtistView;
+  return CommonSplitDetailsView;
   
 });

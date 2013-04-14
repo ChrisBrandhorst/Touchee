@@ -78,7 +78,6 @@ define([
       
       $el.show();
     }
-    
   };
   
   
@@ -108,7 +107,6 @@ define([
     warn: function(message) { if (this.level() >= this.Levels.WARN) console && console.warn && console.warn(message); },
     info: function(message) { if (this.level() >= this.Levels.INFO) console && console.info && console.info(message); },
     debug: function(message) { if (this.level() >= this.Levels.DEBUG) console && console.debug && console.debug(message); }
-    
   };
   var LogExtension = { Log: Log };
   
@@ -160,7 +158,6 @@ define([
     // Initialize is an empty function by default. Override it with your own
     // initialization logic.
     initialize: function(){}
-    
   });
   
   
@@ -196,7 +193,6 @@ define([
         }
       ).join('/');
     }
-    
   };
   
   

@@ -2,9 +2,8 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee',
   'views/contents/base'
-], function($, _, Backbone, Touchee, BaseView) {
+], function($, _, Backbone, BaseView) {
   
   var SplitView = BaseView.extend({
     

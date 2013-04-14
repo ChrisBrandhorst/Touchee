@@ -1,9 +1,8 @@
 define([
   'jquery',
   'underscore',
-  'Backbone',
-  'Touchee'
-], function($, _, Backbone, Touchee){
+  'Backbone'
+], function($, _, Backbone){
   
   // Internal cache for all artwork objects
   var _cache = {};

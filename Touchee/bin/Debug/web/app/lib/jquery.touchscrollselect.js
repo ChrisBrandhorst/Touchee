@@ -11,9 +11,10 @@
 
     // Set options hash
     var defaultOptions = {
-      selectable: 'a',
-      klass:      'selected',
-      keep:        true
+      selectable:   'a',
+      klass:        'selected',
+      keep:         true,
+      cancelOnHold: false
     };
     if (typeof options == 'function') options = {callback:options};
     options = $.extend({}, defaultOptions, options);
@@ -36,7 +37,7 @@
 
       // Set bindings
       $el
-        .on('drag.tss hold.tss', cancel)
+        .on('drag.tss' + (options.cancelOnHold ? ' hold.tss' : ''), cancel)
         .on('release.tss', release);
     }
 

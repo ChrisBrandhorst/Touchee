@@ -46,6 +46,12 @@ define([
     // Gets the container this item belongs to
     getContainer: function() {
       return this.collection.container;
+    },
+
+
+    //
+    url: function() {
+      return this.collection.url() + "/item/" + this.id;
     }
     
     

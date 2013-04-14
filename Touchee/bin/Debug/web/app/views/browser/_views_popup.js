@@ -19,7 +19,7 @@ define([
 
     // Events
     events: {
-      'tap a':    'hide'
+      'release a': 'hide'
     },
 
 

@@ -53,7 +53,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Server\Http\JsonNetSerializer.cs" />
     <Compile Include="Server\Http\Modules\ContainersModule.cs" />
-    <Compile Include="Server\Http\Modules\ControlModule.cs" />
+    <Compile Include="Server\Http\Modules\QueueModule.cs" />
     <Compile Include="Server\Http\Modules\MediaModule.cs" />
     <Compile Include="Server\Http\Modules\RootModule.cs" />
     <Compile Include="Server\Http\Modules\ServerInfoModule.cs" />

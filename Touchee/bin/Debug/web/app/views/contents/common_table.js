@@ -23,6 +23,12 @@ define([
     // Gets the index of the given item
     getModelIndex: function(item) {
       return this.model.models.indexOf(item);
+    },
+
+    // An item has been selected
+    // VIRTUAL
+    selected: function(item, $row) {
+      Backbone.history.navigate(this.model.getUrl(item), {trigger:true});
     }
     
     

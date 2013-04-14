@@ -1,9 +1,8 @@
 define([
   'underscore',
   'Backbone',
-  'Touchee',
   'models/item'
-], function(_, Backbone, Touchee, Item){
+], function(_, Backbone, Item){
   
   var Track = Item.extend({
     

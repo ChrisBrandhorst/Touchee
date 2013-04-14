@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'views/contents/grouped_table'
-], function($, _, Backbone, GroupedTableView) {
+  'views/contents/grouped_table',
+  'views/popup/play_actions'
+], function($, _, Backbone, GroupedTableView, PlayActionsPopupView) {
   
   var CommonGroupedTableView = GroupedTableView.extend({
 
@@ -14,7 +15,7 @@ define([
       return this.model.groupBy(groupBy);
     }
 
-    
+
   });
   
   return CommonGroupedTableView;

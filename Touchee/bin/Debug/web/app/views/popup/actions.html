@@ -1,4 +1,6 @@
-<header><%= header %></header>
+<% if (header) { %>
+  <header><%= header %></header>
+<% } %>
 <% _.each(buttons, function(button){ %>
 
   <button><%= button.text %></button>

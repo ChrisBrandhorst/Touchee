@@ -2,15 +2,19 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+
   'communicator',
   'router',
   'library',
+
   'models/server_info',
+  'models/queue',
   'models/collections/media',
+
   'views/browser/index'
 ], function($, _, Backbone,
             Communicator, Router, Library,
-            ServerInfo, Media,
+            ServerInfo, Queue, Media,
             BrowserView) {
   
   var App = {

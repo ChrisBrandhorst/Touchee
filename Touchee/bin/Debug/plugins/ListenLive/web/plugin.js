@@ -1,8 +1,7 @@
 ﻿define([
   'underscore',
-  'Touchee',
   './module.js'
-], function(_, Touchee, ListenLiveModule) {
+], function(_, ListenLiveModule) {
   
   var ListenLivePlugin = Touchee.Plugin.extend({
     

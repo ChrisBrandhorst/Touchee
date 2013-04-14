@@ -1,8 +1,7 @@
 define([
   'underscore',
-  'Backbone',
-  'Touchee'
-], function(_, Backbone, Touchee){
+  'Backbone'
+], function(_, Backbone){
   
   var Contents = Backbone.Collection.extend({
     

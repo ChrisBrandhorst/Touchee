@@ -26,7 +26,7 @@ define([
     
     // 
     mediaLoaded: function() {
-      
+
       var medium = Media.first();
       if (medium)
         medium.containers.on('sync', this.firstMediumLoaded, this);

@@ -35,6 +35,14 @@ define([
     // ScrollList overrides
     // --------------------
     
+    // Constructor
+    // Adds hold on row method callback
+    initialize: function() {
+      ScrollListView.prototype.initialize.apply(this, arguments);
+      this.$el.on('hold.delegateEvents' + this.cid, 'tr', _.bind(this._held, this));
+    },
+
+
     // Additional calculation for the size of the artwork
     calculateSizes: function() {
       var $dummy = ScrollListView.prototype.calculateSizes.apply(this, arguments).appendTo(this.$inner);
@@ -146,6 +154,17 @@ define([
         ? item.get(this.index)
         : this.index.call(this, item);
     },
+
+
+    // An item has been held
+    // PRIVATE
+    _held: function(ev) {
+      var $row = $(ev.target).closest('tr');
+      this.held(this.getItem($row), $row);
+    },
+
+    // VIRTUAL
+    held: function(item, $row) { },
 
 
 

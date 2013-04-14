@@ -19,12 +19,6 @@ define([
     id: 'media_popup',
     
     
-    // Events
-    events: {
-      'tap a':    'hide'
-    },
-    
-    
     // 
     render: function() {
       this.$el.append( MediaPagesView.$el );
@@ -45,13 +39,6 @@ define([
     getRequiredContentHeight: function() {
       var activePageView = MediaPagesView.getActivePage();
       return activePageView.$el.outerHeight() + activePageView.$header.outerHeight();
-    },
-    
-    
-    // After an item is clicked that does not have a 'more' class, hide the popup
-    clickedItem: function(ev) {
-      if (!$(ev.target).closest('a').hasClass('more'))
-        this.hide();
     }
     
     

@@ -2,9 +2,8 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee',
   'models/contents'
-], function($, _, Backbone, Touchee, Contents){
+], function($, _, Backbone, Contents){
   
   var Container = Backbone.Model.extend({
     

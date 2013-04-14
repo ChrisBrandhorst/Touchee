@@ -25,7 +25,15 @@ define([
     
     // ScrollList overrides
     // --------------------
-    
+
+    // Constructor
+    // Adds hold on row method callback
+    initialize: function() {
+      ScrollListView.prototype.initialize.apply(this, arguments);
+      this.$el.on('hold.delegateEvents' + this.cid, 'tr', _.bind(this._held, this));
+    },
+
+
     // Renders each item of the table
     // VIRTUAL
     renderItem: function(item, i) {
@@ -44,8 +52,8 @@ define([
       rendered += "</tr>";
       return rendered;
     },
-    
-    
+
+
     // Renders an index item
     // VIRTUAL
     renderIndex: function(index) {
@@ -54,13 +62,17 @@ define([
         rendered += '<td></td>';
       return rendered + '</tr>';
     },
-    
-    
-    // An item has been selected
-    // VIRTUAL
-    selected: function(item, $item) {
-      Backbone.history.navigate(this.model.getUrl(item), {trigger:true});
+
+
+    // An item has been held
+    // PRIVATE
+    _held: function(ev) {
+      var $row = $(ev.target).closest('tr');
+      this.held(item = this.getItem($row), $row);
     },
+
+    // VIRTUAL
+    held: function(item, $row) { },
     
     
     

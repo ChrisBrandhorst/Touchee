@@ -23,6 +23,7 @@ define([
 
     // Constructor
     initialize: function(options) {
+      this.item = options.item;
       this.header = options.header;
       this.buttons = options.buttons;
       BasePopupView.prototype.initialize.apply(this, arguments);
@@ -37,9 +38,9 @@ define([
 
     //
     tappedButton: function(ev) {
-      var i     = $(ev.target).prevAll('button').length,
-          func  = this.buttons[i].action;
-      action.call(this, ev);
+      var i     = $(ev.target).prevAll('button').length;
+      this.buttons[i].action.call(this, ev);
+      this.hide();
     }
 
   });

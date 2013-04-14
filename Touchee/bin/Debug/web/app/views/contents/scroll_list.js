@@ -2,20 +2,21 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee',
   'views/contents/base'
-], function($, _, Backbone, Touchee, BaseView) {
+], function($, _, Backbone, BaseView) {
   
   
   var selectionDefaults = {
     // The delay before the selection kicks in
-    delay:      0,
+    delay:        0,
     // The pixel distance to scroll before the selection is cancelled
-    distance:   5,
+    distance:     5,
     // The class to apply to selected items
-    klass:      'selected',
+    klass:        'selected',
     // Whether to keep the selection after the touch / click has ended
-    keep:       false
+    keep:         false,
+    // Whether to cancel the tap if the touch is held
+    cancelOnHold: true
   };
   
   
@@ -778,16 +779,13 @@ define([
     // An item has been selected
     // PRIVATE
     _selected: function(ev, $el) {
-      this.data.selectedItem = this.getItem($el);
-      this.selected(this.data.selectedItem, $el);
+      this.selected( this.data.selectedItem = this.getItem($el), $el );
     },
 
 
     // An item has been selected
-    // ABSTRACT
-    selected: function(item, $item) {
-      throw("NotImplentedException");
-    }
+    // VIRTUAL
+    selected: function(item, $el) { }
 
     
   });

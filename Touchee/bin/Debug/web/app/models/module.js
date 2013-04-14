@@ -1,11 +1,10 @@
 define([
   'underscore',
   'Backbone',
-  'Touchee',
   'models/container',
   'views/browser/index',
   'views/contents/split'
-], function(_, Backbone, Touchee, Container, BrowserView, SplitView) {
+], function(_, Backbone, Container, BrowserView, SplitView) {
   
   
   // Touchee.Module

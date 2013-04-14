@@ -4,8 +4,8 @@ define([
   'Backbone',
   './../models/view_models/tracks',
   'views/contents/common_table',
-  'views/popup/actions'
-], function($, _, Backbone, Tracks, CommonTableView, ActionsPopupView) {
+  'views/popup/play_actions'
+], function($, _, Backbone, Tracks, CommonTableView, PlayActionsPopupView) {
   
   var TracksView = CommonTableView.extend({
     
@@ -26,29 +26,20 @@ define([
     
     // Which model this view is supposed to show
     viewModel: Tracks,
-
-
-    events: {
-      'hold tr': 'hold'
+    
+    
+    // A track  was selected
+    selected: function(track) {
+      Touchee.Queue.reset(this.model, {start: this.getIndex(track)});
     },
 
 
-    hold: function(ev) {
-      var row = ev.target.parentNode;
-
-      var p = new ActionsPopupView({
-        header: row.childNodes[0].innerHTML,
-        buttons: [
-          { text: 'Play Next' },
-          { text: 'Add to Up Next' }
-        ]
-      });
-      p.showRelativeTo(row);
-
+    // A track was held
+    held: function(track, $row) {
+      PlayActionsPopupView.show(track, $row, $row[0].childNodes[1].innerHTML);
     }
 
-    
-    
+
   });
   
   return TracksView;

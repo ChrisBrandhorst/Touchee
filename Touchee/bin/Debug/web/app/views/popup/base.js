@@ -287,26 +287,40 @@ define([
     
     // Hides or removes the popup
     hide: function(options) {
-      if (!this.$overlay) return;
+
+      var removeFunc = _.bind(function() {
+        if (options.remove || this.removeOnHide)
+          Backbone.View.prototype.remove.call(this);
+        else
+          this.$el.hide();
+      }, this);
+
+      if (!this.$overlay) return removeFunc();
+
       options = _.extend({trigger:true}, options || {});
 
-      if (options.trigger) this.trigger('beforeHide');
+      if (options.trigger)
+        this.trigger('beforeHide');
+
       this.$el
         .addClass('animate hidden')
         .on('webkitTransitionEnd', _.bind(function(){
 
           this.$el.removeClass('animate hidden');
-          var remove = _.isFunction(this.removeOnHide) ? this.removeOnHide.call(this) : this.removeOnHide === true;
-          if (remove !== false)
-            Backbone.View.prototype.remove.apply(this, arguments);
-          else
-            this.$el.hide();
-          if (options.trigger) this.trigger('hide');
+          removeFunc();
+          if (options.trigger)
+            this.trigger('hide');
         }, this));
 
       this.$overlay.remove();
       delete this.$overlay;
       return this;
+    },
+
+
+    // Override the remove to redirect to the hide method
+    remove: function() {
+      this.hide({remove:true, trigger:true});
     }
     
     

@@ -2,7 +2,6 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'Touchee', 
   
   'models/module',
   
@@ -12,16 +11,14 @@ define([
   'models/collections/containers',
   
   'models/contents',
-  'models/control_request',
     
   'views/browser/index',
   'views/media/popup'
-], function($, _, Backbone, Touchee,
+], function($, _, Backbone,
             BaseModule,
             ServerInfo,
             Media, Containers,
             Contents,
-            ControlRequest,
             BrowserView, MediaPopupView
 ){
   
@@ -31,9 +28,7 @@ define([
     routes: {
       "media/:mid":                                 "medium",
       "media/:mid/containers/:cid":                 "container",
-      "media/:mid/containers/:cid/*params":         "container",
-      // "media/:mid/containers/:cid/play/*params":      "play",
-      // "queue/:qid/:command":                          "control"
+      "media/:mid/containers/:cid/*params":         "container"
     },
     
     
@@ -94,31 +89,6 @@ define([
       // TODO: necessary?
       // Check if we navigated from within a container view or from the media list or view type buttons
       // Unset 'view' in params, count attributes, re-set 'view'
-    },
-    
-    
-    // Send a play command to the server
-    play: function(mediumID, containerID, params) {
-      
-      // Get the container
-      var container = this.getContainer(mediumID, containerID);
-      if (!container) return;
-      
-      new ControlRequest({
-        command:      'play',
-        containerID:  containerID,
-        params:       new Params(params || "")
-      }).save();
-      
-    },
-    
-    
-    // Send a control command to the server
-    control: function(queueID, command) {
-      new ControlRequest({
-        command:  command,
-        queue:    queueID
-      }).save();
     },
     
     

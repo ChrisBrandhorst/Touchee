@@ -1,8 +1,7 @@
 define([
   'underscore',
-  'Backbone',
-  'Touchee'
-], function(_, Backbone, T){
+  'Backbone'
+], function(_, Backbone){
   
   // ServerInfo object
   var ServerInfo = Backbone.Model.extend({
@@ -53,7 +52,7 @@ define([
         
         // Require plugin
         require(['plugins/' + key + '/plugin'], function(plugin){
-          T.Log.info("ServerInfo:: Plugin loaded: " + key);
+          Touchee.Log.info("ServerInfo:: Plugin loaded: " + key);
           plugins[key] = plugin;
           plugin.id = key;
           

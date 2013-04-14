@@ -127,47 +127,52 @@ h1.with_control_cluster > span {
   white-space: nowrap;
 }
 /* line 30, ../sass/full/_elements.sass */
-h1.with_control_cluster > div {
+h1.with_control_cluster > .control_cluster {
   margin-left: 8px;
+}
+
+/* line 33, ../sass/full/_elements.sass */
+.control_cluster {
+  display: block;
   white-space: nowrap;
 }
-/* line 34, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button {
+/* line 36, ../sass/full/_elements.sass */
+.control_cluster button {
   width: 46px;
   height: 26px;
   background: no-repeat center;
   vertical-align: top;
 }
-/* line 39, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button[data-button=play] {
+/* line 41, ../sass/full/_elements.sass */
+.control_cluster button[data-button=play] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlay.png) 1x, url(../images/remote/ControlClusterDarkPlay@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div button[data-button=play]:active {
+.control_cluster button[data-button=play]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkPlayPressed.png) 1x, url(../images/remote/ControlClusterDarkPlayPressed@2x.png) 2x);
 }
-/* line 41, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button[data-button=shuffle] {
+/* line 43, ../sass/full/_elements.sass */
+.control_cluster button[data-button=shuffle] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShuffle.png) 1x, url(../images/remote/ControlClusterDarkShuffle@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div button[data-button=shuffle]:active {
+.control_cluster button[data-button=shuffle]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkShufflePressed.png) 1x, url(../images/remote/ControlClusterDarkShufflePressed@2x.png) 2x);
 }
-/* line 43, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button[data-button=menu] {
+/* line 45, ../sass/full/_elements.sass */
+.control_cluster button[data-button=menu] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenu.png) 1x, url(../images/remote/ControlClusterDarkMenu@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div button[data-button=menu]:active {
+.control_cluster button[data-button=menu]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterDarkMenuPressed.png) 1x, url(../images/remote/ControlClusterDarkMenuPressed@2x.png) 2x);
 }
-/* line 46, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button:nth-child(n+2) {
+/* line 48, ../sass/full/_elements.sass */
+.control_cluster button:nth-child(n+2) {
   position: relative;
 }
-/* line 48, ../sass/full/_elements.sass */
-h1.with_control_cluster > div button:nth-child(n+2)::after {
+/* line 50, ../sass/full/_elements.sass */
+.control_cluster button:nth-child(n+2)::after {
   content: "";
   position: absolute;
   height: 100%;
@@ -176,28 +181,28 @@ h1.with_control_cluster > div button:nth-child(n+2)::after {
   left: -2px;
   background-image: -webkit-image-set(url(../images/remote/ControlClusterSeparatorDark.png) 1x, url(../images/remote/ControlClusterSeparatorDark@2x.png) 2x);
 }
-/* line 58, ../sass/full/_elements.sass */
-h1.with_control_cluster > div.light button[data-button=play] {
+/* line 60, ../sass/full/_elements.sass */
+.control_cluster.light button[data-button=play] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightPlay.png) 1x, url(../images/remote/ControlClusterLightPlay@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div.light button[data-button=play]:active {
+.control_cluster.light button[data-button=play]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightPlayPressed.png) 1x, url(../images/remote/ControlClusterLightPlayPressed@2x.png) 2x);
 }
-/* line 60, ../sass/full/_elements.sass */
-h1.with_control_cluster > div.light button[data-button=shuffle] {
+/* line 62, ../sass/full/_elements.sass */
+.control_cluster.light button[data-button=shuffle] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightShuffle.png) 1x, url(../images/remote/ControlClusterLightShuffle@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div.light button[data-button=shuffle]:active {
+.control_cluster.light button[data-button=shuffle]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightShufflePressed.png) 1x, url(../images/remote/ControlClusterLightShufflePressed@2x.png) 2x);
 }
-/* line 62, ../sass/full/_elements.sass */
-h1.with_control_cluster > div.light button[data-button=menu] {
+/* line 64, ../sass/full/_elements.sass */
+.control_cluster.light button[data-button=menu] {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightMenu.png) 1x, url(../images/remote/ControlClusterLightMenu@2x.png) 2x);
 }
 /* line 66, ../sass/_mixins.sass */
-h1.with_control_cluster > div.light button[data-button=menu]:active {
+.control_cluster.light button[data-button=menu]:active {
   background-image: -webkit-image-set(url(../images/remote/ControlClusterLightMenuPressed.png) 1x, url(../images/remote/ControlClusterLightMenuPressed@2x.png) 2x);
 }
 
@@ -458,8 +463,8 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
-  margin-top: 8px;
-  padding-bottom: 6px;
+  margin-top: 9px;
+  padding-bottom: 13px;
   text-align: center;
   color: rgba(255, 255, 255, 0.7);
   text-shadow: 0 0 2px black;
@@ -467,12 +472,8 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
 /* line 47, ../sass/full/_popup.sass */
 .popup > button {
   display: block;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -ms-box-flex: 1;
-  box-flex: 1;
   height: 42px;
-  margin-top: 8px;
+  margin-bottom: 8px;
   background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffffff), color-stop(50%, #ffffff), color-stop(50%, #f3f3f5), color-stop(100%, #dee2ee));
   background-image: -webkit-linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
   background-image: -moz-linear-gradient(#ffffff, #ffffff 50%, #f3f3f5 50%, #dee2ee);
@@ -491,7 +492,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   text-shadow: 0px 1px 0px white;
   font-size: 155%;
 }
-/* line 62, ../sass/full/_popup.sass */
+/* line 61, ../sass/full/_popup.sass */
 .popup > button:active {
   color: white;
   text-shadow: 0px 1px 0px black;
@@ -504,7 +505,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
   box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1) inset, 0 1px 1px 0 rgba(255, 255, 255, 0.2);
 }
-/* line 69, ../sass/full/_popup.sass */
+/* line 67, ../sass/full/_popup.sass */
+.popup > button:last-child {
+  margin-bottom: 0;
+}
+/* line 71, ../sass/full/_popup.sass */
 .popup > .pages, .popup > .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -512,7 +517,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-flex: 1;
   position: relative;
 }
-/* line 73, ../sass/full/_popup.sass */
+/* line 75, ../sass/full/_popup.sass */
 .popup > .pages::before, .popup > .list::before {
   content: "";
   position: absolute;
@@ -528,7 +533,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
-/* line 85, ../sass/full/_popup.sass */
+/* line 87, ../sass/full/_popup.sass */
 .popup > .pages {
   display: -webkit-box;
   display: -moz-box;
@@ -539,11 +544,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 88, ../sass/full/_popup.sass */
+/* line 90, ../sass/full/_popup.sass */
 .popup > .pages > header {
   margin-top: -6px;
 }
-/* line 90, ../sass/full/_popup.sass */
+/* line 92, ../sass/full/_popup.sass */
 .popup > .pages > header > h1 {
   text-align: center;
   font-size: 150%;
@@ -552,7 +557,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
   margin-top: 0;
 }
-/* line 98, ../sass/full/_popup.sass */
+/* line 100, ../sass/full/_popup.sass */
 .popup > .pages > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -565,7 +570,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   border-radius: 5px;
   background: white;
 }
-/* line 104, ../sass/full/_popup.sass */
+/* line 106, ../sass/full/_popup.sass */
 .popup > .pages > div .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -573,11 +578,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-flex: 1;
   background: transparent;
 }
-/* line 107, ../sass/full/_popup.sass */
+/* line 109, ../sass/full/_popup.sass */
 .popup > .pages::before {
   top: 37px;
 }
-/* line 111, ../sass/full/_popup.sass */
+/* line 113, ../sass/full/_popup.sass */
 .popup > .list {
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -585,7 +590,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 5px;
   border-radius: 5px;
 }
-/* line 114, ../sass/full/_popup.sass */
+/* line 116, ../sass/full/_popup.sass */
 .popup > .list > :first-child {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
@@ -593,7 +598,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-/* line 116, ../sass/full/_popup.sass */
+/* line 118, ../sass/full/_popup.sass */
 .popup > .list > :last-child {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
@@ -601,15 +606,15 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
-/* line 120, ../sass/full/_popup.sass */
+/* line 122, ../sass/full/_popup.sass */
 .popup > .actions {
   width: 286px;
 }
-/* line 129, ../sass/full/_popup.sass */
+/* line 131, ../sass/full/_popup.sass */
 .popup > .arrow {
   display: none;
 }
-/* line 134, ../sass/full/_popup.sass */
+/* line 136, ../sass/full/_popup.sass */
 .popup.arrow > .arrow {
   display: block;
   position: absolute;
@@ -618,7 +623,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   height: 37px;
   padding: 6px 0 0 6px;
 }
-/* line 143, ../sass/full/_popup.sass */
+/* line 145, ../sass/full/_popup.sass */
 .popup.arrow > .arrow::before {
   content: "";
   display: block;
@@ -628,17 +633,17 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   border-style: solid;
   border-width: 1px 0 0 1px;
 }
-/* line 154, ../sass/full/_popup.sass */
+/* line 156, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
   left: 50%;
   margin-left: -19px;
 }
-/* line 159, ../sass/full/_popup.sass */
+/* line 161, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow {
   top: -19px;
   -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
 }
-/* line 162, ../sass/full/_popup.sass */
+/* line 164, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow::before {
   border-color: #363636;
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
@@ -655,12 +660,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-/* line 169, ../sass/full/_popup.sass */
+/* line 171, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow {
   bottom: -19px;
   -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
 }
-/* line 172, ../sass/full/_popup.sass */
+/* line 174, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow::before {
   border-color: #02060e;
   background: #0c1934;
@@ -673,22 +678,22 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
 }
-/* line 180, ../sass/full/_popup.sass */
+/* line 182, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
   top: 50%;
   margin-top: -19px;
 }
-/* line 183, ../sass/full/_popup.sass */
+/* line 185, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
   border-color: #3f3f3f;
   background: #0c1934;
 }
-/* line 188, ../sass/full/_popup.sass */
+/* line 190, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow {
   left: -19px;
   -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
 }
-/* line 191, ../sass/full/_popup.sass */
+/* line 193, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -699,12 +704,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
 }
-/* line 196, ../sass/full/_popup.sass */
+/* line 198, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow {
   right: -19px;
   -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
 }
-/* line 199, ../sass/full/_popup.sass */
+/* line 201, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow::before {
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
