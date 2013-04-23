@@ -66,6 +66,7 @@
     <Compile Include="Components\Playback\IPlayer.cs" />
     <Compile Include="Components\Playback\IVisualPlayer.cs" />
     <Compile Include="Playback\Queue.cs" />
+    <Compile Include="Playback\OQueue.cs" />
     <Compile Include="Playback\RepeatMode.cs" />
     <Compile Include="Components\Services\IArtworkService.cs" />
     <Compile Include="Components\Content\IContentArtworkProvider.cs" />

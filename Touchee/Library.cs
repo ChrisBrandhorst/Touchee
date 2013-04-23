@@ -556,7 +556,7 @@ namespace Touchee {
 
 
 
-        #region
+        #endregion
 
 
 
@@ -572,7 +572,7 @@ namespace Touchee {
         /// </summary>
         /// <param name="container">The container in which the items reside</param>
         /// <param name="filter">Filter used to get the items from the container</param>
-        public Queue Play(Container container, Options filter) {
+        public OQueue Play(Container container, Options filter) {
 
             // Get the plugin for the container
             var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
@@ -585,10 +585,10 @@ namespace Touchee {
             if (items.Count() == 0) return null;
 
             // Build queue and queue info object
-            var queue = new Queue(items, container.ContentType);
+            var queue = new OQueue(items, container.ContentType);
 
             // Find existing queue of same type
-            var existingQueue = Queue.FirstOrDefault(q => q.ContentType == queue.ContentType);
+            var existingQueue = OQueue.FirstOrDefault(q => q.ContentType == queue.ContentType);
 
             // If we have a similar queue, move repeat and shuffle settings
             if (existingQueue != null) {
@@ -621,7 +621,7 @@ namespace Touchee {
         /// Skip to the next item in the current queue
         /// </summary>
         /// <param name="queue">The queue to apply this action on</param>
-        public void Prev(Queue queue) {
+        public void Prev(OQueue queue) {
             if (queue.IsAtFirstItem)
                 queue.Index = 0;
             else
@@ -633,7 +633,7 @@ namespace Touchee {
         /// Skip to the previous item in the current queue
         /// </summary>
         /// <param name="queue">The queue to apply this action on</param>
-        public void Next(Queue queue) {
+        public void Next(OQueue queue) {
             queue.GoNext();
         }
 
@@ -642,7 +642,7 @@ namespace Touchee {
         /// Pause the playback of the current item in the queue
         /// </summary>
         /// <param name="queue">The queue to apply this action on</param>
-        public void Pause(Queue queue) {
+        public void Pause(OQueue queue) {
             if (queue.CurrentPlayer != null)
                 queue.CurrentPlayer.Pause();
         }
@@ -652,7 +652,7 @@ namespace Touchee {
         /// Resume the playback of the current item in the queue
         /// </summary>
         /// <param name="queue">The queue to apply this action on</param>
-        public void Play(Queue queue) {
+        public void Play(OQueue queue) {
             if (queue.CurrentPlayer != null)
                 queue.CurrentPlayer.Play();
         }
@@ -674,7 +674,7 @@ namespace Touchee {
         /// <param name="queue">The queue whos index has changed</param>
         /// <param name="previous">The previous item that was played</param>
         /// <param name="current">The item that is about the be played</param>
-        void queue_IndexChanged(Queue queue, IItem previous, IItem current) {
+        void queue_IndexChanged(OQueue queue, IItem previous, IItem current) {
 
             // If we have a different type to play, start the correct player and stop colliding players
             if (previous == null || previous.GetType() != current.GetType()) {
@@ -690,7 +690,7 @@ namespace Touchee {
                 }
 
                 // Stop queues and players that collide with the new one
-                var queues = Queue.Where(q => q != queue).ToList();
+                var queues = OQueue.Where(q => q != queue).ToList();
                 foreach (var q in queues) {
                     if (q.CurrentPlayer is IAudioPlayer && newPlayer is IAudioPlayer)
                         StopQueue(q);
@@ -716,7 +716,7 @@ namespace Touchee {
         /// Nicely stops a queue and the player it has
         /// </summary>
         /// <param name="queue">The queue to stop</param>
-        void StopQueue(Queue queue) {
+        void StopQueue(OQueue queue) {
             StopPlayer(queue.CurrentPlayer);
             queue.CurrentPlayer = null;
             queue.IndexChanged -= queue_IndexChanged;
@@ -744,7 +744,7 @@ namespace Touchee {
         /// <param name="player">The player who was playing the item</param>
         /// <param name="item">The item that has finished</param>
         void player_PlaybackFinished(IPlayer player, IItem item) {
-            var queue = Queue.FirstOrDefault(q => q.CurrentPlayer == player);
+            var queue = OQueue.FirstOrDefault(q => q.CurrentPlayer == player);
             if (queue != null)
                 queue.GoNext();
             else
@@ -756,7 +756,7 @@ namespace Touchee {
         /// Called when the contents of a queue has changed
         /// </summary>
         /// <param name="queue">The queue whos contents have changed</param>
-        void queue_ItemsUpdated(Queue queue) {
+        void queue_ItemsUpdated(OQueue queue) {
             
         }
 
@@ -765,7 +765,7 @@ namespace Touchee {
         /// Called when a queue is done
         /// </summary>
         /// <param name="queue">The corresponding queue</param>
-        void queue_Finished(Queue queue) {
+        void queue_Finished(OQueue queue) {
             StopQueue(queue);
         }
 
