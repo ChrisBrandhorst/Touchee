@@ -8,26 +8,57 @@ namespace Touchee.Server.Http.Modules {
     public class QueueModule : ToucheeNancyModule {
 
         public QueueModule() : base("/queue") {
+            Get["/"] = _ => GetQueue(_);
             var path = "/media/{mediaID}/containers/{containerID}/{params}";
             Post["/reset" + path] = _ => Reset(_);
-            Post["/unshift" + path] = _ => Unshift(_);
+            Post["/prioritize" + path] = _ => Prioritize(_);
             Post["/push" + path] = _ => Push(_);
+            Post["/clear_upcoming"] = _ => ClearUpcoming(_);
+            Post["/clear_priority"] = _ => ClearPriority(_);
         }
 
+        /// <summary>
+        /// Gets the current queue
+        /// </summary>
+        public Response GetQueue(dynamic parameters) {
+            return null;
+        }
 
+        /// <summary>
+        /// Replaces the entire queue
+        /// </summary>
         public Response Reset(dynamic parameters) {
             return null;
         }
 
-        public Response Unshift(dynamic parameters) {
+        /// <summary>
+        /// Appends items to the beginning of the queue, prioritizing them
+        /// </summary>
+        public Response Prioritize(dynamic parameters) {
             return null;
         }
 
+        /// <summary>
+        /// Pushes items to the end of the queue or the end of the priority queue,
+        /// depending on whether the queue is running through the full container or not.
+        /// </summary>
         public Response Push(dynamic parameters) {
             return null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public Response ClearUpcoming(dynamic parameters) {
+            return null;
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public Response ClearPriority(dynamic parameters) {
+            return null;
+        }
 
     }
 

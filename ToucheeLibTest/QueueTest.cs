@@ -2,11 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using System.Linq;
+using System.Collections.Generic;
 using Touchee;
 using Touchee.Playback;
 
 namespace ToucheeLibTest {
-
+    
     [TestClass]
     public class QueueTest {
 
@@ -82,7 +83,7 @@ namespace ToucheeLibTest {
         }
 
         [TestMethod]
-        public void QueuePushPriority() {
+        public void QueuePrioritize() {
             var queue = BuildBasicQueue();
             var item1 = new DummyItem(11, "Eleventh item");
             var item2 = new DummyItem(12, "Eleventh item");
@@ -92,15 +93,69 @@ namespace ToucheeLibTest {
             queue.GoNext();
             queue.GoNext();
 
-            queue.PushToPriority(item1);
-            queue.PushToPriority(item2);
+            queue.Prioritize(item1);
+            queue.Prioritize(item2);
             Assert.AreEqual(3, queue.Index, "Index");
-            Assert.AreEqual(11, queue.Items.Count(), "Count");
-            Assert.AreEqual(1, queue.UpcomingPriorityCount, "Upcoming priority count");
-            Assert.AreEqual(7, queue.Upcoming.Count(), "Upcoming count");
+            Assert.AreEqual(12, queue.Items.Count(), "Count");
+            Assert.AreEqual(2, queue.UpcomingPriorityCount, "Upcoming priority count");
+            Assert.AreEqual(8, queue.Upcoming.Count(), "Upcoming count");
+            Assert.AreEqual(item2, queue.Next, "Next item");
+
+            queue.GoPrev();
+            queue.GoPrev();
+            Assert.AreEqual(1, queue.Index, "Index II");
+            Assert.AreEqual(4, queue.UpcomingPriorityCount, "Upcoming priority count II");
+            Assert.AreEqual(10, queue.Upcoming.Count(), "Upcoming count II");
+            Assert.AreEqual(3, queue.Next.Id, "Next item ID II");
+
+            queue.GoNext();
+            queue.GoNext();
+            queue.GoNext();
+            queue.GoNext();
+            Assert.AreEqual(5, queue.Index, "Index III");
+            Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count III");
+            Assert.AreEqual(6, queue.Upcoming.Count(), "Upcoming count III");
+            Assert.AreEqual(5, queue.Next.Id, "Next item ID III");
+
+            queue.GoNext();
+            Assert.AreEqual(10, queue.Items.Count(), "Count IV");
+            Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count IV");
+            Assert.AreEqual(5, queue.Upcoming.Count(), "Upcoming count IV");
+            Assert.AreEqual(6, queue.Next.Id, "Next item ID IV");
+
+            queue.GoPrev();
+            Assert.AreEqual(4, queue.Current.Id, "Current item ID V");
+
         }
 
+        [TestMethod]
+        public void QueuePriorityClear() {
+            var queue = BuildBasicQueue();
+            var item1 = new DummyItem(11, "Prio 1");
+            var item2 = new DummyItem(12, "Prio 2");
+            var item3 = new DummyItem(13, "Prio 3");
+            var item4 = new DummyItem(14, "Prio 4");
 
+            queue.GoNext();
+            queue.GoNext();
+            queue.GoNext();
+            queue.GoNext();
+
+            queue.PushToPriority(new List<IItem>() { item1, item2, item3, item4 });
+            Assert.AreEqual(14, queue.Items.Count(), "Count");
+            Assert.AreEqual(4, queue.UpcomingPriorityCount, "Upcoming priority count");
+
+            queue.ClearPriority();
+            Assert.AreEqual(10, queue.Items.Count(), "Count II");
+            Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count II");
+
+            queue.PushToPriority(new List<IItem>() { item1, item2, item3, item4 });
+            queue.GoNext();
+            queue.GoNext();
+            queue.ClearPriority();
+            Assert.AreEqual(12, queue.Items.Count(), "Count III");
+            Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count III");
+        }
 
 
 

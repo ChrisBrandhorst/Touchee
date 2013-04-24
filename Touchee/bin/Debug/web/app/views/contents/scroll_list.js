@@ -132,7 +132,7 @@ define([
       this._contentChanged();
     },
     
-
+    
     // Bind all event handlers for the list
     // PRIVATE
     _bind: function() {
@@ -248,43 +248,43 @@ define([
     getCount: function() {
       throw('NotImplementedException');
     },
-    
-    
-    // Gets the set of models for the given range
+
+
+    // Gets the set of items for the given range
     // ABSTRACT
-    getModels: function(first, count) {
+    getItems: function(first, count) {
       throw('NotImplementedException');
     },
-    
-    
+
+
     // Gets the model for the given model index
-    getModel: function(idx) {
-      var models = this.getModels(idx, 1);
+    getItem: function(idx) {
+      var models = this.getItems(idx, 1);
       return models && models.length ? models[0] : null;
     },
-    
-    
-    // Gets the index of the given item
+
+
+    // Gets the index of the item in the items collection for the given rendered element
     // ABSTRACT
-    getModelIndex: function(item) {
-      throw('NotImplementedException');
+    getItemIndexByElement: function(el) {
+      throw("NotImplementedException");
     },
-    
-    
-    // Gets the index of the element representing the given item
-    getElementIndex: function(item) {
-      return this.getModelIndex(item) + this.data.lastRender.first;
-    },
-    
-    
+
+
     // Gets the item for the given rendered element
-    getItem: function(el) {
+    getItemByElement: function(el) {
       return !el || !el.length
         ? null
-        : this.getModel( this.data.lastRender.first + $(el).prevAll(':not(.index)').length );
+        : this.getItem( this.getItemIndexByElement(el) );
     },
-    
-    
+
+
+    // Gets the index of the rendered element corresponding to the given item index
+    getElementIndexByItemIndex: function(idx) {
+      return idx - this.data.lastRender.first;
+    },
+
+
     // Should be called when the content of the model which is viewed is changed
     // Implement contentChanged for crazy things
     _contentChanged: function() {
@@ -295,8 +295,8 @@ define([
       this._calculateInView(true);
       this._renderInView();
     },
-
-
+    
+    
     // Gets the index for the given item
     // VIRTUAL
     getIndex: function(item) {
@@ -346,7 +346,7 @@ define([
       
       // Set data in model
       this.calculated.size = size;
-
+      
       // Return dummy for other use
       return $dummy.remove();
     },
@@ -377,7 +377,7 @@ define([
     // Default indices getter
     // VIRTUAL
     getIndices: function() {
-      var models      = this.getModels(0, this.getCount()),
+      var models      = this.getItems(0, this.getCount()),
           data        = {indices:[],count:[],items:[],cumulCountMap:{},posMap:{}},
           scrollList  = this,
           prevIdx;
@@ -530,7 +530,7 @@ define([
     // Renders a set of items
     // VIRTUAL
     renderItems: function(items) {
-      var models  = this.getModels(items.first, items.count),
+      var models  = this.getItems(items.first, items.count),
           html    = "",
           odd     = items.first % 2 == 0,
           prevIdx;
@@ -779,13 +779,14 @@ define([
     // An item has been selected
     // PRIVATE
     _selected: function(ev, $el) {
-      this.selected( this.data.selectedItem = this.getItem($el), $el );
+      var index = this.getItemIndexByElement($el);
+      this.selected( this.data.selectedItem = this.getItem(index), index, $el );
     },
 
 
     // An item has been selected
     // VIRTUAL
-    selected: function(item, $el) { }
+    selected: function(item, idx, $el) { }
 
     
   });

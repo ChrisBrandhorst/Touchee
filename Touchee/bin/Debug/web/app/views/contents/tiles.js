@@ -132,7 +132,7 @@ define([
         // Get children if we have not yet
         if (!$children) $children = this.$inner.children();
         // Remove zoom from the class
-        $children.eq( this.getElementIndex(this.data.zoomed) ).removeClass('zoom');
+        $children.eq( this.getElementIndexByItemIndex(this.data.zoomed) ).removeClass('zoom');
         // Remove storage
         delete this.data.zoomed;
       }
@@ -270,7 +270,8 @@ define([
     // (un)Zoomes the given tile
     zoomTile: function($el, zoom) {
       var el          = $el[0],
-          item        = this.getItem($el),
+          itemIdx     = this.getItemIndexByElement($el),
+          item        = this.getItem(itemIdx),
           artwork     = Artwork.fromCache(item),
           hasArtwork  = artwork && artwork.exists() === true;
       
@@ -298,13 +299,13 @@ define([
         $el.addClass('zoom');
         
         // Remember the item that was zoomed
-        this.data.zoomed = item;
+        this.data.zoomed = itemIdx;
         
       }
       
       // Toggle zoom
       else {
-        this.zoomTile($el, item != this.data.zoomed);
+        this.zoomTile($el, itemIdx != this.data.zoomed);
       }
       
       return $el.hasClass('zoom');
@@ -329,10 +330,10 @@ define([
       // Do nothing if we have no details view function or there is nothing to remove
       if (!this.getDetailsView || (remove && !existing)) return;
       
-      // The item that is detailed
-      props.item      = remove ? existing.item : this.getItem($el);
       // The index of the item
-      props.itemIdx   = this.getModelIndex(props.item);
+      props.itemIdx   = this.getItemIndexByElement($el);
+      // The item that is detailed
+      props.item      = remove ? existing.item : this.getItem(props.itemIdx);
       // The index of the item after which the other items should make room for the details
       props.afterIdx  = props.itemIdx + (this.calculated.capacity.hori - props.itemIdx % this.calculated.capacity.hori) - 1;
       

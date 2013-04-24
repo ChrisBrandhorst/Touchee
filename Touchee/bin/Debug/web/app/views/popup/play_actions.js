@@ -15,7 +15,7 @@ define([
         buttons:  [
           {
             text:   'Play Next',
-            action: function(ev){ Touchee.Queue.unshift(item); }
+            action: function(ev){ Touchee.Queue.prioritize(item); }
           },
           {
             text:   'Add to Up Next',

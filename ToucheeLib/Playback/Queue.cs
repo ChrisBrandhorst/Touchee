@@ -67,7 +67,8 @@ namespace Touchee.Playback {
         /// </summary>
         public IEnumerable<IItem> Upcoming {
             get {
-                return _index + 1 > _items.Count ? new List<IItem>() : _items.GetRange(_index + 1, _items.Count - _index - 1);
+                var start = _index + 1;
+                return start > _items.Count ? new List<IItem>() : _items.GetRange(start, _items.Count - start);
             }
         }
 
@@ -143,7 +144,7 @@ namespace Touchee.Playback {
                     // If a value equal to the number of items is given, go back to before the start
                     _index = value == _items.Count ? -1 : value;
 
-                    // Clear priority queue if moved to outside the queue
+                    // Clear priority queue if moved to outside the priority part
                     if (_priorityStart > -1 && (_index == -1 || _index > _priorityEnd))
                         ClearPriority();
 
@@ -208,6 +209,7 @@ namespace Touchee.Playback {
             get { return _shuffle; }
             set {
                 if (_shuffle == value) return;
+
                 // We are going to shuffle
                 if (_shuffle = value) {
                     
@@ -278,7 +280,20 @@ namespace Touchee.Playback {
         public void Clear() {
             _items.Clear();
             _index = -1;
-            ClearPriority();
+            ClearPriorityInternal();
+            OnItemsUpdated();
+        }
+
+
+        /// <summary>
+        /// Clears the upcoming items from the queue
+        /// </summary>
+        public void ClearUpcoming() {
+            int start = _priorityStart == -1 ? _index + 1 : _priorityEnd + 1;
+            if (start < _items.Count) {
+                _items.RemoveRange(start, _items.Count - start);
+                OnItemsUpdated();
+            }
         }
 
 
@@ -286,10 +301,41 @@ namespace Touchee.Playback {
         /// Clears the priority queue
         /// </summary>
         public void ClearPriority() {
-            _priorityStart = -1;
-            _priorityCount = 0;
-            OnItemsUpdated();
+            if (ClearPriorityInternal())
+                OnItemsUpdated();
         }
+
+
+        /// <summary>
+        /// Clears the priority queue
+        /// </summary>
+        /// <returns>True if the upcoming items is modified</returns>
+        bool ClearPriorityInternal() {
+            bool ret = false;
+
+            if (_priorityStart != -1) {
+                int first, count;
+
+                // If the current position is after the priority part, silently remove the priority part
+                if (_index > _priorityEnd) {
+                    first = _priorityStart;
+                    count = _priorityCount;
+                    _index -= count;
+                }
+                // Else, remove upcoming priority items
+                else {
+                    first = _index + 1;
+                    count = UpcomingPriorityCount;
+                    ret = true;
+                }
+                _items.RemoveRange(first, count);
+                _priorityStart = -1;
+                _priorityCount = 0;
+            }
+
+            return ret;
+        }
+
 
 
         /// <summary>

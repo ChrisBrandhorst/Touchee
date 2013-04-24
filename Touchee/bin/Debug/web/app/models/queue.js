@@ -24,15 +24,15 @@ define([
       options || (options = {});
 
       var attrs = { shuffle: options.shuffle };
-      if (options.start) attrs.start = options.start.id;
+      if (options.start) attrs.start = options.start;
 
       this.save( attrs, {path: model.url(), command: 'reset'} );
     },
 
 
     // Adds the given model(s) right after the currently playing item
-    unshift: function(model) {
-      this.save({}, {path: model.url(), command: 'unshift'});
+    prioritize: function(model) {
+      this.save({}, {path: model.url(), command: 'prioritize'});
     },
 
 

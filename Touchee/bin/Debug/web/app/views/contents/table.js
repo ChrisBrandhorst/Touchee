@@ -64,11 +64,18 @@ define([
     },
 
 
+    // Gets the index of the item in the items collection for the given rendered element
+    // VIRTUAL
+    getItemIndexByElement: function(el) {
+      return this.data.lastRender.first + $(el).prevAll(':not(.index)').length;
+    },
+
+
     // An item has been held
     // PRIVATE
     _held: function(ev) {
       var $row = $(ev.target).closest('tr');
-      this.held(item = this.getItem($row), $row);
+      this.held(item = this.getItemByElement($row), $row);
     },
 
     // VIRTUAL

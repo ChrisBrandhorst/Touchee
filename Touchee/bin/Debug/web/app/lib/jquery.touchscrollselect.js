@@ -27,8 +27,9 @@
 
       // Get the correct item, bail out if none found
       $item = $(ev.target).closest(options.selectable);
-      if (!$item.length || ($previous && $item[0] == $previous[0])) return;
-
+      if (!$item.length || $item.hasClass(options.klass)) return;
+      // ($previous && $item[0] == $previous[0])
+      
       // Get currently selected item
       $previous = $item.siblings(options.selectable).filter('.' + options.klass).first().removeClass(options.klass);
 

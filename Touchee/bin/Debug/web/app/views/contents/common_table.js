@@ -15,19 +15,14 @@ define([
     
     
     // Gets the models
-    getModels: function(first, count) {
+    getItems: function(first, count) {
       return this.model.models.slice(first, first + count);
     },
     
     
-    // Gets the index of the given item
-    getModelIndex: function(item) {
-      return this.model.models.indexOf(item);
-    },
-
-    // An item has been selected
+    // 
     // VIRTUAL
-    selected: function(item, $row) {
+    selected: function(item, idx, $row) {
       Backbone.history.navigate(this.model.getUrl(item), {trigger:true});
     }
     

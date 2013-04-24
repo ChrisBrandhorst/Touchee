@@ -29,8 +29,8 @@ define([
     
     
     // A track  was selected
-    selected: function(track) {
-      Touchee.Queue.reset(this.model, {start: this.getIndex(track)});
+    selected: function(track, idx, $row) {
+      Touchee.Queue.reset(this.model, {start:idx});
     },
 
 

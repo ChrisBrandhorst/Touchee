@@ -147,6 +147,20 @@ define([
     },
 
 
+    // Gets the model count
+    // VIRTUAL
+    getCount: function() {
+      return this.items.length;
+    },
+
+
+    // Gets the models
+    // VIRTUAL
+    getItems: function(first, count) {
+      return this.items.slice(first, first + count);
+    },
+
+
     // Gets the index for the given item
     // VIRTUAL
     getIndex: function(item) {
@@ -156,12 +170,23 @@ define([
     },
 
 
+    // Gets the index of the item in the items collection for the given rendered element
+    // VIRTUAL
+    getItemIndexByElement: function(el) {
+      var $el             = $(el),
+          $group          = $el.closest('li'),
+          $groupsBefore   = $group.prevAll();
+      return this.data.lastRender.first + $groupsBefore.find('tr').length + $el.prevAll().length;
+    },
+
+
     // An item has been held
     // PRIVATE
     _held: function(ev) {
       var $row = $(ev.target).closest('tr');
-      this.held(this.getItem($row), $row);
+      this.held(this.getItemByElement($row), $row);
     },
+
 
     // VIRTUAL
     held: function(item, $row) { },
@@ -226,7 +251,6 @@ define([
         b = 10 - Math.max(0, Math.min(10, b));
         after.childNodes[0].style.webkitTransform = "translate3d(0,"+b+"px,0)";
       }
-
     },
 
 
@@ -375,25 +399,6 @@ define([
     // ABSTRACT
     getGroups: function(groupBy) {
       throw("NotImplementedException");
-    },
-
-
-
-
-    // Model querying
-    // --------------
-
-    // Gets the model count
-    // VIRTUAL
-    getCount: function() {
-      return this.items.length;
-    },
-
-
-    // Gets the models
-    // VIRTUAL
-    getModels: function(first, count) {
-      return this.items.slice(first, first + count);
     }
 
 
