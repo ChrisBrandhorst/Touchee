@@ -197,12 +197,20 @@ namespace Music.Media {
         /// </summary>
         public abstract Image Artwork { get; }
 
+
         #endregion
 
         
 
+        /// <summary>
+        /// Gets all tracks for the album of the given tracl
+        /// </summary>
         public static IEnumerable<Track> GetAlbum(Track track) {
-            return Track.Where(t => t.Album == track.Album && t.AlbumArtist == track.AlbumArtist).OrderBy(t => t.DiscNumber).ThenBy(t => t.TrackNumber).ThenBy(t => t.TitleSort);
+            return Track
+                .Where(t => t.Album == track.Album && (t.AlbumArtist ?? t.Artist) == (track.AlbumArtist ?? track.Artist))
+                .OrderBy(t => t.DiscNumber)
+                .ThenBy(t => t.TrackNumber)
+                .ThenBy(t => t.TitleSort);
         }
 
 

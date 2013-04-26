@@ -14,26 +14,28 @@ define([
       'tap li': 'clickedTrack'
     },
     
+
     // Constructor
     initialize: function(options) {
       this
-        .listenTo(this.model.collection, 'reset change add remove', this.render)
-        .listenTo(this.model, 'artwork', this.setArtwork)
-        .listenTo(this.model, 'colors', this.setColors);
+        .listenTo(this.model.contents, 'reset change add remove', this.render)
+        .listenTo(this.model.track, 'artwork', this.setArtwork)
+        .listenTo(this.model.track, 'colors', this.setColors);
     },
     
     
     // Render
     render: function() {
-      var artwork = Artwork.fromCache(this.model);
+      var artwork = Artwork.fromCache(this.model.track);
       this.$el.html(
         albumDetailsTemplate({
           artwork:  artwork,
-          tracks:   this.model.getTracksOfAlbum()
+          tracks:   this.model.models
         })
       );
       this.setArtwork(artwork);
       this.setColors(artwork && artwork.colors);
+      Touchee.enableControlCluster(this, {});
       return this;
     },
     
@@ -76,6 +78,10 @@ define([
       var bgColor = this.colors && this.colors.foreground2;
       $li.css('background-color', bgColor ? "rgb(" + bgColor + ")" : "").addClass('clicked');
       _.defer(function(){ $li.removeClass('clicked').css('background-color', ""); });
+
+      // Enqueue
+      var idx = this.$('li').get().indexOf($li[0]);
+      Touchee.Queue.reset(this.model, {start:idx});
     }
     
     

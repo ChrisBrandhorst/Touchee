@@ -72,7 +72,7 @@ define([
     // Renders each item of the list
     // VIRTUAL
     renderItem: function(item, i) {
-      var zoomed    = this.data.zoomed == item,
+      var zoomed    = this.data.zoomed == i,
           style     = this.getStyle(item, {string:true, zoomed:zoomed, afterDetails:this.details && i > this.details.afterIdx}),
           klass     = zoomed ? "zoom" : null;
       
@@ -139,6 +139,13 @@ define([
       
       // Call original onResize
       ScrollListView.prototype.onResize.apply(this, arguments);
+    },
+
+
+    // Gets the index of the item in the items collection for the given rendered element
+    // VIRTUAL
+    getItemIndexByElement: function(el) {
+      return this.data.lastRender.first + $(el).prevAll().length;
     },
     
     

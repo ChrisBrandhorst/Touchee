@@ -12,7 +12,6 @@ define([
     // An item was selected
     // VIRTUAL
     selected: function(item, idx, $row) {
-      console.log(idx);
       Touchee.Queue.reset(this.model, {start:idx});
     },
 

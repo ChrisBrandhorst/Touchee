@@ -1,15 +1,21 @@
 ﻿using System;
 using Nancy;
+using Nancy.ModelBinding;
 using Touchee.Server.Responses;
 using Touchee.Playback;
 
 namespace Touchee.Server.Http.Modules {
 
+    class QueueParameters {
+        public int Start { get; protected set; }
+    }
+
+
     public class QueueModule : ToucheeNancyModule {
 
         public QueueModule() : base("/queue") {
+            var path = "/media/{mediaID}/containers/{containerID}/{filter}";
             Get["/"] = _ => GetQueue(_);
-            var path = "/media/{mediaID}/containers/{containerID}/{params}";
             Post["/reset" + path] = _ => Reset(_);
             Post["/prioritize" + path] = _ => Prioritize(_);
             Post["/push" + path] = _ => Push(_);
@@ -28,6 +34,8 @@ namespace Touchee.Server.Http.Modules {
         /// Replaces the entire queue
         /// </summary>
         public Response Reset(dynamic parameters) {
+            var qp = this.Bind<QueueParameters>();
+            Library.ResetQueue(Container, Filter, qp.Start);
             return null;
         }
 

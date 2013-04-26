@@ -4,7 +4,7 @@ using Touchee.Server;
 
 namespace Touchee.Server.Http.Modules {
     
-    public class ToucheeNancyModule : NancyModule {
+    public abstract class ToucheeNancyModule : NancyModule {
 
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Touchee.Server.Http.Modules {
         /// </summary>
         /// <param name="modulePath">The base path for this module</param>
         public ToucheeNancyModule(string modulePath) : base(modulePath) {
-            Before += GetClient;
+            Before += FetchContext;
             After += SetSessionId;
         }
 
@@ -42,33 +42,48 @@ namespace Touchee.Server.Http.Modules {
 
 
         /// <summary>
-        /// Retrieve the Container from the given parameters
+        /// Gets the Container associated with the current request (if any)
         /// </summary>
-        /// <param name="parameters">The parameters which may contain a containerID param</param>
-        /// <returns>The matched Container, otherwise null</returns>
-        public Container GetContainerFromParams(dynamic parameters) {
-            Container container = null;
-            if (parameters.containerID != null) {
-                int containerID = parameters.containerID;
-                if (Container.Exists(containerID))
-                    container = Container.Find(containerID);
-            }
-            return container;
-        }
+        public Container Container { get; private set; }
 
 
         /// <summary>
-        /// Sets the Client for this request
+        /// Gets the filter assosicated with the current reques t(if any)
+        /// </summary>
+        public Options Filter { get; private set; }
+
+
+        /// <summary>
+        /// Pre-sets relevant data from the context
         /// </summary>
         /// <param name="context">The request context</param>
         /// <returns>Null</returns>
-        Response GetClient(NancyContext context) {
+        Response FetchContext(NancyContext context) {
+
+            // Get client from session ID
             if (Request.Cookies.ContainsKey(CookieKey)) {
                 var sessionId = Request.Cookies[CookieKey];
                 this.Client = Client.FindBySessionID(sessionId);
             }
             else
                 this.Client = null;
+
+            // Get container
+            if (context.Parameters.containerID != null) {
+                int containerID = context.Parameters.containerID;
+                if (Container.Exists(containerID))
+                    Container = Container.Find(containerID);
+            }
+
+            // Get filter
+            if (context.Parameters.filter != null) {
+                string filterStr = context.Parameters.filter;
+                int itemID;
+                if (Int32.TryParse(filterStr, out itemID))
+                    filterStr = "id/" + filterStr;
+                Filter = Touchee.Options.Build(filterStr);
+            }
+            
             return null;
         }
         

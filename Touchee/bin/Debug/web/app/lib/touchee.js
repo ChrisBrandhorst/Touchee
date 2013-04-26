@@ -2,8 +2,9 @@
 //    (c) 2010-2012 Chris Brandhorst, ChronoworX
 
 define([
-  'underscore', 'jquery', 'Backbone'
-], function(_, $, Backbone){
+  'underscore', 'jquery', 'Backbone',
+  'views/popup/play_actions'
+], function(_, $, Backbone, PlayActionsPopupView){
   
   
   // Initial Setup
@@ -208,6 +209,25 @@ define([
         url += (base.charAt(base.length - 1) == '/' ? '' : '/') + params;
     }
     return url;
+  };
+
+  var controlCluster = function(ev, options) {
+    switch( $(ev.currentTarget).attr('data-button') ) {
+      case 'play':
+        Touchee.Queue.reset(this.model);
+        break;
+      case 'shuffle':
+        Touchee.Queue.reset(this.model, {shuffle:true});
+        break;
+      case 'menu':
+        PlayActionsPopupView.show(this.model, ev.target);
+        break;
+    }
+  };
+  Touchee.enableControlCluster = function(view, options) {
+    view.$el.on('tap.delegateEvents' + view.cid, '.control_cluster > [data-button]', function(ev){
+      controlCluster.call(view, ev, options);
+    });
   };
   
   

@@ -23,18 +23,6 @@ define([
     },
     
     
-    // Gets all tracks of the album the current tack is on
-    getTracksOfAlbum: function() {
-      var selector = this.getAlbumSelector(),
-          tracks   = this.collection.filter(function(track){ return track.getAlbumSelector() == selector; });
-      
-      return Enumerable.From(tracks)
-        .OrderBy("t => t.discNumber || Touchee.nonAlphaSortValue")
-        .ThenBy("t => t.trackNumber || Touchee.nonAlphaSortValue")
-        .ToArray();
-    },
-
-
     // Computed properties
     computed: {
       duration:         function() { return String.duration(this.attributes.duration); },

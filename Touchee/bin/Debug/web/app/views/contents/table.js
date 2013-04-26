@@ -74,12 +74,16 @@ define([
     // An item has been held
     // PRIVATE
     _held: function(ev) {
-      var $row = $(ev.target).closest('tr');
+      var $row = $(ev.currentTarget);
       this.held(item = this.getItemByElement($row), $row);
     },
 
-    // VIRTUAL
-    held: function(item, $row) { },
+
+    // An item has been held
+    // ABSTRACT
+    held: function(item, $row) {
+      throw("NotImplementedException");
+    },
     
     
     

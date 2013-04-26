@@ -44,14 +44,8 @@ namespace Touchee.Server.Http.Modules {
         /// Gets the contents of the given container
         /// </summary>
         public Response GetContents(dynamic parameters) {
-            var container = GetContainerFromParams(parameters);
-            if (container == null) return null;
-
-            ContentsResponse contents = Library.GetContentsResponse(
-                container,
-                Touchee.Options.Build(parameters.filter)
-            );
-
+            if (Container == null) return null;
+            ContentsResponse contents = Library.GetContentsResponse(Container, Filter);
             return Response.AsJson(contents);
         }
 
@@ -60,19 +54,9 @@ namespace Touchee.Server.Http.Modules {
         /// Gets artwork
         /// </summary>
         public Response GetArtwork(dynamic parameters) {
+            if (Container == null) return null;
 
-            // Get container
-            var container = GetContainerFromParams(parameters);
-            if (container == null) return null;
-
-            string filterStr = parameters.filter;
-            int itemID;
-            if (Int32.TryParse(filterStr, out itemID))
-                filterStr = "id/" + filterStr;
-
-            Options filter = Touchee.Options.Build(filterStr);
-
-            Image artwork = Library.GetArtwork(container, filter);
+            Image artwork = Library.GetArtwork(Container, Filter);
 
             // Output artwork
             if (artwork != null) {

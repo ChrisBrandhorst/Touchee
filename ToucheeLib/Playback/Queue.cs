@@ -278,9 +278,10 @@ namespace Touchee.Playback {
         /// Completele clears the queue
         /// </summary>
         public void Clear() {
+            Index = -1;
             _items.Clear();
-            _index = -1;
-            ClearPriorityInternal();
+            _priorityStart = -1;
+            _priorityCount = 0;
             OnItemsUpdated();
         }
 

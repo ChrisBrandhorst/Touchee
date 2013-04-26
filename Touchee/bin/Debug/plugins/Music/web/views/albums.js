@@ -3,9 +3,10 @@ define([
   'underscore',
   'Backbone',
   './../models/view_models/albums',
+  './../models/view_models/album',
   'views/contents/common_tiles',
   './_album_details'
-], function($, _, Backbone, Albums, CommonTilesView, AlbumDetailsView) {
+], function($, _, Backbone, Albums, Album, CommonTilesView, AlbumDetailsView) {
   
   var AlbumsView = CommonTilesView.extend({
     
@@ -33,8 +34,14 @@ define([
     
     // Getss the view for the given detail view
     getDetailsView: function(track, $target) {
+
+      var album = new Album(null, {
+        contents: this.model.contents,
+        track:    track
+      });
+
       var view = new AlbumDetailsView({
-        model:  track,
+        model:  album,
         el:     $target[0]
       });
       view.render();

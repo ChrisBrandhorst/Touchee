@@ -221,6 +221,15 @@ namespace Touchee {
         }
 
 
+
+
+        void BroadcastQueue(Queue queue) {
+            //ThrottledBroadcast(queue, () => {
+                _server.Broadcast(new QueueResponse(queue));
+            //});
+        }
+
+
         /// <summary>
         /// Throttles the given action in the scope of the given object.
         /// </summary>
@@ -290,7 +299,7 @@ namespace Touchee {
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
         public ContentsResponse GetContentsResponse(Container container, Options filter) {
-            var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
+            var contentProvider = PluginManager.GetComponentFor<IContentProvider>(container);
             if (contentProvider == null) return null;
 
             var contents = contentProvider.GetContents(container, filter);
@@ -314,7 +323,7 @@ namespace Touchee {
             // Get artwork from the plugin
             if (artwork == null) {
                 // Get the artworkprovider of the container
-                var contentArtworkProvider = PluginManager.GetComponent<IArtworkProvider>(container);
+                var contentArtworkProvider = PluginManager.GetComponentFor<IArtworkProvider>(container);
                 if (contentArtworkProvider != null) {
                     artwork = contentArtworkProvider.GetArtwork(container, filter);
                 }
@@ -549,13 +558,44 @@ namespace Touchee {
 
 
 
-        #region Queueing
+
+
+        public Queue Queue { get; private set; }
 
 
 
+        public Queue ResetQueue(Container container, Options filter, int start = 0) {
+
+            // Get the queue items and bail out if no items
+            var items = GetItems(container, filter);
+            if (items == null || items.Count() == 0) return null;
+
+            var queue = new Queue(items);
+            queue.ItemsUpdated += QueueItemsUpdated;
+            queue.IndexChanged += QueueIndexChanged;
+            queue.Index = start;
+
+            return queue;
+        }
+
+        void QueueItemsUpdated(Queue queue) {
+            BroadcastQueue(queue);
+        }
+        void QueueIndexChanged(Queue queue) {
+            BroadcastQueue(queue);
+        }
 
 
-        #endregion
+
+        IEnumerable<IItem> GetItems(Container container, Options filter) {
+
+            // Get the plugin for the container
+            var contentProvider = PluginManager.GetComponentFor<IContentProvider>(container);
+            if (contentProvider == null) return null;
+
+            // Get the items for this container / filter combination
+            return contentProvider.GetItems(container, filter);
+        }
 
 
 
@@ -574,7 +614,7 @@ namespace Touchee {
         public OQueue Play(Container container, Options filter) {
 
             // Get the plugin for the container
-            var contentProvider = PluginManager.GetComponent<IContentProvider>(container);
+            var contentProvider = PluginManager.GetComponentFor<IContentProvider>(container);
             if (contentProvider == null) return null;
 
             // Get the items for this container / filter combination

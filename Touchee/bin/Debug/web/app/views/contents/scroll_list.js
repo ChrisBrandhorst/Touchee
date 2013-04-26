@@ -1,9 +1,8 @@
 define([
   'jquery',
   'underscore',
-  'Backbone',
-  'views/contents/base'
-], function($, _, Backbone, BaseView) {
+  'Backbone'
+], function($, _, Backbone) {
   
   
   var selectionDefaults = {
@@ -22,7 +21,7 @@ define([
   
   
   
-  var ScrollList = BaseView.extend({
+  var ScrollList = Backbone.View.extend({
     
     
     

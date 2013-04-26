@@ -95,7 +95,7 @@ namespace Touchee.Plugins {
         /// <typeparam name="T">The IComponent type to search for</typeparam>
         /// <param name="obj">The object</param>
         /// <returns>A IComponent if one was found (if more than one defined in the Assembly, the first added is returned), otherwise the default of T</returns>
-        public static T GetComponent<T>(object obj) where T : IComponent {
+        public static T GetComponentFor<T>(object obj) where T : IComponent {
             var components = _components.Where(c => c.GetType().Assembly == obj.GetType().Assembly && typeof(T).IsAssignableFrom(c.GetType()));
             return components.Count() > 0 ? (T)components.First() : default(T);
         }
