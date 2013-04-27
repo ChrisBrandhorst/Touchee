@@ -19,8 +19,13 @@ define([
       if (!custom) return val;
       
       // Then go for a custom display if present
-      if (this.computed && _.isFunction(this.computed[attr]))
-        val = this.computed[attr].call(this, val);
+      if (this.computed) {
+        var comp = this.computed[attr];
+        if (_.isFunction(comp))
+          val = comp.call(this, val);
+        else if (_.isString(comp))
+          val = this.get(comp);
+      }
       
       // If we have nothing yet, try the "unknown ..."
       if (!val) {
@@ -52,6 +57,16 @@ define([
     //
     url: function() {
       return this.collection.url() + "/item/" + this.id;
+    },
+
+
+    // 
+    getDisplayLine1: function() {
+    },
+    getDisplayLine2: function() {
+    },
+    getDisplayLine: function(idx) {
+
     }
     
     

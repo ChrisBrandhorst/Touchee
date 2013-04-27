@@ -51,6 +51,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DummyItem.cs" />
+    <Compile Include="OrderTest.cs" />
     <Compile Include="QueueTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

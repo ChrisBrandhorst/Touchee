@@ -34,8 +34,8 @@
 
 
 // Border image
-@mixin border-img($image, $size, $options: ())
-  -webkit-border-image: image-value($image, $options) $size stretch
+@mixin border-img($image, $size, $options: (), $repeat: stretch)
+  -webkit-border-image: image-value($image, $options) $size $repeat
   border-width:         nth($size, 1)+px nth($size, 2)+px nth($size, 3)+px nth($size, 4)+px
 
 

@@ -17,12 +17,12 @@ namespace Touchee.Playback {
         /// <summary>
         /// Contains the items in the original order
         /// </summary>
-        List<IItem> _itemsOriginal;
+        List<QueueItem> _itemsOriginal;
 
         /// <summary>
         /// Contains the items in the active order
         /// </summary>
-        List<IItem> _items;
+        List<QueueItem> _items;
 
         /// <summary>
         /// Shuffle value
@@ -55,7 +55,7 @@ namespace Touchee.Playback {
         /// <summary>
         /// All items in the queue in the order in which they will be played
         /// </summary>
-        public IEnumerable<IItem> Items {
+        public IEnumerable<QueueItem> Items {
             get {
                 return _items;
             }
@@ -65,10 +65,10 @@ namespace Touchee.Playback {
         /// <summary>
         /// The upcoming items in the queue in the order in which they will be played
         /// </summary>
-        public IEnumerable<IItem> Upcoming {
+        public IEnumerable<QueueItem> Upcoming {
             get {
                 var start = _index + 1;
-                return start > _items.Count ? new List<IItem>() : _items.GetRange(start, _items.Count - start);
+                return start > _items.Count ? new List<QueueItem>() : _items.GetRange(start, _items.Count - start);
             }
         }
 
@@ -76,7 +76,7 @@ namespace Touchee.Playback {
         /// <summary>
         /// Returns the current item in the queue
         /// </summary>
-        public IItem Current {
+        public QueueItem Current {
             get {
                 return Index >= 0 && Index < _items.Count ? _items[Index] : null;
             }
@@ -84,9 +84,20 @@ namespace Touchee.Playback {
 
 
         /// <summary>
+        /// The current and upcoming items in the queue in the order in which they will be played
+        /// </summary>
+        public IEnumerable<QueueItem> CurrentAndUpcoming {
+            get {
+                var start = _index;
+                return start > _items.Count ? new List<QueueItem>() : _items.GetRange(start, _items.Count - start);
+            }
+        }
+
+
+        /// <summary>
         /// Returns the previous item in the queue
         /// </summary>
-        public IItem Prev {
+        public QueueItem Prev {
             get {
                 var i = _index - 1;
                 return i >= 0 && i < _items.Count ? _items[i] : null;
@@ -97,7 +108,7 @@ namespace Touchee.Playback {
         /// <summary>
         /// Returns the next item in the queue
         /// </summary>
-        public IItem Next {
+        public QueueItem Next {
             get {
                 var i = _index + 1;
                 return i >= 0 && i < _items.Count ? _items[i] : null;
@@ -110,7 +121,7 @@ namespace Touchee.Playback {
         /// </summary>
         /// <param name="index">The index of the item</param>
         /// <exception cref="ArgumentOutOfRangeException">If the given value is out of range</exception>
-        public IItem ItemAt(int index) {
+        public QueueItem ItemAt(int index) {
             return this[index];
         }
 
@@ -120,7 +131,7 @@ namespace Touchee.Playback {
         /// </summary>
         /// <param name="index">The index of the item</param>
         /// <exception cref="ArgumentOutOfRangeException">If the given value is out of range</exception>
-        public IItem this[int index] {
+        public QueueItem this[int index] {
             get {
                 return _items[index];
             }
@@ -240,8 +251,28 @@ namespace Touchee.Playback {
         /// </summary>
         public Queue() {
             Repeat = RepeatMode.Off;
-            _items = new List<IItem>();
-            _itemsOriginal = new List<IItem>();
+            _items = new List<QueueItem>();
+            _itemsOriginal = new List<QueueItem>();
+        }
+
+
+        /// <summary>
+        /// Constructs a new queue with one QueueItem in it.
+        /// </summary>
+        /// <param name="item">The item to add to the queue</param>
+        public Queue(QueueItem item) : this() {
+            _itemsOriginal.Add(item);
+            _items.Add(item);
+        }
+
+
+        /// <summary>
+        /// Constructs a new queue with a number of QueueItems in it.
+        /// </summary>
+        /// <param name="items">The initial set of items in the queue</param>
+        public Queue(IEnumerable<QueueItem> items) : this() {
+            _itemsOriginal.AddRange(items);
+            _items.AddRange(items);
         }
 
 
@@ -249,20 +280,16 @@ namespace Touchee.Playback {
         /// Constructs a new queue with one item in it.
         /// </summary>
         /// <param name="item">The item to add to the queue</param>
-        public Queue(IItem item) : this() {
-            _itemsOriginal.Add(item);
-            _items.Add(item);
-        }
+        /// <param name="container">The container from which the item is added</param>
+        public Queue(IItem item, Container container) : this(new QueueItem(container, item)) { }
 
 
         /// <summary>
         /// Constructs a new queue with a number of items in it.
         /// </summary>
-        /// <param name="items">The initial set of items in the queue</param>
-        public Queue(IEnumerable<IItem> items) : this() {
-            _itemsOriginal.AddRange(items);
-            _items.AddRange(items);
-        }
+        /// <param name="item">The item to add to the queue</param>
+        /// <param name="container">The container from which the item is added</param>
+        public Queue(IEnumerable<IItem> items, Container container) : this(items.Select(i => new QueueItem(container, i))) { }
 
 
         #endregion
@@ -343,7 +370,7 @@ namespace Touchee.Playback {
         /// Appends the given item to the end of the queue
         /// </summary>
         /// <param name="item">The item to add</param>
-        public void Push(IItem item) {
+        public void Push(QueueItem item) {
             _items.Add(item);
             OnItemsUpdated();
         }
@@ -353,7 +380,7 @@ namespace Touchee.Playback {
         /// Appends the given items to the end of the queue
         /// </summary>
         /// <param name="items">The items to add</param>
-        public void Push(IEnumerable<IItem> items) {
+        public void Push(IEnumerable<QueueItem> items) {
             _items.AddRange(items);
             OnItemsUpdated();
         }
@@ -363,8 +390,8 @@ namespace Touchee.Playback {
         /// Prepends the given item to the start of the priority queue
         /// </summary>
         /// <param name="item">The item to add</param>
-        public void Prioritize(IItem item) {
-            Prioritize(new List<IItem>() { item });
+        public void Prioritize(QueueItem item) {
+            Prioritize(new List<QueueItem>() { item });
         }
 
 
@@ -372,7 +399,7 @@ namespace Touchee.Playback {
         /// Prepends the given items to the start of the priority queue
         /// </summary>
         /// <param name="items">The items to add</param>
-        public void Prioritize(IEnumerable<IItem> items) {
+        public void Prioritize(IEnumerable<QueueItem> items) {
             EnlargePriority(items.Count());
             _items.InsertRange(_priorityStart, items);
             OnItemsUpdated();
@@ -383,8 +410,8 @@ namespace Touchee.Playback {
         /// Appends the given item to the end of the priority queue
         /// </summary>
         /// <param name="item">The item to add</param>
-        public void PushToPriority(IItem item) {
-            PushToPriority(new List<IItem>() { item });
+        public void PushToPriority(QueueItem item) {
+            PushToPriority(new List<QueueItem>() { item });
         }
 
 
@@ -392,7 +419,7 @@ namespace Touchee.Playback {
         /// Appends the given items to the end of the priority queue
         /// </summary>
         /// <param name="items">The items to add</param>
-        public void PushToPriority(IEnumerable<IItem> items) {
+        public void PushToPriority(IEnumerable<QueueItem> items) {
             EnlargePriority(items.Count());
             _items.InsertRange(_priorityEnd + 1, items);
             OnItemsUpdated();
@@ -424,7 +451,7 @@ namespace Touchee.Playback {
         /// Go to the previous item
         /// </summary>
         /// <returns>The new current item, or null if none</returns>
-        public IItem GoPrev() {
+        public QueueItem GoPrev() {
             --Index;
             return Current;
         }
@@ -434,7 +461,7 @@ namespace Touchee.Playback {
         /// Move to the next item
         /// </summary>
         /// <returns>The new current item, or null if none</returns>
-        public IItem GoNext() {
+        public QueueItem GoNext() {
             return this.GoNext(false);
         }
 
@@ -444,7 +471,7 @@ namespace Touchee.Playback {
         /// </summary>
         /// <param name="ignoreRepeat">Whether the repeat property should be ignored when determining the nex item</param>
         /// <returns>The new current item, or null if none</returns>
-        public IItem GoNext(bool ignoreRepeat) {
+        public QueueItem GoNext(bool ignoreRepeat) {
 
             // Calculate next index
             int nextIndex = Index + 1;

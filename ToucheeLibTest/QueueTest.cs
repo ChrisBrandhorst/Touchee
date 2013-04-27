@@ -76,7 +76,7 @@ namespace ToucheeLibTest {
         [TestMethod]
         public void QueuePush() {
             var queue = BuildBasicQueue();
-            var item = new DummyItem(11, "Eleventh item");
+            var item = new DummyQueueItem(11, "Eleventh item");
             queue.Push(item);
             Assert.AreEqual(item, queue.Items.ToList().Last());
             Assert.AreEqual(11, queue.Upcoming.Count());
@@ -85,8 +85,8 @@ namespace ToucheeLibTest {
         [TestMethod]
         public void QueuePrioritize() {
             var queue = BuildBasicQueue();
-            var item1 = new DummyItem(11, "Eleventh item");
-            var item2 = new DummyItem(12, "Eleventh item");
+            var item1 = new DummyQueueItem(11, "Eleventh item");
+            var item2 = new DummyQueueItem(12, "Eleventh item");
 
             queue.GoNext();
             queue.GoNext();
@@ -106,7 +106,7 @@ namespace ToucheeLibTest {
             Assert.AreEqual(1, queue.Index, "Index II");
             Assert.AreEqual(4, queue.UpcomingPriorityCount, "Upcoming priority count II");
             Assert.AreEqual(10, queue.Upcoming.Count(), "Upcoming count II");
-            Assert.AreEqual(3, queue.Next.Id, "Next item ID II");
+            Assert.AreEqual(3, queue.Next.Item.Id, "Next item ID II");
 
             queue.GoNext();
             queue.GoNext();
@@ -115,33 +115,33 @@ namespace ToucheeLibTest {
             Assert.AreEqual(5, queue.Index, "Index III");
             Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count III");
             Assert.AreEqual(6, queue.Upcoming.Count(), "Upcoming count III");
-            Assert.AreEqual(5, queue.Next.Id, "Next item ID III");
+            Assert.AreEqual(5, queue.Next.Item.Id, "Next item ID III");
 
             queue.GoNext();
             Assert.AreEqual(10, queue.Items.Count(), "Count IV");
             Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count IV");
             Assert.AreEqual(5, queue.Upcoming.Count(), "Upcoming count IV");
-            Assert.AreEqual(6, queue.Next.Id, "Next item ID IV");
+            Assert.AreEqual(6, queue.Next.Item.Id, "Next item ID IV");
 
             queue.GoPrev();
-            Assert.AreEqual(4, queue.Current.Id, "Current item ID V");
+            Assert.AreEqual(4, queue.Current.Item.Id, "Current item ID V");
 
         }
 
         [TestMethod]
         public void QueuePriorityClear() {
             var queue = BuildBasicQueue();
-            var item1 = new DummyItem(11, "Prio 1");
-            var item2 = new DummyItem(12, "Prio 2");
-            var item3 = new DummyItem(13, "Prio 3");
-            var item4 = new DummyItem(14, "Prio 4");
+            var item1 = new DummyQueueItem(11, "Prio 1");
+            var item2 = new DummyQueueItem(12, "Prio 2");
+            var item3 = new DummyQueueItem(13, "Prio 3");
+            var item4 = new DummyQueueItem(14, "Prio 4");
 
             queue.GoNext();
             queue.GoNext();
             queue.GoNext();
             queue.GoNext();
 
-            queue.PushToPriority(new List<IItem>() { item1, item2, item3, item4 });
+            queue.PushToPriority(new List<QueueItem>() { item1, item2, item3, item4 });
             Assert.AreEqual(14, queue.Items.Count(), "Count");
             Assert.AreEqual(4, queue.UpcomingPriorityCount, "Upcoming priority count");
 
@@ -149,7 +149,7 @@ namespace ToucheeLibTest {
             Assert.AreEqual(10, queue.Items.Count(), "Count II");
             Assert.AreEqual(0, queue.UpcomingPriorityCount, "Upcoming priority count II");
 
-            queue.PushToPriority(new List<IItem>() { item1, item2, item3, item4 });
+            queue.PushToPriority(new List<QueueItem>() { item1, item2, item3, item4 });
             queue.GoNext();
             queue.GoNext();
             queue.ClearPriority();
@@ -171,16 +171,16 @@ namespace ToucheeLibTest {
         Queue BuildBasicQueue() {
             var queue = new Queue();
 
-            queue.Push(new DummyItem(1, "First item"));
-            queue.Push(new DummyItem(2, "Second item"));
-            queue.Push(new DummyItem(3, "Third item"));
-            queue.Push(new DummyItem(4, "Fourth item"));
-            queue.Push(new DummyItem(5, "Fifth item"));
-            queue.Push(new DummyItem(6, "Sixth item"));
-            queue.Push(new DummyItem(7, "Seventh item"));
-            queue.Push(new DummyItem(8, "Eight item"));
-            queue.Push(new DummyItem(9, "Ninth item"));
-            queue.Push(new DummyItem(10, "Tenth item"));
+            queue.Push(new DummyQueueItem(1, "First item"));
+            queue.Push(new DummyQueueItem(2, "Second item"));
+            queue.Push(new DummyQueueItem(3, "Third item"));
+            queue.Push(new DummyQueueItem(4, "Fourth item"));
+            queue.Push(new DummyQueueItem(5, "Fifth item"));
+            queue.Push(new DummyQueueItem(6, "Sixth item"));
+            queue.Push(new DummyQueueItem(7, "Seventh item"));
+            queue.Push(new DummyQueueItem(8, "Eight item"));
+            queue.Push(new DummyQueueItem(9, "Ninth item"));
+            queue.Push(new DummyQueueItem(10, "Tenth item"));
 
             return queue;
         }

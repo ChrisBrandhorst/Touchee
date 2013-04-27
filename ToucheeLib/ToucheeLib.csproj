@@ -46,6 +46,7 @@
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />
+    <Compile Include="Media\Music\Extensions.cs" />
     <Compile Include="Media\IAudioItem.cs" />
     <Compile Include="Media\Music\IFileTrack.cs" />
     <Compile Include="Media\IItem.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Components\Playback\IVisualPlayer.cs" />
     <Compile Include="Playback\Queue.cs" />
     <Compile Include="Playback\OQueue.cs" />
+    <Compile Include="Playback\QueueItem.cs" />
     <Compile Include="Playback\RepeatMode.cs" />
     <Compile Include="Components\Services\IArtworkService.cs" />
     <Compile Include="Components\Content\IContentArtworkProvider.cs" />

@@ -18,7 +18,7 @@ define([
     $overlay.bind('tap', function(ev){
       if ($(ev.target).parents().is($this)) return;
       if (typeof options.remove == 'function')
-        options.remove.call($this, $overlay);
+        options.remove.call($this);
       else if (options.remove === true)
         $this.remove();
       else

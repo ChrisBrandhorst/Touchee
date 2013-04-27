@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Touchee;
@@ -56,24 +57,25 @@ namespace Music {
                 // All tracks
                 case "track":
                     ret = allTracks
-                        .OrderBy(t => t.TitleSort)
-                        .ThenBy(t => t.ArtistSort);
+                        .OrderByOrdinal(t => t.TitleSort)
+                        .ThenByOrdinal(t => t.ArtistSort);
                     break;
                 
                 // All tracks for the given artist or genre
                 case "artist":
                 case "genre":
-                    var group = filter[view].ToString().ToLower();
+                    string group = filter[view];
+                    if (group != null) group = group.ToLower();
                     switch (view) {
-                        case "artist": ret = allTracks.Where(t => t.Artist.ToLower() == group); break;
-                        case "genre":  ret = allTracks.Where(t => t.Genre.ToLower() == group);  break;
+                        case "artist": ret = allTracks.Where(t => t.IsByArtist(group)); break;
+                        case "genre":  ret = allTracks.Where(t => t.IsOfGenre(group)); break;
                     }
                     ret = ret
-                        .OrderBy(t => t.AlbumArtistSort)
-                        .ThenBy(t => t.AlbumSort)
+                        .OrderByOrdinal(t => t.AlbumArtistSort)
+                        .ThenByOrdinal(t => t.AlbumSort)
                         .ThenBy(t => t.DiscNumber)
                         .ThenBy(t => t.TrackNumber)
-                        .ThenBy(t => t.TitleSort);
+                        .ThenByOrdinal(t => t.TitleSort);
                     break;
 
                 // All tracks for the given album

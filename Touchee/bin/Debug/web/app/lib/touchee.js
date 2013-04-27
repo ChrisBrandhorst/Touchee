@@ -214,10 +214,10 @@ define([
   var controlCluster = function(ev, options) {
     switch( $(ev.currentTarget).attr('data-button') ) {
       case 'play':
-        Touchee.Queue.reset(this.model);
+        Touchee.Queue.resetAndPlay(this.model);
         break;
       case 'shuffle':
-        Touchee.Queue.reset(this.model, {shuffle:true});
+        Touchee.Queue.resetAndPlay(this.model, {shuffle:true});
         break;
       case 'menu':
         PlayActionsPopupView.show(this.model, ev.target);

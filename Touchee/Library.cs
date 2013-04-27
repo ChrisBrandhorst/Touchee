@@ -75,6 +75,17 @@ namespace Touchee {
         /// </summary>
         public uint Revision { get; protected set; }
 
+        /// <summary>
+        /// The current queue
+        /// </summary>
+        public Queue Queue { get; private set; }
+
+        /// <summary>
+        /// The current player
+        /// </summary>
+        public IPlayer Player { get; private set; }
+
+
         #endregion
 
 
@@ -557,36 +568,40 @@ namespace Touchee {
 
 
 
+        #region Enqueueing
 
 
-
-        public Queue Queue { get; private set; }
-
-
-
+        /// <summary>
+        /// Resets the current queue with a given set of items and starts playback from the given index
+        /// </summary>
+        /// <param name="container">The container the items are located in</param>
+        /// <param name="filter">The filter used to search for the items</param>
+        /// <param name="start">The start index</param>
+        /// <returns>The new queue</returns>
         public Queue ResetQueue(Container container, Options filter, int start = 0) {
 
             // Get the queue items and bail out if no items
             var items = GetItems(container, filter);
             if (items == null || items.Count() == 0) return null;
 
-            var queue = new Queue(items);
+            // Build the queue
+            var queue = new Queue(items, container);
             queue.ItemsUpdated += QueueItemsUpdated;
             queue.IndexChanged += QueueIndexChanged;
+
+            // Set index, starting the queue
             queue.Index = start;
 
-            return queue;
-        }
-
-        void QueueItemsUpdated(Queue queue) {
-            BroadcastQueue(queue);
-        }
-        void QueueIndexChanged(Queue queue) {
-            BroadcastQueue(queue);
+            return Queue = queue;
         }
 
 
-
+        /// <summary>
+        /// Gets the items from the given container, based on a filter
+        /// </summary>
+        /// <param name="container">The container the items are located in</param>
+        /// <param name="filter">The filter used to search for the items</param>
+        /// <returns>An IEnumerable containing the requested items, or null if no ContentProvider was found for the given Container</returns>
         IEnumerable<IItem> GetItems(Container container, Options filter) {
 
             // Get the plugin for the container
@@ -598,102 +613,121 @@ namespace Touchee {
         }
 
 
-
-
-
-
-
-        #region Controlling
-
-
         /// <summary>
-        /// Start playing a set of items
+        /// Skip to the previous item in the current queue
         /// </summary>
-        /// <param name="container">The container in which the items reside</param>
-        /// <param name="filter">Filter used to get the items from the container</param>
-        public OQueue Play(Container container, Options filter) {
-
-            // Get the plugin for the container
-            var contentProvider = PluginManager.GetComponentFor<IContentProvider>(container);
-            if (contentProvider == null) return null;
-
-            // Get the items for this container / filter combination
-            var items = contentProvider.GetItems(container, filter);
-
-            // Bail out if no items
-            if (items.Count() == 0) return null;
-
-            // Build queue and queue info object
-            var queue = new OQueue(items, container.ContentType);
-
-            // Find existing queue of same type
-            var existingQueue = OQueue.FirstOrDefault(q => q.ContentType == queue.ContentType);
-
-            // If we have a similar queue, move repeat and shuffle settings
-            if (existingQueue != null) {
-                queue.Repeat = existingQueue.Repeat;
-                queue.Shuffle = existingQueue.Shuffle;
-            }
-
-            // Set callbacks on queue
-            queue.IndexChanged += queue_IndexChanged;
-            queue.ItemsUpdated += queue_ItemsUpdated;
-            queue.Finished += queue_Finished;
-
-            // Save the queue
-            queue.Save();
-
-            // Set index, starting the queue
-            int id = filter["id"];
-            if (id > 0) {
-                var item = items.FirstOrDefault(i => i.Id == id);
-                queue.Current = item;
-            }
+        public void Prev() {
+            if (Queue == null) return;
+            if (Queue.IsAtFirstItem)
+                Queue.Index = 0;
             else
-                queue.Index = filter["index"];
-            
-            return queue;
+                Queue.GoPrev();
         }
 
 
         /// <summary>
         /// Skip to the next item in the current queue
         /// </summary>
-        /// <param name="queue">The queue to apply this action on</param>
-        public void Prev(OQueue queue) {
-            if (queue.IsAtFirstItem)
-                queue.Index = 0;
-            else
-                queue.GoPrev();
+        public void Next() {
+            if (Queue != null)
+                Queue.GoNext();
         }
 
 
         /// <summary>
-        /// Skip to the previous item in the current queue
+        /// Called when the contents of the current Queue are changed
         /// </summary>
-        /// <param name="queue">The queue to apply this action on</param>
-        public void Next(OQueue queue) {
-            queue.GoNext();
+        void QueueItemsUpdated(Queue queue) {
+            BroadcastQueue(queue);
         }
+
+
+        /// <summary>
+        /// Called when the index of the current Queue is changed
+        /// </summary>
+        /// <param name="queue"></param>
+        void QueueIndexChanged(Queue queue) {
+            BroadcastQueue(queue);
+
+            if (queue.Current != null)
+                Play(queue.Current.Item);
+            else
+                ClearPlayer();
+        }
+
+
+        #endregion
+
+
+
+        #region Playback
+
 
 
         /// <summary>
         /// Pause the playback of the current item in the queue
         /// </summary>
-        /// <param name="queue">The queue to apply this action on</param>
-        public void Pause(OQueue queue) {
-            if (queue.CurrentPlayer != null)
-                queue.CurrentPlayer.Pause();
+        public void Pause() {
+            if (Player != null)
+                Player.Pause();
         }
 
 
         /// <summary>
         /// Resume the playback of the current item in the queue
         /// </summary>
-        /// <param name="queue">The queue to apply this action on</param>
-        public void Play(OQueue queue) {
-            if (queue.CurrentPlayer != null)
-                queue.CurrentPlayer.Play();
+        public void Play() {
+            if (Player != null)
+                Player.Play();
+        }
+
+
+        /// <summary>
+        /// Starts playback
+        /// </summary>
+        /// <param name="item">The item to play</param>
+        void Play(IItem item) {
+
+            // Get the player for the item
+            var newPlayer = GetPlayerForItem(item);
+
+            // None found
+            if (newPlayer == null) {
+                Log("No player found for item with type " + item.GetType().ToString(), Logger.LogLevel.Error);
+                return;
+            }
+
+            // If we have a new player, set it up
+            if (Player == null && newPlayer != Player) {
+                ClearPlayer();
+                Player = newPlayer;
+                Player.PlaybackFinished += Player_PlaybackFinished;
+            }
+
+            // Play the item
+            Player.Play(item);
+        }
+
+
+        /// <summary>
+        /// Clears the current player
+        /// </summary>
+        void ClearPlayer() {
+            if (Player != null) {
+                Player.Stop();
+                Player.PlaybackFinished -= Player_PlaybackFinished;
+                Player = null;
+            }
+        }
+
+
+        /// <summary>
+        /// Called when the current Player has finished playback of an item
+        /// </summary>
+        /// <param name="player">The player that was playing</param>
+        /// <param name="item">The item that was playing</param>
+        void Player_PlaybackFinished(IPlayer player, IItem item) {
+            Queue.GoNext();
         }
 
 
@@ -706,111 +740,10 @@ namespace Touchee {
             return PluginManager.GetComponent<IPlayer>().FirstOrDefault(p => p.CanPlay(item));
         }
 
-
-        /// <summary>
-        /// Called when the index of the current queue is changed. Starts playing the next track
-        /// </summary>
-        /// <param name="queue">The queue whos index has changed</param>
-        /// <param name="previous">The previous item that was played</param>
-        /// <param name="current">The item that is about the be played</param>
-        void queue_IndexChanged(OQueue queue, IItem previous, IItem current) {
-
-            // If we have a different type to play, start the correct player and stop colliding players
-            if (previous == null || previous.GetType() != current.GetType()) {
-
-                // Get the player for the current item
-                var newPlayer = GetPlayerForItem(current);
-
-                // None found
-                if (newPlayer == null) {
-                    Log("No player found for item with type " + current.GetType().ToString(), Logger.LogLevel.Error);
-                    StopQueue(queue);
-                    return;
-                }
-
-                // Stop queues and players that collide with the new one
-                var queues = OQueue.Where(q => q != queue).ToList();
-                foreach (var q in queues) {
-                    if (q.CurrentPlayer is IAudioPlayer && newPlayer is IAudioPlayer)
-                        StopQueue(q);
-                    else if (q.CurrentPlayer is IVisualPlayer && newPlayer is IVisualPlayer)
-                        StopQueue(q);
-                }
-
-                // If we are using an other player, stop the old one and set the necessary callbacks
-                if (newPlayer != queue.CurrentPlayer) {
-                    StopPlayer(queue.CurrentPlayer);
-                    newPlayer.PlaybackFinished += player_PlaybackFinished;
-                    queue.CurrentPlayer = newPlayer;
-                }
-
-            }
-
-            // Play the current item
-            queue.CurrentPlayer.Play(current);
-        }
-
-
-        /// <summary>
-        /// Nicely stops a queue and the player it has
-        /// </summary>
-        /// <param name="queue">The queue to stop</param>
-        void StopQueue(OQueue queue) {
-            StopPlayer(queue.CurrentPlayer);
-            queue.CurrentPlayer = null;
-            queue.IndexChanged -= queue_IndexChanged;
-            queue.ItemsUpdated -= queue_ItemsUpdated;
-            queue.Finished -= queue_Finished;
-            queue.Dispose();
-        }
-
-
-        /// <summary>
-        /// Nicely stops a player
-        /// </summary>
-        /// <param name="player">The player to stop</param>
-        void StopPlayer(IPlayer player) {
-            if (player != null) {
-                player.Stop();
-                player.PlaybackFinished -= player_PlaybackFinished;
-            }
-        }
-
-
-        /// <summary>
-        /// Called when the playback of an item has finished
-        /// </summary>
-        /// <param name="player">The player who was playing the item</param>
-        /// <param name="item">The item that has finished</param>
-        void player_PlaybackFinished(IPlayer player, IItem item) {
-            var queue = OQueue.FirstOrDefault(q => q.CurrentPlayer == player);
-            if (queue != null)
-                queue.GoNext();
-            else
-                StopPlayer(player);
-        }
+        #endregion
 
         
-        /// <summary>
-        /// Called when the contents of a queue has changed
-        /// </summary>
-        /// <param name="queue">The queue whos contents have changed</param>
-        void queue_ItemsUpdated(OQueue queue) {
-            
-        }
 
-
-        /// <summary>
-        /// Called when a queue is done
-        /// </summary>
-        /// <param name="queue">The corresponding queue</param>
-        void queue_Finished(OQueue queue) {
-            StopQueue(queue);
-        }
-
-
-
-        #endregion
 
     }
 

@@ -210,7 +210,7 @@ namespace Music.Media {
                 .Where(t => t.Album == track.Album && (t.AlbumArtist ?? t.Artist) == (track.AlbumArtist ?? track.Artist))
                 .OrderBy(t => t.DiscNumber)
                 .ThenBy(t => t.TrackNumber)
-                .ThenBy(t => t.TitleSort);
+                .ThenByOrdinal(t => t.TitleSort);
         }
 
 

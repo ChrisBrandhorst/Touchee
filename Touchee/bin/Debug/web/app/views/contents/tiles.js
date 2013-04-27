@@ -388,7 +388,7 @@ define([
         // Calculate the height of the details
         height:           $details.outerHeight(),
         // Calculate the top of the new details
-        top:              onSameRow ? existing.top : elTop + $el.outerHeight(true) - $el.css('margin-top').numberValue()
+        top:              onSameRow ? existing.top : elTop + this.calculated.size.height - this.calculated.size.zoom.margin.top
       });
 
       // If the new details is on the same row, we should replace the content
@@ -480,9 +480,12 @@ define([
 
       // Check if details fit in view
       if (props.top + height > this.scroller.scrollTop + this.scroller.clientHeight - 10)
-        scrollTop = Math.min(props.top - this.calculated.size.zoom.margin.top, props.top + height - this.scroller.clientHeight + 10);
-      else if (props.top - this.calculated.size.zoom.margin.top < this.scroller.scrollTop)
-        scrollTop = props.top - this.calculated.size.zoom.margin.top;
+        scrollTop = Math.min(
+          props.top - this.calculated.size.height,
+          props.top + height - this.scroller.clientHeight + 10
+        );
+      else if (props.top - this.calculated.size.height < this.scroller.scrollTop)
+        scrollTop = props.top - this.calculated.size.height;
 
       // Set scroll top
       if (_.isNumber(scrollTop)) {

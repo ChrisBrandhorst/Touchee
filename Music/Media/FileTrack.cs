@@ -12,7 +12,7 @@ namespace Music.Media {
     /// <summary>
     /// Track from a file
     /// </summary>
-    public class FileTrack : Track {
+    public class FileTrack : Track, IFileTrack {
 
 
         #region Statics
@@ -67,7 +67,7 @@ namespace Music.Media {
                 tagFile = TagLib.File.Create(file.FullName);
                 tag = tagFile.Tag;
             }
-            catch (Exception e) {
+            catch (Exception) {
                 Log("Could not parse tags for file " + file.FullName);
             }
 
@@ -138,7 +138,7 @@ namespace Music.Media {
                     tagFile = TagLib.File.Create(this.Uri.LocalPath);
                     tag = tagFile.Tag;
                 }
-                catch (Exception e) {
+                catch (Exception) {
                     Log("Could not parse tags for file " + this.Uri.LocalPath);
                 }
 

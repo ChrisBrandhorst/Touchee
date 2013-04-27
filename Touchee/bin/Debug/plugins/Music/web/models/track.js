@@ -28,10 +28,11 @@ define([
       duration:         function() { return String.duration(this.attributes.duration); },
       albumSelector:    function() { return this.getAlbumSelector(); },
       albumArtist:      function() { return this.attributes.albumArtist || this.attributes.artist; },
-      albumArtistSort:  function() { return this.attributes.albumArtist ? this.attributes.albumArtistSort : this.attributes.artistSort; }
+      albumArtistSort:  function() { return this.attributes.albumArtist ? this.attributes.albumArtistSort : this.attributes.artistSort; },
+      displayLine1:     'title$',
+      displayLine2:     function() { return this.get('artist$') + " &mdash; " + this.get('album$'); }
     }
-    
-    
+
   });
 
   return Track;

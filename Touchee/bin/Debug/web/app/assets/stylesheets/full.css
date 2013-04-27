@@ -1459,7 +1459,7 @@ body > section:not(.popup) {
   z-index: 4;
 }
 
-/* line 27, ../sass/full/browser/_header.sass */
+/* line 29, ../sass/full/browser/_header.sass */
 #browser > header {
   display: -webkit-box;
   display: -moz-box;
@@ -1471,11 +1471,11 @@ body > section:not(.popup) {
   -moz-box-shadow: 0 0 6px rgba(0, 0, 0, 0.18);
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.18);
 }
-/* line 31, ../sass/full/browser/_header.sass */
+/* line 33, ../sass/full/browser/_header.sass */
 #browser > header > * {
   display: block;
 }
-/* line 42, ../sass/full/browser/_header.sass */
+/* line 44, ../sass/full/browser/_header.sass */
 #browser > header > button {
   height: 61px;
   width: 66px;
@@ -1528,11 +1528,11 @@ body > section:not(.popup) {
 #browser > header > button[data-button=pause]:active:not([disabled]) {
   background-image: -webkit-image-set(url(../images/remote/ChromepausePressed.png) 1x, url(../images/remote/ChromepausePressed@2x.png) 2x);
 }
-/* line 49, ../sass/full/browser/_header.sass */
+/* line 51, ../sass/full/browser/_header.sass */
 #browser > header > button[data-button=pause] {
   display: none;
 }
-/* line 53, ../sass/full/browser/_header.sass */
+/* line 55, ../sass/full/browser/_header.sass */
 #browser > header #lcd {
   display: -webkit-box;
   display: -moz-box;
@@ -1547,27 +1547,11 @@ body > section:not(.popup) {
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDGlassLandscape.png) 1x, url(../images/remote/LCDGlassLandscape@2x.png) 2x) 10 10 10 10 stretch;
   border-width: 10px 10px 10px 10px;
 }
-/* line 59, ../sass/full/browser/_header.sass */
+/* line 61, ../sass/full/browser/_header.sass */
 #browser > header #lcd > * {
   display: block;
 }
-/* line 64, ../sass/full/browser/_header.sass */
-#browser > header #lcd.disabled::before {
-  content: "";
-  display: block;
-  height: 32px;
-  width: 26px;
-  position: absolute;
-  left: 50%;
-  top: 4px;
-  margin-left: -13px;
-  background-image: -webkit-image-set(url(../images/remote/LCDAppleLogo.png) 1x, url(../images/remote/LCDAppleLogo@2x.png) 2x);
-}
-/* line 74, ../sass/full/browser/_header.sass */
-#browser > header #lcd.disabled > * {
-  display: none !important;
-}
-/* line 78, ../sass/full/browser/_header.sass */
+/* line 65, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_artwork {
   width: 40px;
   height: 40px;
@@ -1582,7 +1566,7 @@ body > section:not(.popup) {
   box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.4);
   background-image: url(../images/remote/missing-music-artwork.png);
 }
-/* line 87, ../sass/full/browser/_header.sass */
+/* line 74, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_artwork:active::before {
   display: block;
   content: "";
@@ -1592,7 +1576,7 @@ body > section:not(.popup) {
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 94, ../sass/full/browser/_header.sass */
+/* line 81, ../sass/full/browser/_header.sass */
 #browser > header #lcd > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -1600,26 +1584,26 @@ body > section:not(.popup) {
   box-flex: 1;
   margin-top: -1px;
 }
-/* line 97, ../sass/full/browser/_header.sass */
+/* line 84, ../sass/full/browser/_header.sass */
 #browser > header #lcd > div > span {
   display: block;
   text-align: center;
   padding: 0 7px;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
-/* line 102, ../sass/full/browser/_header.sass */
+/* line 89, ../sass/full/browser/_header.sass */
 #browser > header #lcd > div > div {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
 }
-/* line 104, ../sass/full/browser/_header.sass */
+/* line 91, ../sass/full/browser/_header.sass */
 #browser > header #lcd > div > div > * {
   display: block;
 }
-/* line 108, ../sass/full/browser/_header.sass */
-#browser > header #lcd #lcd_title {
+/* line 95, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_line1 {
   font-weight: bold;
   padding-bottom: 4px;
   height: 17px;
@@ -1627,8 +1611,8 @@ body > section:not(.popup) {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 113, ../sass/full/browser/_header.sass */
-#browser > header #lcd #lcd_container {
+/* line 100, ../sass/full/browser/_header.sass */
+#browser > header #lcd #lcd_line2 {
   font-size: 85%;
   height: 11px;
   overflow: hidden;
@@ -1661,7 +1645,7 @@ body > section:not(.popup) {
 #browser > header #lcd [data-button=queue].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDqueueOnDisabled.png) 1x, url(../images/remote/LCDqueueOnDisabled@2x.png) 2x);
 }
-/* line 120, ../sass/full/browser/_header.sass */
+/* line 107, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue] {
   margin: -1px 5px 0 0;
 }
@@ -1691,7 +1675,7 @@ body > section:not(.popup) {
 #browser > header #lcd [data-button=shuffle].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDshuffleOnDisabled.png) 1x, url(../images/remote/LCDshuffleOnDisabled@2x.png) 2x);
 }
-/* line 123, ../sass/full/browser/_header.sass */
+/* line 110, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=shuffle] {
   margin: -7px 2px 0 0;
 }
@@ -1721,58 +1705,58 @@ body > section:not(.popup) {
 #browser > header #lcd [data-button=repeat].on[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDrepeatOnDisabled.png) 1x, url(../images/remote/LCDrepeatOnDisabled@2x.png) 2x);
 }
-/* line 126, ../sass/full/browser/_header.sass */
+/* line 113, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat] {
   margin: -7px 0 0 5px;
 }
-/* line 128, ../sass/full/browser/_header.sass */
+/* line 115, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1On.png) 1x, url(../images/remote/LCDRepeat1On@2x.png) 2x);
 }
-/* line 130, ../sass/full/browser/_header.sass */
+/* line 117, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one:active {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnPressed.png) 1x, url(../images/remote/LCDRepeat1OnPressed@2x.png) 2x);
 }
-/* line 132, ../sass/full/browser/_header.sass */
+/* line 119, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=repeat].one[disabled] {
   background-image: -webkit-image-set(url(../images/remote/LCDRepeat1OnDisabled.png) 1x, url(../images/remote/LCDRepeat1OnDisabled@2x.png) 2x);
 }
-/* line 136, ../sass/full/browser/_header.sass */
+/* line 123, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_current,
 #browser > header #lcd #lcd_position_duration {
-  font-size: 80%;
+  font-size: 85%;
   margin-top: 4px;
   white-space: nowrap;
 }
-/* line 141, ../sass/full/browser/_header.sass */
+/* line 128, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_current {
   margin-right: 4px;
   margin-left: 3px;
 }
-/* line 144, ../sass/full/browser/_header.sass */
+/* line 131, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position_duration {
   margin-right: 1px;
   margin-left: 5px;
 }
-/* line 149, ../sass/full/browser/_header.sass */
+/* line 136, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
   height: 8px;
-  margin-top: 7px;
+  margin-top: 6px;
   position: relative;
   overflow: visible;
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrackEmpty.png) 1x, url(../images/remote/LCDTrackEmpty@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 156, ../sass/full/browser/_header.sass */
+/* line 143, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position:not(.ui-slider-disabled) {
   -webkit-border-image: -webkit-image-set(url(../images/remote/LCDTrack.png) 1x, url(../images/remote/LCDTrack@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 160, ../sass/full/browser/_header.sass */
+/* line 147, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position > div {
   height: 100%;
   margin-left: -4px;
@@ -1783,7 +1767,7 @@ body > section:not(.popup) {
   border-width: 0px 4px 0px 4px;
   border-right-width: 0px;
 }
-/* line 168, ../sass/full/browser/_header.sass */
+/* line 155, ../sass/full/browser/_header.sass */
 #browser > header #lcd #lcd_position > a {
   position: absolute;
   height: 11px;
@@ -1792,7 +1776,7 @@ body > section:not(.popup) {
   margin: -2px 0 0 -4px;
   background-image: -webkit-image-set(url(../images/remote/LCDTrackThumb.png) 1x, url(../images/remote/LCDTrackThumb@2x.png) 2x);
 }
-/* line 177, ../sass/full/browser/_header.sass */
+/* line 164, ../sass/full/browser/_header.sass */
 #browser > header #output {
   width: 198px;
   display: -webkit-box;
@@ -1801,31 +1785,31 @@ body > section:not(.popup) {
   display: box;
   padding-right: 20px;
 }
-/* line 183, ../sass/full/browser/_header.sass */
+/* line 170, ../sass/full/browser/_header.sass */
 #browser > header #output #volume {
   width: 178px;
   height: 21px;
   margin-top: 20px;
   position: relative;
   overflow: visible;
-  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackEmpty.png) 1x, url(../images/remote/VolumeTrackEmpty@2x.png) 2x) 0 11 0 11 stretch;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackEmpty.png) 1x, url(../images/remote/VolumeTrackEmpty@2x.png) 2x) 0 11 0 11 repeat;
   border-width: 0px 11px 0px 11px;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 193, ../sass/full/browser/_header.sass */
+/* line 180, ../sass/full/browser/_header.sass */
 #browser > header #output #volume > div {
   height: 100%;
   margin-left: -11px;
   -webkit-box-sizing: content-box;
   -moz-box-sizing: content-box;
   box-sizing: content-box;
-  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackFilled.png) 1x, url(../images/remote/VolumeTrackFilled@2x.png) 2x) 0 11 0 11 stretch;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackFilled.png) 1x, url(../images/remote/VolumeTrackFilled@2x.png) 2x) 0 11 0 11 repeat;
   border-width: 0px 11px 0px 11px;
 }
-/* line 200, ../sass/full/browser/_header.sass */
+/* line 187, ../sass/full/browser/_header.sass */
 #browser > header #output #volume > a {
   position: absolute;
   height: 32px;
@@ -1834,11 +1818,11 @@ body > section:not(.popup) {
   margin: -5px 0 0 -16px;
   background-image: -webkit-image-set(url(../images/remote/VolumeKnob.png) 1x, url(../images/remote/VolumeKnob@2x.png) 2x);
 }
-/* line 207, ../sass/full/browser/_header.sass */
+/* line 194, ../sass/full/browser/_header.sass */
 #browser > header #output #volume > a:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeKnobPressed.png) 1x, url(../images/remote/VolumeKnobPressed@2x.png) 2x);
 }
-/* line 212, ../sass/full/browser/_header.sass */
+/* line 199, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay] {
   display: none;
   height: 47px;
@@ -1848,33 +1832,65 @@ body > section:not(.popup) {
   background-position: right center;
   background-repeat: no-repeat;
 }
-/* line 221, ../sass/full/browser/_header.sass */
+/* line 208, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay]:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressed.png) 1x, url(../images/remote/VolumeAirPlayPressed@2x.png) 2x);
 }
-/* line 223, ../sass/full/browser/_header.sass */
+/* line 210, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayOn.png) 1x, url(../images/remote/VolumeAirPlayOn@2x.png) 2x);
 }
-/* line 225, ../sass/full/browser/_header.sass */
+/* line 212, ../sass/full/browser/_header.sass */
 #browser > header #output [data-button=airplay].on:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
 }
-/* line 229, ../sass/full/browser/_header.sass */
-#browser > header #output.disabled > * {
-  display: none;
-}
-/* line 233, ../sass/full/browser/_header.sass */
+/* line 216, ../sass/full/browser/_header.sass */
 #browser > header #output.airplay {
   padding-right: 0;
 }
-/* line 235, ../sass/full/browser/_header.sass */
+/* line 218, ../sass/full/browser/_header.sass */
 #browser > header #output.airplay > [data-button=airplay] {
   display: block;
 }
+/* line 224, ../sass/full/browser/_header.sass */
+#browser.disconnected > header [data-button=play], #browser > header.not_playing [data-button=play] {
+  display: block !important;
+}
+/* line 226, ../sass/full/browser/_header.sass */
+#browser.disconnected > header [data-button=pause], #browser > header.not_playing [data-button=pause] {
+  display: none !important;
+}
+/* line 230, ../sass/full/browser/_header.sass */
+#browser.disconnected > header #lcd::before, #browser > header.not_playing #lcd::before {
+  content: "";
+  display: block;
+  height: 32px;
+  width: 26px;
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  margin-left: -13px;
+  background-image: -webkit-image-set(url(../images/remote/LCDAppleLogo.png) 1x, url(../images/remote/LCDAppleLogo@2x.png) 2x);
+}
+/* line 243, ../sass/full/browser/_header.sass */
+#browser.disconnected > header #lcd > * {
+  display: none !important;
+}
+/* line 245, ../sass/full/browser/_header.sass */
+#browser.disconnected > header #output > * {
+  display: none;
+}
+/* line 250, ../sass/full/browser/_header.sass */
+#browser > header.not_playing #lcd > *:not([data-button=queue]) {
+  -webkit-transform: translateY(-1000px);
+  -moz-transform: translateY(-1000px);
+  -ms-transform: translateY(-1000px);
+  -o-transform: translateY(-1000px);
+  transform: translateY(-1000px);
+}
 
 @media screen and (max-width: 900px) {
-  /* line 242, ../sass/full/browser/_header.sass */
+  /* line 260, ../sass/full/browser/_header.sass */
   #browser > header #lcd [data-button=queue] {
     margin-right: -3px;
   }

@@ -30,7 +30,7 @@ define([
     
     // A track  was selected
     selected: function(track, idx, $row) {
-      Touchee.Queue.reset(this.model, {start:idx});
+      Touchee.Queue.resetAndPlay(this.model, {start:idx});
     },
 
 

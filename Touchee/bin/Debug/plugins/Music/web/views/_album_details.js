@@ -81,7 +81,7 @@ define([
 
       // Enqueue
       var idx = this.$('li').get().indexOf($li[0]);
-      Touchee.Queue.reset(this.model, {start:idx});
+      Touchee.Queue.resetAndPlay(this.model, {start:idx});
     }
     
     

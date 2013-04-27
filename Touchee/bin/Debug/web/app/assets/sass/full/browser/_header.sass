@@ -24,43 +24,209 @@
         @include  background-img(LCD#{$name}OnDisabled, remote retina)
 
 
-#browser > header
-  
-  // All items next to each other
-  @include  display-box
-  > *
-    display: block
-  padding: 0 12px 0 14px
-  
-  // Background
-  @include  background-img(ChromeTop, remote retina)
-  
-  // Tiny shade
-  @include  box-shadow(0 0 6px rgba(0,0,0,.18))
-  
-  // Transport buttons
-  > button
-    height: 61px
-    width:  66px
-    @include transportButton(prev)
-    @include transportButton(next)
-    @include transportButton(play)
-    @include transportButton(pause)
-    &[data-button=pause]
-      display:  none
-  
-  // LCD
-  #lcd
-    @include  display-box
-    @include  box-flex(1)
-    position: relative
-    margin:   0 15px 0 13px
-    @include  border-img(LCDGlassLandscape, 10 10 10 10, retina remote)
-    > *
-      display:  block
+#browser
+
+  > header
     
-    // If disabled, add the apple icon
-    &.disabled
+    // All items next to each other
+    @include  display-box
+    > *
+      display: block
+    padding: 0 12px 0 14px
+    
+    // Background
+    @include  background-img(ChromeTop, remote retina)
+    
+    // Tiny shade
+    @include  box-shadow(0 0 6px rgba(0,0,0,.18))
+    
+    // Transport buttons
+    > button
+      height: 61px
+      width:  66px
+      @include transportButton(prev)
+      @include transportButton(next)
+      @include transportButton(play)
+      @include transportButton(pause)
+      &[data-button=pause]
+        display:  none
+    
+    // LCD
+    #lcd
+      @include  display-box
+      @include  box-flex(1)
+      position: relative
+      margin:   0 15px 0 13px
+      @include  border-img(LCDGlassLandscape, 10 10 10 10, retina remote)
+      > *
+        display:  block
+      
+      // Artwork preview
+      #lcd_artwork
+        width:                40px
+        height:               40px
+        @include              display-box
+        background-size:      contain
+        background-position:  center center
+        @include              box-shadow(0 0 3px 0 rgba(0,0,0,.4))
+        background-image:     url(../images/remote/missing-music-artwork.png)
+        &:active
+          &::before
+            display:    block
+            content:    ''
+            background: rgba(0,0,0,.3)
+            @include    box-flex(1)
+        
+      // Flexible center
+      > div
+        @include    box-flex(1)
+        margin-top: -1px
+        > span
+          display:    block
+          text-align: center
+          padding:    0 7px
+          text-shadow:  0 1px 0 rgba(255,255,255,.5)
+        > div
+          @include  display-box
+          > *
+            display: block
+      
+      // Text fields
+      #lcd_line1
+        font-weight:    bold
+        padding-bottom: 4px
+        height:         17px
+        @include        ellipsis
+      #lcd_line2
+        font-size:    85%
+        height:       11px
+        @include      ellipsis
+      
+      // LCD Buttons
+      @include lcdButton(queue, 42)
+      [data-button=queue]
+        margin: -1px 5px 0 0
+      @include lcdButton(shuffle, 31)
+      [data-button=shuffle]
+        margin: -7px 2px 0 0
+      @include lcdButton(repeat, 31)
+      [data-button=repeat]
+        margin: -7px 0 0 5px
+        &.one
+          @include  background-img(LCDRepeat1On, remote retina)
+          &:active
+            @include  background-img(LCDRepeat1OnPressed, remote retina)
+          &[disabled]
+            @include  background-img(LCDRepeat1OnDisabled, remote retina)
+      
+      // Time fields
+      #lcd_position_current,
+      #lcd_position_duration
+        font-size:    85%
+        margin-top:   4px
+        white-space:  nowrap
+      #lcd_position_current
+        margin-right: 4px
+        margin-left:  3px
+      #lcd_position_duration
+        margin-right: 1px
+        margin-left:  5px
+      
+      // Position slider
+      #lcd_position
+        @include    box-flex(1)
+        height:     8px
+        margin-top: 6px
+        position:   relative
+        overflow:   visible
+        @include    border-img(LCDTrackEmpty, 0 4 0 4, retina remote)
+        &:not(.ui-slider-disabled)
+          @include    border-img(LCDTrack, 0 4 0 4, retina remote)
+          
+        // Volume slider range
+        > div
+          height:       100%
+          margin-left:  -4px
+          @include      box-sizing(content-box)
+          @include      border-img(LCDTrackFilled, 0 4 0 4, retina remote)
+          border-right-width: 0px
+        
+        // Volume knob
+        > a
+          position: absolute
+          height:   11px
+          width:    11px
+          top:      0
+          margin:   -2px 0 0 -4px
+          @include  background-img(LCDTrackThumb, remote retina)
+      
+    // Output options
+    #output
+      width:      198px
+      @include    display-box
+      padding-right: 20px
+      
+      // Volume slider
+      #volume
+        width:      178px
+        height:     21px
+        margin-top: 20px
+        position:   relative
+        overflow:   visible
+        @include    border-img(VolumeTrackEmpty, 0 11 0 11, retina remote, repeat)
+        @include    box-flex(1)
+        
+        // Volume slider range
+        > div
+          height:       100%
+          margin-left:  -11px
+          @include      box-sizing(content-box)
+          @include      border-img(VolumeTrackFilled, 0 11 0 11, retina remote, repeat)
+        
+        // Volume knob
+        > a
+          position: absolute
+          height:   32px
+          width:    32px
+          top:      0
+          margin:   -5px 0 0 -16px
+          @include  background-img(VolumeKnob, remote retina)
+          &:active
+            @include  background-img(VolumeKnobPressed, remote retina)
+      
+      
+      // Airplay button
+      [data-button=airplay]
+        display:              none
+        height:               47px
+        width:                47px
+        margin:               6px 0 0 -11px
+        @include              background-img(VolumeAirPlay, remote retina)
+        background-position:  right center
+        background-repeat:    no-repeat
+        
+        &:active
+          @include  background-img(VolumeAirPlayPressed, remote retina)
+        &.on
+          @include  background-img(VolumeAirPlayOn, remote retina)
+          &:active
+            @include  background-img(VolumeAirPlayPressedOn, remote retina)
+      
+      // If we have airplay class, show the button
+      &.airplay
+        padding-right:  0
+        > [data-button=airplay]
+          display:  block
+
+  // When not connected or not playing
+  &.disconnected > header, > header.not_playing
+    // Show play, hide pause
+    [data-button=play]
+      display:  block !important
+    [data-button=pause]
+      display:  none !important
+    // Show apple icon
+    #lcd
       &::before
         content:      ''
         display:      block
@@ -71,170 +237,22 @@
         top:          4px
         margin-left:  -13px
         @include      background-img(LCDAppleLogo, remote retina)
-      > *
-        display:  none !important
-    
-    // Artwork preview
-    #lcd_artwork
-      width:                40px
-      height:               40px
-      @include              display-box
-      background-size:      contain
-      background-position:  center center
-      @include              box-shadow(0 0 3px 0 rgba(0,0,0,.4))
-      background-image:     url(../images/remote/missing-music-artwork.png)
-      &:active
-        &::before
-          display:    block
-          content:    ''
-          background: rgba(0,0,0,.3)
-          @include    box-flex(1)
-      
-    // Flexible center
-    > div
-      @include    box-flex(1)
-      margin-top: -1px
-      > span
-        display:    block
-        text-align: center
-        padding:    0 7px
-        text-shadow:  0 1px 0 rgba(255,255,255,.5)
-      > div
-        @include  display-box
-        > *
-          display: block
-    
-    // Text fields
-    #lcd_title
-      font-weight:    bold
-      padding-bottom: 4px
-      height:         17px
-      @include        ellipsis
-    #lcd_container
-      font-size:    85%
-      height:       11px
-      @include      ellipsis
-    
-    // LCD Buttons
-    @include lcdButton(queue, 42)
-    [data-button=queue]
-      margin: -1px 5px 0 0
-    @include lcdButton(shuffle, 31)
-    [data-button=shuffle]
-      margin: -7px 2px 0 0
-    @include lcdButton(repeat, 31)
-    [data-button=repeat]
-      margin: -7px 0 0 5px
-      &.one
-        @include  background-img(LCDRepeat1On, remote retina)
-        &:active
-          @include  background-img(LCDRepeat1OnPressed, remote retina)
-        &[disabled]
-          @include  background-img(LCDRepeat1OnDisabled, remote retina)
-    
-    // Time fields
-    #lcd_position_current,
-    #lcd_position_duration
-      font-size:    80%
-      margin-top:   4px
-      white-space:  nowrap
-    #lcd_position_current
-      margin-right: 4px
-      margin-left:  3px
-    #lcd_position_duration
-      margin-right: 1px
-      margin-left:  5px
-    
-    // Position slider
-    #lcd_position
-      @include    box-flex(1)
-      height:     8px
-      margin-top: 7px
-      position:   relative
-      overflow:   visible
-      @include    border-img(LCDTrackEmpty, 0 4 0 4, retina remote)
-      &:not(.ui-slider-disabled)
-        @include    border-img(LCDTrack, 0 4 0 4, retina remote)
-        
-      // Volume slider range
-      > div
-        height:       100%
-        margin-left:  -4px
-        @include      box-sizing(content-box)
-        @include      border-img(LCDTrackFilled, 0 4 0 4, retina remote)
-        border-right-width: 0px
-      
-      // Volume knob
-      > a
-        position: absolute
-        height:   11px
-        width:    11px
-        top:      0
-        margin:   -2px 0 0 -4px
-        @include  background-img(LCDTrackThumb, remote retina)
-    
-  // Output options
-  #output
-    width:      198px
-    @include    display-box
-    padding-right: 20px
-    
-    // Volume slider
-    #volume
-      width:      178px
-      height:     21px
-      margin-top: 20px
-      position:   relative
-      overflow:   visible
-      @include    border-img(VolumeTrackEmpty, 0 11 0 11, retina remote)
-      @include    box-flex(1)
-      
-      // Volume slider range
-      > div
-        height:       100%
-        margin-left:  -11px
-        @include      box-sizing(content-box)
-        @include      border-img(VolumeTrackFilled, 0 11 0 11, retina remote)
-      
-      // Volume knob
-      > a
-        position: absolute
-        height:   32px
-        width:    32px
-        top:      0
-        margin:   -5px 0 0 -16px
-        @include  background-img(VolumeKnob, remote retina)
-        &:active
-          @include  background-img(VolumeKnobPressed, remote retina)
-    
-    
-    // Airplay button
-    [data-button=airplay]
-      display:              none
-      height:               47px
-      width:                47px
-      margin:               6px 0 0 -11px
-      @include              background-img(VolumeAirPlay, remote retina)
-      background-position:  right center
-      background-repeat:    no-repeat
-      
-      &:active
-        @include  background-img(VolumeAirPlayPressed, remote retina)
-      &.on
-        @include  background-img(VolumeAirPlayOn, remote retina)
-        &:active
-          @include  background-img(VolumeAirPlayPressedOn, remote retina)
-    
-    // If disabled, hide all elements
-    &.disabled > *
-      display:  none
-    
-    // If we have airplay class, show the button
-    &.airplay
-      padding-right:  0
-      > [data-button=airplay]
-        display:  block
-    
+
+  // Hide contents of LCD and output area when not connected
+  &.disconnected > header
+    #lcd > *
+      display:  none !important
+    #output > *
+      display: none
+
+  // Hide almost all contents of LCD when not playing
+  > header.not_playing #lcd
+    > *:not([data-button=queue])
+      @include translateY(-1000px)
+
+
+
+
 // Portrait mode
 @media #{$portraitMedia}
   #browser > header

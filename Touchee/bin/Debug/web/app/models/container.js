@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'models/contents'
-], function($, _, Backbone, Contents){
+  'models/contents',
+  'models/item'
+], function($, _, Backbone, Contents, Item){
   
   var Container = Backbone.Model.extend({
     
@@ -13,15 +14,15 @@ define([
     
     
     // The model used for the items within the contents object
-    contentsItemModel:  null,
+    contentsItemModel:  Item,
     
     
     // The different views that are available for this container
-    views: [],
+    views:              [],
     
     
     // Whether this container has one single set of contents, regardless of params
-    singleContents:   true,
+    singleContents:     true,
     
     
     // Constructor
@@ -53,8 +54,8 @@ define([
       
       return contents;
     },
-
-
+    
+    
     // Called when the server notifies the client of the changing of the contents
     // VIRTUAL
     notifyContentsChanged: function() {

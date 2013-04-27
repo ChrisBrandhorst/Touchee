@@ -12,7 +12,7 @@ define([
     // An item was selected
     // VIRTUAL
     selected: function(item, idx, $row) {
-      Touchee.Queue.reset(this.model, {start:idx});
+      Touchee.Queue.resetAndPlay(this.model, {start:idx});
     },
 
 

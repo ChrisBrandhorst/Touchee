@@ -31,6 +31,7 @@ namespace BassNetPlayer {
         #endregion
 
 
+
         #region IPlayer implementation
 
         /// <summary>
@@ -111,6 +112,7 @@ namespace BassNetPlayer {
         #endregion
 
 
+
         #region IAudioPlayer implementation
 
 
@@ -130,6 +132,7 @@ namespace BassNetPlayer {
         #endregion
 
 
+
         #region Privates
 
         // Private holding the value for the LFEVolume property
@@ -145,6 +148,7 @@ namespace BassNetPlayer {
         SYNCPROC _channelEndCallback;
 
         #endregion
+
 
 
         #region Stream handling
@@ -260,6 +264,7 @@ namespace BassNetPlayer {
         #endregion
 
 
+
         #region Mix matrix stuff
 
 
@@ -302,6 +307,7 @@ namespace BassNetPlayer {
 
 
         #endregion
+
 
 
         #region Matrices
@@ -357,6 +363,7 @@ namespace BassNetPlayer {
         };
 
         #endregion
+
 
     }
 

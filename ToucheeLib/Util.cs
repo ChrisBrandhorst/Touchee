@@ -95,7 +95,6 @@ namespace Touchee {
                 sortName = Regex.Replace(sortName, @"[^a-z0-9]", "");
                 if (Regex.IsMatch(sortName, @"^\d"))
                     sortName = DecimalSortValue + sortName;
-                    //sortName = ((char)(Char.MaxValue - 1)).ToString() + sortName;
                 sortName = Regex.Replace(sortName, @"(\d+)", m =>
                     (
                         (char)(

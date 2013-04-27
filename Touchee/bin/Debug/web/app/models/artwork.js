@@ -163,7 +163,7 @@ define([
         });
         artwork.setSize(options.size || null, img.width, img.height, url);
         if (options.toCache)
-          _cache[item.id] = artwork;
+          _cache[item.url()] = artwork;
         if (options.success)
           options.success(artwork, url, img);
         if (options.colors && !artwork.colors)
@@ -175,7 +175,7 @@ define([
           exists:   false,
           queried:  true
         });
-        if (options.toCache) _cache[item.id] = artwork;
+        if (options.toCache) _cache[item.url()] = artwork;
         if (options.error) options.error();
       };
       img.onabort = options.error;
@@ -188,7 +188,7 @@ define([
     
     // Gets the artwork object for the given item from the cache
     fromCache: function(item) {
-      return _cache[item.id];
+      return _cache[item.url()];
     }
     
     

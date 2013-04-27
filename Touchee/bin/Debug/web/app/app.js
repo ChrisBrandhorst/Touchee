@@ -11,7 +11,7 @@ define([
   'models/queue',
   'models/collections/media',
 
-  'views/browser/index'
+  // 'views/browser/index'
 ], function($, _, Backbone,
             Communicator, Router, Library,
             ServerInfo, Queue, Media,
@@ -22,6 +22,9 @@ define([
     
     // Init the app
     initialize: function(options) {
+      
+      // Show browser
+      require(['views/browser/index']);
       
       // Set events on the communicator
       // Communicator.on('connecting', this.connecting, this);
@@ -144,6 +147,13 @@ define([
           }
         }
       }
+
+
+      // The queue has been changed
+      if (obj = response.queue) {
+        Touchee.Queue.reset( Touchee.Queue.parse(obj) );
+      }
+
 
 
       return;

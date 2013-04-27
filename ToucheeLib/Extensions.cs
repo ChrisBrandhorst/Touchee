@@ -14,6 +14,21 @@ namespace Touchee {
 
     public static class Extensions {
 
+
+        /// <summary>
+        /// Orders the collection by ordinal value
+        /// </summary>
+        public static IOrderedEnumerable<TSource> OrderByOrdinal<TSource>(this IEnumerable<TSource> source, Func<TSource, string> keySelector) {
+            return source.OrderBy(keySelector, StringComparer.Ordinal);
+        }
+        public static IOrderedEnumerable<TSource> ThenByOrdinal<TSource>(this IOrderedEnumerable<TSource> source, Func<TSource, string> keySelector) {
+            return source.ThenBy(keySelector, StringComparer.Ordinal);
+        }
+
+
+        /// <summary>
+        /// Removes all diacritics from the string by transforming them to their 'normal' chars
+        /// </summary>
         public static string StripDiacritics(this string input) {
             string normalized = (input ?? "").Normalize(NormalizationForm.FormKD);
             Encoding removal = Encoding.GetEncoding(Encoding.ASCII.CodePage,
@@ -23,18 +38,18 @@ namespace Touchee {
             return Encoding.ASCII.GetString(bytes);
         }
 
+
+        /// <summary>
+        /// Strips all common prefixes from the string
+        /// </summary>
         public static string StripPrefixes(this string input) {
             return Regex.Replace(input, @"^((the|de|een|a|radio)\s|[^\w]*)", "", RegexOptions.IgnoreCase);
         }
 
-        public static bool Matches(this string input, string query) {
-            return input.StripDiacritics().ToLower().Contains(query.ToLower());
-        }
 
-        public static bool Is(this string input, string query) {
-            return input.StripDiacritics().ToLower() == query.StripDiacritics().ToLower();
-        }
-
+        /// <summary>
+        /// Converts the string to underscore notation (this_is_an_example)
+        /// </summary>
         public static string ToUnderscore(this string input) {
             return Regex.Replace(
                 input,
@@ -44,6 +59,10 @@ namespace Touchee {
             ).Trim(' ', '_').ToLower();
         }
 
+
+        /// <summary>
+        /// Converts the string to camcelcase notation (ThisIsAnExample)
+        /// </summary>
         public static string ToCamelCase(this string input, bool firstCapital = true) {
             var camel = Regex.Replace(
                 input,
@@ -52,7 +71,22 @@ namespace Touchee {
             );
             return firstCapital ? camel : FirstToLower(camel);
         }
+        static string ToCamelCaseMatchEvaluator(Match m) {
+            return m.Captures[0].Value.Trim('_').ToUpper();
+        }
 
+
+        /// <summary>
+        /// Converts the string to title case (This Is An Example)
+        /// </summary>
+        public static string ToTitleCase(this string input) {
+            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
+        }
+
+
+        /// <summary>
+        /// Converts the first character of the string to lowercase
+        /// </summary>
         public static string FirstToLower(this string input) {
             if (String.IsNullOrEmpty(input)) return input;
             char[] arr = input.ToCharArray();
@@ -60,46 +94,18 @@ namespace Touchee {
             return new string(arr);
         }
 
-        public static string FirstToUpper(this string input) {
-            if (String.IsNullOrEmpty(input)) return input;
-            char[] arr = input.ToCharArray();
-            arr[0] = char.ToUpper(arr[0]);
-            return new string(arr);
-        }
 
-        static string ToCamelCaseMatchEvaluator(Match m) {
-            return m.Captures[0].Value.Trim('_').ToUpper();
-        }
-
+        /// <summary>
+        /// Returns whether the first character of the string is an alpha character (a-z)
+        /// </summary>
         public static bool FirstIsAlpha(this string input) {
             return Regex.IsMatch(input, "^[a-z]", RegexOptions.IgnoreCase);
         }
 
-        public static int CompareToCustom(this string one, string other) {
-            var oneIsNull = one == null;
-            var otherIsNull = other == null;
-            int c;
 
-            if (!oneIsNull && !otherIsNull) {
-                c = (!Util.FirstIsAlpha(one)).CompareTo(!Util.FirstIsAlpha(other));
-                if (c == 0)
-                    c = one.CompareTo(other);
-            }
-            else
-                c = oneIsNull ? 1 : -1;
-
-            return c;
-        }
-
-        public static string ToTitleCase(this string input) {
-            return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(input.ToLower());
-        }
-
-        public static bool HasMethod(this object objectToCheck, string methodName) {
-            var type = objectToCheck.GetType();
-            return type.GetMethod(methodName) != null;
-        }
-
+        /// <summary>
+        /// Returns the unix timestamp for the datetime object
+        /// </summary>
         public static double TimeStamp(this DateTime dateTime) {
             DateTime d1 = new DateTime(1970, 1, 1);
             DateTime d2 = dateTime.ToUniversalTime();
@@ -107,68 +113,30 @@ namespace Touchee {
             return ts.TotalMilliseconds;
         }
 
-        public static string ToStringShort(this TimeSpan timeSpan) {
-            return timeSpan.ToString(timeSpan.Hours > 0 ? @"%h\:mm\h" : @"%m\:ss");
-        }
 
         /// <summary>
-        /// Return unique Int64 value for input string
-        /// 
-        /// Author: Composition4
-        /// Source: http://www.codeproject.com/KB/library/String_To_64bit_Int.aspx
-        /// License: COPL
+        /// Shuffles a list
         /// </summary>
-        /// <param name="strText">Input string</param>
-        /// <returns>64-bits hash output</returns>
-        static SHA256CryptoServiceProvider _crypt = new SHA256CryptoServiceProvider();
-        public static string GetInt64HashCode(this string strText) {
-            Int64 hashCode = 0;
-            if (!string.IsNullOrEmpty(strText)) {
-                //Unicode Encode Covering all characterset
-                byte[] byteContents = Encoding.Unicode.GetBytes(strText);
-                byte[] hashText;
-                lock(_crypt)
-                    hashText = _crypt.ComputeHash(byteContents);
-                //32Byte hashText separate
-                //hashCodeStart = 0~7  8Byte
-                //hashCodeMedium = 8~23  8Byte
-                //hashCodeEnd = 24~31  8Byte
-                //and Fold
-                Int64 hashCodeStart = BitConverter.ToInt64(hashText, 0);
-                Int64 hashCodeMedium = BitConverter.ToInt64(hashText, 8);
-                Int64 hashCodeEnd = BitConverter.ToInt64(hashText, 24);
-                hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
+        public static void Shuffle<T>(this IList<T> list) {
+            var rng = new Random();
+            int n = list.Count;
+            while (n > 1) {
+                n--;
+                int k = rng.Next(n + 1);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
             }
-            return hashCode.ToString("x16");
         }
-
 
 
         /// <summary>
-        /// Checks if the given image is valid (i.e. can be written to a MemoryStream)
+        /// Resizes the given image
         /// </summary>
-        /// <param name="image">The image to check</param>
-        /// <returns>Boolean</returns>
-        public static bool IsValid(this Image image) {
-            using (var stream = new MemoryStream()) {
-                try {
-                    image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
-                }
-                catch (Exception) {
-                    return false;
-                }
-            }
-            return true;
-        }
-
-
-
-        public static string ToJSON(this Color color) {
-            return "[" + color.R + "," + color.G + "," + color.B + "]";
-        }
-
-
-
+        /// <param name="src">The image to resize</param>
+        /// <param name="bounds">The bounds to which the image must fit</param>
+        /// <param name="resizeMode">The resize mode to use</param>
+        /// <returns>A resized image</returns>
         public static Image Resize(this Image src, Size bounds, ResizeMode resizeMode = ResizeMode.Stretch) {
 
             int srcX, srcY, srcWidth, srcHeight;
@@ -249,6 +217,103 @@ namespace Touchee {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+        public static string FirstToUpper(this string input) {
+            if (String.IsNullOrEmpty(input)) return input;
+            char[] arr = input.ToCharArray();
+            arr[0] = char.ToUpper(arr[0]);
+            return new string(arr);
+        }
+
+        public static bool Matches(this string input, string query) {
+            return input.StripDiacritics().ToLower().Contains(query.ToLower());
+        }
+
+        public static bool Is(this string input, string query) {
+            return input.StripDiacritics().ToLower() == query.StripDiacritics().ToLower();
+        }
+
+        public static bool HasMethod(this object objectToCheck, string methodName) {
+            var type = objectToCheck.GetType();
+            return type.GetMethod(methodName) != null;
+        }
+
+        public static string ToStringShort(this TimeSpan timeSpan) {
+            return timeSpan.ToString(timeSpan.Hours > 0 ? @"%h\:mm\h" : @"%m\:ss");
+        }
+
+        /// <summary>
+        /// Return unique Int64 value for input string
+        /// 
+        /// Author: Composition4
+        /// Source: http://www.codeproject.com/KB/library/String_To_64bit_Int.aspx
+        /// License: COPL
+        /// </summary>
+        /// <param name="strText">Input string</param>
+        /// <returns>64-bits hash output</returns>
+        static SHA256CryptoServiceProvider _crypt = new SHA256CryptoServiceProvider();
+        public static string GetInt64HashCode(this string strText) {
+            Int64 hashCode = 0;
+            if (!string.IsNullOrEmpty(strText)) {
+                //Unicode Encode Covering all characterset
+                byte[] byteContents = Encoding.Unicode.GetBytes(strText);
+                byte[] hashText;
+                lock(_crypt)
+                    hashText = _crypt.ComputeHash(byteContents);
+                //32Byte hashText separate
+                //hashCodeStart = 0~7  8Byte
+                //hashCodeMedium = 8~23  8Byte
+                //hashCodeEnd = 24~31  8Byte
+                //and Fold
+                Int64 hashCodeStart = BitConverter.ToInt64(hashText, 0);
+                Int64 hashCodeMedium = BitConverter.ToInt64(hashText, 8);
+                Int64 hashCodeEnd = BitConverter.ToInt64(hashText, 24);
+                hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
+            }
+            return hashCode.ToString("x16");
+        }
+
+
+
+        /// <summary>
+        /// Checks if the given image is valid (i.e. can be written to a MemoryStream)
+        /// </summary>
+        /// <param name="image">The image to check</param>
+        /// <returns>Boolean</returns>
+        public static bool IsValid(this Image image) {
+            using (var stream = new MemoryStream()) {
+                try {
+                    image.Save(stream, System.Drawing.Imaging.ImageFormat.Png);
+                }
+                catch (Exception) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+
+        public static string ToJSON(this Color color) {
+            return "[" + color.R + "," + color.G + "," + color.B + "]";
+        }
+
+
+
+
+
+
+
         public static string ToBase64(this Image src) {
             using (MemoryStream ms = new MemoryStream()) {
                 // Convert Image to byte[]
@@ -267,22 +332,6 @@ namespace Touchee {
         //public static string[] GetSegments(this Uri uri, bool withSlashes = false) {
         //    return withSlashes ? uri.Segments : uri.Segments.Where(s => s != "/").Select(s => s.TrimEnd(new char[] { '/' })).ToArray();
         //}
-
-
-        /// <summary>
-        /// Shuffles a list
-        /// </summary>
-        public static void Shuffle<T>(this IList<T> list) {
-            var rng = new Random();
-            int n = list.Count;
-            while (n > 1) {
-                n--;
-                int k = rng.Next(n + 1);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
-            }
-        }
 
 
     }

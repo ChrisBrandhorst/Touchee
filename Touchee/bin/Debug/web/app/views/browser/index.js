@@ -6,12 +6,13 @@ define([
   'models/server_info',
   'models/status',
   'views/media/popup',
+  'views/browser/_header',
   'views/browser/_views',
   'i18n!nls/locale',
   'text!views/browser/index.html'
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
-            MediaPopupView, BrowserViewsView,
+            MediaPopupView, BrowserHeaderView, BrowserViewsView,
             I18n,
             browserTemplate) {
   
@@ -24,7 +25,6 @@ define([
     // Backbone view options
     tagName:    'section',
     id:         "browser",
-    className:  '',
     
     
     // Events
@@ -58,29 +58,13 @@ define([
     render: _.once(function() {
       
       // Set HTML
-      this.$el.html( browserTemplate() );
-      if (!this.el.parentNode)
-        this.$el.hide().appendTo(document.body);
-      
-      // Set sliders
-      this.$volume = this.$('#volume').slider({
-        range:    'min',
-        min:      0,
-        max:      100,
-        disabled: true
-      });
-      this.$lcd_position = this.$('#lcd_position').slider({
-        range:    'min',
-        min:      0,
-        max:      100
-      });
+      this.$el
+        .html( browserTemplate() )
+        .hide()
+        .appendTo(document.body);
       
       // Collect elements
-      var buttons = this.buttons = {};
-      this.$('[data-button]').each(function(){
-        var name = this.getAttribute('data-button');
-        buttons['$' + name] = $(this);
-      });
+      this.$nav = this.$('[data-button=nav]');
       this.$lcd = this.$('#lcd');
       this.$search = this.$('input[name=search]');
       this.$contents = this.$('#contents');
@@ -89,6 +73,9 @@ define([
       // Set controls as if we are disconnected
       this.disconnected();
       
+      // Init the header view
+      this.$el.prepend(BrowserHeaderView.$el);
+
       // Init the views view
       BrowserViewsView = new BrowserViewsView();
 
@@ -113,32 +100,30 @@ define([
     
     // Called when the websocket has connected
     connected: function() {
-      this.buttons.$nav.show();
-      this.$volume.show(); // TODO: make sure we can actually set the volume at this stage
+      this.$el.removeClass('disconnected');
+      
+      this.$nav.show();
+      this.$search.show();
       this.$connecting.hide();
       this.$contents.show();
-      this.$search.show();
+
+      BrowserHeaderView.enable(true);
     },
     
     // Called when the websocket has disconnected
     disconnected: function() {
-      this.$lcd.addClass('disabled');
-      this.buttons.$pause.hide();
-      this.buttons.$play.show();
-      this.buttons.$prev.disable();
-      this.buttons.$play.disable();
-      this.buttons.$next.disable();
-      this.buttons.$airplay.hide();
-      this.buttons.$nav.hide();
-      this.$volume.hide();
-      this.$search.hide();
-      this.$contents.hide();
-      
       this.$connecting.find('> span').html(
         I18n.browser[ Communicator.connectedCount == 0 ? 'connecting' : 'reconnecting' ].replace('%s', ServerInfo.getName())
       );
+
+      this.$el.addClass('disconnected');
       
+      this.$nav.hide();
+      this.$search.hide();
       this.$connecting.show();
+      this.$contents.hide();
+
+      BrowserHeaderView.enable(false);
     },
     
     // Called when the ServerInfo object has changed
@@ -159,7 +144,7 @@ define([
     setSelectedContainer: function(container, view) {
       
       // Set the nav button
-      this.buttons.$nav
+      this.$nav
         .attr('className', "")
         .addClass(container.get('contentType'))
         .children()

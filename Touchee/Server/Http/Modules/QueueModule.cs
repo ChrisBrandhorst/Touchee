@@ -16,6 +16,10 @@ namespace Touchee.Server.Http.Modules {
         public QueueModule() : base("/queue") {
             var path = "/media/{mediaID}/containers/{containerID}/{filter}";
             Get["/"] = _ => GetQueue(_);
+            Post["/prev"] = _ => Prev(_);
+            Post["/next"] = _ => Next(_);
+            Post["/pause"] = _ => Pause(_);
+            Post["/play"] = _ => Play(_);
             Post["/reset" + path] = _ => Reset(_);
             Post["/prioritize" + path] = _ => Prioritize(_);
             Post["/push" + path] = _ => Push(_);
@@ -27,8 +31,16 @@ namespace Touchee.Server.Http.Modules {
         /// Gets the current queue
         /// </summary>
         public Response GetQueue(dynamic parameters) {
-            return null;
+            return Response.AsJson(
+                new QueueResponse(Library.Queue)
+            );
         }
+
+        // Transport actions
+        public Response Prev(dynamic parameters) { Library.Prev(); return null; }
+        public Response Next(dynamic parameters) { Library.Next(); return null; }
+        public Response Pause(dynamic parameters) { Library.Pause(); return null; }
+        public Response Play(dynamic parameters) { Library.Play(); return null; }
 
         /// <summary>
         /// Replaces the entire queue

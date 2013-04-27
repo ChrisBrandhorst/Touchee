@@ -25,10 +25,8 @@ namespace Touchee {
 
             try {
                 var parts = optionsString.Split('/');
-                if (parts.Length % 2 == 0) {
-                    for (var i = 0; i < parts.Length - 1; i += 2)
-                        options[parts[i]] = new OptionValue( HttpUtility.UrlDecode(parts[i + 1]) );
-                }
+                for (var i = 0; i <= parts.Length - 1; i += 2)
+                    options[parts[i]] = i + 1 < parts.Length ? new OptionValue(HttpUtility.UrlDecode(parts[i + 1])) : null;
 
             }
             catch (Exception) {
@@ -59,7 +57,7 @@ namespace Touchee {
         }
 
         public static implicit operator string(OptionValue optionValue) {
-            return optionValue.ToString();
+            return optionValue == null ? null : optionValue.ToString();
         }
 
     }
