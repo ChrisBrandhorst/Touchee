@@ -1,5 +1,5 @@
 <nav class="list scrollable icons">
   <% _.each(hiddenViews, function(view){ %>
-    <a href="#<%= container.url({view:view}) %>" class="music <%= view %> <%= view == selectedView ? 'checked' : '' %>"><span><%= getViewText(container, view) %></span></a>
+    <a href="#<%= container.url({view:view}) %>" class="music <%= view %> <%= view == selectedView ? 'checked' : '' %>"><span><%= getViewText(view) %></span></a>
   <% }); %>
 </nav>

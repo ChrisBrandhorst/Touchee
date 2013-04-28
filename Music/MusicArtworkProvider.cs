@@ -15,20 +15,17 @@ namespace Music {
 
         public Image GetArtwork(Container container, Options filter) {
 
-            // For now, wo only get images based on ID
-            if (!filter.ContainsKey("id")) return null;
+            // For now, wo only get images based on album ID
+            if (!filter.ContainsKey("album")) return null;
 
-            // Get the track by ID;
-            int id = filter["id"];
-            if (!Track.Exists(id)) return null;
-            var track = Track.Find(id);
-
-            // Get all tracks of the album
-            var tracks = Track.GetAlbum(track);
+            // Get tracks by albumID
+            string albumID = filter["album"];
+            var tracks = Track.GetTracksOfAlbum(albumID);
+            if (tracks.Count() == 0) return null;
 
             // Get the artwork from one of the tracks of the album
             Image artwork = null;
-            tracks.FirstOrDefault(t => (artwork = track.Artwork) != null);
+            tracks.FirstOrDefault(t => (artwork = t.Artwork) != null);
 
             return artwork;
         }

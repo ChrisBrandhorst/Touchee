@@ -69,14 +69,13 @@ define([
 
 
     // Gets the view text for the given container and view
-    getViewText: function(container, view) {
-      var plugin  = container.get('plugin'),
-          key     = 'p.'+plugin+'.views.'+view,
-          text    = I18n.t(key);
+    getViewText: function(view) {
+      var key   = 'views.' + view,
+          text  = I18n.t(key);
       
       if (key == text) {
-        key     = 'p.'+plugin+'.models.'+view;
-        text    = I18n.t(key, {count:2});
+        key   = 'models.'+view;
+        text  = I18n.t(key, {count:2});
         if (key == text)
           text = view;
       }

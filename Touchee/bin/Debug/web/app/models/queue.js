@@ -5,7 +5,7 @@ define([
 ], function(_, Backbone, Media){
   
   
-  // Filter object
+  // Queue object
   var Queue = Backbone.Collection.extend({
     
     
@@ -26,6 +26,8 @@ define([
         models.push(model);
       });
       this.priorityCount = response.priorityCount;
+      this.repeat = response.repeat;
+      this.shuffle = response.shuffle;
       return models;
     },
     
@@ -53,16 +55,25 @@ define([
 
 
     // Basic controls
-    play: function() { QueueCommand.execute('play'); },
-    pause: function() { QueueCommand.execute('pause'); },
     next: function() { QueueCommand.execute('next'); },
-    prev: function() { QueueCommand.execute('prev'); }
+    prev: function() { QueueCommand.execute('prev'); },
+
+    shuffle: function() {},
+
+
+    // Repeat
+    repeat: function() {
+      var mode;
+      switch(this.repeat) {
+        case 'off': mode = 'all'; break;
+        case 'all': mode = 'one'; break;
+        case 'off': mode = 'all'; break;
+      }
+      QueueCommand.execute('repeat', model.url(), {mode:repeat});
+    }
     
     
   });
-
-
-
 
 
 
@@ -88,7 +99,6 @@ define([
       new QueueCommand().save(attributes || {}, options);
     }
   });
-
 
 
 

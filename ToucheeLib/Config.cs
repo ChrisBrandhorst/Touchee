@@ -94,6 +94,10 @@ namespace Touchee {
 
         public ConfigObject(Hashtable mapping) : base(mapping) { }
 
+        public bool ContainsKey(string key) {
+            return _mapping.ContainsKey(key);
+        }
+
         static char[] _splitChars = new char[] { '.', '|', '/', '\\' };
         public override bool TryGetValue(string key, out object result) {
 

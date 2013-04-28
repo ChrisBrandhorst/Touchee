@@ -16,12 +16,6 @@ namespace Touchee {
         /// </summary>
         int Id { get; }
 
-
-        ///// <summary>
-        ///// The source ID for this item
-        ///// </summary>
-        //object SourceId { get; }
-
         
         /// <summary>
         /// The application-wide, unique key string for this item

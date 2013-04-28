@@ -30,8 +30,9 @@ define([
       return enumerator
         .OrderBy("m => m.get('albumArtistSort')")
         .ThenBy("m => m.get('albumSort')")
-        .ThenBy("m => m.get('discNumber')")
-        .ThenBy("m => m.get('trackNumber')");
+        .ThenBy("m => m.get('discNumber') || Touchee.nonAlphaSortValue")
+        .ThenBy("m => m.get('trackNumber') || Touchee.nonAlphaSortValue")
+        .ThenBy("m => m.get('titleSort')");
     },
 
 
@@ -39,7 +40,7 @@ define([
     getAlbumCount: function() {
       return _.size(
         this.groupBy(function(track){
-          return track.getAlbumSelector();
+          return track.get('albumID');
         })
       );
     }

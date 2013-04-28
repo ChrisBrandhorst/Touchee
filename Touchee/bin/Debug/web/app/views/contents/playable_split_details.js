@@ -10,6 +10,10 @@ define([
     initialize: function() {
       CommonSplitDetailsView.prototype.initialize.apply(this, arguments);
       Touchee.enableControlCluster(this, {});
+    },
+
+    onRemove: function() {
+      this.model.dispose();
     }
     
   });

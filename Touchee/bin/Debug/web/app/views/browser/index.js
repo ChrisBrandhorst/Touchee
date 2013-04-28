@@ -86,14 +86,6 @@ define([
     }),
     
     
-    // Show the browser view
-    show: function() {
-      this.$el.removeClass('hidden');
-      return this;
-    },
-    
-    
-    
     
     // Model callbacks
     // ---------------

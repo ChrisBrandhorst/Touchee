@@ -69,6 +69,12 @@ namespace Touchee {
             ok = Config.TryGetInt("mediaPollingInterval", out mediaPollingInterval, 3000);
             if (!ok || mediaPollingInterval <= 0)
                 Logger.Log("Could not parse a valid value for mediaPollingInterval setting. Using default: " + mediaPollingInterval.ToString(), Logger.LogLevel.Warn);
+            
+            // Init devices
+
+
+            // Init volume
+            Volume.Init();
 
             // Init the server
             var server = new Server.ToucheeServer(httpPort, websocketPort);

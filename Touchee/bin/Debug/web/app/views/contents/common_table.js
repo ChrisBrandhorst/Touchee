@@ -23,7 +23,7 @@ define([
     // 
     // VIRTUAL
     selected: function(item, idx, $row) {
-      Backbone.history.navigate(this.model.getUrl(item), {trigger:true});
+      Backbone.history.navigate(this.model.getUrlFor(item), {trigger:true});
     }
     
     

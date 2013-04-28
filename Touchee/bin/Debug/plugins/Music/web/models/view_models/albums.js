@@ -12,7 +12,7 @@ define([
       
       // Group all tracks by album
       var groups = _.groupBy(models, function(track){
-        return track.getAlbumSelector();
+        return track.get('albumID');
       });
       
       // Get the first track from each group

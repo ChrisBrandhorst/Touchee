@@ -280,7 +280,7 @@ define([
         .css(pos.active)
         .css({height:this.$el.outerHeight()})
         .removeClass('hidden top right bottom left').addClass(pos.active.arrow)
-        .withOverlay({ remove: _.bind(this.hide, this) });
+        .withOverlay({ remove: _.bind(this.hide, this, {trigger:true}) });
       return this;
     },
     

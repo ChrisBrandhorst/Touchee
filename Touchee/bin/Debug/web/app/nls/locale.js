@@ -8,9 +8,7 @@
     unknown:  "Unknown",
     
     back:     "Back",
-    shuffle:  "Shuffle",
-    
-    
+
     models: {
       media: {
         one:  'medium',
@@ -21,7 +19,6 @@
     // For plugins
     p: {},
     
-
     time: {
       minute: {
         one:  'minute',

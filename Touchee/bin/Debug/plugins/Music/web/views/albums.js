@@ -5,8 +5,8 @@ define([
   './../models/view_models/albums',
   './../models/view_models/album',
   'views/contents/common_tiles',
-  './_album_details'
-], function($, _, Backbone, Albums, Album, CommonTilesView, AlbumDetailsView) {
+  './album'
+], function($, _, Backbone, Albums, Album, CommonTilesView, AlbumView) {
   
   var AlbumsView = CommonTilesView.extend({
     
@@ -40,7 +40,7 @@ define([
         track:    track
       });
 
-      var view = new AlbumDetailsView({
+      var view = new AlbumView({
         model:  album,
         el:     $target[0]
       });

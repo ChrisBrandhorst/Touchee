@@ -39,13 +39,16 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Components\Devices\Device.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
     <Compile Include="Components\FileSystem\FileMediumWatcher.cs" />
+    <Compile Include="Volume.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Debouncer.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />
+    <Compile Include="Media\ITimedItem.cs" />
     <Compile Include="Media\Music\Extensions.cs" />
     <Compile Include="Media\IAudioItem.cs" />
     <Compile Include="Media\Music\IFileTrack.cs" />
@@ -83,6 +86,9 @@
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="CoreAudioApi">
+      <HintPath>lib\CoreAudioApi.dll</HintPath>
+    </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>lib\HtmlAgilityPack.dll</HintPath>
     </Reference>

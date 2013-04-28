@@ -23,6 +23,12 @@ define([
       this.listenTo(this.contents, 'reset change add remove', _.debounce(this._contentsReset, 10));
       this._contentsReset();
     },
+
+
+    // Remove listeners on disposal of this object
+    onDispose: function() {
+      this.stopListening();
+    },
     
     
     // Redirect fetch call to the underlying contents
@@ -66,7 +72,7 @@ define([
     
     
     // Override this for getting the URL for the given item
-    getUrl: function(item) {
+    getUrlFor: function(item) {
       throw("NotImplementedException");
     }
     

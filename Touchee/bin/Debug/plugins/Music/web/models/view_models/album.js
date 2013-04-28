@@ -8,10 +8,10 @@ define([
     
     // Constructor
     initialize: function(models, options) {
-      this.track = options.track;
+      this.albumID = options.track.get('albumID');
       options.params = {
         view:   'album',
-        album:  this.track.id
+        album:  this.albumID
       };
       ContentsPart.prototype.initialize.apply(this, arguments);
     },
@@ -19,8 +19,8 @@ define([
     
     // Filters the models from the contents collection.
     sieve: function(models) {
-      var selector = this.track.getAlbumSelector();
-      return _.filter(models, function(track){ return track.getAlbumSelector() == selector; });
+      var albumID = this.albumID;
+      return _.filter(models, function(track){ return track.get('albumID') == albumID; });
     },
     
     
@@ -29,8 +29,7 @@ define([
       return enumerator
         .OrderBy("t => t.get('discNumber') || Touchee.nonAlphaSortValue")
         .ThenBy("t => t.get('trackNumber') || Touchee.nonAlphaSortValue")
-        .ThenBy("t => t.get('titleSort')")
-        .ToArray();
+        .ThenBy("t => t.get('titleSort')");
     }
 
     

@@ -23,6 +23,7 @@ define([
     initialize: function() {
       this.render();
       this.listenTo(Touchee.Queue, 'reset', this.queueUpdated);
+      this.listenTo(Touchee.Playback, 'change', this.playbackUpdated);
     },
 
 
@@ -92,20 +93,27 @@ define([
     },
 
 
+    // Called when playback parameters are changed
+    playbackUpdated: function() {
+      this.$volume.slider('value', Touchee.Playback.get('masterVolume'));
+    },
+
+
     // Called when a button is pressed
     button: function(ev) {
       var button = $(ev.currentTarget).attr('data-button');
 
       if (Touchee.Queue[button])
         Touchee.Queue[button]();
+      else if (Touchee.Playback[button])
+        Touchee.Playback[button]();
 
     },
 
 
     // Called when someone moves the volume slider
     volumeSlide: function(ev, ui) {
-      
-      console.log(ui.value);
+      Touchee.Playback.masterVolume(ui.value);
     },
 
 

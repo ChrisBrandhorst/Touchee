@@ -3,9 +3,9 @@ define([
   'underscore',
   'Backbone',
   'models/artwork',
-  'text!./_album_details.html'
-], function($, _, Backbone, Artwork, albumDetailsTemplate) {
-  albumDetailsTemplate = _.template(albumDetailsTemplate);
+  'text!./album.html'
+], function($, _, Backbone, Artwork, albumTemplate) {
+  albumTemplate = _.template(albumTemplate);
   
   var AlbumDetailsView = Backbone.View.extend({
     
@@ -17,25 +17,34 @@ define([
 
     // Constructor
     initialize: function(options) {
+      var firstTrack = this.model.first();
       this
-        .listenTo(this.model.contents, 'reset change add remove', this.render)
-        .listenTo(this.model.track, 'artwork', this.setArtwork)
-        .listenTo(this.model.track, 'colors', this.setColors);
+        .listenTo(this.model, 'reset', this.render)
+        .listenTo(firstTrack, 'artwork', this.setArtwork)
+        .listenTo(firstTrack, 'colors', this.setColors);
+    },
+
+
+    // When this view is removed, dispose of the model
+    onRemove: function() {
+      this.model.dispose();
     },
     
     
     // Render
+    // TODO: not 100% when new render is smaller than old one (cover is hidden)
     render: function() {
-      var artwork = Artwork.fromCache(this.model.track);
+      var artwork = Artwork.fromCache(this.model.first());
       this.$el.html(
-        albumDetailsTemplate({
+        albumTemplate({
           artwork:  artwork,
-          tracks:   this.model.models
+          album:    this.model
         })
       );
       this.setArtwork(artwork);
       this.setColors(artwork && artwork.colors);
       Touchee.enableControlCluster(this, {});
+      this.trigger('resize');
       return this;
     },
     

@@ -59,6 +59,7 @@
     <Compile Include="Server\Http\Modules\ServerInfoModule.cs" />
     <Compile Include="Server\Http\Modules\ToucheeNancyModule.cs" />
     <Compile Include="Server\Http\NancyExtensions.cs" />
+    <Compile Include="Server\Responses\ConflictResponse.cs" />
     <Compile Include="Server\Responses\ContentsResponse.cs" />
     <Compile Include="Server\Responses\ContentsChangedResponse.cs" />
     <Compile Include="Server\Responses\PlaybackResponse.cs" />
@@ -84,6 +85,7 @@
     <Content Include="config.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Compile Include="Server\Http\Modules\PlaybackModule.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">

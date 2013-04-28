@@ -56,7 +56,8 @@ define([
           plugins[key] = plugin;
           plugin.id = key;
           
-          I18n.p[key] = _.isObject(plugin.locale) ? plugin.locale : {};
+          // Merge in locale
+          if (_.isObject(plugin.locale)) _.deepExtend(I18n, plugin.locale);
           
           loadedCount++;
           if (loadedCount == pluginCount && _.isFunction(success))

@@ -51,15 +51,8 @@ namespace Music {
             IEnumerable<ITrack> ret = null;
             var allTracks = ((Playlist)container).Tracks;
 
-            string view = filter["view"];
+            string view = filter.ContainsKey("view") ? filter["view"] : null;
             switch (view) {
-
-                // All tracks
-                case "track":
-                    ret = allTracks
-                        .OrderByOrdinal(t => t.TitleSort)
-                        .ThenByOrdinal(t => t.ArtistSort);
-                    break;
                 
                 // All tracks for the given artist or genre
                 case "artist":
@@ -72,19 +65,35 @@ namespace Music {
                     }
                     ret = ret
                         .OrderByOrdinal(t => t.AlbumArtistSort)
-                        .ThenByOrdinal(t => t.AlbumSort)
-                        .ThenBy(t => t.DiscNumber)
-                        .ThenBy(t => t.TrackNumber)
-                        .ThenByOrdinal(t => t.TitleSort);
+                        .ThenByOrdinal(t => t.AlbumSort);
                     break;
 
                 // All tracks for the given album
                 case "album":
-                    ret = Track.GetAlbum(Track.Find(filter["album"]));
+                    ret = Track.Where(t => t.AlbumID == filter["album"]);
+                    break;
+
+                // All tracks
+                case "track":
+                default:
+                    ret = allTracks
+                        .OrderByOrdinal(t => t.TitleSort)
+                        .ThenByOrdinal(t => t.ArtistSort);
                     break;
 
             }
 
+            // Order by disc number, track number and track name
+            // TODO: do not sort non-masterplaylist
+            if (view != "track") {
+                ret = ret
+                    .OrderBy(t => t.DiscNumber == 0)
+                    .ThenBy(t => t.DiscNumber)
+                    .ThenBy(t => t.TrackNumber == 0)
+                    .ThenBy(t => t.TrackNumber)
+                    .ThenByOrdinal(t => t.TitleSort);
+            }
+            
             return ret;
         }
 

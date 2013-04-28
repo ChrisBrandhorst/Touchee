@@ -8,7 +8,7 @@ namespace Touchee.Media.Music {
     /// <remarks>
     /// Interface for a music track
     /// </remarks>
-    public interface ITrack : IAudioItem {
+    public interface ITrack : IAudioItem, ITimedItem {
 
 
         /// <summary>
@@ -58,10 +58,6 @@ namespace Touchee.Media.Music {
 
 
         /// <summary>
-        /// The duration of this track
-        /// </summary>
-        TimeSpan Duration { get; }
-        /// <summary>
         /// The track number of this track
         /// </summary>
         uint TrackNumber { get; }
@@ -80,6 +76,11 @@ namespace Touchee.Media.Music {
         /// The artwork for this track
         /// </summary>
         Image Artwork { get; }
+
+        /// <summary>
+        /// The album ID for this track
+        /// </summary>
+        string AlbumID { get; }
 
     }
 

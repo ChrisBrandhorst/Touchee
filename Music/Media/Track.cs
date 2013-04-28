@@ -198,19 +198,32 @@ namespace Music.Media {
         public abstract Image Artwork { get; }
 
 
+        /// <summary>
+        /// The album ID for this track
+        /// </summary>
+        [DataMember(EmitDefaultValue = false)]
+        public virtual string AlbumID { get {
+            return ((Album ?? Util.NullSortValue) + "|" + (AlbumArtist ?? Artist ?? Util.NullSortValue)).ToLower().GetInt64HashCode();
+        } }
+
+
         #endregion
 
         
 
         /// <summary>
-        /// Gets all tracks for the album of the given tracl
+        /// Gets all tracks for the album of the given track
         /// </summary>
-        public static IEnumerable<Track> GetAlbum(Track track) {
-            return Track
-                .Where(t => t.Album == track.Album && (t.AlbumArtist ?? t.Artist) == (track.AlbumArtist ?? track.Artist))
-                .OrderBy(t => t.DiscNumber)
-                .ThenBy(t => t.TrackNumber)
-                .ThenByOrdinal(t => t.TitleSort);
+        public static IEnumerable<Track> GetTracksOfAlbum(Track track) {
+            return Track.GetTracksOfAlbum(track.AlbumID);
+        }
+
+
+        /// <summary>
+        /// Gets all tracks with the given albumID
+        /// </summary>
+        public static IEnumerable<Track> GetTracksOfAlbum(string albumID) {
+            return Track.Where(t => t.AlbumID == albumID);
         }
 
 

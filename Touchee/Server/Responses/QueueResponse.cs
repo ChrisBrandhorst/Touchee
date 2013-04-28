@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Touchee.Playback;
 
@@ -20,6 +21,16 @@ namespace Touchee.Server.Responses {
         public int PriorityCount { get; protected set; }
 
         /// <summary>
+        /// Whether shuffling is enabled
+        /// </summary>
+        public bool Shuffle { get; protected set; }
+
+        /// <summary>
+        /// The repeat mode
+        /// </summary>
+        public string Repeat { get; protected set; }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         public QueueResponse(Queue queue) {
@@ -30,6 +41,8 @@ namespace Touchee.Server.Responses {
                 this.Items = queue.CurrentAndUpcoming.Take(21).Select(i => QueueItemObject(i));
                 this.PriorityCount = queue.UpcomingPriorityCount;
             }
+            this.Shuffle = queue.Shuffle;
+            this.Repeat = Enum.GetName(typeof(RepeatMode), queue.Repeat).ToCamelCase(false);
         }
 
         /// <summary>

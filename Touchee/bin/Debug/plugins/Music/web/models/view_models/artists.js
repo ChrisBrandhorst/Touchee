@@ -33,7 +33,7 @@ define([
     
     
     // Get the artist URL for the given track
-    getUrl: function(track) {
+    getUrlFor: function(track) {
       return this.url({
         artist: track.get('artist')
       });

@@ -160,13 +160,11 @@ namespace Touchee.Playback {
                         ClearPriority();
 
                     // Callbacks
-                    if (value == _items.Count) {
-                        if (Finished != null)
-                            Finished.Invoke(this);
-                    }
-                    else if (IndexChanged != null)
+                    if (IndexChanged != null)
                         IndexChanged.Invoke(this);
-
+                    if (Finished != null && value == _items.Count)
+                        Finished.Invoke(this);
+                    
                 }
             }
         }

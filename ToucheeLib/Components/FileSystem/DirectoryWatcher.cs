@@ -271,7 +271,7 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherDeleted(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.AfterFileClosed(file, () => this.OnFileDeleted(file));
+                this.OnFileDeleted(file);
         }
         protected virtual void OnFileDeleted(FileInfo file) { }
 

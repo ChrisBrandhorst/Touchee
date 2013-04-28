@@ -117,16 +117,31 @@ namespace BassNetPlayer {
 
 
         /// <summary>
+        /// 
+        /// </summary>
+        public AudioPlayerSupport Support {
+            get { return AudioPlayerSupport.LFE | AudioPlayerSupport.Upmix; }
+        }
+
+
+        /// <summary>
         /// Get or set the volume of the LFE channel between and including 0 and 1
-        /// After a set, this method modifies the stream matrix/
+        /// After a set, this method modifies the stream matrix
         /// </summary>
         public double LFEVolume {
             get { return _lfeVolume; }
             set {
                 _lfeVolume = Math.Max(0, Math.Min(1, value));
-                SetMatrix(_currentStream);
+                if (_currentStream != 0)
+                    SetMatrix(_currentStream);
             }
         }
+
+
+        /// <summary>
+        /// Whether to upmix items to 5.1 surround sound
+        /// </summary>
+        public bool UpMixToSurround { get; set; }
 
 
         #endregion
@@ -273,9 +288,11 @@ namespace BassNetPlayer {
         /// </summary>
         /// <param name="stream">The stream pointer to set the mix matrix for</param>
         void SetMatrix(int stream) {
-            var matrix = GetMixMatrix(stream);
-            if (matrix != null)
-                BassMix.BASS_Mixer_ChannelSetMatrix(stream, matrix);
+            if (UpMixToSurround) {
+                var matrix = GetMixMatrix(stream);
+                if (matrix != null)
+                    BassMix.BASS_Mixer_ChannelSetMatrix(stream, matrix);
+            }
         }
 
 
@@ -313,14 +330,14 @@ namespace BassNetPlayer {
         #region Matrices
 
         // When streaming multi-channel sample data, the channel order of each sample is as follows.
-        // 3 channels	left-front, right-front, center. 
-        // 4 channels	left-front, right-front, left-rear/side, right-rear/side. 
-        // 5 channels	left-front, right-front, center, left-rear/side, right-rear/side. 
+        // 3 channels	    left-front, right-front, center. 
+        // 4 channels	    left-front, right-front, left-rear/side, right-rear/side. 
+        // 5 channels	    left-front, right-front, center, left-rear/side, right-rear/side. 
         // 6 channels (5.1)	left-front, right-front, center, LFE, left-rear/side, right-rear/side. 
         // 8 channels (7.1)	left-front, right-front, center, LFE, left-rear/side, right-rear/side, left-rear center, right-rear center
         Dictionary<int, float[,]> _mixMatrices = new Dictionary<int, float[,]>() {
 
-            // Stereo: upmixed to 5.1
+            // Stereo: upmix to 5.1
             { 2, new float[,]{
                 { 1, 0 },
                 { 0, 1 },
@@ -330,7 +347,7 @@ namespace BassNetPlayer {
                 { -(float)Math.Sqrt(1/3), (float)Math.Sqrt(2/3) }
             } },
 
-            // 3.0: upmix
+            // 3.0: upmix to 5.1
             { 3, new float[,]{
                 { 1, 0, 0 },
                 { 0, 1, 0 },
@@ -363,8 +380,7 @@ namespace BassNetPlayer {
         };
 
         #endregion
-
-
+        
     }
 
 }

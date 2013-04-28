@@ -1,21 +1,21 @@
 <%
-var columnTwoAt = tracks.length <= 5 ? 0 : Math.max(5, Math.ceil(tracks.length / 2));
+var columnTwoAt = album.length <= 5 ? 0 : Math.max(5, Math.ceil(album.length / 2));
 %>
 
 <div class="artwork"></div>
 
 <h1 class="prim with_control_cluster">
-  <%= tracks[0].get('album$') %>
+  <%= album.first().get('album$') %>
   <div class="control_cluster">
     <button data-button="play"></button>
     <button data-button="shuffle"></button>
     <button data-button="menu"></button>
   </div>
 </h1>
-<h2 class="sec"><%= tracks[0].get('albumArtist$') %></h2>
+<h2 class="sec"><%= album.first().get('albumArtist$') %></h2>
 
 <ol<% if (columnTwoAt == 0) print(' class="empty"') %>>
-<% _.each(tracks, function(track, i){
+<% album.each(function(track, i){
   
   // Create second column
   if (columnTwoAt == i) print('</ol><ol>');
@@ -33,7 +33,7 @@ var columnTwoAt = tracks.length <= 5 ? 0 : Math.max(5, Math.ceil(tracks.length /
   // If we are at the last track AND
   // - We have two columns AND the columns are not of equal length
   // - OR we have 5 or less tracks
-  if ( i == tracks.length - 1 && ( (tracks.length / columnTwoAt < 2) || i < 5 ) )
+  if ( i == album.length - 1 && ( (album.length / columnTwoAt < 2) || i < 5 ) )
     print('<li class="empty"></li>');
   %>
   

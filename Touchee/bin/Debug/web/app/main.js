@@ -28,13 +28,13 @@ require.config({
 // Load all vendor files first
 require([
   
-  // Config file
-  'text!config.js',
-  
   // Main libraries
   'Backbone',
   'jquery',
   
+  // Config file
+  'text!config.js',
+
   // Backbone extensions
   'Touchee',
   'lib/backbone.extensions',
@@ -48,12 +48,12 @@ require([
   // Other
   'lib/underscore.extensions',
   'lib/js.extensions',
-  '../lib/fastclick.min',
   '../lib/linq'
   
-], function(config, Backbone, $, Touchee){
-  
+], function(Backbone, $, config, Touchee){
+
   Touchee.noConflict();
+  
   
   // Set Touchee shortcut in global scope
   this.T = this.Touchee = Touchee;
@@ -68,8 +68,7 @@ require([
   // Set log level
   Touchee.Log.level(Touchee.Config.get('logLevel'));
   
-  // Boot fastclick
-  // new FastClick(document.body);
+  // Hammertime!
   Hammer(document.body,{
     hold_timeout:           750,
     drag_min_distance:      5,

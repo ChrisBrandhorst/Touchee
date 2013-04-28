@@ -614,22 +614,13 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Skip to the previous item in the current queue
-        /// </summary>
-        public void Prev() {
-            if (Queue == null) return;
-            if (Queue.IsAtFirstItem)
-                Queue.Index = 0;
-            else
-                Queue.GoPrev();
-        }
-
-
-        /// <summary>
         /// Skip to the next item in the current queue
         /// </summary>
+        /// <exception cref="NoQueueException">If no queue is present</exception>
         public void Next() {
-            if (Queue != null)
+            if (Queue == null)
+                throw new NoQueueException();
+            else
                 Queue.GoNext();
         }
 
@@ -662,26 +653,7 @@ namespace Touchee {
 
         #region Playback
 
-
-
-        /// <summary>
-        /// Pause the playback of the current item in the queue
-        /// </summary>
-        public void Pause() {
-            if (Player != null)
-                Player.Pause();
-        }
-
-
-        /// <summary>
-        /// Resume the playback of the current item in the queue
-        /// </summary>
-        public void Play() {
-            if (Player != null)
-                Player.Play();
-        }
-
-
+        
         /// <summary>
         /// Starts playback
         /// </summary>
@@ -745,6 +717,14 @@ namespace Touchee {
         
 
 
+    }
+
+
+    public class NoQueueException : Exception {
+        public NoQueueException() : base() { }
+    }
+    public class NoPlayerException : Exception {
+        public NoPlayerException() : base() { }
     }
 
 }

@@ -29,19 +29,11 @@ define([
       
       // If we have nothing yet, try the "unknown ..."
       if (!val) {
-        var container = this.getContainer();
-        if (container) {
-          var plugin = container.get('plugin');
-          if (plugin) {
-            var pluginLocale = I18n.p[plugin];
-            if (pluginLocale && pluginLocale.models)
-              val = pluginLocale.models[ attr ];
-              if (_.isObject(val))
-                val = val.one;
-              if (val)
-                val = I18n.unknown + " " + val.toTitleCase();
-          }
-        }
+        val = I18n.models[ attr ];
+        if (_.isObject(val))
+          val = val.one;
+        if (val)
+          val = I18n.unknown + " " + val.toTitleCase();
       }
 
       return val;
@@ -57,6 +49,15 @@ define([
     //
     url: function() {
       return this.collection.url() + "/item/" + this.id;
+    },
+
+
+    // 
+    artworkUrl: function(params) {
+      return Touchee.getUrl(
+        [this.collection.container.url(), "artwork/id", this.id].join('/'),
+        params
+      );
     },
 
 
