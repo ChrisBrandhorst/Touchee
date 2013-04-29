@@ -39,12 +39,13 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
-    <Compile Include="Components\Devices\Device.cs" />
+    <Compile Include="Devices\Device.cs" />
+    <Compile Include="Devices\MasterVolume.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />
     <Compile Include="Components\FileSystem\FileMediumWatcher.cs" />
-    <Compile Include="Volume.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Debouncer.cs" />
+    <Compile Include="Devices\WinLirc.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />

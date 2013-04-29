@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Touchee.Devices;
 
 namespace Touchee.Server.Responses {
 
@@ -15,8 +11,8 @@ namespace Touchee.Server.Responses {
         public bool MasterMuted { get; protected set; }
 
         public PlaybackResponse() {
-            this.MasterVolume = Volume.Master;
-            this.MasterMuted = Volume.MasterMuted;
+            this.MasterVolume = Device.MasterVolume.Volume;
+            this.MasterMuted = Device.MasterVolume.Muted;
         }
     }
 

@@ -3,6 +3,7 @@ using Nancy;
 using Nancy.ModelBinding;
 using Touchee.Server.Responses;
 using Touchee.Playback;
+using Touchee.Devices;
 
 namespace Touchee.Server.Http.Modules {
     
@@ -54,8 +55,8 @@ namespace Touchee.Server.Http.Modules {
         /// </summary>
         public Response MasterVolume() {
 			var vp = this.Bind<VolumeParameters>();
-            Volume.Master = vp.Level;
-            Volume.MasterMuted = vp.Muted;
+            Device.MasterVolume.Volume = vp.Level;
+            Device.MasterVolume.Muted = vp.Muted;
             return null;
         }
 

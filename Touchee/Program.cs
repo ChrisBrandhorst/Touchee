@@ -70,14 +70,13 @@ namespace Touchee {
             if (!ok || mediaPollingInterval <= 0)
                 Logger.Log("Could not parse a valid value for mediaPollingInterval setting. Using default: " + mediaPollingInterval.ToString(), Logger.LogLevel.Warn);
             
-            // Init devices
-
-
-            // Init volume
-            Volume.Init();
 
             // Init the server
             var server = new Server.ToucheeServer(httpPort, websocketPort);
+
+
+            // Kickstart WinLirc client
+            var wlc = Devices.WinLirc.Client;
 
 
             // Init the library
@@ -264,7 +263,16 @@ namespace Touchee {
         /// </summary>
         /// <returns>true if the shutdown was successfull, otherwise false.</returns>
         public static bool Shutdown() {
+
+            // Unregister all plugins
             PluginManager.UnregisterAll();
+
+            // Shutdown WinLirc client
+            Devices.WinLirc.Client.Disconnect();
+
+            // TODO: nicely shutdown servers?
+
+            // Exit
             Environment.Exit(1);
             return true;
         }
