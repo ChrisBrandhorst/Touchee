@@ -9,14 +9,14 @@ define([
 
   'models/server_info',
   'models/queue',
-  'models/playback',
-  'models/collections/media',
+  'models/collections/devices',
 
-  // 'views/browser/index'
+  'models/playback',
+  'models/collections/media'
 ], function($, _, Backbone,
             Communicator, Router, Library,
-            ServerInfo, Queue, Playback, Media,
-            BrowserView) {
+            ServerInfo, Queue, Devices,
+            Playback, Media) {
   
   var App = {
     
@@ -83,6 +83,7 @@ define([
         Router.initialize();
       }
       Touchee.Queue.fetch();
+      Devices.fetch();
       
       // Wait until other Communicator connected callbacks have finished
       _.defer(_.bind(function(){

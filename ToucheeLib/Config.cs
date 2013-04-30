@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using YaTools.Yaml;
@@ -97,6 +98,10 @@ namespace Touchee {
         public bool ContainsKey(string key) {
             return _mapping.ContainsKey(key);
         }
+
+        public IEnumerable<string> Keys { get {
+            return ((ICollection)(_mapping.Keys)).Cast<string>().ToList();
+        } }
 
         static char[] _splitChars = new char[] { '.', '|', '/', '\\' };
         public override bool TryGetValue(string key, out object result) {

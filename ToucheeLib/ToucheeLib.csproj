@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Devices\AirplayDevice.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\MasterVolume.cs" />
     <Compile Include="Components\FileSystem\DirectoryWatcher.cs" />

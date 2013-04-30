@@ -71,6 +71,11 @@ namespace Touchee {
                 Logger.Log("Could not parse a valid value for mediaPollingInterval setting. Using default: " + mediaPollingInterval.ToString(), Logger.LogLevel.Warn);
             
 
+            // Load devices from config
+            if (Config.ContainsKey("devices"))
+                Devices.Device.Parse(Config["devices"]);
+
+
             // Init the server
             var server = new Server.ToucheeServer(httpPort, websocketPort);
 

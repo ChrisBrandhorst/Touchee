@@ -1,7 +1,8 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Touchee.Plugins;
+using Touchee.Devices;
 
 namespace Touchee.Server.Responses {
 
@@ -28,7 +29,7 @@ namespace Touchee.Server.Responses {
         /// <summary>
         /// List of devices present on the server
         /// </summary>
-        public ArrayList Devices { get; protected set; }
+        public IEnumerable<Device> Devices { get; protected set; }
 
         /// <summary>
         /// Identifiers of plugins which have a front-end component and as such
@@ -61,7 +62,7 @@ namespace Touchee.Server.Responses {
             this.WebsocketPort  = server.WebsocketPort;
             this.UtcTime        = (long)now.TimeStamp();
             this.UtcOffset      = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMinutes;
-            this.Devices        = Program.Config.GetValue("devices", null);
+            this.Devices        = Device.All();
             this.Plugins        = PluginManager.FrontendComponents.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
             this.Revision       = library.Revision;
         }

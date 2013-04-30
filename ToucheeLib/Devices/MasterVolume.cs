@@ -26,10 +26,11 @@ namespace Touchee.Devices {
         /// <summary>
         /// Private constructor
         /// </summary>
-        MasterVolume() : base("Master Volume", DeviceCapabilities.Volume | DeviceCapabilities.MuteOnOff) {
+        MasterVolume() : base("master", "Master Volume", DeviceCapabilities.Volume | DeviceCapabilities.MuteOnOff) {
             var devices = new MMDeviceEnumerator();
             _defaultDevice = devices.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
             _defaultDevice.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolume_OnVolumeNotification;
+            this.Save();
         }
 
         /// <summary>

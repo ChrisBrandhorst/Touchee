@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Touchee.Devices {
 
 
     /// <summary>
-    /// Classes for devices coupled to Touchee
+    /// Class for devices coupled to Touchee
     /// </summary>
     public class Device : Collectable<Device> {
 
@@ -20,6 +22,94 @@ namespace Touchee.Devices {
         public static MasterVolume MasterVolume = MasterVolume.Device;
 
 
+        /// <summary>
+        /// Create all devices from the gviven devices config
+        /// </summary>
+        /// <param name="devicesConfig">The configuration</param>
+        /// <returns>A List of Devices which could be parsed</returns>
+        public static List<Device> Parse(List<dynamic> devicesConfig) {
+            var devices = new List<Device>();
+
+            foreach (var deviceConfig in devicesConfig) {
+                try {
+                    devices.Add( Device.Parse(deviceConfig) );
+                }
+                catch (InvalidDeviceConfigException e) {
+                    var message = e.Message;
+                    if (e.InnerException != null)
+                        message += " --- " + e.InnerException.Message;
+                    Logger.Log(message, Logger.LogLevel.Error);
+                }
+            }
+
+            return devices;
+        }
+
+
+        /// <summary>
+        /// Create a Device instance from a config
+        /// </summary>
+        /// <param name="deviceConfig">The configuration of the device</param>
+        /// <returns>The parsed device</returns>
+        /// <exception cref="InvalidDeviceConfigException">If the configuration is invalid</exception>
+        public static Device Parse(dynamic deviceConfig) {
+            Device device = null;
+
+            // Collect values from config
+            string type = deviceConfig.GetString("type", null);
+            string name = deviceConfig.GetString("name", null);
+            string[] capabilitiesStrings = deviceConfig.GetStringArray("capabilities");
+
+            // Check if we have a type
+            if (type == null) throw new InvalidDeviceConfigException("Invalid Device config: supplying a type is required");
+        
+            // Find the type
+            var fullTypeString = "Touchee.Devices." + type.ToTitleCase() + "Device";
+            var deviceType = typeof(Device);
+            foreach (var ass in AppDomain.CurrentDomain.GetAssemblies()) {
+                var t = ass.GetType(fullTypeString);
+                if (t != null) {
+                    deviceType = t;
+                    break;
+                }
+            }
+
+            // Collect capabilities
+            DeviceCapabilities capabilities = 0;
+            foreach (var c in capabilitiesStrings) {
+                try {
+                    capabilities = capabilities | (DeviceCapabilities)Enum.Parse(typeof(DeviceCapabilities), c.ToCamelCase());
+                }
+                catch (ArgumentException) {
+                    Logger.Log("Unknown DeviceCapability: " + c + ". Skipping it", Logger.LogLevel.Error);
+                }
+            }
+
+            // Construct the device
+            try {
+                device = (Device)Activator.CreateInstance(deviceType, new object[]{type, name, capabilities});
+            }
+            catch (Exception e) {
+                throw new InvalidDeviceConfigException("The device could not be instantiated. Is there a (string, string, DeviceCapabilities) constructor?", e);
+            }
+
+            // Apply config
+            try {
+                device.ApplyConfigBase(deviceConfig);
+                device.ApplyConfig(deviceConfig);
+            }
+            catch (Exception e) {
+                throw new InvalidDeviceConfigException("The configuration for the device " + device.Name + " could not be applied.", e);
+            }
+
+            // Save it
+            device.Save();
+
+            return device;
+
+        }
+
+
         #endregion
 
 
@@ -28,9 +118,9 @@ namespace Touchee.Devices {
 
 
         /// <summary>
-        /// The list of WinLirc commands for this device
+        /// The list of WinLirc commands for this device. command->(remote, command)
         /// </summary>
-        Dictionary<WinLircCommand, Tuple<string, string>> _winLircCommands = new Dictionary<WinLircCommand, Tuple<string, string>>();
+        Dictionary<string, Tuple<string, string>> _winLircCommands = new Dictionary<string, Tuple<string, string>>();
 
 
         #endregion
@@ -41,8 +131,16 @@ namespace Touchee.Devices {
 
 
         /// <summary>
+        /// The type of this device
+        /// </summary>
+        [DataMember]
+        public string Type { get; protected set; }
+
+
+        /// <summary>
         /// The name for this device
         /// </summary>
+        [DataMember]
         public string Name { get; protected set; }
 
 
@@ -53,9 +151,31 @@ namespace Touchee.Devices {
 
 
         /// <summary>
+        /// The capabilities of this device, as seen by the client
+        /// </summary>
+        [DataMember]
+        IEnumerable<string> capabilities {
+            get {
+                return Enum
+                    .GetValues(typeof(DeviceCapabilities))
+                    .Cast<Enum>()
+                    .Where(f => Capabilities.HasFlag(f))
+                    .Select(c => Enum.GetName(typeof(DeviceCapabilities), c).ToCamelCase(false));
+            }
+        }
+
+
+
+        /// <summary>
         /// Whether this device supports control through WinLirc
         /// </summary>
-        public bool SupportsControlThroughWinLirc { get { return this.Supports(DeviceCapabilities.WinLirc); } }
+        public bool SupportsControlThroughWinLirc { get { return this.SupportsCapability(DeviceCapabilities.WinLirc); } }
+
+
+        /// <summary>
+        /// The timeout before the device is turned off automatically
+        /// </summary>
+        public TimeSpan AutoOffTimeout { get; protected set; }
 
 
         #endregion
@@ -68,9 +188,80 @@ namespace Touchee.Devices {
         /// <summary>
         /// Constructs a new Device instance
         /// </summary>
-        public Device(string name, DeviceCapabilities capabilities) {
+        /// <param name="type">The type of the device</param>
+        /// <param name="name">The name of the device</param>
+        /// <param name="capabilities">The capabilities of the device</param>
+        public Device(string type, string name, DeviceCapabilities capabilities) {
+            this.Type = type;
             this.Name = name;
             this.Capabilities = capabilities;
+        }
+
+
+        /// <summary>
+        /// Base config applying
+        /// TODO: cleanup
+        /// </summary>
+        /// <param name="config">The config to apply</param>
+        void ApplyConfigBase(dynamic config) {
+
+            if (this.SupportsControlThroughWinLirc) {
+
+                // Check if config remote exists
+                if (!config.ContainsKey("remote"))
+                    throw new InvalidDeviceConfigException("Capability winLirc was given, but no remote value supplied.");
+
+                dynamic remoteConfig = config["remote"];
+                List<string> keys = remoteConfig.Keys;
+
+                if (keys.Count == 0)
+                    throw new InvalidDeviceConfigException("Capability winLirc was given, but no or empty remote value supplied.");
+                else {
+
+                    string mainRemoteID = null;
+                    if (remoteConfig.ContainsKey("id")) {
+                        mainRemoteID = (string)remoteConfig["id"];
+                        keys.Remove("id");
+                    }
+
+                    foreach (var k in keys) {
+                        var command = (string)remoteConfig[k];
+                        string remoteID;
+
+                        var remoteAndCommand = command.Split(' ');
+                        if (mainRemoteID == null && remoteAndCommand.Count() < 2)
+                            throw new InvalidDeviceConfigException("No main remote ID given for device and no remote ID given for the command: " + command);
+                        else if (remoteAndCommand.Count() == 2) {
+                            remoteID = remoteAndCommand[0];
+                            command = remoteAndCommand[1];
+                        }
+                        else
+                            remoteID = mainRemoteID;
+
+                        _winLircCommands.Add(k.ToLower(), new Tuple<string, string>(remoteID, command));
+
+                    }
+
+                }
+            }
+
+            if (this.SupportsCapability(DeviceCapabilities.AutoOnOff)) {
+                int autoOffTimeout;
+                config.TryGetInt("autoOff", out autoOffTimeout);
+                if (autoOffTimeout == 0)
+                    throw new InvalidDeviceConfigException("Capability autoOnOff was given, but no autoOff value supplied.");
+                else
+                    this.AutoOffTimeout = new TimeSpan(0, 0, autoOffTimeout);
+            }
+
+        }
+
+
+        /// <summary>
+        /// Applies the given config to this device
+        /// </summary>
+        /// <param name="config">The config to apply</param>
+        protected virtual void ApplyConfig(dynamic config) {
         }
 
 
@@ -86,7 +277,7 @@ namespace Touchee.Devices {
         /// </summary>
         /// <param name="capability">The DeviceCapabilties flag(s) to check</param>
         /// <returns>True if this device supports the given capabilit(y/ies), otherwise false</returns>
-        public bool Supports(DeviceCapabilities capability) {
+        public bool SupportsCapability(DeviceCapabilities capability) {
             return this.Capabilities.HasFlag(capability);       
         }
 
@@ -96,7 +287,19 @@ namespace Touchee.Devices {
         /// </summary>
         /// <param name="command">The WinLircCommand to check</param>
         /// <returns>True if this device supports the given WinLirc command, otherwise false</returns>
-        public bool Supports(WinLircCommand command) {
+        public bool SupportsWinLircCommand(WinLircCommand command) {
+            return this.SupportsWinLircCommand(
+                Enum.GetName(typeof(WinLircCommand), command).ToLower()
+            );
+        }
+
+
+        /// <summary>
+        /// Checks for support of a WinLirc command
+        /// </summary>
+        /// <param name="command">The WinLircCommand to check</param>
+        /// <returns>True if this device supports the given WinLirc command, otherwise false</returns>
+        public bool SupportsWinLircCommand(string command) {
             return this.SupportsControlThroughWinLirc && _winLircCommands.ContainsKey(command);
         }
 
@@ -107,10 +310,11 @@ namespace Touchee.Devices {
         /// <param name="command">The WinLirc command to send</param>
         /// <exception cref="WinLircCommandNotSupportedException">If the given command is not supported by the device</exception>
         public void SendWinLircCommand(WinLircCommand command) {
-            if (!Supports(command))
+            if (!SupportsWinLircCommand(command))
                 throw new WinLircCommandNotSupportedException(command);
             else {
-                var remoteAndCommand = _winLircCommands[command];
+                var commandString = Enum.GetName(typeof(WinLircCommand), command).ToLower();
+                var remoteAndCommand = _winLircCommands[commandString];
                 this.SendWinLircCommand(remoteAndCommand.Item1, remoteAndCommand.Item2);
             }
         }
@@ -163,7 +367,7 @@ namespace Touchee.Devices {
         /// </summary>
         /// <exception cref="NotImplementedException">If the Toggle WinLirc command is not supported</exception>
         protected virtual void DoToggle() {
-            if (this.Supports(WinLircCommand.Toggle))
+            if (this.SupportsWinLircCommand(WinLircCommand.Toggle))
                 this.SendWinLircCommand(WinLircCommand.Toggle);
             else
                 throw new NotImplementedException("Device has DeviceControlSupport.Toggle flag, but no WinLirc command support or DoToggle implementation");
@@ -187,7 +391,7 @@ namespace Touchee.Devices {
         /// </summary>
         /// <exception cref="NotImplementedException">If the On WinLirc command is not supported</exception>
         protected virtual void DoOn() {
-            if (this.Supports(WinLircCommand.On))
+            if (this.SupportsWinLircCommand(WinLircCommand.On))
                 this.SendWinLircCommand(WinLircCommand.On);
             else
                 throw new NotImplementedException("Device has DeviceControlSupport.OnOff flag, but no WinLirc command support or DoOn implementation");
@@ -211,7 +415,7 @@ namespace Touchee.Devices {
         /// </summary>
         /// <exception cref="NotImplementedException">If the Off WinLirc command is not supported</exception>
         protected virtual void DoOff() {
-            if (this.Supports(WinLircCommand.Off))
+            if (this.SupportsWinLircCommand(WinLircCommand.Off))
                 this.SendWinLircCommand(WinLircCommand.Off);
             else
                 throw new NotImplementedException("Device has DeviceControlSupport.OnOff flag, but no WinLirc command support or DoOff implementation");
@@ -235,7 +439,7 @@ namespace Touchee.Devices {
         /// </summary>
         /// <exception cref="NotImplementedException">If the MuteToggle WinLirc command is not supported</exception>
         protected virtual void DoMuteToggle() {
-            if (this.Supports(WinLircCommand.MuteToggle))
+            if (this.SupportsWinLircCommand(WinLircCommand.MuteToggle))
                 this.SendWinLircCommand(WinLircCommand.MuteToggle);
             else
                 throw new NotImplementedException("Device has DeviceControlSupport.MuteToggle flag, but no WinLirc command support or DoMuteToggle implementation");
@@ -313,17 +517,8 @@ namespace Touchee.Devices {
         #endregion
 
 
-
     }
 
-
-    public class Speaker : Device {
-        public Speaker(string name, DeviceCapabilities capabilities) : base(name, capabilities) { }
-    }
-
-    public class AirplayDevice : Device {
-        public AirplayDevice(string name, DeviceCapabilities capabilities) : base(name, capabilities) { }
-    }
 
 
 
@@ -349,6 +544,11 @@ namespace Touchee.Devices {
         }
     }
 
+    public class InvalidDeviceConfigException : Exception {
+        public InvalidDeviceConfigException(string message) : base(message) { }
+        public InvalidDeviceConfigException(string message, Exception innerException) : base(message, innerException) { }
+    }
+
 
     [Flags]
     public enum DeviceCapabilities {
@@ -369,41 +569,5 @@ namespace Touchee.Devices {
         MuteToggle
     }
 
-
-
-
-    //    /// <summary>
-    //    /// Build a Device object
-    //    /// </summary>
-    //    /// <param name="deviceConfig">The configuration the device object should be built from</param>
-    //    /// <returns>The created Device, or null if none could be created</returns>
-    //    public static Device Build(dynamic deviceConfig) {
-    //        Device device = null;
-
-    //        try {
-    //            // Start device and set name
-    //            device = new Device();
-    //            deviceConfig.TryGetString("name", device.Name);
-            
-    //            // Set type
-    //            device.Type = Enum.Parse(typeof(DeviceType), deviceConfig["type"].ToCamelCase());
-
-    //            // Check capabilties
-    //            foreach (var capability in "volume mute auto remote".Split(' ')) {
-    //                if (deviceConfig.ContainsKey(capability))
-    //                    device.Support = device.Support | (DeviceSupport)Enum.Parse(typeof(DeviceSupport), capability.ToCamelCase());
-    //            }
-                
-
-    //            // Save the device, giving it an ID and making sure it can be found later on
-    //            device.Save();
-    //        }
-
-    //        catch(Exception) {
-    //            Logger.Log("Device config could not be parsed", Logger.LogLevel.Error);
-    //        }
-
-    //        return device;
-    //    }
 
 }

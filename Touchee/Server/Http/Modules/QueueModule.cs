@@ -1,6 +1,5 @@
 ﻿using System;
 using Nancy;
-using Nancy.ModelBinding;
 using Touchee.Server.Responses;
 using Touchee.Playback;
 
@@ -16,17 +15,17 @@ namespace Touchee.Server.Http.Modules {
             
             Get["/"] = _ => GetQueue();
 
-            Post["/prev"] = _ => Prev();
-            Post["/next"] = _ => Next();
+            Put["/prev"] = _ => Prev();
+            Put["/next"] = _ => Next();
 
-            Post["/shuffle"] = _ => Shuffle();
-            Post["/repeat"] = _ => Repeat();
+            Put["/shuffle"] = _ => Shuffle();
+            Put["/repeat"] = _ => Repeat();
 
-            Post["/reset" + path] = _ => Reset();
-            Post["/prioritize" + path] = _ => Prioritize();
-            Post["/push" + path] = _ => Push();
-            Post["/clear_upcoming"] = _ => ClearUpcoming();
-            Post["/clear_priority"] = _ => ClearPriority();
+            Put["/reset" + path] = _ => Reset();
+            Put["/prioritize" + path] = _ => Prioritize();
+            Put["/push" + path] = _ => Push();
+            Put["/clear_upcoming"] = _ => ClearUpcoming();
+            Put["/clear_priority"] = _ => ClearPriority();
         }
 
         /// <summary>
@@ -66,26 +65,23 @@ namespace Touchee.Server.Http.Modules {
         }
 
         /// <summary>
-        /// 
+        /// Set shuffling on/off
         /// </summary>
         public Response Shuffle() {
             return null;
         }
 
         /// <summary>
-        /// 
+        /// Set the repeat mode
         /// </summary>
         public Response Repeat() {
             if (Library.Queue == null)
                 return new ConflictResponse();
+            else if (!Request.Form.ContainsKey("mode"))
+                return new BadRequestResponse();
             else {
-                var rp = this.Bind<RepeatParameters>();
-                if (rp.Mode == null)
-                    return new Response() { StatusCode = HttpStatusCode.BadRequest };
-                else {
-                    Library.Queue.Repeat = (RepeatMode)Enum.Parse(typeof(RepeatMode), rp.Mode.ToTitleCase());
-                    return null;
-                }
+                Library.Queue.Repeat = (RepeatMode)Enum.Parse(typeof(RepeatMode), Request.Form["mode"].ToTitleCase());
+                return null;
             }
         }
 
@@ -93,8 +89,10 @@ namespace Touchee.Server.Http.Modules {
         /// Replaces the entire queue
         /// </summary>
         public Response Reset() {
-            var qp = this.Bind<QueueParameters>();
-            Library.ResetQueue(Container, Filter, qp.Start);
+            int start = 0;
+            if (Request.Form.ContainsKey("start"))
+                start = Request.Form["start"];
+            Library.ResetQueue(Container, Filter, start);
             return null;
         }
 
@@ -129,12 +127,4 @@ namespace Touchee.Server.Http.Modules {
 
     }
 
-
-
-    class QueueParameters {
-        public int Start { get; protected set; }
-    }
-    class RepeatParameters {
-        public string Mode { get; protected set; }
-    }
 }
