@@ -59,11 +59,6 @@ namespace Music.Media {
 
 
         /// <summary>
-        /// The medium this track is on
-        /// </summary>
-        public Medium Medium { get; protected set; }
-
-        /// <summary>
         /// Gets or sets the title of this track.
         /// If TitleSort is null when this value is set, the TitleSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).

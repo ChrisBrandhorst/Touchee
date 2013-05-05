@@ -7,12 +7,12 @@ namespace Touchee.Server.Responses {
     /// </summary>
     public class PlaybackResponse : ToucheeResponse {
 
-        public int MasterVolume { get; protected set; }
-        public bool MasterMuted { get; protected set; }
+        public int Duration { get; protected set; }
+        public int Position { get; protected set; }
+        public bool Playing { get; protected set; }
 
         public PlaybackResponse() {
-            this.MasterVolume = Device.MasterVolume.Volume;
-            this.MasterMuted = Device.MasterVolume.Muted;
+            
         }
     }
 

@@ -21,6 +21,6 @@ define([
     
   });
   
-  return new Devices;
+  return Touchee.Devices = new Devices;
   
 });

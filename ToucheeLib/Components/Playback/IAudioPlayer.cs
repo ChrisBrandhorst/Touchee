@@ -11,12 +11,7 @@ namespace Touchee.Components.Playback {
         /// <summary>
         /// Support flags for this IAudioPlayer
         /// </summary>
-        AudioPlayerSupport Support { get; }
-
-        /// <summary>
-        /// The volume of the LFE channel between and including 0 and 1
-        /// </summary>
-        double LFEVolume { get; set; }
+        AudioPlayerCapabilities Capabilities { get; }
 
         /// <summary>
         /// Whether to upmix items to 5.1 surround sound
@@ -30,9 +25,8 @@ namespace Touchee.Components.Playback {
     /// Support flags for the IAudioPlayer Interface
     /// </summary>
     [Flags]
-    public enum AudioPlayerSupport {
-        LFE     = 0x00000001,
-        Upmix   = 0x00000002
+    public enum AudioPlayerCapabilities {
+        Upmix   = 0x00000001
     }
 
 

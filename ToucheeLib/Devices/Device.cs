@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace Touchee.Devices {
 
@@ -245,7 +246,7 @@ namespace Touchee.Devices {
                 }
             }
 
-            if (this.SupportsCapability(DeviceCapabilities.AutoOnOff)) {
+            if (this.SupportsCapability(DeviceCapabilities.AutoSetActive)) {
                 int autoOffTimeout;
                 config.TryGetInt("autoOff", out autoOffTimeout);
                 if (autoOffTimeout == 0)
@@ -354,71 +355,62 @@ namespace Touchee.Devices {
         /// Toggles the device On or Off
         /// </summary>
         /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the Toggle capability</exception>
-        public void Toggle() {
-            if (this.Capabilities.HasFlag(DeviceCapabilities.Toggle))
-                this.DoToggle();
+        public void ToggleActive() {
+            if (this.Capabilities.HasFlag(DeviceCapabilities.ToggleActive))
+                this.DoToggleActive();
             else
-                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.Toggle);
+                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.ToggleActive);
         }
 
 
         /// <summary>
-        /// The actual implementation of the Toggle command
+        /// The actual implementation of the ActiveToggle command
         /// </summary>
         /// <exception cref="NotImplementedException">If the Toggle WinLirc command is not supported</exception>
-        protected virtual void DoToggle() {
-            if (this.SupportsWinLircCommand(WinLircCommand.Toggle))
-                this.SendWinLircCommand(WinLircCommand.Toggle);
+        protected virtual void DoToggleActive() {
+            if (this.SupportsWinLircCommand(WinLircCommand.ToggleActive))
+                this.SendWinLircCommand(WinLircCommand.ToggleActive);
             else
-                throw new NotImplementedException("Device has DeviceControlSupport.Toggle flag, but no WinLirc command support or DoToggle implementation");
+                throw new NotImplementedException("Device has DeviceControlSupport.Toggle flag, but no WinLirc command support or DoToggleActive implementation");
         }
 
 
         /// <summary>
-        /// Turns the device on
+        /// Gets or sets active state for this device
         /// </summary>
-        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the On capability</exception>
-        public void On() {
-            if (this.Capabilities.HasFlag(DeviceCapabilities.OnOff))
-                this.DoOn();
-            else
-                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.OnOff);
+        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the required capability</exception>
+        public bool Active {
+            get {
+                if (this.Capabilities.HasFlag(DeviceCapabilities.GetActive))
+                    return this.DoActive;
+                else
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.GetActive);
+            }
+            set {
+                if (this.Capabilities.HasFlag(DeviceCapabilities.SetActive))
+                    this.DoActive = value;
+                else
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.SetActive);
+            }
         }
 
 
         /// <summary>
-        /// The actual implementation of the On command
+        /// The actual implementation of the Active command
         /// </summary>
-        /// <exception cref="NotImplementedException">If the On WinLirc command is not supported</exception>
-        protected virtual void DoOn() {
-            if (this.SupportsWinLircCommand(WinLircCommand.On))
-                this.SendWinLircCommand(WinLircCommand.On);
-            else
-                throw new NotImplementedException("Device has DeviceControlSupport.OnOff flag, but no WinLirc command support or DoOn implementation");
-        }
-
-
-        /// <summary>
-        /// Turns the device off
-        /// </summary>
-        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the Off capability</exception>
-        public void Of() {
-            if (this.Capabilities.HasFlag(DeviceCapabilities.OnOff))
-                this.DoOff();
-            else
-                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.OnOff);
-        }
-
-
-        /// <summary>
-        /// The actual implementation of the Off command
-        /// </summary>
-        /// <exception cref="NotImplementedException">If the Off WinLirc command is not supported</exception>
-        protected virtual void DoOff() {
-            if (this.SupportsWinLircCommand(WinLircCommand.Off))
-                this.SendWinLircCommand(WinLircCommand.Off);
-            else
-                throw new NotImplementedException("Device has DeviceControlSupport.OnOff flag, but no WinLirc command support or DoOff implementation");
+        /// <exception cref="NotImplementedException">If no implementation is provided in a subclass</exception>
+        protected virtual bool DoActive {
+            get {
+                throw new NotImplementedException("Device has DeviceControlSupport.GetActive flag, but no DoActive get implementation");
+            }
+            set {
+                if (value == true && this.SupportsWinLircCommand(WinLircCommand.Activate))
+                    this.SendWinLircCommand(WinLircCommand.Activate);
+                else if (value == false && this.SupportsWinLircCommand(WinLircCommand.Deactivate))
+                    this.SupportsWinLircCommand(WinLircCommand.Deactivate);
+                else
+                    throw new NotImplementedException("Device has DeviceControlSupport.SetActive flag, but no DoActive set implementation");
+            }
         }
 
 
@@ -426,11 +418,11 @@ namespace Touchee.Devices {
         /// Toggles mute for the device On or Off
         /// </summary>
         /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the MuteToggle capability</exception>
-        public void MuteToggle() {
-            if (this.Capabilities.HasFlag(DeviceCapabilities.MuteToggle))
-                this.DoMuteToggle();
+        public void ToggleMuted() {
+            if (this.Capabilities.HasFlag(DeviceCapabilities.ToggleMuted))
+                this.DoToggleMuted();
             else
-                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.MuteToggle);
+                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.ToggleMuted);
         }
 
 
@@ -438,11 +430,45 @@ namespace Touchee.Devices {
         /// The actual implementation of the MuteToggle command
         /// </summary>
         /// <exception cref="NotImplementedException">If the MuteToggle WinLirc command is not supported</exception>
-        protected virtual void DoMuteToggle() {
-            if (this.SupportsWinLircCommand(WinLircCommand.MuteToggle))
-                this.SendWinLircCommand(WinLircCommand.MuteToggle);
+        protected virtual void DoToggleMuted() {
+            if (this.SupportsWinLircCommand(WinLircCommand.ToggleMuted))
+                this.SendWinLircCommand(WinLircCommand.ToggleMuted);
             else
-                throw new NotImplementedException("Device has DeviceControlSupport.MuteToggle flag, but no WinLirc command support or DoMuteToggle implementation");
+                throw new NotImplementedException("Device has DeviceControlSupport.MuteToggle flag, but no WinLirc command support or DoToggleMuted implementation");
+        }
+
+
+        /// <summary>
+        /// Gets or sets mute for this device
+        /// </summary>
+        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the required capability</exception>
+        public bool Muted {
+            get {
+                if (this.Capabilities.HasFlag(DeviceCapabilities.GetMuted))
+                    return this.DoMuted;
+                else
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.GetMuted);
+            }
+            set {
+                if (this.Capabilities.HasFlag(DeviceCapabilities.SetMuted))
+                    this.DoMuted = value;
+                else
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.SetMuted);
+            }
+        }
+
+
+        /// <summary>
+        /// The actual implementation of the Mute command
+        /// </summary>
+        /// <exception cref="NotImplementedException">If no implementation is provided in a subclass</exception>
+        protected virtual bool DoMuted {
+            get {
+                throw new NotImplementedException("Device has DeviceControlSupport.MuteOnOff flag, but no DoMuted get implementation");
+            }
+            set {
+                throw new NotImplementedException("Device has DeviceControlSupport.SetMuted flag, but no DoActive set implementation");
+            }
         }
 
 
@@ -481,41 +507,89 @@ namespace Touchee.Devices {
 
 
         /// <summary>
-        /// Gets or sets mute for this device
+        /// Gets or sets the LFE volume for this device
         /// </summary>
-        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the MuteOnOff capability</exception>
-        public bool Muted {
+        /// <exception cref="DeviceCapabilityNotSupportedException">If this device does not support the LFEVolume capability</exception>
+        public float LFEVolume {
             get {
-                if (this.Capabilities.HasFlag(DeviceCapabilities.MuteOnOff))
-                    return this.DoMuted;
+                if (this.Capabilities.HasFlag(DeviceCapabilities.LFEVolume))
+                    return this.DoLFEVolume;
                 else
-                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.MuteOnOff);
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.LFEVolume);
             }
             set {
-                if (this.Capabilities.HasFlag(DeviceCapabilities.MuteOnOff))
-                    this.DoMuted = value;
+                if (this.Capabilities.HasFlag(DeviceCapabilities.LFEVolume))
+                    this.DoLFEVolume = value;
                 else
-                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.MuteOnOff);
+                    throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.LFEVolume);
             }
         }
 
 
         /// <summary>
-        /// The actual implementation of the Mute command
+        /// The actual implementation of the LFEVolume command
         /// </summary>
         /// <exception cref="NotImplementedException">If no implementation is provided in a subclass</exception>
-        protected virtual bool DoMuted {
+        protected virtual float DoLFEVolume {
             get {
-                throw new NotImplementedException("Device has DeviceControlSupport.MuteOnOff flag, but no DoMuted get implementation");
+                throw new NotImplementedException("Device has DeviceControlSupport.LFEVolume flag, but no DoLFEVolume get implementation");
             }
             set {
-                throw new NotImplementedException("Device has DeviceControlSupport.MuteOnOff flag, but no DoMuted set implementation");
+                throw new NotImplementedException("Device has DeviceControlSupport.LFEVolume flag, but no DoLFEVolume set implementation");
             }
         }
 
 
         #endregion
 
+
+
+        #region Serialized properties
+
+        [DataMember(Name = "Active", EmitDefaultValue = false)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        bool? ActiveSerialized {
+            get {
+                return this.SupportsCapability(DeviceCapabilities.GetActive) ? (bool?)this.Active : null;
+            }
+        }
+        [DataMember(Name = "Volume", EmitDefaultValue = false)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        int? VolumeSerialized {
+            get {
+                return this.SupportsCapability(DeviceCapabilities.Volume) ? (int?)this.Volume : null;
+            }
+        }
+        [DataMember(Name = "LFEVolume", EmitDefaultValue = false)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        int? LFEVolumeSerialized {
+            get {
+                return this.SupportsCapability(DeviceCapabilities.LFEVolume) ? (int?)this.LFEVolume : null;
+            }
+        }
+        [DataMember(Name = "Muted", EmitDefaultValue = false)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        bool? MutedSerialized {
+            get {
+                return this.SupportsCapability(DeviceCapabilities.GetMuted) ? (bool?)this.Muted : null;
+            }
+        }
+
+        #endregion
+
+
+
+        #region Events
+
+        protected virtual void OnChanged() {
+            if (this.Changed != null)
+                this.Changed.Invoke(this);
+        }
+
+        public event ChangedHandler Changed;
+        public delegate void ChangedHandler(Device device);
+
+        #endregion
 
     }
 
@@ -531,7 +605,6 @@ namespace Touchee.Devices {
             Capability = capability;
         }
     }
-
 
     public class WinLircCommandNotSupportedException : Exception {
         public WinLircCommand Command;
@@ -552,22 +625,24 @@ namespace Touchee.Devices {
 
     [Flags]
     public enum DeviceCapabilities {
-        Toggle      = 0x00000001,
-        OnOff       = 0x00000002,
-        AutoOnOff   = 0x00000004,
-        Volume      = 0x00000008,
-        MuteToggle  = 0x00000010,
-        MuteOnOff   = 0x00000020,
-        WinLirc     = 0x00000040
+        ToggleActive    = 0x00000001,
+        GetActive       = 0x00000002,
+        SetActive       = 0x00000004,
+        AutoSetActive   = 0x00000008,
+        Volume          = 0x00000010,
+        LFEVolume       = 0x00000020,
+        ToggleMuted     = 0x00000040,
+        GetMuted        = 0x00000080,
+        SetMuted        = 0x00000100,
+        WinLirc         = 0x00000200
     }
 
 
     public enum WinLircCommand {
-        Toggle,
-        On,
-        Off,
-        MuteToggle
+        ToggleActive,
+        Activate,
+        Deactivate,
+        ToggleMuted
     }
-
 
 }

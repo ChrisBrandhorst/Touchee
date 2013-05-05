@@ -18,7 +18,7 @@ namespace Touchee.Devices {
         /// Constructs a new Airplay device instance
         /// </summary>
         /// <param name="name">The name of the device</param>
-        public AirplayDevice(string name) : base("airplay", name, DeviceCapabilities.Volume | DeviceCapabilities.MuteOnOff) { }
+        public AirplayDevice(string name) : base("airplay", name, DeviceCapabilities.Volume | DeviceCapabilities.ToggleMuted) { }
 
         #endregion
 

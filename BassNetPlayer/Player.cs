@@ -3,6 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 
 using Touchee;
+using Touchee.Devices;
 using Touchee.Components.Playback;
 using Touchee.Media.Music;
 
@@ -18,6 +19,24 @@ namespace BassNetPlayer {
     public class Player : Base, IAudioPlayer {
 
 
+        #region Privates
+
+        // The current LFE volume setting (between 0.0 and 2.0)
+        float _lfeVolume = 1F;
+
+        // The current stream pointer
+        int _currentStream = -1;
+
+        // The current mixer pointer
+        int _mixer = -1;
+
+        // Channel ending callback proc
+        SYNCPROC _channelEndCallback;
+
+        #endregion
+
+
+
         #region Constructor
 
         /// <summary>
@@ -26,6 +45,10 @@ namespace BassNetPlayer {
         public Player() {
             Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_NET_PLAYLIST, 1);
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
+
+            this.UpMixToSurround = true;
+            _lfeVolume = Device.MasterVolume.LFEVolume;
+            Device.MasterVolume.Changed += MasterVolume_Changed;
         }
 
         #endregion
@@ -119,22 +142,8 @@ namespace BassNetPlayer {
         /// <summary>
         /// 
         /// </summary>
-        public AudioPlayerSupport Support {
-            get { return AudioPlayerSupport.LFE | AudioPlayerSupport.Upmix; }
-        }
-
-
-        /// <summary>
-        /// Get or set the volume of the LFE channel between and including 0 and 1
-        /// After a set, this method modifies the stream matrix
-        /// </summary>
-        public double LFEVolume {
-            get { return _lfeVolume; }
-            set {
-                _lfeVolume = Math.Max(0, Math.Min(1, value));
-                if (_currentStream != 0)
-                    SetMatrix(_currentStream);
-            }
+        public AudioPlayerCapabilities Capabilities {
+            get { return AudioPlayerCapabilities.Upmix; }
         }
 
 
@@ -148,19 +157,17 @@ namespace BassNetPlayer {
 
 
 
-        #region Privates
+        #region Event Handling
 
-        // Private holding the value for the LFEVolume property
-        double _lfeVolume = 0.5;
-
-        // The current stream pointer
-        int _currentStream = -1;
-
-        // The current mixer pointer
-        int _mixer = -1;
-
-        // Channel ending callback proc
-        SYNCPROC _channelEndCallback;
+        /// <summary>
+        /// Called when the master volume is changed: used to modify the LFE value for this player
+        /// </summary>
+        void MasterVolume_Changed(Device masterVolume) {
+            var mv = (MasterVolume)masterVolume;
+            _lfeVolume = Math.Max(0F, Math.Min(2F, mv.LFEVolume));
+            if (_currentStream != 0)
+                SetMatrix(_currentStream);
+        }
 
         #endregion
 
@@ -194,13 +201,13 @@ namespace BassNetPlayer {
                         break;
                     }
                 }
-
+                
             }
 
             // Else, just load the track
             else if (track is IFileTrack) {
                 var path = Path.GetFullPath(((ITrack)track).Uri.GetComponents(UriComponents.Path, UriFormat.SafeUnescaped));
-                stream = Bass.BASS_StreamCreateFile(path, 0, 0, BASSFlag.BASS_STREAM_STATUS | BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT);
+                stream = Bass.BASS_StreamCreateFile(path, 0, 0, BASSFlag.BASS_STREAM_STATUS | BASSFlag.BASS_STREAM_DECODE | BASSFlag.BASS_SAMPLE_FLOAT | BASSFlag.BASS_STREAM_PRESCAN);
             }
 
             // Start the stream if successfull
@@ -312,15 +319,11 @@ namespace BassNetPlayer {
 
             // Set the LFE channel
             for (int i = 0; i < streamInfo.chans; i++)
-                matrix[3, i] = (float)Math.Max(0, _maxLFELevel * Math.Min(1, LFEVolume) / streamInfo.chans);
+                matrix[3, i] = (float)(matrix[3, i] * _lfeVolume);
 
             // Return the matrix
             return matrix;
         }
-
-
-        // The maximum LFE level
-        float _maxLFELevel = 0.2F;
 
 
         #endregion
@@ -328,6 +331,7 @@ namespace BassNetPlayer {
 
 
         #region Matrices
+
 
         // When streaming multi-channel sample data, the channel order of each sample is as follows.
         // 3 channels	    left-front, right-front, center. 
@@ -341,10 +345,10 @@ namespace BassNetPlayer {
             { 2, new float[,]{
                 { 1, 0 },
                 { 0, 1 },
-                { (float)Math.Sqrt(1/2), (float)Math.Sqrt(1/2) },
+                { (float)Math.Sqrt(1F/2), (float)Math.Sqrt(1F/2) },
                 { 0.1F, 0.1F },
-                { -(float)Math.Sqrt(2/3), (float)Math.Sqrt(1/3) },
-                { -(float)Math.Sqrt(1/3), (float)Math.Sqrt(2/3) }
+                { -(float)Math.Sqrt(2F/3), (float)Math.Sqrt(1F/3) },
+                { -(float)Math.Sqrt(1F/3), (float)Math.Sqrt(2F/3) }
             } },
 
             // 3.0: upmix to 5.1
@@ -352,9 +356,9 @@ namespace BassNetPlayer {
                 { 1, 0, 0 },
                 { 0, 1, 0 },
                 { 0, 0, 1 },
-                { 0.033F, 0.033F, 0.033F },
-                { -(float)Math.Sqrt(2/3), (float)Math.Sqrt(1/3), 0 },
-                { -(float)Math.Sqrt(1/3), (float)Math.Sqrt(2/3), 0 }
+                { 0.066F, 0.066F, 0.066F },
+                { -(float)Math.Sqrt(2F/3), (float)Math.Sqrt(1F/3), 0 },
+                { -(float)Math.Sqrt(1F/3), (float)Math.Sqrt(2F/3), 0 }
             } },
 
             // Quadraphonic: add LFE channel, center remains silent

@@ -1,4 +1,5 @@
-﻿using CoreAudioApi;
+﻿using System;
+using CoreAudioApi;
 
 namespace Touchee.Devices {
 
@@ -17,6 +18,11 @@ namespace Touchee.Devices {
         MMDevice _defaultDevice;
 
 
+        /// <summary>
+        /// The LFE volume of the system
+        /// </summary>
+        float _lfeVolume = 1F;
+
         #endregion
 
 
@@ -26,12 +32,13 @@ namespace Touchee.Devices {
         /// <summary>
         /// Private constructor
         /// </summary>
-        MasterVolume() : base("master", "Master Volume", DeviceCapabilities.Volume | DeviceCapabilities.MuteOnOff) {
+        MasterVolume() : base("master", "Master Volume", DeviceCapabilities.Volume | DeviceCapabilities.SetMuted | DeviceCapabilities.GetMuted | DeviceCapabilities.LFEVolume) {
             var devices = new MMDeviceEnumerator();
             _defaultDevice = devices.GetDefaultAudioEndpoint(EDataFlow.eRender, ERole.eMultimedia);
             _defaultDevice.AudioEndpointVolume.OnVolumeNotification += AudioEndpointVolume_OnVolumeNotification;
             this.Save();
         }
+        
 
         /// <summary>
         /// The singleton instance of the MasterVolume
@@ -43,6 +50,19 @@ namespace Touchee.Devices {
 
 
         #region Properties
+        
+
+        /// <summary>
+        /// Gets or sets the master system mute
+        /// </summary>
+        protected override bool DoMuted {
+            get {
+                return _defaultDevice.AudioEndpointVolume.Mute;
+            }
+            set {
+                _defaultDevice.AudioEndpointVolume.Mute = value;
+            }
+        }
 
 
         /// <summary>
@@ -59,14 +79,15 @@ namespace Touchee.Devices {
 
 
         /// <summary>
-        /// Gets or sets the master system mute
+        /// Gets or sets the master LFE volume
         /// </summary>
-        protected override bool DoMuted {
+        protected override float DoLFEVolume {
             get {
-                return _defaultDevice.AudioEndpointVolume.Mute;
+                return _lfeVolume;
             }
             set {
-                _defaultDevice.AudioEndpointVolume.Mute = value;
+                _lfeVolume = Math.Min(Math.Max(0F, value), 2F);
+                this.OnChanged();
             }
         }
 
@@ -82,12 +103,9 @@ namespace Touchee.Devices {
         /// Called when the master volume is changed
         /// </summary>
         void AudioEndpointVolume_OnVolumeNotification(AudioVolumeNotificationData data) {
-            if (this.MasterVolumeChanged != null)
-                this.MasterVolumeChanged.Invoke((int)(data.MasterVolume * 100), data.Muted);
+            this.OnChanged();
+            this.Save();
         }
-
-        public event MasterVolumeChangedHandler MasterVolumeChanged;
-        public delegate void MasterVolumeChangedHandler(int volume, bool mute);
 
         #endregion
 

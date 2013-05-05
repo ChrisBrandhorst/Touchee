@@ -57,13 +57,13 @@ define([
 
     // 
     next: function() {
-      QueueCommand.execute('next');
+      this._sendCommand('next');
     },
 
 
     //
     prev: function() {
-      QueueCommand.execute('prev');
+      this._sendCommand('prev');
     },
 
 

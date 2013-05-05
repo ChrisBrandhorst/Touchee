@@ -95,6 +95,8 @@ define([
 
     // Called when playback parameters are changed
     playbackUpdated: function() {
+
+      // TODO: only update slider if we are not dragging ourselves
       this.$volume.slider('value', Touchee.Playback.get('masterVolume'));
     },
 
@@ -113,7 +115,7 @@ define([
 
     // Called when someone moves the volume slider
     volumeSlide: function(ev, ui) {
-      Touchee.Playback.masterVolume(ui.value);
+      Touchee.Devices.getMaster().setVolume(ui.value);
     },
 
 
