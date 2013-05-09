@@ -1,4 +1,4 @@
-﻿using Touchee.Devices;
+﻿using Touchee.Components.Playback;
 
 namespace Touchee.Server.Responses {
 
@@ -11,9 +11,18 @@ namespace Touchee.Server.Responses {
         public int Position { get; protected set; }
         public bool Playing { get; protected set; }
 
-        public PlaybackResponse() {
-            
+        public PlaybackResponse(IPlayer player) {
+            if (player == null) {
+                this.Duration = -1;
+                this.Position = -1;
+            }
+            else {
+                this.Duration = player.Duration;
+                this.Position = player.Position;
+                this.Playing = player.Playing;
+            }
         }
+
     }
 
 }

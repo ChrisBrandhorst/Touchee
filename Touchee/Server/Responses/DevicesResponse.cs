@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Touchee.Devices;
 
 namespace Touchee.Server.Responses {
@@ -8,18 +6,10 @@ namespace Touchee.Server.Responses {
     /// <summary>
     /// Devices response object
     /// </summary>
-    public class DevicesResponse : ToucheeResponse {
+    public class DevicesResponse : List<Device> {
 
-        /// <summary>
-        /// The devices
-        /// </summary>
-        public IEnumerable<Device> Items;
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
         public DevicesResponse() {
-            this.Items = Device.All();
+            this.AddRange(Device.All());
         }
 
     }

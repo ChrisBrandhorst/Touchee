@@ -9,10 +9,6 @@ define([
     model:  Device,
     url:    "devices",
     
-    parse:  function(response) {
-      return response.items;
-    },
-    
     getMaster: function() {
       return this.find(function(device){
         return device.isMaster();

@@ -106,10 +106,21 @@ namespace Touchee.Server {
         /// </summary>
         /// <param name="response">The response to be serialized</param>
         /// <returns>The message in JSON form</returns>
-        public string Serialize(ToucheeResponse response) {
-            var dict = new Dictionary<string, object>();
+        public string Serialize(object response) {
             var key = Regex.Replace(response.GetType().Name.FirstToLower(), "Response$", "");
-            dict[key] = response;
+            return this.Serialize(key, response);
+        }
+
+
+        /// <summary>
+        /// Converts the given object to a JSON representation, with the given key as root
+        /// </summary>
+        /// <param name="key">The root key</param>
+        /// <param name="obj">The object to be serialized</param>
+        /// <returns>A JSON string</returns>
+        public string Serialize(string key, object obj) {
+            var dict = new Dictionary<string, object>();
+            dict[key] = obj;
 
             string serialized;
             using (var stream = new MemoryStream()) {
@@ -120,7 +131,6 @@ namespace Touchee.Server {
 
             return serialized;
         }
-
 
 
         #endregion
@@ -134,7 +144,7 @@ namespace Touchee.Server {
         /// </summary>
         /// <param name="client">The client to send the message to</param>
         /// <param name="message">The response to send</param>
-        public void Send(Client client, ToucheeResponse response) {
+        public void Send(Client client, object response) {
             client.Send(Serialize(response));
         }
 
@@ -143,11 +153,21 @@ namespace Touchee.Server {
         /// Sends a message to all clients as JSON over the websocket
         /// </summary>
         /// <param name="response">The response to send</param>
-        public void Broadcast(ToucheeResponse response) {
+        public void Broadcast(object response) {
             var serialized = Serialize(response);
             Client.ForEach(c => c.Send(serialized));
         }
 
+
+        /// <summary>
+        /// Sends a JSON string to all clients as JSON over the websocket
+        /// </summary>
+        /// <param name="key">The root key</param>
+        /// <param name="obj">The object to sendd</param>
+        public void Broadcast(string key, object obj) {
+            var serialized = Serialize(key, obj);
+            Client.ForEach(c => c.Send(serialized));
+        }
 
         #endregion
 

@@ -9,6 +9,7 @@ define([
     
     // Init
     initialize: function() {
+      this.listenTo(Media, 'sync', this.mediaLoaded);
     },
     
     
@@ -16,33 +17,39 @@ define([
     load: function(connectedBefore) {
       
       // Get all media
-      Media.fetch({
-        update:   true,
-        success:  _.bind(this.mediaLoaded, this)
-      });
+      Media.fetch({ update: true });
       
     },
     
     
-    // 
+    // Check for loading of all containers
     mediaLoaded: function() {
 
-      var medium = Media.first();
-      if (medium)
-        medium.containers.on('sync', this.firstMediumLoaded, this);
+      var containersLoaded = 0;
+
+      var count = function(){
+        containersLoaded++;
+        if (containersLoaded == Media.length) {
+          // Media.off('sync:containers', count);
+          Library.trigger('loaded:containers');
+        }
+      };
+debugger;
+      Media.on('sync:containers', count);
 
     },
 
 
     //
     firstMediumLoaded: function(containers) {
-      containers.off('sync', this.firstMediumLoaded);
       Backbone.history.navigate(containers.medium.url(), {trigger:true});
     }
     
     
   };
   
+  _.extend(Library, Backbone.Events);
+
   return Library;
 
 });

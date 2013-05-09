@@ -40,9 +40,9 @@ namespace Touchee.Server.Responses {
             else {
                 this.Items = queue.CurrentAndUpcoming.Take(21).Select(i => QueueItemObject(i));
                 this.PriorityCount = queue.UpcomingPriorityCount;
+                this.Shuffle = queue.Shuffle;
+                this.Repeat = Enum.GetName(typeof(RepeatMode), queue.Repeat).ToCamelCase(false);
             }
-            this.Shuffle = queue.Shuffle;
-            this.Repeat = Enum.GetName(typeof(RepeatMode), queue.Repeat).ToCamelCase(false);
         }
 
         /// <summary>

@@ -2,12 +2,10 @@
 
 namespace Touchee.Server.Responses {
 
-    public class MediaResponse : ToucheeResponse {
+    public class MediaResponse : List<Medium> {
 
-        public readonly IEnumerable<Medium> Items;
-
-        public MediaResponse(IEnumerable<Medium> media) {
-            this.Items = media;
+        public MediaResponse() {
+            this.AddRange(Medium.All());
         }
 
     }

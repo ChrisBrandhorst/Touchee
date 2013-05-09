@@ -101,7 +101,8 @@ define([
 
       BrowserHeaderView.enable(true);
     },
-    
+
+
     // Called when the websocket has disconnected
     disconnected: function() {
       this.$connecting.find('> span').html(

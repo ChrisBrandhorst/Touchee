@@ -29,6 +29,12 @@ namespace Touchee {
         /// Whether this container is busy loading
         /// </summary>
         [DataMember]
+        int MediumID { get { return Medium.Id; } }
+
+        /// <summary>
+        /// Whether this container is busy loading
+        /// </summary>
+        [DataMember]
         public virtual bool IsLoading { get; set; }
 
         /// <summary>

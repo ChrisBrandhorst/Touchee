@@ -2,8 +2,11 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/queue',
+  'models/playback',
+  'models/collections/devices',
   'text!views/browser/_header.html'
-], function($, _, Backbone , browserHeaderTemplate) {
+], function($, _, Backbone, Queue, Playback, Devices, browserHeaderTemplate) {
   browserHeaderTemplate = _.template(browserHeaderTemplate);
 
   var BrowserHeaderView = Backbone.View.extend({
@@ -14,16 +17,23 @@ define([
 
 
     events: {
-      'slide #volume':      'volumeSlide',
-      'tap [data-button]':  'button'
+      'slide #volume':        'volumeSlide',
+      'slide #lcd_position':  'positionSlide',
+      'tap [data-button]':    'button'
     },
+
+
+    enabled: false,
 
 
     // Constructor
     initialize: function() {
       this.render();
-      this.listenTo(Touchee.Queue, 'reset', this.queueUpdated);
-      this.listenTo(Touchee.Playback, 'change', this.playbackUpdated);
+
+      this.listenTo(Queue, 'sync reset', this.updateHeader);
+      this.listenTo(Playback, 'change', this.playbackUpdated);
+      this.listenTo(Devices, 'sync reset', this.devicesUpdated);
+      this.listenTo(Devices, 'change', this.deviceUpdated);
     },
 
 
@@ -35,14 +45,19 @@ define([
 
       // Set sliders
       this.$volume = this.$('#volume').slider({
-        range:    'min',
-        min:      0,
-        max:      100
+        range:  'min',
+        min:    0,
+        max:    100,
+        start:  function() { this._sliding = true; },
+        stop:   function() { delete this._sliding; }
       });
-      this.$lcd_position = this.$('#lcd_position').slider({
+      this.$positionSlider = this.$('#lcd_position').slider({
         range:    'min',
         min:      0,
-        max:      100
+        max:      100,
+        start:  function() { this._sliding = true; },
+        stop:   function() { delete this._sliding; },
+        change: _.bind(this.positionChanged, this) // Somehow this can't be bound through the events
       });
 
       // Collect buttons
@@ -56,48 +71,38 @@ define([
       this.$lcd = this.$('#lcd');
       this.$lcdLine1 = this.$('#lcd_line1');
       this.$lcdLine2 = this.$('#lcd_line2');
+      this.$position = this.$('#lcd_position_current');
+      this.$duration = this.$('#lcd_position_duration');
     },
 
 
     // Toggle enabled state
-    enable: function(enable) {
-      // this.$el.toggleClass('disabled', !enable);
-      // this.$('button').prop('disabled', !enable);
+    enable: function(enabled) {
+      this.enabled = enabled;
+      this.updateHeader();
     },
 
 
     // Called when the contents of the queue are updated
-    queueUpdated: function(queue) {
+    updateHeader: function() {
       
       // Get first item
-      var first = queue.first();
+      var first = Queue.first();
 
       // Enable/disable controls
-      this.$el.toggleClass('not_playing', !first);
+      this.$el.toggleClass('not_playing', !this.enabled || !first);
 
-      if (first) {
+      // Set display lines
+      this.$lcdLine1.html( first ? first.get('displayLine1$') : "" );
+      this.$lcdLine2.html( first ? first.get('displayLine2$') : "" );
 
-        // Set display lines
-        this.$lcdLine1.html( first.get('displayLine1$') );
-        this.$lcdLine2.html( first.get('displayLine2$') );
-
-        // Toggle buttons
-        this.buttons.$prev.prop('disabled', !queue.length);
-        this.buttons.$play.prop('disabled', !queue.length);
-        this.buttons.$next.prop('disabled', queue.length <= 1);
-
-      }
+      // Toggle buttons
+      this.buttons.$prev.prop('disabled', !this.enabled || !Queue.length);
+      this.buttons.$play.prop('disabled', !this.enabled || !Queue.length);
+      this.buttons.$next.prop('disabled', !this.enabled || Queue.length <= 1);
 
       // TODO: fill queue popup
-
-    },
-
-
-    // Called when playback parameters are changed
-    playbackUpdated: function() {
-
-      // TODO: only update slider if we are not dragging ourselves
-      this.$volume.slider('value', Touchee.Playback.get('masterVolume'));
+      // TODO: set album artwork
     },
 
 
@@ -105,18 +110,71 @@ define([
     button: function(ev) {
       var button = $(ev.currentTarget).attr('data-button');
 
-      if (Touchee.Queue[button])
-        Touchee.Queue[button]();
+      if (Queue[button])
+        Queue[button]();
       else if (Touchee.Playback[button])
         Touchee.Playback[button]();
-
     },
 
 
     // Called when someone moves the volume slider
     volumeSlide: function(ev, ui) {
-      Touchee.Devices.getMaster().setVolume(ui.value);
+      Devices.getMaster().setVolume(ui.value);
     },
+
+
+    // Called when devices are updated
+    devicesUpdated: function(devices) {
+      var master = devices.getMaster();
+      if (master) this.deviceUpdated(master);
+    },
+
+
+    // Called when a device is changed server-side
+    deviceUpdated: function(device) {
+      if (device.isMaster()) {
+        if (!this.$volume[0]._sliding)
+          this.$volume.slider('value', device.get('volume'));
+      }
+    },
+
+
+    //
+    playbackUpdated: function() {
+
+      if (!_.isUndefined(Playback.changed.duration)) {
+        var duration    = Playback.changed.duration,
+            hasDuration = duration > -1;
+        this.$duration.html(hasDuration ? String.duration(duration) : "");
+        this.$positionSlider.slider('option', 'max', duration);
+        this.$positionSlider.slider(hasDuration ? 'enable' : 'disable');
+      }
+
+      if (!_.isUndefined(Playback.changed.playing)) {
+        var playing = Playback.changed.playing;
+        this.buttons.$play.toggle(!playing);
+        this.buttons.$pause.toggle(playing);
+      }
+
+      if (!_.isUndefined(Playback.changed.position) && !this.$positionSlider[0]._sliding)
+        this.$positionSlider.slider('option', 'value', Playback.get('position'));
+    },
+
+
+    //
+    positionChanged: function(ev, ui) {
+      this.$position.html(ui.value > -1 ? String.duration(ui.value) : "");
+    },
+
+
+    // 
+    positionSlide: function(ev, ui) {
+      this.positionChanged(ev, ui);
+      Playback.setPosition(ui.value);
+    }
+
+
+      
 
 
   });

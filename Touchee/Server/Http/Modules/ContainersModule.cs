@@ -35,7 +35,7 @@ namespace Touchee.Server.Http.Modules {
             
             var medium = Medium.Find(mediaID);
             return Response.AsJson(
-                Library.GetContainersResponse(medium)
+                new ContainersResponse(medium)
             );
         }
 

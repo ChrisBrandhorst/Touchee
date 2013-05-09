@@ -21,12 +21,6 @@ define([
     // Constructor
     initialize: function(models, options) {
       this.medium = options.medium;
-    },
-    
-    
-    // Parse method
-    parse:  function(response) {
-      return response.items;
     }
     
     

@@ -579,18 +579,6 @@ namespace Touchee.Devices {
 
 
 
-        #region Events
-
-        protected virtual void OnChanged() {
-            if (this.Changed != null)
-                this.Changed.Invoke(this);
-        }
-
-        public event ChangedHandler Changed;
-        public delegate void ChangedHandler(Device device);
-
-        #endregion
-
     }
 
 

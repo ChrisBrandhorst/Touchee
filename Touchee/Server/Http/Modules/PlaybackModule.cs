@@ -14,16 +14,16 @@ namespace Touchee.Server.Http.Modules {
 
         public PlaybackModule() : base("/playback") {
             Get["/"] = _ => GetStatus();
-            Post["/pause"] = _ => Pause();
-            Post["/play"] = _ => Play();
-            Post["/volume"] = _ => MasterVolume();
+            Put["/pause"] = _ => Pause();
+            Put["/play"] = _ => Play();
+            Put["/position"] = _ => Position();
         }
 
 		/// <summary>
 		/// Returns the current playback status
 		/// </summary>
         public Response GetStatus() {
-            return Response.AsJson( new PlaybackResponse() );
+            return Response.AsJson( new PlaybackResponse(Library.Player) );
         }
 
         /// <summary>
@@ -51,20 +51,18 @@ namespace Touchee.Server.Http.Modules {
         }
 
         /// <summary>
-        /// Conet master volume level
+        /// Adjust the position
         /// </summary>
-        public Response MasterVolume() {
-			var vp = this.Bind<VolumeParameters>();
-            Device.MasterVolume.Volume = vp.Level;
-            Device.MasterVolume.Muted = vp.Muted;
-            return null;
+        public Response Position() {
+            if (Library.Player == null)
+                return new ConflictResponse();
+            else {
+                Library.Player.Position = Request.Form["value"];
+                return null;
+            }
         }
 
 
     }
 
-    class VolumeParameters {
-        public int Level { get; protected set; }
-        public bool Muted { get; protected set; }
-    }
 }

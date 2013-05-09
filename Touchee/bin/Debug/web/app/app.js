@@ -9,23 +9,22 @@ define([
 
   'models/server_info',
   'models/queue',
-  'models/collections/devices',
 
   'models/playback',
-  'models/collections/media'
+  'models/collections/media',
+  'models/collections/devices',
+
+  'views/browser/index'
 ], function($, _, Backbone,
             Communicator, Router, Library,
-            ServerInfo, Queue, Devices,
-            Playback, Media) {
+            ServerInfo, Queue,
+            Playback, Media, Devices) {
   
   var App = {
     
     
     // Init the app
     initialize: function(options) {
-      
-      // Show browser
-      require(['views/browser/index']);
       
       // Set events on the communicator
       // Communicator.on('connecting', this.connecting, this);
@@ -74,17 +73,22 @@ define([
         
       }
       
-      // Link the websocket and HTTP session
+      // Link the websocket and HTTP session at the server
       Communicator.send("IDENTIFY", this.sessionID);
       
-      // First-time init
-      if (isFirstConnection) {
-        Library.initialize();
-        Router.initialize();
-      }
-      Touchee.Queue.fetch();
+      // Init
+      if (isFirstConnection) Library.initialize();
       Devices.fetch();
-      
+      Playback.fetch();
+
+      // When all containers are loaded
+      Library.on('loaded:containers', function(){
+        debugger;
+        Queue.fetch();
+        if (isFirstConnection)
+          Router.initialize();
+      });
+
       // Wait until other Communicator connected callbacks have finished
       _.defer(_.bind(function(){
         // (re)Load the library
@@ -100,7 +104,7 @@ define([
     reconnect: function() {
       _.delay(function(){
         App.connect();
-      }, 2000);
+      }, 10000);
     },
     
     
@@ -123,10 +127,20 @@ define([
       }
 
 
-      // The media list has been updated
-      if (obj = response.media) {
-        Media.set(obj.items);
+      // The devices list has been updated
+      if (obj = response.devices)
+        Devices.set(obj);
+
+
+      // A single device has been changed
+      if (obj = response.device) {
+        Devices.set(obj);
       }
+
+
+      // The media list has been updated
+      if (obj = response.media)
+        Media.set(obj);
 
 
       // The containers of a medium have been changed
@@ -135,7 +149,15 @@ define([
         if (medium)
           medium.containers.set(obj.items);
       }
-      
+
+
+      // A single container has been changed
+      if (obj = response.container) {
+        var mediumID    = obj.mediumID,
+            medium      = Media.get(mediumID);
+        if (medium)
+          medium.containers.set(obj);
+      }
 
 
       // The contents of a container has been changed
@@ -145,17 +167,24 @@ define([
             medium      = Media.get(mediumID);
         if (medium) {
           var container = medium.containers.get(containerID);
-          if (container) {
+          if (container)
             container.notifyContentsChanged();
-          }
         }
       }
 
 
       // The queue has been changed
-      if (obj = response.queue) {
-        Touchee.Queue.reset( Touchee.Queue.parse(obj) );
-      }
+      if (obj = response.queue)
+        Queue.reset( Queue.parse(obj) );
+
+
+      // The playback status has changed
+      if (obj = response.playback)
+        Playback.set(obj);
+
+
+
+
 
 
 

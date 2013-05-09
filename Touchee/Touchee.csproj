@@ -63,6 +63,7 @@
     <Compile Include="Server\Responses\DefaultResponses.cs" />
     <Compile Include="Server\Responses\ContentsResponse.cs" />
     <Compile Include="Server\Responses\ContentsChangedResponse.cs" />
+    <Compile Include="Server\Responses\DeviceResponse.cs" />
     <Compile Include="Server\Responses\DevicesResponse.cs" />
     <Compile Include="Server\Responses\PlaybackResponse.cs" />
     <Compile Include="Server\Responses\QueueResponse.cs" />

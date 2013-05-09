@@ -44,12 +44,15 @@ namespace BassNetPlayer {
         /// </summary>
         public Player() {
             Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_NET_PLAYLIST, 1);
+            Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_UPDATEPERIOD, 30);
+            Bass.BASS_SetConfig(BASSConfig.BASS_CONFIG_BUFFER, 100);
             Bass.BASS_Init(-1, 44100, BASSInit.BASS_DEVICE_DEFAULT, IntPtr.Zero);
 
             this.UpMixToSurround = true;
             _lfeVolume = Device.MasterVolume.LFEVolume;
             Device.MasterVolume.Changed += MasterVolume_Changed;
         }
+
 
         #endregion
 
@@ -87,6 +90,8 @@ namespace BassNetPlayer {
 
             //
             this.Item = item;
+
+            this.OnStatusUpdated();
         }
 
 
@@ -94,7 +99,9 @@ namespace BassNetPlayer {
         /// Pauses the current playback
         /// </summary>
         public void Pause() {
-            Bass.BASS_Pause();
+            //Bass.BASS_Pause();
+            Bass.BASS_ChannelPause(_mixer);
+            this.OnStatusUpdated();
         }
 
 
@@ -102,7 +109,9 @@ namespace BassNetPlayer {
         /// Resums playback if paused
         /// </summary>
         public void Play() {
-            Bass.BASS_Start();
+            //Bass.BASS_Start();
+            Bass.BASS_ChannelPlay(_mixer, false);
+            this.OnStatusUpdated();
         }
 
 
@@ -117,6 +126,59 @@ namespace BassNetPlayer {
             Bass.BASS_StreamFree(_mixer);
             _currentStream = -1;
             _mixer = -1;
+            this.OnStatusUpdated();
+        }
+
+
+        /// <summary>
+        /// Whether the player is currently playing
+        /// </summary>
+        public bool Playing {
+            get {
+                if (_currentStream == -1)
+                    return false;
+                else {
+                    var active = Bass.BASS_ChannelIsActive(_mixer);
+                    return active == BASSActive.BASS_ACTIVE_PLAYING || active == BASSActive.BASS_ACTIVE_STALLED;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Gets or sets the playback position
+        /// </summary>
+        public int Position {
+            get {
+                if (_currentStream == -1)
+                    return -1;
+                else {
+                    var bytes = Bass.BASS_ChannelGetPosition(_currentStream, BASSMode.BASS_POS_BYTES);
+                    return bytes == -1 ? 0 : (int)(Bass.BASS_ChannelBytes2Seconds(_currentStream, bytes) * 1000);
+                }
+            }
+            set {
+                if (_currentStream != -1) {
+                    var bytes = Bass.BASS_ChannelSeconds2Bytes(_currentStream, value / 1000);
+                    Bass.BASS_ChannelSetPosition(_currentStream, bytes, BASSMode.BASS_POS_BYTES);
+                    this.OnStatusUpdated();
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// Gets the duration of the currently playing item in ms
+        /// </summary>
+        public int Duration {
+            get {
+                if (_currentStream == -1)
+                    return -1;
+                else {
+                    var bytes = Bass.BASS_ChannelGetLength(_currentStream, BASSMode.BASS_POS_BYTES);
+                    return bytes == -1 ? 0 : (int)(Bass.BASS_ChannelBytes2Seconds(_currentStream, bytes) * 1000);
+                }
+            }
         }
 
 
@@ -131,6 +193,14 @@ namespace BassNetPlayer {
         /// </summary>
         public event PlayerStatusUpdated StatusUpdated;
 
+
+        /// <summary>
+        /// Called when the status is updated
+        /// </summary>
+        void OnStatusUpdated() {
+            if (this.StatusUpdated != null)
+                this.StatusUpdated.Invoke(this);
+        }
 
         #endregion
 
@@ -162,8 +232,8 @@ namespace BassNetPlayer {
         /// <summary>
         /// Called when the master volume is changed: used to modify the LFE value for this player
         /// </summary>
-        void MasterVolume_Changed(Device masterVolume) {
-            var mv = (MasterVolume)masterVolume;
+        void MasterVolume_Changed(object sender, Collectable<Device>.ItemEventArgs e) {
+            var mv = (MasterVolume)e.Item;
             _lfeVolume = Math.Max(0F, Math.Min(2F, mv.LFEVolume));
             if (_currentStream != 0)
                 SetMatrix(_currentStream);
@@ -384,7 +454,8 @@ namespace BassNetPlayer {
         };
 
         #endregion
-        
+
+
     }
 
 }

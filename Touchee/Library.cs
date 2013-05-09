@@ -16,6 +16,7 @@ using Touchee.Components.Media;
 using Touchee.Components.Playback;
 using Touchee.Plugins;
 using Touchee.Media;
+using Touchee.Devices;
 
 namespace Touchee {
 
@@ -111,10 +112,15 @@ namespace Touchee {
             Medium.AfterDispose += Medium_AfterDispose;
 
             // Watch for container changes
-            Container.AfterCreate += ContainerCreated;
-            Container.AfterUpdate += ContainerUpdated;
-            Container.AfterDispose += ContainerDisposed;
+            Container.AfterCreate += ContainersChanged;
+            Container.AfterDispose += ContainersChanged;
+            Container.AfterUpdate += ContainerChanged;
             Container.ContentsChanged += ContainerContentsChanged;
+
+            // Watch for device changes
+            Device.AfterCreate += DevicesChanged;
+            Device.AfterDispose += DevicesChanged;
+            Device.AfterUpdate += DeviceChanged;
 
             // Init local and web media
             string name = Program.Config.GetString("name", System.Environment.MachineName);
@@ -154,7 +160,7 @@ namespace Touchee {
             var watchers = _mediumWatchers.Where(w => w.CanWatch(e.Item));
             if (watchers.Count() > 0) {
                 this.Revised();
-                _server.Broadcast(GetMediaResponse());
+                _server.Broadcast(new MediaResponse());
                 foreach (var watcher in watchers)
                     watcher.Watch(e.Item);
             }
@@ -168,33 +174,23 @@ namespace Touchee {
         void Medium_AfterDispose(object sender, Collectable<Medium>.ItemEventArgs e) {
             _mediumWatchers.ForEach(w => w.UnWatch(e.Item));
             this.Revised();
-            _server.Broadcast(GetMediaResponse());
+            _server.Broadcast(new MediaResponse());
         }
 
 
         /// <summary>
-        /// Called when a container has been created. 
+        /// Called when a container has been created or disposed
         /// </summary>
-        void ContainerCreated(object sender, Collectable<Container>.ItemEventArgs e) {
-            _server.Broadcast(GetContainersResponse(e.Item.Medium));
+        void ContainersChanged(object sender, Collectable<Container>.ItemEventArgs e) {
+            _server.Broadcast(new ContainersResponse(e.Item.Medium));
         }
 
 
         /// <summary>
-        /// Called when a container has been updated. All containers of the corresponding
-        /// medium are broadcasted, in order to update the complete list.
+        /// Called when a container has been updated
         /// </summary>
-        void ContainerUpdated(object sender, Collectable<Container>.ItemEventArgs e) {
-            _server.Broadcast(GetContainersResponse(e.Item.Medium));
-        }
-
-
-        /// <summary>
-        /// Called when a container has been disposed. All containers of the corresponding
-        /// medium are broadcasted, in order to update the complete list.
-        /// </summary>
-        void ContainerDisposed(object sender, Collectable<Container>.ItemEventArgs e) {
-            _server.Broadcast(GetContainersResponse(e.Item.Medium));
+        void ContainerChanged(object sender, Collectable<Container>.ItemEventArgs e) {
+            _server.Broadcast("container", e.Item);
         }
 
 
@@ -207,6 +203,21 @@ namespace Touchee {
             _server.Broadcast(new ContentsChangedResponse(container));
         }
 
+
+        /// <summary>
+        /// Called when a device has been created or disposed
+        /// </summary>
+        void DevicesChanged(object sender, Collectable<Device>.ItemEventArgs e) {
+            _server.Broadcast(new DevicesResponse());
+        }
+
+
+        /// <summary>
+        /// Called when a device has been changed
+        /// </summary>
+        void DeviceChanged(object sender, Collectable<Device>.ItemEventArgs e) {
+            _server.Broadcast("device", e.Item);
+        }
 
         #endregion
 
@@ -227,7 +238,7 @@ namespace Touchee {
         void BroadcastContainers(Medium medium) {
             ThrottledBroadcast(medium, () => {
                 this.Revised();
-                _server.Broadcast(GetContainersResponse(medium));
+                _server.Broadcast(new ContainersResponse(medium));
             });
         }
 
@@ -291,22 +302,6 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Gets a message containing information on all available media
-        /// </summary>
-        public MediaResponse GetMediaResponse() {
-            return new MediaResponse(Medium.All());
-        }
-
-
-        /// <summary>
-        /// Gets a message containing information on all available containers of the given medium
-        /// </summary>
-        public ContainersResponse GetContainersResponse(Medium medium) {
-            return new ContainersResponse(medium);
-        }
-
-
-        /// <summary>
         /// Gets a message containing the content for the given container, type and filter combination
         /// </summary>
         public ContentsResponse GetContentsResponse(Container container, Options filter) {
@@ -316,6 +311,8 @@ namespace Touchee {
             var contents = contentProvider.GetContents(container, filter);
             return new ContentsResponse(container, contents);
         }
+
+
 
 
         #endregion
@@ -674,6 +671,7 @@ namespace Touchee {
                 ClearPlayer();
                 Player = newPlayer;
                 Player.PlaybackFinished += Player_PlaybackFinished;
+                Player.StatusUpdated += Player_StatusUpdated;
             }
 
             // Play the item
@@ -688,6 +686,7 @@ namespace Touchee {
             if (Player != null) {
                 Player.Stop();
                 Player.PlaybackFinished -= Player_PlaybackFinished;
+                Player.StatusUpdated -= Player_StatusUpdated;
                 Player = null;
             }
         }
@@ -700,6 +699,15 @@ namespace Touchee {
         /// <param name="item">The item that was playing</param>
         void Player_PlaybackFinished(IPlayer player, IItem item) {
             Queue.GoNext();
+        }
+
+
+        /// <summary>
+        /// Called when the current player has updated
+        /// </summary>
+        /// <param name="player">The player that has been updated</param>
+        void Player_StatusUpdated(IPlayer player) {
+            _server.Broadcast(new PlaybackResponse(player));
         }
 
 

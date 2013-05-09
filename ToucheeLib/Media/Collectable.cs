@@ -276,6 +276,7 @@ namespace Touchee {
         public static event ItemEventHandler AfterCreate;
         public static event ItemEventHandler AfterUpdate;
         public static event ItemEventHandler AfterDispose;
+        public event ItemEventHandler Changed;
 
         #endregion
 
@@ -332,6 +333,9 @@ namespace Touchee {
             if (Collectable<T>.AfterSave != null)
                 Collectable<T>.AfterSave.Invoke(this, new ItemEventArgs(ItemChangeTypes.Saved, this));
 
+            // Do instance-level changed callback
+            if (this.Changed != null)
+                this.Changed.Invoke(this, new ItemEventArgs(ItemChangeTypes.Updated, this));
         }
 
 

@@ -32,9 +32,9 @@ namespace Touchee.Server.Http.Modules {
         /// Gets the current queue
         /// </summary>
         public Response GetQueue() {
-            return Library.Queue == null
-                ? new ConflictResponse()
-                : Response.AsJson( new QueueResponse(Library.Queue) );
+            return Response.AsJson(
+                new QueueResponse(Library.Queue)
+            );
         }
 
         /// <summary>

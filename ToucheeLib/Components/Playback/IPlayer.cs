@@ -37,6 +37,21 @@
         void Stop();
 
         /// <summary>
+        /// Whether the player is currently playing
+        /// </summary>
+        bool Playing { get; }
+
+        /// <summary>
+        /// Gets or sets the playback position in ms
+        /// </summary>
+        int Position { get; set; }
+
+        /// <summary>
+        /// Gets the duration of the currently playing item in ms
+        /// </summary>
+        int Duration { get;  }
+
+        /// <summary>
         /// Called when playback of the current item is finished
         /// </summary>
         event PlayerPlaybackFinished PlaybackFinished;

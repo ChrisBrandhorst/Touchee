@@ -1845,11 +1845,11 @@ body > section:not(.popup) {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
 }
 /* line 216, ../sass/full/browser/_header.sass */
-#browser > header #output.airplay {
+#browser > header #output {
   padding-right: 0;
 }
 /* line 218, ../sass/full/browser/_header.sass */
-#browser > header #output.airplay > [data-button=airplay] {
+#browser > header #output > [data-button=airplay] {
   display: block;
 }
 /* line 224, ../sass/full/browser/_header.sass */

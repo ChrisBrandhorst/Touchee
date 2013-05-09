@@ -87,7 +87,7 @@ namespace Touchee.Devices {
             }
             set {
                 _lfeVolume = Math.Min(Math.Max(0F, value), 2F);
-                this.OnChanged();
+                this.Save();
             }
         }
 
@@ -103,7 +103,6 @@ namespace Touchee.Devices {
         /// Called when the master volume is changed
         /// </summary>
         void AudioEndpointVolume_OnVolumeNotification(AudioVolumeNotificationData data) {
-            this.OnChanged();
             this.Save();
         }
 
