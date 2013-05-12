@@ -3,11 +3,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{25218497-C0B3-413E-B7DC-6C9340D78658}</ProjectGuid>
+    <ProjectGuid>{C0393875-FFA7-4A35-B208-762B99F0358E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ToucheeLibTest</RootNamespace>
-    <AssemblyName>ToucheeLibTest</AssemblyName>
+    <RootNamespace>Spotify</RootNamespace>
+    <AssemblyName>Spotify</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -52,8 +52,13 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -61,23 +66,31 @@
         <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.1.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
       </ItemGroup>
     </When>
-    <Otherwise>
-      <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
-      </ItemGroup>
-    </Otherwise>
+    <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="DummyItem.cs" />
-    <Compile Include="OrderTest.cs" />
-    <Compile Include="QueueTest.cs" />
+    <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpotifyHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SpotiFire\SpotiFire.LibSpotify\SpotiFire.LibSpotify.vcxproj">
+      <Project>{3a193712-4ae2-4b7a-9adf-139d3213e34b}</Project>
+      <Name>SpotiFire.LibSpotify</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\SpotiFire\SpotiFire.SpotifyLib\SpotiFire.SpotifyLib.csproj">
+      <Project>{cbf5614b-af79-4228-8265-7dc2baf9a626}</Project>
+      <Name>SpotiFire.SpotifyLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">
       <Project>{76b24f44-0f71-46f1-9d79-373ecfbc72bf}</Project>
       <Name>ToucheeLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="lib\libspotify.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
@@ -99,6 +112,12 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(TargetDir)lib\"
+move "$(TargetDir)SpotiFire.dll" "$(TargetDir)lib\"
+move "$(TargetDir)SpotiFire.Native.dll" "$(TargetDir)lib\"
+move "$(TargetDir)NLog.dll" "$(TargetDir)lib\"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

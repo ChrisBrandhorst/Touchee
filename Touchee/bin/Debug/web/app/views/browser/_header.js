@@ -4,9 +4,10 @@ define([
   'Backbone',
   'models/queue',
   'models/playback',
+  'models/artwork',
   'models/collections/devices',
   'text!views/browser/_header.html'
-], function($, _, Backbone, Queue, Playback, Devices, browserHeaderTemplate) {
+], function($, _, Backbone, Queue, Playback, Artwork, Devices, browserHeaderTemplate) {
   browserHeaderTemplate = _.template(browserHeaderTemplate);
 
   var BrowserHeaderView = Backbone.View.extend({
@@ -73,6 +74,7 @@ define([
       this.$lcdLine2 = this.$('#lcd_line2');
       this.$position = this.$('#lcd_position_current');
       this.$duration = this.$('#lcd_position_duration');
+      this.$artwork = this.$('#lcd_artwork');
     },
 
 
@@ -103,6 +105,22 @@ define([
 
       // TODO: fill queue popup
       // TODO: set album artwork
+
+      // Get the artwork
+      var $artwork = this.$artwork;
+      if (first) {
+        Artwork.fetch(first, {
+          success:  function(artwork, url, img) {
+            if (artwork.exists()) {
+              $artwork.css('backgroundImage', 'url(' + url + ')');
+            }
+          }
+        });
+      }
+      else {
+        this.$artwork.css('backgroundImage', "");
+      }
+
     },
 
 
@@ -112,8 +130,6 @@ define([
 
       if (Queue[button])
         Queue[button]();
-      else if (Touchee.Playback[button])
-        Touchee.Playback[button]();
     },
 
 

@@ -88,6 +88,7 @@ namespace Music {
                 if (track != null) {
                     track.Update(file);
                     track.Save();
+                    _masterPlaylist.Update(track);
                 }
             }
 

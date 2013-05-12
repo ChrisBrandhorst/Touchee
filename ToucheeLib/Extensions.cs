@@ -221,9 +221,26 @@ namespace Touchee {
 
 
 
+        public static IEnumerable<FileInfo> EnumerateFilesSafe(this DirectoryInfo directory, string searchPattern, SearchOption searchOption) {
+            return EnumerateFilesSafe(directory.FullName, searchPattern, searchOption).Select(f => new FileInfo(f));
+        }
 
-
-
+        static IEnumerable<string> EnumerateFilesSafe(string path, string searchPattern, SearchOption searchOpt) {
+            try {
+                var dirFiles = Enumerable.Empty<string>();
+                if (searchOpt == SearchOption.AllDirectories) {
+                    dirFiles = Directory.EnumerateDirectories(path)
+                                        .SelectMany(p => EnumerateFilesSafe(p, searchPattern, searchOpt));
+                }
+                return dirFiles.Concat(Directory.EnumerateFiles(path, searchPattern));
+            }
+            catch (IOException) {
+                return Enumerable.Empty<string>();
+            }
+            catch (UnauthorizedAccessException) {
+                return Enumerable.Empty<string>();
+            }
+        }
 
 
 

@@ -17,7 +17,6 @@ define([
     
     // Constructor
     initialize: function(attributes, options) {
-      this.item = options.item;
       this.sizes = {};
     },
     
@@ -72,7 +71,7 @@ define([
       }
       
       // Get the base URL
-      url = url || this.item.artworkUrl();
+      url = url || this.get('artworkUrl');
       
       // Build the full URL
       var query = $.param(options);
@@ -97,7 +96,7 @@ define([
         success:  function(data, textStatus, jqXHR) {
           artwork.colors = data;
           if (options.success) options.success(artwork, artwork.colors);
-          artwork.item.trigger('colors', artwork.colors, artwork.item);
+          artwork.trigger('colors', artwork.colors, artwork);
         },
         error: options.error
       });
@@ -131,12 +130,12 @@ define([
       if (artwork) {
         var exists = artwork.exists();
         // If the artwork does not exist
-        if (exists === false) {
+        if (!exists) {
           if (options.none) options.none(artwork);
           return;
         }
         // If the artwork exists and the correct size is present
-        else if (exists === true && artwork.hasSize(options.size)) {
+        else if (exists && artwork.hasSize(options.size)) {
           if (options.success) options.success(artwork, artwork.url(query));
           return;
         }
@@ -144,7 +143,7 @@ define([
       
       // Else, build new object
       else {
-        artwork = new Artwork({},{item:item});
+        artwork = new Artwork({ artworkUrl: item.artworkUrl() });
       }
       
       // No remote? Bail out
@@ -168,7 +167,7 @@ define([
           options.success(artwork, url, img);
         if (options.colors && !artwork.colors)
           artwork.getColors();
-        item.trigger('artwork', artwork, item);
+        artwork.trigger('artwork', artwork, item);
       };
       img.onerror = function(){
         artwork.set({

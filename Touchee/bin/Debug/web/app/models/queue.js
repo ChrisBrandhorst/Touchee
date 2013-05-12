@@ -19,6 +19,7 @@ define([
       _.each(response.items, function(itemData){
         var container = Media.get(itemData.mediumID).containers.get(itemData.containerID);
         var model = new container.contentsItemModel(itemData.item);
+        model.container = container;
         models.push(model);
       });
       this.priorityCount = response.priorityCount;

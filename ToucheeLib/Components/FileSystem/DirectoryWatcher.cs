@@ -166,7 +166,8 @@ namespace Touchee.Components.FileSystem {
             this.CollectionState = CollectionState.Collecting;
 
             // Get all files
-            var files = this.Directory.EnumerateFiles("*.*", SearchOption.AllDirectories);
+            //var files = this.Directory.EnumerateFiles("*.*", SearchOption.AllDirectories);
+            var files = this.Directory.EnumerateFilesSafe("*.*", SearchOption.AllDirectories);
 
             // If any extensions are set, filter the list
             if (this.Extensions.Count() > 0)
@@ -251,7 +252,8 @@ namespace Touchee.Components.FileSystem {
         void FileSystemWatcherChanged(object sender, FileSystemEventArgs e) {
             var file = new FileInfo(e.FullPath);
             if (_catchAllExtensions || _extensionsRegex.IsMatch(file.Extension))
-                this.AfterFileClosed(file, () => this.OnFileChanged(file));
+                //this.AfterFileClosed(file, () => this.OnFileChanged(file));
+                this.OnFileChanged(file);
         }
         protected virtual void OnFileChanged(FileInfo file) { }
 
@@ -292,7 +294,7 @@ namespace Touchee.Components.FileSystem {
             var i = 0;
             while (i < 10) {
                 try {
-                    var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.ReadWrite, FileShare.None);
+                    var fs = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.None);
                     fs.Close();
                     action.Invoke();
                     return;

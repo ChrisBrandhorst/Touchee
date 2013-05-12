@@ -49,13 +49,9 @@ define([
     // 
     setPosition: function(value) {
       this.set('position', value);
-      this._setPosition();
+      this._sendCommand('position', {value:this.get('position')});
     },
 
-    _setPosition: _.debounce(function(){
-      this._sendCommand('position', {value:this.get('position')});
-    }, 10),
-    
 
 
     // Internals

@@ -9,42 +9,23 @@ define([
     
     // Init
     initialize: function() {
-      this.listenTo(Media, 'sync', this.mediaLoaded);
+      Media.on('sync:containers:all', this.allContainersLoaded, this);
     },
     
     
     // Called when the App is ready (again)
-    load: function(connectedBefore) {
-      
-      // Get all media
-      Media.fetch({ update: true });
-      
+    load: function(firstTime) {
+      this.firstTime = firstTime;
+      Media.fetch();
     },
     
     
-    // Check for loading of all containers
-    mediaLoaded: function() {
-
-      var containersLoaded = 0;
-
-      var count = function(){
-        containersLoaded++;
-        if (containersLoaded == Media.length) {
-          // Media.off('sync:containers', count);
-          Library.trigger('loaded:containers');
-        }
-      };
-debugger;
-      Media.on('sync:containers', count);
-
-    },
-
-
-    //
-    firstMediumLoaded: function(containers) {
-      Backbone.history.navigate(containers.medium.url(), {trigger:true});
+    // 
+    allContainersLoaded: function() {
+      Library.trigger('loaded:containers');
+      if (this.firstTime && Media.length)
+        Backbone.history.navigate(Media.first().url(), {trigger:true});
     }
-    
     
   };
   

@@ -60,10 +60,10 @@ define([
     
     // Called when the websocket is (re-)opened
     connected: function() {
-      var isFirstConnection = Communicator.connectedCount == 1;
+      var firstTime = Communicator.connectedCount == 1;
       
       // If we have not connected before, get the sessionID from the cookie
-      if (isFirstConnection) {
+      if (firstTime) {
         
         // Get session ID from cookie
         var sessionID = document.cookie.match(/ToucheeSession=([a-f0-9-]+)/);
@@ -77,25 +77,20 @@ define([
       Communicator.send("IDENTIFY", this.sessionID);
       
       // Init
-      if (isFirstConnection) Library.initialize();
+      if (firstTime) Library.initialize();
       Devices.fetch();
       Playback.fetch();
 
       // When all containers are loaded
       Library.on('loaded:containers', function(){
-        debugger;
         Queue.fetch();
-        if (isFirstConnection)
+        if (Communicator.connectedCount == 1) // TODO: weird, firstTime is always true here...
           Router.initialize();
       });
 
       // Wait until other Communicator connected callbacks have finished
       _.defer(_.bind(function(){
-        // (re)Load the library
-        Library.load(this.wasConnected);
-        
-        // Set that we have connected at least one time
-        this.wasConnected = true;
+        Library.load(firstTime);
       }, this));
     },
     
@@ -104,7 +99,7 @@ define([
     reconnect: function() {
       _.delay(function(){
         App.connect();
-      }, 10000);
+      }, 5000);
     },
     
     

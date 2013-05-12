@@ -34,6 +34,26 @@
   <PropertyGroup>
     <StartupObject>Touchee.Program</StartupObject>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
@@ -144,7 +164,10 @@ xcopy /Y /S "$(SolutionDir)BassNetPlayer\bin\Debug\lib" "$(TargetDir)plugins\Bas
 REM xcopy /Y "$(SolutionDir)ListenLive\bin\Debug\ListenLive.dll" "$(TargetDir)plugins\ListenLive\"
 REM xcopy /Y /S "$(SolutionDir)ListenLive\bin\Debug\web" "$(TargetDir)plugins\ListenLive\web\"
 
-xcopy /Y "$(SolutionDir)Music\bin\Debug\Music.dll" "$(TargetDir)plugins\Music\"</PostBuildEvent>
+xcopy /Y "$(SolutionDir)Music\bin\Debug\Music.dll" "$(TargetDir)plugins\Music\"
+
+xcopy /Y "$(SolutionDir)Spotify\bin\Debug\Spotify.dll" "$(TargetDir)plugins\Spotify\"
+xcopy /Y /S "$(SolutionDir)Spotify\bin\Debug\lib" "$(TargetDir)plugins\Spotify\lib\"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

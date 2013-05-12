@@ -85,6 +85,14 @@ namespace Music.Media {
         }
 
 
+        /// <summary>
+        /// Can be called when a track is updated
+        /// </summary>
+        /// <param name="track">The track that is updated</param>
+        public virtual void Update(ITrack track) {
+            this.NotifyContentsChanged();
+        }
+
         #endregion
 
 

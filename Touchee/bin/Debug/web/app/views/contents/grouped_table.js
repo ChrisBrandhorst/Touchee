@@ -321,20 +321,14 @@ define([
         // Get some params
         var item  = this.groups[groupIdx][0];
         
-        var onArtwork = function(){
-          item.off('artwork', onArtwork);
-          view.updateFloatingIndexArtwork();
-        };
-        item.on('artwork', onArtwork);
-
         // Get the artwork
         Artwork.fetch(item, {
           size:     this.artworkSize,
-          colors:   true,
           success:  function(artwork, url, img) {
             // If we have artwork, set it
             if (artwork.exists() === true) {
               _.extend(el.style, view.getArtworkStyle(item, {url:url}));
+              view.updateFloatingIndexArtwork();
             }
             // Do the next item
             doNext();

@@ -9,16 +9,12 @@ define([
     
     // Constructor
     initialize: function(attributes, options) {
-      // Build conatiners collection
       this.containers = new Containers([], {medium:this});
-      
-      // If the containers collection is changed, trigger event for rendering the local medium page
-      this
-        .listenTo(this.containers, 'sync', function(){ debugger;this.trigger('sync:containers', this); })
-        .listenTo(this.containers, 'change', function(){ this.trigger('change:containers',  this); });
 
-      // 
-      this.containers.fetch();
+      // If the containers collection is changed, trigger event on the medium
+      this
+        .listenTo(this.containers, 'sync', function(){ this.trigger('sync:containers', this); })
+        .listenTo(this.containers, 'change', function(){ this.trigger('change:containers',  this); });
     },
     
     

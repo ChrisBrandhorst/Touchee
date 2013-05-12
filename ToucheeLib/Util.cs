@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Net;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 using HtmlAgilityPack;
 
@@ -15,6 +16,21 @@ namespace Touchee {
     /// Utility methods
     /// </remarks>
     public static class Util {
+
+
+        /// <summary>
+        /// Checks whether the file at the given path is a .NET assembly
+        /// </summary>
+        /// <param name="path">The path to check</param>
+        /// <returns>True if it is</returns>
+        public static bool IsNetAssembly(string path) {
+            var sb = new StringBuilder(256);
+            int written;
+            var hr = GetFileVersion(path, sb, sb.Capacity, out written);
+            return hr == 0;
+        }
+        [DllImport("mscoree.dll", CharSet = CharSet.Unicode)]
+        private static extern int GetFileVersion(string path, StringBuilder buffer, int buflen, out int written);
 
 
         /// <summary>

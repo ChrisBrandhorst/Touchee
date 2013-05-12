@@ -163,7 +163,7 @@ namespace Touchee {
 
             // Look for plugins in a subfolder
             try {
-                foreach (var d in Directory.GetDirectories(pluginsPath)) {
+                foreach (var d in Directory.GetDirectories(pluginsPath).Reverse()) {
                     pluginFiles.AddRange(Directory.GetFiles(d, "*.dll"));
                     //// Find the dll with the same name as the folder
                     //var dirInfo = new DirectoryInfo(d);
@@ -325,7 +325,7 @@ namespace Touchee {
                 var libPath = Path.Combine(fileInfo.DirectoryName, "lib");
                 if (Directory.Exists(libPath)) {
                     // Go through all dlls, to see if the requested assembly is present
-                    foreach (var dll in Directory.GetFiles(libPath, "*.dll")) {
+                    foreach (var dll in Directory.GetFiles(libPath, "*.dll").Where(f => Util.IsNetAssembly(f))) {
                         try {
                             var ass = Assembly.LoadFrom(dll);
                             if (ass.GetName().ToString() == args.Name)

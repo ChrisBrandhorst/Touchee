@@ -89,7 +89,7 @@ namespace Touchee.Playback {
         public IEnumerable<QueueItem> CurrentAndUpcoming {
             get {
                 var start = _index;
-                return start > _items.Count ? new List<QueueItem>() : _items.GetRange(start, _items.Count - start);
+                return start > _items.Count || start == -1 ? new List<QueueItem>() : _items.GetRange(start, _items.Count - start);
             }
         }
 

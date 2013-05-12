@@ -250,7 +250,7 @@ define([
           colors:   true,
           success:  function(artwork, url, img) {
             // If we have artwork, set it
-            if (artwork.exists() === true) {
+            if (artwork.exists()) {
               var artworkStyle  = view.getStyle(item, {url:url, zoomed:view.data.zoomed == item}),
                   $el           = $(el).addClass('noanim');
               _.extend(el.style, artworkStyle);
