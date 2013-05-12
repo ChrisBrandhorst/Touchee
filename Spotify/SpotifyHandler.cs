@@ -65,11 +65,10 @@ namespace Spotify {
             // Create a session
             _session = await SpotiFire.Spotify.CreateSession(key, Cache, Settings, UserAgent);
             _session.ConnectionError += _session_ConnectionError;
-            _session.Exception += _session_Exception;
             _session.ConnectionstateUpdated += _session_ConnectionstateUpdated;
 
             // We don't wait for login
-            this.Login("chris.brandhorst", password);
+            this.Login(username, password);
         }
 
 
@@ -112,10 +111,6 @@ namespace Spotify {
         }
 
         void _session_ConnectionError(Session sender, SessionEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-        void _session_Exception(Session sender, SessionEventArgs e) {
             throw new NotImplementedException();
         }
 
