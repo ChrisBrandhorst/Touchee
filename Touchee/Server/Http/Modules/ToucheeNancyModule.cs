@@ -59,7 +59,7 @@ namespace Touchee.Server.Http.Modules {
         /// <param name="context">The request context</param>
         /// <returns>Null</returns>
         Response FetchContext(NancyContext context) {
-
+            
             // Get client from session ID
             if (Request.Cookies.ContainsKey(CookieKey)) {
                 var sessionId = Request.Cookies[CookieKey];

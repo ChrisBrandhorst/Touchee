@@ -2,7 +2,7 @@
 using System.IO;
 
 using Touchee;
-using Touchee.Plugins;
+using Touchee.Components;
 
 using Un4seen.Bass;
 using Un4seen.Bass.AddOn.Mix;
@@ -44,8 +44,9 @@ namespace BassNetPlayer {
         /// Starts the plugin.
         /// </summary>
         /// <param name="config">The configuration object for this plugin</param>
+        /// <param name="context">The context for this plugin</param>
         /// <returns>Always true</returns>
-        public bool StartPlugin(dynamic config) {
+        public bool StartPlugin(dynamic config, IPluginContext context) {
             var path = Path.Combine(new FileInfo(this.GetType().Assembly.Location).DirectoryName, @"lib\Bass.Net");
             Bass.LoadMe(path);
             BassMix.LoadMe(path);

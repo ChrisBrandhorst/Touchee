@@ -98,6 +98,7 @@
     <Compile Include="Server\Responses\ContainersResponse.cs" />
     <Compile Include="Server\Responses\MediaResponse.cs" />
     <Compile Include="Server\Websocket\WebsocketServer.cs" />
+    <Compile Include="ToucheePluginContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Forms\Main.resx">

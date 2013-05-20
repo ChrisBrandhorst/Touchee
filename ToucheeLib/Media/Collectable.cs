@@ -13,6 +13,13 @@ namespace Touchee {
         Deleted
     }
 
+    public enum OutputIdMode {
+        AltIdOrId,
+        IdOrAltId,
+        AltId,
+        Id
+    }
+
     /// <remarks>
     /// 
     /// </remarks>
@@ -178,7 +185,7 @@ namespace Touchee {
                     item.Dispose();
 
                 _table.Clear();
-                _sourceTable.Clear();
+                _altTable.Clear();
                 _nextId = 1;
             }
         }
@@ -188,42 +195,94 @@ namespace Touchee {
 
 
 
-        #region Source ID
+        #region ID
 
         /// <summary>
-        /// The storage for the source collection mappings
+        /// The ID of this object
         /// </summary>
-        protected static Dictionary<object, object> _sourceTable = new Dictionary<object, object>();
+        public int Id { get; private set; }
+        static int _nextId = 1;
+
+        //
+        bool _new = true;
+
+        /// <summary>
+        /// Whether this object has not been stored yet
+        /// </summary>
+        public bool IsNew { get { return this.Id == 0; } }
+
+        #endregion
+
+
+
+        #region Output Id
+
+        /// <summary>
+        /// The ID output mode for this collectable
+        /// </summary>
+        protected OutputIdMode OutputIdMode;
 
 
         /// <summary>
-        /// The source ID
+        /// The outputted Id
         /// </summary>
-        public virtual object SourceId {
+        [DataMember(Name = "Id")]
+        protected virtual object OutputId {
             get {
-                return Id;
+                object id;
+                switch (this.OutputIdMode) {
+                    case OutputIdMode.IdOrAltId:
+                        id = this.Id == 0 ? this.AltId : this.Id;
+                        break;
+                    case OutputIdMode.Id:
+                        id = this.Id;
+                        break;
+                    case OutputIdMode.AltId:
+                        id = this.AltId;
+                        break;
+                    default:
+                        id = this.AltId == null ? this.Id : this.AltId;
+                        break;
+                }
+                return id;
             }
-            protected set { }
+        }
+
+        #endregion
+
+
+
+        #region Alt ID
+
+        /// <summary>
+        /// The storage for the alternative ID collection mappings
+        /// </summary>
+        protected static Dictionary<object, object> _altTable = new Dictionary<object, object>();
+
+
+        /// <summary>
+        /// The alternative ID
+        /// </summary>
+        public virtual object AltId { get; protected set; }
+
+
+        /// <summary>
+        /// Gets a stored instance of the base type by the alternative ID
+        /// </summary>
+        /// <param name="id">The ID to search for</param>
+        /// <returns>The instance with the corresponding alternative ID</returns>
+        public static T FindByAltID(object id) {
+            return (T)_altTable[id];
         }
 
 
         /// <summary>
-        /// Gets a stored instance of the base type by the source ID
+        /// Gets a stored instance of the given type by the alternative ID
         /// </summary>
         /// <param name="id">The ID to search for</param>
-        /// <returns>The instance with the corresponding source ID</returns>
-        public static T FindBySourceID(object id) {
-            return (T)_sourceTable[id];
-        }
-
-
-        /// <summary>
-        /// Gets a stored instance of the given type by the source ID
-        /// </summary>
-        /// <param name="id">The ID to search for</param>
-        /// <returns>The instance with the corresponding source ID</returns>
-        public static R FindBySourceID<R>(object id) where R : T {
-            var item = _sourceTable[id];
+        /// <returns>The instance with the corresponding alternative ID</returns>
+        public static R FindByAltID<R>(object id) where R : T {
+            var item = _altTable[id];
             R ret = default(R);
             if (item is R)
                 ret = (R)item;
@@ -234,23 +293,23 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Checks whether a stored instance of the base type with the given source ID exists
+        /// Checks whether a stored instance of the base type with the given alternative ID exists
         /// </summary>
-        /// <param name="id">The source ID to check</param>
+        /// <param name="id">The alternative ID to check</param>
         /// <returns>true if the instance exists, otherwise false</returns>
-        public static bool ExistsBySourceID(object id) {
-            return _sourceTable.ContainsKey(id);
+        public static bool ExistsByAltID(object id) {
+            return _altTable.ContainsKey(id);
         }
 
 
         /// <summary>
-        /// Checks whether a stored instance of the given type with the given source ID exists
+        /// Checks whether a stored instance of the given type with the given alternative ID exists
         /// </summary>
         /// <typeparam name="R">The type to match</typeparam>
-        /// <param name="id">The ID to check</param>
+        /// <param name="id">The alternative ID to check</param>
         /// <returns>true if the instance exists, otherwise false</returns>
-        public static bool ExistsBySourceID<R>(object id) where R : T {
-            return ExistsBySourceID(id) && FindBySourceID(id) is R;
+        public static bool ExistsByAltID<R>(object id) where R : T {
+            return ExistsByAltID(id) && FindByAltID(id) is R;
         }
 
         #endregion
@@ -285,18 +344,6 @@ namespace Touchee {
         #region Create, Update, Destroy
 
         /// <summary>
-        /// The ID of this object
-        /// </summary>
-        [DataMember]
-        public int Id { get; private set; }
-        static int _nextId = 1;
-
-        /// <summary>
-        /// Whether this object has not been stored yet
-        /// </summary>
-        public bool IsNew { get { return this.Id == 0; } }
-
-        /// <summary>
         /// Stores the instance in the collection of the derived type, giving it an ID
         /// </summary>
         public virtual void Save() {
@@ -306,7 +353,7 @@ namespace Touchee {
             if (Collectable<T>.BeforeSave != null)
                 Collectable<T>.BeforeSave.Invoke(this, new ItemEventArgs(ItemChangeTypes.Saved, this));
             if (isNew) {
-                if (Collectable<T>.BeforeCreate != null && Id > 0)
+                if (Collectable<T>.BeforeCreate != null)
                     Collectable<T>.BeforeCreate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Created, this));
             }
             else {
@@ -318,7 +365,8 @@ namespace Touchee {
             if (isNew) {
                 Id = _nextId++;
                 _table[Id] = this;
-                _sourceTable[SourceId] = this;
+                if (AltId != null)
+                    _altTable[AltId] = this;
             }
             
             // Do create or update and save after callbacks
@@ -354,8 +402,8 @@ namespace Touchee {
                     Collectable<T>.BeforeDispose.Invoke(this, new ItemEventArgs(ItemChangeTypes.Deleted, this));
                 if (_table.ContainsKey(this.Id))
                     _table.Remove(this.Id);
-                if (_sourceTable.ContainsKey(this.SourceId))
-                    _sourceTable.Remove(this.SourceId);
+                if (this.AltId != null && _altTable.ContainsKey(this.AltId))
+                    _altTable.Remove(this.AltId);
                 this.IsDisposed = true;
                 this.OnDispose();
                 if (Collectable<T>.AfterDispose != null && Id > 0)

@@ -11,10 +11,10 @@ using Touchee.Server;
 using Touchee.Server.Responses;
 using Touchee.Artwork;
 using Touchee.Playback;
+using Touchee.Components;
 using Touchee.Components.Content;
 using Touchee.Components.Media;
 using Touchee.Components.Playback;
-using Touchee.Plugins;
 using Touchee.Media;
 using Touchee.Devices;
 
@@ -31,7 +31,8 @@ namespace Touchee {
         /// <summary>
         /// Private constructor
         /// </summary>
-        Library() { }
+        Library() {
+        }
 
         /// <summary>
         /// The singleton instance of the library
@@ -311,8 +312,6 @@ namespace Touchee {
             var contents = contentProvider.GetContents(container, filter);
             return new ContentsResponse(container, contents);
         }
-
-
 
 
         #endregion

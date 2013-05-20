@@ -13,7 +13,7 @@ namespace Touchee.Server {
     /// Makes it possible to push messages to the client.
     /// Clients can be found using a IWebSocketConnection or IP address.
     /// </remarks>
-    public class Client : Collectable<Client> {
+    public class Client : Collectable<Client>, IClient {
 
 
         #region Finders

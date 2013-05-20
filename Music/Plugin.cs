@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 
 using Touchee;
-using Touchee.Plugins;
+using Touchee.Components;
 
 namespace Music {
 
@@ -66,8 +66,9 @@ namespace Music {
         /// Starts the plugin.
         /// </summary>
         /// <param name="config">The configuration object for this plugin</param>
+        /// <param name="context">The context for this plugin</param>
         /// <returns>True if the plugin was successfully started</returns>
-        public bool StartPlugin(dynamic config) {
+        public bool StartPlugin(dynamic config, IPluginContext context) {
 
             // Get folders
             string[] folders = config.GetStringArray("folders");

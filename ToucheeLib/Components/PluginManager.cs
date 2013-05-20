@@ -7,7 +7,7 @@ using System.Reflection;
 using Touchee.Components;
 using Touchee.Components.Content;
 
-namespace Touchee.Plugins {
+namespace Touchee.Components {
 
 
     public static class PluginManager {

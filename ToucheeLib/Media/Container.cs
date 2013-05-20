@@ -12,7 +12,7 @@ namespace Touchee {
     /// <remarks>
     /// A container element
     /// </remarks>
-    public abstract class Container : Collectable<Container> {
+    public abstract class Container : Collectable<Container>, IComparable<Container> {
 
         /// <summary>
         /// The name of the container
@@ -125,6 +125,19 @@ namespace Touchee {
 
         #endregion
 
+
+        public virtual int CompareTo(Container other) {
+            int ret;
+            if (this.Name == null && other.Name == null)
+                ret = 0;
+            else if (this.Name == null)
+                ret = 1;
+            else if (other.Name == null)
+                ret = -1;
+            else
+                ret = Util.ToSortName(this.Name).CompareTo(Util.ToSortName(other.Name));
+            return ret;
+        }
     }
 
     

@@ -59,6 +59,7 @@
   <ItemGroup>
     <Compile Include="ArtworkHelper.cs" />
     <Compile Include="Base.cs" />
+    <Compile Include="Components\IPluginContext.cs" />
     <Compile Include="Devices\AirplayDevice.cs" />
     <Compile Include="Devices\Device.cs" />
     <Compile Include="Devices\MasterVolume.cs" />
@@ -68,6 +69,8 @@
     <Compile Include="Debouncer.cs" />
     <Compile Include="Devices\WinLirc.cs" />
     <Compile Include="Extensions.cs" />
+    <Compile Include="Server\IClient.cs" />
+    <Compile Include="Server\IServer.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Media\Collectable.cs" />
     <Compile Include="Media\ITimedItem.cs" />
@@ -83,28 +86,27 @@
     <Compile Include="Meta\ColorTunes.cs" />
     <Compile Include="Meta\IMovieInfo.cs" />
     <Compile Include="Media\Music\WebcastStream.cs" />
-    <Compile Include="Organizing\Container.cs" />
+    <Compile Include="Media\Container.cs" />
     <Compile Include="Components\Media\DriveMediaWatcher.cs" />
     <Compile Include="Components\Media\IMediaWatcher.cs" />
     <Compile Include="Components\Media\IMediumWatcher.cs" />
-    <Compile Include="Organizing\Medium.cs" />
+    <Compile Include="Media\Medium.cs" />
     <Compile Include="Components\Playback\IAudioPlayer.cs" />
     <Compile Include="Components\Playback\IPlayer.cs" />
     <Compile Include="Components\Playback\IVisualPlayer.cs" />
     <Compile Include="Playback\Queue.cs" />
-    <Compile Include="Playback\OQueue.cs" />
     <Compile Include="Playback\QueueItem.cs" />
     <Compile Include="Playback\RepeatMode.cs" />
     <Compile Include="Components\Services\IArtworkService.cs" />
     <Compile Include="Components\Content\IContentArtworkProvider.cs" />
     <Compile Include="Components\Content\IContentProvider.cs" />
     <Compile Include="Components\Services\IMovieInfoService.cs" />
-    <Compile Include="Plugins\IPlugin.cs" />
+    <Compile Include="Components\IPlugin.cs" />
     <Compile Include="Components\IComponent.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
+    <Compile Include="Components\PluginManager.cs" />
     <Compile Include="Components\Services\ServiceResultStatus.cs" />
     <Compile Include="CacheObject.cs" />
-    <Compile Include="Types\Options.cs" />
+    <Compile Include="Options.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>

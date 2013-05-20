@@ -6,7 +6,7 @@ using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.Session;
 
-using Touchee.Plugins;
+using Touchee.Components;
 
 namespace Touchee.Server.Http {
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Touchee.Plugins;
+using Touchee.Components;
 using Touchee.Devices;
 
 namespace Touchee.Server.Responses {

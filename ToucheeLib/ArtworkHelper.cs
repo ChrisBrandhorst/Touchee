@@ -5,7 +5,7 @@ using System.Text;
 using System.Drawing;
 using System.IO;
 
-using Touchee.Plugins;
+using Touchee.Components;
 using Touchee.Components.Services;
 using Touchee.Media.Music;
 

@@ -7,6 +7,7 @@ using TagLib;
 using System.Drawing;
 using System.IO;
 
+using Touchee.Components;
 using Touchee.Components.Services;
 using Touchee.Media.Music;
 
@@ -43,8 +44,9 @@ namespace Touchee.Plugins {
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
+        /// <param name="context">The context for this plugin</param>
         /// <returns>True</returns>
-        public bool StartPlugin(dynamic config) {
+        public bool StartPlugin(dynamic config, IPluginContext context) {
             PluginManager.Register((IAlbumArtworkService)this);
             return true;
         }

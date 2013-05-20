@@ -8,7 +8,8 @@ using System.IO;
 using System.Reflection;
 using System.Collections;
 
-using Touchee.Plugins;
+using Touchee.Components;
+using Touchee.Server;
 
 namespace Touchee {
 
@@ -31,7 +32,6 @@ namespace Touchee {
             Init();
         }
 
-
         /// <summary>
         /// Checks and initialises all the components for the application.
         /// </summary>
@@ -46,10 +46,6 @@ namespace Touchee {
             // Loads all settings
             Config = LoadConfig();
             if (Config == null) return false;
-
-
-            // Loads all plugins
-            if (!LoadPlugins()) return false;
 
 
             // Get port for the http server
@@ -78,6 +74,14 @@ namespace Touchee {
 
             // Init the server
             var server = new Server.ToucheeServer(httpPort, websocketPort);
+
+
+            // Build plugin context
+            IPluginContext pluginContext = new ToucheePluginContext(server);
+
+
+            // Loads all plugins
+            if (!LoadPlugins(pluginContext)) return false;
 
 
             // Kickstart WinLirc client
@@ -130,8 +134,9 @@ namespace Touchee {
         /// <summary>
         /// Loads all plugins from the plugins folder
         /// </summary>
+        /// <param name="context">The plugin context to feed the plugins</param>
         /// <returns>False if the plugin folder cannot be read, otherwise true</returns>
-        static bool LoadPlugins() {
+        static bool LoadPlugins(IPluginContext context) {
             
             // Get the plugins config section
             dynamic pluginsConfig;
@@ -139,8 +144,8 @@ namespace Touchee {
 
             // First, process plugins in the app and main lib assembly
             try {
-                LoadPlugins(Assembly.GetExecutingAssembly(), pluginsConfig);
-                LoadPlugins(Assembly.Load("ToucheeLib"), pluginsConfig);
+                LoadPlugins(Assembly.GetExecutingAssembly(), pluginsConfig, context);
+                LoadPlugins(Assembly.Load("ToucheeLib"), pluginsConfig, context);
             }
             catch (Exception e) {
                 Logger.Log("Some internal plugin failed to load: " + e.Message, Logger.LogLevel.Error);
@@ -187,7 +192,7 @@ namespace Touchee {
                     // Load the assembly
                     var assembly = Assembly.LoadFile(filename);
                     // Load the plugins from the assembly
-                    LoadPlugins(assembly, pluginsConfig);
+                    LoadPlugins(assembly, pluginsConfig, context);
                 }
                 catch(Exception e) {
                     Logger.Log("Unable to load DLL as Touchee plugin: " + filename + " : " + e.Message, Logger.LogLevel.Error);
@@ -202,8 +207,9 @@ namespace Touchee {
         /// Loads the plugins found in the given assembly
         /// </summary>
         /// <param name="assembly">The assembly to get the plugins from</param>
-        /// <param name="pluginsConfig">Plugins config section</param>
-        static void LoadPlugins(Assembly assembly, dynamic pluginsConfig) {
+        /// <param name="config">Plugins config section</param>
+        /// <param name="context">The plugin context to feed the plugin</param>
+        static void LoadPlugins(Assembly assembly, dynamic config, IPluginContext context) {
 
             // Get reference to plugin interface
             Type pluginType = typeof(IPlugin);
@@ -226,8 +232,15 @@ namespace Touchee {
                 // Get the configuration
                 dynamic pluginConfig = null;
                 var name = type.Assembly == thisAssembly ? type.Name : type.Assembly.GetName().Name;
-                if (pluginsConfig != null)
-                    pluginsConfig.TryGetValue(name, out pluginConfig);
+                bool disabled = false;
+                if (config != null) {
+                    config.TryGetValue(name, out pluginConfig);
+                    if (pluginConfig != null)
+                        disabled = pluginConfig.ContainsKey("disabled");
+                }
+
+                // Do next if disabled
+                if (disabled) continue;
 
                 // Create instance of plugin
                 try {
@@ -239,7 +252,7 @@ namespace Touchee {
                 }
 
                 // Boot the plugin
-                ok = plugin.StartPlugin(pluginConfig);
+                ok = plugin.StartPlugin(pluginConfig, context);
 
                 // Store plugin if successfull
                 if (ok) {

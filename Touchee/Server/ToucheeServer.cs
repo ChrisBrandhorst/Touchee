@@ -8,7 +8,6 @@ using System.IO;
 
 using Touchee.Server;
 using Touchee.Server.Responses;
-using Touchee.Plugins;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -18,7 +17,7 @@ namespace Touchee.Server {
     /// <remarks>
     /// The master server
     /// </remarks>
-    public class ToucheeServer : Base {
+    public class ToucheeServer : Base, IServer {
 
 
         #region Privates
@@ -57,12 +56,6 @@ namespace Touchee.Server {
 
             // Init serializer
             _serializer = new Http.JsonNetSerializer();
-
-            // Init HTTP server
-            _httpServer = new Server.Http.HttpServer(httpServerPort);
-
-            // Init websocket server
-            _websocketServer = new Server.Websocket.WebsocketServer(websocketPort);
         }
 
 
@@ -75,6 +68,7 @@ namespace Touchee.Server {
             // Start HTTP server
             try {
                 Log("Starting HTTP server on port " + _httpServerPort.ToString());
+                _httpServer = new Server.Http.HttpServer(_httpServerPort);
                 _httpServer.Start();
                 Log("HTTP server started");
             }
@@ -86,6 +80,7 @@ namespace Touchee.Server {
             // Start websocket server
             try {
                 Log("Starting websocket server on port " + this.WebsocketPort.ToString());
+                _websocketServer = new Server.Websocket.WebsocketServer(this.WebsocketPort);
                 _websocketServer.Start();
                 Log("Websocket server started");
             }
@@ -106,7 +101,7 @@ namespace Touchee.Server {
         /// </summary>
         /// <param name="response">The response to be serialized</param>
         /// <returns>The message in JSON form</returns>
-        public string Serialize(object response) {
+        string Serialize(object response) {
             var key = Regex.Replace(response.GetType().Name.FirstToLower(), "Response$", "");
             return this.Serialize(key, response);
         }
@@ -118,7 +113,7 @@ namespace Touchee.Server {
         /// <param name="key">The root key</param>
         /// <param name="obj">The object to be serialized</param>
         /// <returns>A JSON string</returns>
-        public string Serialize(string key, object obj) {
+        string Serialize(string key, object obj) {
             var dict = new Dictionary<string, object>();
             dict[key] = obj;
 
@@ -144,7 +139,7 @@ namespace Touchee.Server {
         /// </summary>
         /// <param name="client">The client to send the message to</param>
         /// <param name="message">The response to send</param>
-        public void Send(Client client, object response) {
+        public void Send(IClient client, object response) {
             client.Send(Serialize(response));
         }
 

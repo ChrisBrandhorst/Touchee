@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Net;
 
+using Touchee.Meta;
 using Touchee.Artwork;
 using Touchee.Components;
 using Touchee.Components.Services;
@@ -58,8 +59,9 @@ namespace Touchee.Plugins {
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>
+        /// <param name="context">The context for this plugin</param>
         /// <returns>False if no valid URL was given in the config, otherwise true</returns>
-        public bool StartPlugin(dynamic config) {
+        public bool StartPlugin(dynamic config, IPluginContext context) {
 
             // No config, no dice...
             if (config == null || config.GetType() != typeof(ConfigObject)) {
