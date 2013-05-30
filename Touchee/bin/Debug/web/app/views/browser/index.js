@@ -93,12 +93,6 @@ define([
     // Called when the websocket has connected
     connected: function() {
       this.$el.removeClass('disconnected');
-      
-      this.$nav.show();
-      this.$search.show();
-      this.$connecting.hide();
-      this.$contents.show();
-
       BrowserHeaderView.enable(true);
     },
 
@@ -108,14 +102,7 @@ define([
       this.$connecting.find('> span').html(
         I18n.browser[ Communicator.connectedCount == 0 ? 'connecting' : 'reconnecting' ].replace('%s', ServerInfo.getName())
       );
-
       this.$el.addClass('disconnected');
-      
-      this.$nav.hide();
-      this.$search.hide();
-      this.$connecting.show();
-      this.$contents.hide();
-
       BrowserHeaderView.enable(false);
     },
     

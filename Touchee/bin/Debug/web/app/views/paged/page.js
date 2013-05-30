@@ -38,7 +38,7 @@ define([
       if (options.backButton) {
         var back = this.getBackButton();
         if (_.isString(back))
-          back = { text:back, className:'dark' };
+          back = { text: back == "" ? "&nbsp;" : back, className:'dark' };
         this.$header.prepend(
           $('<button type="button" class="ios back"/>').html(back.text).addClass(back.className)
         );

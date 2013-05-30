@@ -20,7 +20,7 @@ define([
       var artists = _.map(groups, function(group){
         return group[0];
       });
-      
+
       return artists;
     },
     

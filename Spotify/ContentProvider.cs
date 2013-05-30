@@ -4,18 +4,18 @@ using System.Linq;
 
 using Touchee;
 using Touchee.Components.Content;
-using Music.Media;
+using Spotify.Media;
 using Touchee.Media.Music;
 
-namespace Music {
-    
+namespace Spotify {
+
     /// <summary>
     /// 
     /// </summary>
-    public class MusicContentProvider : IContentProvider {
+    public class ContentProvider : IContentProvider {
 
 
-        public MusicContentProvider() {
+        public ContentProvider() {
         }
 
 
@@ -40,14 +40,14 @@ namespace Music {
         /// <param name="filter"></param>
         /// <returns></returns>
         public IEnumerable<IItem> GetItems(Container container, Options filter) {
-            if (!(container is Playlist)) return null;
+            if (!(container is IPlaylist)) return null;
 
             IEnumerable<ITrack> ret = null;
-            var allTracks = ((Playlist)container).Tracks;
+            var allTracks = ((IPlaylist)container).Tracks;
 
             string view = filter.ContainsKey("view") ? filter["view"] : null;
             switch (view) {
-                
+
                 // All tracks for the given artist or genre
                 case "artist":
                 case "genre":
@@ -55,7 +55,7 @@ namespace Music {
                     if (group != null) group = group.ToLower();
                     switch (view) {
                         case "artist": ret = allTracks.Where(t => t.IsByArtist(group)); break;
-                        case "genre":  ret = allTracks.Where(t => t.IsOfGenre(group)); break;
+                        case "genre": ret = allTracks.Where(t => t.IsOfGenre(group)); break;
                     }
                     ret = ret
                         .OrderByOrdinal(t => t.AlbumArtistSort)
@@ -64,7 +64,7 @@ namespace Music {
 
                 // All tracks for the given album
                 case "album":
-                    ret = Track.Where(t => t.AlbumID == filter["album"]);
+                    //ret = Track.Where(t => t.AlbumID == filter["album"]);
                     break;
 
                 // All tracks
@@ -87,7 +87,7 @@ namespace Music {
                     .ThenBy(t => t.TrackNumber)
                     .ThenByOrdinal(t => t.TitleSort);
             }
-            
+
             return ret;
         }
 

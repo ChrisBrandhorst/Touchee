@@ -106,6 +106,8 @@
       @include lcdButton(queue, 42)
       [data-button=queue]
         margin: -1px 5px 0 0
+        @media #{$portraitMedia}
+          margin-right: -3px
       @include lcdButton(shuffle, 31)
       [data-button=shuffle]
         margin: -7px 2px 0 0
@@ -249,13 +251,3 @@
   > header.not_playing #lcd
     > *:not([data-button=queue])
       @include translateY(-1000px)
-
-
-
-
-// Portrait mode
-@media #{$portraitMedia}
-  #browser > header
-    #lcd
-      [data-button=queue]
-        margin-right: -3px

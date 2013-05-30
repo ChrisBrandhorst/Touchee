@@ -44,9 +44,13 @@ namespace Touchee.Server.Http.Modules {
         /// Gets the contents of the given container
         /// </summary>
         public Response GetContents(dynamic parameters) {
-            if (Container == null) return null;
-            ContentsResponse contents = Library.GetContentsResponse(Container, Filter);
-            return Response.AsJson(contents);
+            if (Container == null)
+                return new NotFoundResponse();
+            var contents = Library.GetContentsResponse(Container, Filter);
+            if (contents == null)
+                return new NotFoundResponse();
+            else
+                return Response.AsJson(contents);
         }
 
 

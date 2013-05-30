@@ -56,6 +56,12 @@ namespace Touchee.Plugins {
 
 
         /// <summary>
+        /// Whether this plugin provides some front-end functionality
+        /// </summary>
+        public bool ProvidesFrontend { get { return false; } }
+
+
+        /// <summary>
         /// Starts this plugin
         /// </summary>
         /// <param name="config">The configuration section for this plugin</param>

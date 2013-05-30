@@ -10,25 +10,24 @@
   @if type-of($options) == 'string'
     $options: append((), $options)
 
-  $remote: index($options, remote) != false
-  $retina: index($options, retina) != false
-  $plugin: index($options, plugin) != false
-  $path: $image
+  $path:  "images/#{$image}"
+  $ext:   "png"
 
-  @if $remote
+  @if index($options, remote) != false
     $path: "images/remote/#{$image}"
-  @else
-    $path: "images/#{$image}"
 
-  @if $plugin
+  @if index($options, plugin) != false
     $path: "../../../../assets/#{$path}"
   @else
     $path: "../#{$path}"
 
-  @if $retina
-    $path: -webkit-image-set(url(#{$path}.png) 1x, url(#{$path}@2x.png) 2x)
+  @if index($options, gif) != false
+    $ext: "gif"
+
+  @if index($options, retina) != false
+    $path: -webkit-image-set(url(#{$path}.#{$ext}) 1x, url(#{$path}@2x.#{$ext}) 2x)
   @else
-    $path: url(#{$path}.png)
+    $path: url(#{$path}.#{$ext})
 
   @return $path
 
@@ -65,3 +64,19 @@
     @else
       &:active
         background-image: image-value(#{$image}#{$alt}, $options)
+
+// Medium icon
+@mixin medium_icon($class, $icon:'', $custom:false)
+  @if $icon == ''
+    $icon: $class
+  &.#{$class}
+    &::before
+      @if $custom == true
+        @include  background-img(SourceList#{$icon}Gray, retina)
+      @else
+        @include  background-img(SourceList#{$icon}Gray, remote retina)
+    &.selected::before
+      @if $custom == true
+        @include  background-img(SourceList#{$icon}Highlight, retina)
+      @else
+        @include  background-img(SourceList#{$icon}Highlight, remote retina)

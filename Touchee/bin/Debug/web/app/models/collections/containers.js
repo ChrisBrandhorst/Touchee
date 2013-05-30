@@ -21,6 +21,13 @@ define([
     // Constructor
     initialize: function(models, options) {
       this.medium = options.medium;
+    },
+
+    //
+    masters: function() {
+      return this.select(function(c){
+        return c.isMaster();
+      });
     }
     
     

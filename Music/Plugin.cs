@@ -63,6 +63,12 @@ namespace Music {
 
 
         /// <summary>
+        /// Whether this plugin provides some front-end functionality
+        /// </summary>
+        public bool ProvidesFrontend { get { return true; } }
+
+
+        /// <summary>
         /// Starts the plugin.
         /// </summary>
         /// <param name="config">The configuration object for this plugin</param>
@@ -108,6 +114,8 @@ namespace Music {
             // Unregister plugin
             PluginManager.Unregister(Watcher);
             PluginManager.Unregister(ContentProvider);
+            PluginManager.Unregister(this);
+
             return true;
         }
 

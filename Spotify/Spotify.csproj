@@ -52,6 +52,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <Choose>
@@ -63,9 +64,12 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="ContentProvider.cs" />
     <Compile Include="ContentsHandler.cs" />
+    <Compile Include="Media\MasterPlaylist.cs" />
     <Compile Include="Media\Playlist.cs" />
     <Compile Include="Media\SpotifyMedium.cs" />
+    <Compile Include="Media\SpotifyTrack.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SessionHandler.cs" />
@@ -79,6 +83,10 @@
     <ProjectReference Include="..\..\SpotiFire\SpotiFire.SpotifyLib\SpotiFire.SpotifyLib.csproj">
       <Project>{cbf5614b-af79-4228-8265-7dc2baf9a626}</Project>
       <Name>SpotiFire.SpotifyLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Music\Music.csproj">
+      <Project>{e0cd87d1-1c76-4ffb-91bc-d02662ba3017}</Project>
+      <Name>Music</Name>
     </ProjectReference>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">
       <Project>{76b24f44-0f71-46f1-9d79-373ecfbc72bf}</Project>

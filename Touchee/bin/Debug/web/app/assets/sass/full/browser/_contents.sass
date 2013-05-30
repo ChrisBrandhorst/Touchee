@@ -1,6 +1,10 @@
-#browser #contents
+#browser
   
-  @include  display-box
-  @include  box-orient(vertical)
-  > *:not(.index)
-    @include box-flex(1)
+  > #contents
+    @include  display-box
+    @include  box-orient(vertical)
+    > *:not(.index)
+      @include box-flex(1)
+
+  &.disconnected > #contents
+    display: none

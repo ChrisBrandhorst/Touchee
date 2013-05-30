@@ -302,15 +302,17 @@ define([
       if (options.trigger)
         this.trigger('beforeHide');
 
+      var afterTransition = _.bind(function(){
+        this.$el.off('webkitTransitionEnd', afterTransition);
+        this.$el.removeClass('animate hidden');
+        removeFunc();
+        if (options.trigger)
+          this.trigger('hide');
+      }, this);
+
       this.$el
         .addClass('animate hidden')
-        .on('webkitTransitionEnd', _.bind(function(){
-
-          this.$el.removeClass('animate hidden');
-          removeFunc();
-          if (options.trigger)
-            this.trigger('hide');
-        }, this));
+        .on('webkitTransitionEnd', afterTransition);
 
       this.$overlay.remove();
       delete this.$overlay;

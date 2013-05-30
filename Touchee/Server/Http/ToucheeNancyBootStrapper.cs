@@ -18,11 +18,13 @@ namespace Touchee.Server.Http {
         protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, IPipelines pipelines) {
             StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
             StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
+
+            pipelines.AfterRequest += new GzipCompressionFilter();
         }
 
         protected override void ConfigureConventions(NancyConventions conventions) {
             
-            foreach (var component in PluginManager.FrontendComponents) {
+            foreach (var component in PluginManager.FrontendPlugins) {
                 var pluginName = component.GetType().Assembly.GetName().Name;
                 conventions.StaticContentsConventions.Add(
                     StaticContentConventionBuilder.AddDirectory("app/plugins/" + pluginName.ToUnderscore(), "plugins/" + pluginName + "/web")

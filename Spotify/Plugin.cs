@@ -8,6 +8,8 @@ using Touchee;
 using Touchee.Components;
 using Touchee.Components.Media;
 
+using Spotify.Media;
+
 namespace Spotify {
 
 
@@ -31,16 +33,18 @@ namespace Spotify {
 
         #region Statics
 
+        internal static Watcher Watcher { get; private set; }
+        internal static ContentProvider ContentProvider { get; private set; }
+
         #endregion
 
 
 
         #region Privates
 
-        Watcher _watcher;
         SessionHandler _sessionHandler;
         ContentsHandler _contentsHandler;
-
+        
         string _username;
         string _password;
         byte[] _key;
@@ -70,6 +74,12 @@ namespace Spotify {
 
 
         /// <summary>
+        /// Whether this plugin provides some front-end functionality
+        /// </summary>
+        public bool ProvidesFrontend { get { return true; } }
+
+
+        /// <summary>
         /// Starts the plugin.
         /// </summary>
         /// <param name="config">The configuration object for this plugin</param>
@@ -88,13 +98,17 @@ namespace Spotify {
             catch (Exception) {
                 Log("No or invalid config values for username, password, key", Logger.LogLevel.Error);
             }
-            
+
+            // Add content provider
+            ContentProvider = new ContentProvider();
+            PluginManager.Register(ContentProvider);
+
             // Start the watcher
-            _watcher = new Watcher();
-            PluginManager.Register(_watcher);
+            Watcher = new Watcher();
+            PluginManager.Register(Watcher);
 
             // Bind to watching event
-            _watcher.StartedWatching += StartedWatching;
+            Watcher.StartedWatching += StartedWatching;
 
 
             return true;
@@ -111,7 +125,7 @@ namespace Spotify {
             var session = _sessionHandler.Init(_username, _password, _key).Result;
 
             // Start contents handler
-            _contentsHandler = new ContentsHandler(session, medium);
+            _contentsHandler = new ContentsHandler(session);
 
         }
 
@@ -123,10 +137,12 @@ namespace Spotify {
         public bool StopPlugin() {
 
             // Stop the watcher(s)
-            
+            Watcher.UnWatchAll();
 
             // Unregister plugin
-            
+            PluginManager.Unregister(Watcher);
+            PluginManager.Unregister(ContentProvider);
+            PluginManager.Unregister(this);
 
             return true;
         }

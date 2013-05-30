@@ -128,8 +128,10 @@ define([
     button: function(ev) {
       var button = $(ev.currentTarget).attr('data-button');
 
-      if (Queue[button])
+      if (_.isFunction(Queue[button]))
         Queue[button]();
+      else if (_.isFunction(Playback[button]))
+        Playback[button]();
     },
 
 

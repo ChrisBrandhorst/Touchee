@@ -44,22 +44,21 @@ namespace Touchee {
         public virtual bool IsEmpty { get { return false; } }
 
         /// <summary>
+        /// If this container is a sub-container, this property returns
+        /// the master container.
+        /// </summary>
+        public virtual Container Master { get; protected set; }
+
+        /// <summary>
+        /// The ID of the master container when this object is serialized
+        /// </summary>
+        [DataMember(Name = "MasterID")]
+        protected virtual object OutputMasterID { get { return this.IsMaster ? null : this.Master.OutputId; } }
+
+        /// <summary>
         /// Whether this container is a master container
         /// </summary>
-        [DataMember]
-        public virtual bool IsMaster { get { return false; } }
-
-        ///// <summary>
-        ///// The collection of items within this container
-        ///// </summary>
-        //public abstract IEnumerable<IItem> Items { get; }
-
-        ///// <summary>
-        ///// Returns the item with the given item ID
-        ///// </summary>
-        ///// <param name="itemID">The ID of the item to return</param>
-        ///// <returns>The item with the given ID, or null if it does not exist</returns>
-        //public virtual IItem GetItem(int itemID) { return null; }
+        public virtual bool IsMaster { get { return this.Master == null; } }
 
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'

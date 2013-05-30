@@ -47,13 +47,6 @@ namespace Touchee {
         } }
 
         /// <summary>
-        /// Returns the master container for this medium
-        /// </summary>
-        public Container MasterContainer {
-            get { return Containers.FirstOrDefault(c => c.IsMaster); }
-        }
-
-        /// <summary>
         /// The local medium
         /// </summary>
         public static Medium Local { get { return LocalMedium.Instance; } }

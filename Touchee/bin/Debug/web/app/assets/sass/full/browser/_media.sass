@@ -1,18 +1,3 @@
-@mixin medium_icon($class, $icon:'', $custom:false)
-  @if $icon == ''
-    $icon: $class
-  &.#{$class}
-    &::before
-      @if $custom == true
-        @include  background-img(SourceList#{$icon}Gray, retina)
-      @else
-        @include  background-img(SourceList#{$icon}Gray, remote retina)
-    &.selected::before
-      @if $custom == true
-        @include  background-img(SourceList#{$icon}Highlight, retina)
-      @else
-        @include  background-img(SourceList#{$icon}Highlight, remote retina)
-
 #media_popup
   width:      334px
   left:       360px

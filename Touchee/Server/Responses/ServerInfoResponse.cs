@@ -63,7 +63,7 @@ namespace Touchee.Server.Responses {
             this.UtcTime        = (long)now.TimeStamp();
             this.UtcOffset      = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMinutes;
             this.Devices        = Device.All();
-            this.Plugins        = PluginManager.FrontendComponents.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
+            this.Plugins        = PluginManager.FrontendPlugins.Select(p => p.GetType().Assembly.GetName().Name.ToUnderscore()).ToArray();
             this.Revision       = library.Revision;
         }
 

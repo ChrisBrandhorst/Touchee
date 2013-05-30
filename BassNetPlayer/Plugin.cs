@@ -35,6 +35,12 @@ namespace BassNetPlayer {
 
 
         /// <summary>
+        /// Whether this plugin provides some front-end functionality
+        /// </summary>
+        public bool ProvidesFrontend { get { return false; } }
+
+
+        /// <summary>
         /// The player
         /// </summary>
         Player _player;

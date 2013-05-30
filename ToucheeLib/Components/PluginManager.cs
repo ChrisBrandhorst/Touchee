@@ -104,9 +104,9 @@ namespace Touchee.Components {
         /// <summary>
         /// Gets all IContentProvides which have a frontend something
         /// </summary>
-        public static IEnumerable<IContentProvider> FrontendComponents {
+        public static IEnumerable<IPlugin> FrontendPlugins {
             get {
-                return GetComponent<Components.Content.IContentProvider>().Where(c => c.ProvidesFrontend);
+                return _plugins.Where(p => p.ProvidesFrontend);
             }
         }
         

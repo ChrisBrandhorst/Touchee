@@ -71,6 +71,7 @@
     <Compile Include="Plugins\ImdbAPIService.cs" />
     <Compile Include="Plugins\LastFMService.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Server\Http\GzipFilter.cs" />
     <Compile Include="Server\Http\JsonNetSerializer.cs" />
     <Compile Include="Server\Http\Modules\ContainersModule.cs" />
     <Compile Include="Server\Http\Modules\DevicesModule.cs" />

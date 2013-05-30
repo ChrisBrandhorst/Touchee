@@ -77,20 +77,22 @@ define([
       Communicator.send("IDENTIFY", this.sessionID);
       
       // Init
-      if (firstTime) Library.initialize();
       Devices.fetch();
       Playback.fetch();
 
       // When all containers are loaded
-      Library.on('loaded:containers', function(){
+      Media.on('sync:containers:all', function(){
         Queue.fetch();
-        if (Communicator.connectedCount == 1) // TODO: weird, firstTime is always true here...
+        if (Communicator.connectedCount == 1) {// TODO: weird, firstTime is always true here...
           Router.initialize();
-      });
+          if (Media.length)
+            Backbone.history.navigate(Media.first().url(), {trigger:true});
+        }
+      }, this);
 
       // Wait until other Communicator connected callbacks have finished
       _.defer(_.bind(function(){
-        Library.load(firstTime);
+        Media.fetch();
       }, this));
     },
     

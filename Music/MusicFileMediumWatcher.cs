@@ -22,6 +22,7 @@ namespace Music {
 
         // Debounce function for cache saving
         //Debouncer _saveCache;
+        MasterPlaylist _masterPlaylist;
 
         #endregion
 
@@ -91,10 +92,10 @@ namespace Music {
         protected override void OnWatch(Medium medium) {
 
             // Create a master playlist for the medium
-            var masterPlaylist = new MasterPlaylist(medium);
-            masterPlaylist.IsLoading = true;
-            masterPlaylist.Save();
-            medium.Containers.Add(masterPlaylist);
+            _masterPlaylist = new MasterPlaylist(medium);
+            _masterPlaylist.IsLoading = true;
+            _masterPlaylist.Save();
+            medium.Containers.Add(_masterPlaylist);
 
             //// Deserialize the cache of the local medium
             //if (medium == Medium.Local && File.Exists(CachePath))
@@ -107,6 +108,8 @@ namespace Music {
         /// </summary>
         /// <param name="medium">The medium that is being unwatched</param>
         protected override void OnUnWatch(Medium medium) {
+            // TODO
+            // Needs to remove items from the lists
 
             // Dispose all playlists and tracks for this medium
             foreach (var playlist in medium.Containers.Cast<Playlist>()) {
@@ -147,8 +150,8 @@ namespace Music {
             watcher.CollectingCompleted -= musicDirectoryWatcher_CollectingCompleted;
             var done = _directoryWatchers.Where(dw => dw.Medium == watcher.Medium).All(dw => dw.CollectionState == CollectionState.Collected);
             if (done) {
-                watcher.Medium.MasterContainer.IsLoading = false;
-                watcher.Medium.MasterContainer.Save();
+                _masterPlaylist.IsLoading = false;
+                _masterPlaylist.Save();
             }
         }
 

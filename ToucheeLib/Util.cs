@@ -102,15 +102,17 @@ namespace Touchee {
         /// <param name="input"></param>
         /// <returns></returns>
         public static string ToSortName(string input) {
-
+            
             if (String.IsNullOrWhiteSpace(input))
                 return NullSortValue;
 
             else {
-                var sortName = input.ToLower().StripPrefixes().StripDiacritics();
-                sortName = Regex.Replace(sortName, @"[^a-z0-9]", "");
+                var baseSortName = input.ToLower().StripPrefixes().StripDiacritics();
+                var sortName = Regex.Replace(baseSortName, @"[^a-z0-9]", "");
+
                 if (Regex.IsMatch(sortName, @"^\d"))
                     sortName = DecimalSortValue + sortName;
+
                 sortName = Regex.Replace(sortName, @"(\d+)", m =>
                     (
                         (char)(
@@ -121,6 +123,10 @@ namespace Touchee {
                         )
                     ).ToString()
                 );
+
+                if (sortName == "")
+                    sortName = NullSortValue + baseSortName;
+
                 return sortName;
             }
         }

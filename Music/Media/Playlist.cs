@@ -24,10 +24,21 @@ namespace Music.Media {
 
         #region Constructor
 
-        public Playlist(Medium medium) : this(medium, "Playlist") { }
 
-        public Playlist(Medium medium, string name) : base(name, medium) { }
+        /// <summary>
+        /// Constructs a playlist, giving it the name "Playlist"
+        /// </summary>
+        /// <param name="medium">The Medium the playlist resides in</param>
+        public Playlist(Medium medium) : this("Playlist", medium) { }
 
+
+
+        /// <summary>
+        /// Constructs a playlist
+        /// </summary>
+        /// <param name="name">The name of the playlist</param>
+        /// <param name="medium">The Medium the playlist resides in</param>
+        public Playlist(string name, Medium medium) : base(name, medium) { }
 
 
         #endregion

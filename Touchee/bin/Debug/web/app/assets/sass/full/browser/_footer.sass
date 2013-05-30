@@ -1,152 +1,153 @@
-#browser > footer
-  @include  background-img(ChromeBottom, remote retina)
-  padding:  8px 8px 0 8px
-  @include  display-box
-  @include  box-shadow(0 0 3px 1px rgba(0,0,0,.3))
-  position: relative
+#browser
   
-  
-  // Scaling containers
-  > div
-    &:first-child, &:last-child
-      width:  200px
-    // Navigation center container
-    &#views
-      @include  box-flex(1)
-      text-align: center
-      padding:    0 32px
-  
-  
-  // Nav button
-  [data-button=nav]
-    line-height:  30px
-    margin-top:   -1px
-    min-width:    100px
-    padding:      0 11px 0 31px
-    max-width:    100%
-    @include      text-shadow(0 1px 0 white)
-    @include      border-img(ChromeButton, 0 4 0 4, retina remote)
-    span
-      display:  block
-      @include  ellipsis
-    &:active
-      @include    border-img(ChromeButtonSelected, 0 4 0 4, retina remote)
-    &.music
-      background:       no-repeat 6px 5px
-      @include          background-img(SourceListMusicGray, remote retina)
-      background-size:  20px
-
-
-  // 
-  h1
-    font-size:  120%
-    @include    text-shadow(0 1px 0 white)
-    line-height:  $footerHeight - 16px
-
-
-  // Navigation
-  nav
-    @include      display-box
-
-    // Viewtype button
-    > a.button, > button
-      display:      block
-      text-shadow:  0 1px 0 white
-      
-      // Equal width
-      position:     relative
-      @include      box-flex(1)
-      width:        1%
-      
-      // Max size
-      max-width:    130px
-      min-width:    104px
-      line-height:  30px
-      
-      // Space for divider
-      padding-left: 14px
-      
-      // Divider
-      &::before
-        content:  ''
-        display:  block
-        position: absolute
-        top:      0
-        left:     0
-        bottom:   0
-        width:    9px
-        @include  background-img(ChromeButtonDivider, remote retina)
-      
-      // Background
-      &::after
-        content:      ''
-        display:      block
-        position:     absolute
-        top:          0
-        right:        0
-        bottom:       0
-        left:         9px
-        @include      border-img(ChromeButton, 1 4 1 4, retina remote)
-        border-width: 1px 0 !important
-      
-      // First child has a rounded edge on the right
-      &:first-child
-        padding-left: 10px
-        min-width:    99px
-        &::before
-          @include  background-img(ChromeButton, remote retina)
-          width:    4px
-        &::after
-          left: 4px
-      
-      // Last child has a rounded edge on the left
-      &:last-child
-        padding-right:  9px
-        min-width:      108px
-        &::after
-          @include      border-img(ChromeButton, 1 4 1 4, retina remote)
-          border-width: 1px 4px 1px 0 !important
-      
-      // Active button
-      &.selected
-        &::before
-          @include  background-img(ChromeButtonSelectedRight, remote retina)
-        &::after
-          @include  border-img(ChromeButtonSelected, 1 4 1 4, retina remote)
-        + *::before
-          @include  background-img(ChromeButtonSelectedLeft, remote retina)
-        &:first-child::before
-          @include  background-img(ChromeButtonSelected, remote retina)
-  
-  
-  // Search field
-  input[name=search]
-    float:      right
-    width:      100%
-    height:     28px
-    padding:    0 15px 0 8px
-    margin-top: 1px
-    background: transparent
-    @include    border-img(ChromeSearch, 0 17 0 25, retina remote)
-    &[disabled]
-      @include  border-img(ChromeSearchDisabled, 0 17 0 25, retina remote)
-    &.filled
-      padding-right:  8px
-      @include        border-img(ChromeSearchClear, 0 24 0 25, retina)
-
-
-// Portrait mode
-@media #{$portraitMedia}
-  #browser > footer
+  > footer
+    @include  background-img(ChromeBottom, remote retina)
+    padding:  8px 8px 0 8px
+    @include  display-box
+    @include  box-shadow(0 0 3px 1px rgba(0,0,0,.3))
+    position: relative
+    
+    
+    // Scaling containers
     > div
       &:first-child, &:last-child
-        width:  180px
+        width:  200px
+        @media #{$portraitMedia}
+          width:  180px
+      // Navigation center container
       &#views
-        padding:  0 12px
+        @include  box-flex(1)
+        text-align: center
+        padding:    0 32px
+        @media #{$portraitMedia}
+          padding:  0 12px
+    
+    
+    // Nav button
+    [data-button=nav]
+      line-height:  30px
+      margin-top:   -1px
+      min-width:    100px
+      padding:      0 11px 0 31px
+      max-width:    100%
+      @include      text-shadow(0 1px 0 white)
+      @include      border-img(ChromeButton, 0 4 0 4, retina remote)
+      span
+        display:  block
+        @include  ellipsis
+      &:active
+        @include    border-img(ChromeButtonSelected, 0 4 0 4, retina remote)
+      &.music
+        background:       no-repeat 6px 5px
+        @include          background-img(SourceListMusicGray, remote retina)
+        background-size:  20px
+
+
+    // 
+    h1
+      font-size:  120%
+      @include    text-shadow(0 1px 0 white)
+      line-height:  $footerHeight - 16px
+
+
+    // Navigation
     nav
-      > a.button, button
-        min-width:      90px
+      @include      display-box
+
+      // Viewtype button
+      > a.button, > button
+        display:      block
+        text-shadow:  0 1px 0 white
+        
+        // Equal width
+        position:     relative
+        @include      box-flex(1)
+        width:        1%
+        
+        // Min / max size
+        max-width:    130px
+        min-width:    104px
+        line-height:  30px
+        @media #{$portraitMedia}
+          min-width:      90px
+
+        // Space for divider
+        padding-left: 14px
+        
+        // Divider
+        &::before
+          content:  ''
+          display:  block
+          position: absolute
+          top:      0
+          left:     0
+          bottom:   0
+          width:    9px
+          @include  background-img(ChromeButtonDivider, remote retina)
+        
+        // Background
+        &::after
+          content:      ''
+          display:      block
+          position:     absolute
+          top:          0
+          right:        0
+          bottom:       0
+          left:         9px
+          @include      border-img(ChromeButton, 1 4 1 4, retina remote)
+          border-width: 1px 0 !important
+        
+        // First child has a rounded edge on the right
         &:first-child
-          min-width:    86px
+          padding-left: 10px
+          min-width:    99px
+          &::before
+            @include  background-img(ChromeButton, remote retina)
+            width:    4px
+          &::after
+            left: 4px
+          @media #{$portraitMedia}
+            min-width:    86px
+
+        // Last child has a rounded edge on the left
         &:last-child
-          min-width:    94px
+          padding-right:  9px
+          min-width:      108px
+          &::after
+            @include      border-img(ChromeButton, 1 4 1 4, retina remote)
+            border-width: 1px 4px 1px 0 !important
+          @media #{$portraitMedia}
+            min-width:    94px
+        
+        // Active button
+        &.selected
+          &::before
+            @include  background-img(ChromeButtonSelectedRight, remote retina)
+          &::after
+            @include  border-img(ChromeButtonSelected, 1 4 1 4, retina remote)
+          + *::before
+            @include  background-img(ChromeButtonSelectedLeft, remote retina)
+          &:first-child::before
+            @include  background-img(ChromeButtonSelected, remote retina)
+    
+    
+    // Search field
+    input[name=search]
+      float:      right
+      width:      100%
+      height:     28px
+      padding:    0 15px 0 8px
+      margin-top: 1px
+      background: transparent
+      @include    border-img(ChromeSearch, 0 17 0 25, retina remote)
+      &[disabled]
+        @include  border-img(ChromeSearchDisabled, 0 17 0 25, retina remote)
+      &.filled
+        padding-right:  8px
+        @include        border-img(ChromeSearchClear, 0 24 0 25, retina)
+
+
+  // When not connected or not playing
+  &.disconnected > footer
+    > *
+      display:  none

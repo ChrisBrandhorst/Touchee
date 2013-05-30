@@ -1,27 +1,33 @@
-#browser > #connecting
+#browser
   
-  text-align:       center
-  font-weight:      bold
-  font-size:        110%
-  padding-top:      200px
-  background:       no-repeat center 200px
-  @include          background-img(ConnectingShadow, retina)
-  background-size:  200px
-  
-  > div
-    height:             200px
-    background:         no-repeat center
-    @include            background-img(Connecting, retina)
-    background-size:    contain
-    margin-bottom:      4px
-    -webkit-animation:  connectingSpin 1s linear infinite
-
-  @media #{$portraitMedia}
-    padding-top:          323px
-    background-position:  center 323px
+  > #connecting
+    display:          none
+    text-align:       center
+    font-weight:      bold
+    font-size:        110%
+    padding-top:      200px
+    background:       no-repeat center 200px
+    @include          background-img(ConnectingShadow, retina)
+    background-size:  200px
+    
     > div
-      margin-bottom: 44px
-      
+      height:             200px
+      background:         no-repeat center
+      @include            background-img(Connecting, retina)
+      background-size:    contain
+      margin-bottom:      4px
+      -webkit-animation:  connectingSpin 1s linear infinite
+
+    @media #{$portraitMedia}
+      padding-top:          323px
+      background-position:  center 323px
+      > div
+        margin-bottom: 44px
+
+  &.disconnected > #connecting
+    display:  block
+
+
 @-webkit-keyframes connectingSpin
   from
     -webkit-transform: rotate3d(0,0,0,0deg)

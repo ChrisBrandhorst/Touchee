@@ -69,7 +69,7 @@ define([
       
       // Find the base and full fragments
       delete params.view;
-      var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/\d+/)[0] + "/view/" + view,
+      var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/[^\/]+/)[0] + "/view/" + view,
           paramsStr     = Touchee.Params.compose(params);
           fragment      = viewFragment + (paramsStr.length ? "/" : "") + paramsStr;
       params.view = view;

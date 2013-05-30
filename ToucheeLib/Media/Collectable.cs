@@ -14,10 +14,10 @@ namespace Touchee {
     }
 
     public enum OutputIdMode {
-        AltIdOrId,
         IdOrAltId,
-        AltId,
-        Id
+        AltIdOrId,
+        Id,
+        AltId
     }
 
     /// <remarks>
@@ -203,8 +203,6 @@ namespace Touchee {
         public int Id { get; private set; }
         static int _nextId = 1;
 
-        //
-        bool _new = true;
 
         /// <summary>
         /// Whether this object has not been stored yet
@@ -229,19 +227,20 @@ namespace Touchee {
         [DataMember(Name = "Id")]
         protected virtual object OutputId {
             get {
-                object id;
+                object id = null;
                 switch (this.OutputIdMode) {
                     case OutputIdMode.IdOrAltId:
                         id = this.Id == 0 ? this.AltId : this.Id;
                         break;
-                    case OutputIdMode.Id:
-                        id = this.Id;
+                    case OutputIdMode.AltIdOrId:
+                        id = this.AltId == null ? this.Id : this.AltId;
                         break;
                     case OutputIdMode.AltId:
                         id = this.AltId;
                         break;
+                    case OutputIdMode.Id:
                     default:
-                        id = this.AltId == null ? this.Id : this.AltId;
+                        id = this.Id;
                         break;
                 }
                 return id;

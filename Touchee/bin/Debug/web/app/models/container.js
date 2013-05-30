@@ -60,6 +60,12 @@ define([
     // VIRTUAL
     notifyContentsChanged: function() {
       this.trigger('notifyContentsChanged');
+    },
+
+
+    // Whether this container is a master container
+    isMaster: function() {
+      return !_.isNumber(this.get('masterID'));
     }
 
     

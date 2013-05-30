@@ -300,7 +300,7 @@ define([
     // VIRTUAL
     getIndex: function(item) {
       return _.isString(this.index)
-        ? item.get(this.index)[0].toUpperCase()
+        ? (item.get(this.index)[0] || "{").toUpperCase()
         : this.index.call(this, item);
     },
     

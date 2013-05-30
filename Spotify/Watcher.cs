@@ -14,11 +14,6 @@ namespace Spotify {
 
         #region Privates
 
-
-        // The local medium in which the Spotify items are placed
-        Medium _localMedium;
-
-
         #endregion
 
 
@@ -37,12 +32,11 @@ namespace Spotify {
         #region IMediaWatcher implementation
 
         public void Watch(int interval) {
-            _localMedium = new SpotifyMedium();
-            _localMedium.Save();
+            SpotifyMedium.Instance.Save();
         }
 
         public List<Medium> Media {
-            get { return new List<Medium>() { _localMedium }; }
+            get { return new List<Medium>() { SpotifyMedium.Instance }; }
         }
 
         #endregion
@@ -58,7 +52,7 @@ namespace Spotify {
         /// <param name="medium">The medium to check</param>
         public bool CanWatch(Medium medium) {
             //return medium == Medium.Local;
-            return medium == _localMedium;
+            return medium == SpotifyMedium.Instance;
         }
 
 
@@ -70,9 +64,12 @@ namespace Spotify {
         public bool Watch(Medium medium) {
             //if (medium == Medium.Local && _localMedium == null) {
             //    _localMedium = medium;
-            if (medium == _localMedium) {
+            if (medium == SpotifyMedium.Instance) {
                 if (this.StartedWatching != null)
                     this.StartedWatching.Invoke(this, medium);
+
+                SpotifyMedium.Instance.MasterPlaylist.Save();
+
                 return true;
             }
             else
@@ -85,8 +82,7 @@ namespace Spotify {
         /// </summary>
         /// <param name="medium">The medium to stop watching</param>
         public bool UnWatch(Medium medium) {
-            if (_localMedium == medium) {
-                _localMedium = null;
+            if (SpotifyMedium.Instance == medium) {
                 // TODO: clear containers
                 // For now, we can assume this call is never made, since the local
                 // medium will never be ejected
@@ -100,7 +96,7 @@ namespace Spotify {
         /// Stops watching all media
         /// </summary>
         public bool UnWatchAll() {
-            return _localMedium == null ? true : this.UnWatch(_localMedium);
+            return this.UnWatch(SpotifyMedium.Instance);
         }
 
 

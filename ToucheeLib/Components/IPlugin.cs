@@ -6,6 +6,7 @@ using System.Text;
 namespace Touchee.Components {
 
     public interface IPlugin {
+        bool ProvidesFrontend { get; }
         string Name { get; }
         string Description { get; }
         Version Version { get; }

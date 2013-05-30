@@ -18,8 +18,13 @@ namespace Touchee {
     /// </remarks>
     internal static class Program {
 
+
         // The configuration of the app
         internal static dynamic Config { get; private set; }
+
+        // 
+        static List<string> PluginFilesNotLoaded = new List<string>();
+
 
         /// <summary>
         /// The main entry point for the application.
@@ -170,13 +175,6 @@ namespace Touchee {
             try {
                 foreach (var d in Directory.GetDirectories(pluginsPath).Reverse()) {
                     pluginFiles.AddRange(Directory.GetFiles(d, "*.dll"));
-                    //// Find the dll with the same name as the folder
-                    //var dirInfo = new DirectoryInfo(d);
-                    //var pluginFile = Path.Combine(d, dirInfo.Name + ".dll");
-                    //if (File.Exists(pluginFile))
-                    //    pluginFiles.Add(pluginFile);
-                    //else
-                    //    Logger.Log(String.Format("Invalid plugin: {0}.dll not found in {1}", dirInfo.Name, d), Logger.LogLevel.Error);
                 }
 
             }
@@ -187,8 +185,10 @@ namespace Touchee {
             }
             
             // Loop through all plugin files
+            PluginFilesNotLoaded.AddRange(pluginFiles);
             foreach (string filename in pluginFiles) {
                 try {
+                    PluginFilesNotLoaded.Remove(filename);
                     // Load the assembly
                     var assembly = Assembly.LoadFile(filename);
                     // Load the plugins from the assembly
@@ -323,7 +323,8 @@ namespace Touchee {
 
         /// <summary>
         /// If an assembly is not found, this method checks if the requesting assembly is a plugin and then
-        /// searches for the assembly in the lib folder of that plugin.
+        /// searches for the assembly in the lib folder of that plugin or checks other plugins for inter-plugin
+        /// dependencies.
         /// </summary>
         /// <returns>The resolved assembly or null</returns>
         static Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args) {
@@ -335,18 +336,26 @@ namespace Touchee {
 
             // If this is a plugin, check the lib\ folder of that plugin
             if (fileInfo.Directory.FullName == Path.Combine(Environment.CurrentDirectory, "plugins", Path.GetFileNameWithoutExtension(fileInfo.Name))) {
+                List<string> dlls = new List<string>();
+
                 var libPath = Path.Combine(fileInfo.DirectoryName, "lib");
-                if (Directory.Exists(libPath)) {
-                    // Go through all dlls, to see if the requested assembly is present
-                    foreach (var dll in Directory.GetFiles(libPath, "*.dll").Where(f => Util.IsNetAssembly(f))) {
-                        try {
-                            var ass = Assembly.LoadFrom(dll);
-                            if (ass.GetName().ToString() == args.Name)
-                                return ass;
-                        }
-                        catch (Exception) { }
+                if (Directory.Exists(libPath))
+                    dlls.AddRange( Directory.GetFiles(libPath, "*.dll") );
+                dlls.AddRange(PluginFilesNotLoaded);
+
+                
+                // Go through all dlls, to see if the requested assembly is present
+                foreach (var dll in dlls.Where(f => Util.IsNetAssembly(f))) {
+                    try {
+                        if (PluginFilesNotLoaded.Contains(dll))
+                            PluginFilesNotLoaded.Remove(dll);
+                        var ass = Assembly.LoadFrom(dll);
+                        if (ass.GetName().ToString() == args.Name)
+                            return ass;
                     }
+                    catch (Exception) { }
                 }
+
             }
 
             return assembly;
