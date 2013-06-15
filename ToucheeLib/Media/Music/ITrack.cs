@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Touchee.Media.Music {
 
-
+    
     /// <remarks>
     /// Interface for a music track
     /// </remarks>

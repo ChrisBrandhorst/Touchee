@@ -27,6 +27,12 @@ define([
           val = this.get(comp);
       }
       
+      // If we have an array now, join it into a single string
+      // or set to null if the array is empty
+      if (_.isArray(val)) {
+        val = val.length == 0 ? null : val.join(", ");
+      }
+
       // If we have nothing yet, try the "unknown ..."
       if (!val) {
         val = I18n.models[ attr ];

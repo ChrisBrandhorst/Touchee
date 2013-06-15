@@ -66,10 +66,6 @@
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Library.cs" />
-    <Compile Include="Plugins\FileTagArtworkService.cs" />
-    <Compile Include="Plugins\GoogleArtworkService.cs" />
-    <Compile Include="Plugins\ImdbAPIService.cs" />
-    <Compile Include="Plugins\LastFMService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Server\Http\GzipFilter.cs" />
     <Compile Include="Server\Http\JsonNetSerializer.cs" />
@@ -152,7 +148,9 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Plugins\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>mkdir "$(TargetDir)lib\"

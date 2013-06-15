@@ -18,9 +18,9 @@ define([
     
     // Computed properties
     computed: {
-      duration:         function() { return String.duration(this.attributes.duration); },
-      albumArtist:      function() { return this.attributes.albumArtist || this.attributes.artist; },
-      albumArtistSort:  function() { return this.attributes.albumArtist ? this.attributes.albumArtistSort : this.attributes.artistSort; },
+      duration:         function() { return String.duration(this.get('duration')); },
+      albumArtist:      function() { return this.get('albumArtist') || this.get('artist'); },
+      albumArtistSort:  function() { return this.get('albumArtist') ? this.get('albumArtistSort') : this.get('artistSort'); },
       displayLine1:     'title$',
       displayLine2:     function() { return this.get('artist$') + " &mdash; " + this.get('album$'); }
     }

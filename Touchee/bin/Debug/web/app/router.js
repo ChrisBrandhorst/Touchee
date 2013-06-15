@@ -55,14 +55,14 @@ define([
     
     
     // Show the contents of a single container 
-    container: function(mediumID, containerID, params) {
+    container: function(mediumID, containerID, paramsStr) {
       
       // Get the container
       var container = this.getContainer(mediumID, containerID);
       if (!container) return;
       
       // Build params object
-      params = Touchee.Params.parse(params || "");
+      params = Touchee.Params.parse(paramsStr || "");
       
       // If we were not given any specific type to show in the params, we get the first viewType
       var view = params.view || container.views[0];
@@ -70,8 +70,7 @@ define([
       // Find the base and full fragments
       delete params.view;
       var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/[^\/]+/)[0] + "/view/" + view,
-          paramsStr     = Touchee.Params.compose(params);
-          fragment      = viewFragment + (paramsStr.length ? "/" : "") + paramsStr;
+          fragment      = viewFragment + (paramsStr && paramsStr.length ? "/" : "") + paramsStr;
       params.view = view;
       Backbone.history.navigate(fragment, {replace:true});
       

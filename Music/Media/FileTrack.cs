@@ -73,29 +73,20 @@ namespace Music.Media {
 
             // Set properties if we have a tag
             if (tagFile != null) {
+                
+                this.TitleSort = tag.TitleSort;
+                this.Title = tag.Title;
 
-                if (!String.IsNullOrEmpty(tag.TitleSort))
-                    this.TitleSort = tag.TitleSort;
-                if (!String.IsNullOrEmpty(tag.Title))
-                    this.Title = tag.Title;
+                this.ArtistSort = tag.JoinedPerformersSort;
+                this.Artist = tag.JoinedPerformers;
 
-                if (!String.IsNullOrEmpty(tag.JoinedPerformersSort))
-                    this.ArtistSort = tag.JoinedPerformersSort;
-                if (!String.IsNullOrEmpty(tag.JoinedPerformers))
-                    this.Artist = tag.JoinedPerformers;
+                this.AlbumSort = tag.AlbumSort;
+                this.Album = tag.Album;
 
-                if (!String.IsNullOrEmpty(tag.AlbumSort))
-                    this.AlbumSort = tag.AlbumSort;
-                if (!String.IsNullOrEmpty(tag.Album))
-                    this.Album = tag.Album;
-
-                if (tag.AlbumArtistsSort.Length > 0)
-                    this.AlbumArtistSort = String.Join("; ", tag.AlbumArtistsSort);
-                if (!String.IsNullOrEmpty(tag.JoinedAlbumArtists))
-                    this.AlbumArtist = tag.JoinedAlbumArtists;
-
-                if (!String.IsNullOrEmpty(tag.JoinedGenres))
-                    this.Genre = tag.JoinedGenres.ToTitleCase();
+                this.AlbumArtistSort = String.Join(Util.NullSortValue, tag.AlbumArtistsSort);
+                this.AlbumArtist = tag.JoinedAlbumArtists;
+                
+                this.Genre = tag.JoinedGenres.ToTitleCase();
 
                 this.DiscNumber = tag.Disc;
                 this.Duration = tagFile.Properties.Duration;

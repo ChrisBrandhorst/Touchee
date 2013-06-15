@@ -13,7 +13,7 @@ define([
             Artists, GroupedTracks,
             CommonTableView, CommonSplitView, PlayableSplitDetailsView, PlayableGroupedTableView,
             artistHeaderTemplate) {
-
+  
   var ArtistsView = CommonSplitView.extend({
     
     // SplitView options

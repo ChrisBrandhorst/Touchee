@@ -63,9 +63,12 @@ namespace Spotify {
             
             if (sender.ConnectionState == ConnectionState.LoggedIn) {
                 await _session.PlaylistContainer;
-
-                // Tracks initial set of playlists
+                
+                // Track initial set of playlists
                 this.TrackPlaylists(_session.PlaylistContainer.Playlists);
+
+                // Track starred playlist
+                this.TrackPlaylist(_session.Starred);
 
                 // Remove and then add playlist container callback
                 _session.PlaylistContainer.Playlists.CollectionChanged -= Playlists_CollectionChanged;
@@ -90,17 +93,27 @@ namespace Spotify {
 
 
         /// <summary>
+        /// Tracks the given playlist.
+        /// When the state or track meta data of the given playlist is changed,
+        /// the playlist is presented to the StateChanged method for further processing.
+        /// </summary>
+        /// <param name="playlist">The playlist to track</param>
+        void TrackPlaylist(Playlist playlist) {
+            this.playlist_StateChanged(playlist, new PlaylistEventArgs());
+            playlist.MetadataUpdated += playlist_StateChanged;
+            playlist.StateChanged += playlist_StateChanged;
+        }
+
+
+        /// <summary>
         /// Tracks the given set of playlists.
         /// When the state or track meta data of the given playlists is changed,
         /// the playlist is presented to the StateChanged method for further processing.
         /// </summary>
         /// <param name="playlists">The set of playlists to track</param>
         void TrackPlaylists(IList<Playlist> playlists) {
-            foreach (var playlist in playlists) {
-                this.playlist_StateChanged(playlist, new PlaylistEventArgs());
-                playlist.MetadataUpdated += playlist_StateChanged;
-                playlist.StateChanged += playlist_StateChanged;
-            }
+            foreach (var playlist in playlists)
+                this.TrackPlaylist(playlist);
         }
 
 

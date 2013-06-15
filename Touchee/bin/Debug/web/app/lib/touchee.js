@@ -204,7 +204,7 @@ define([
   Touchee.getUrl = function(base, params) {
     var url = base;
     if (params) {
-      params = Touchee.Params.compose(params);
+      params = encodeURIComponent(Touchee.Params.compose(params));
       if (params.length)
         url += (base.charAt(base.length - 1) == '/' ? '' : '/') + params;
     }

@@ -34,7 +34,7 @@ define([
       var detailView = module.buildView( this.model.contents.container, params, fragment, this.detailView );
       if (!detailView) return;
       detailView.model.fetch();
-
+      
       // Set in the right panel
       this.setRight(detailView);
     }

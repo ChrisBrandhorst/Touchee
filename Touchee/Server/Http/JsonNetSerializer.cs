@@ -16,7 +16,8 @@ namespace Touchee.Server.Http {
         public JsonNetSerializer() {
             _serializer = JsonSerializer.Create(
                 new JsonSerializerSettings {
-                    ContractResolver = new CamelCasePropertyNamesContractResolver()
+                    ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                    DefaultValueHandling = DefaultValueHandling.Ignore
                 }
             );
             _serializer.Formatting = Formatting.None;
