@@ -34,7 +34,8 @@ define([
     // Render
     // TODO: not 100% when new render is smaller than old one (cover is hidden)
     render: function() {
-      var artwork = Artwork.fromCache(this.model.first());
+      var artwork = Artwork.fetch(this.model.first(), {colors:true});
+
       this.$el.html(
         albumTemplate({
           artwork:  artwork,
@@ -42,9 +43,10 @@ define([
         })
       );
       this.setArtwork(artwork);
-      this.setColors(artwork && artwork.colors);
+      this.setColors(artwork);
       Touchee.enableControlCluster(this, {});
       this.trigger('resize');
+
       return this;
     },
     
@@ -57,8 +59,8 @@ define([
     
     
     // 
-    setColors: function(colors) {
-      
+    setColors: function(artwork) {
+      var colors = artwork && artwork.colors;
       if (colors) {
         this.$el
           .css('backgroundColor', "rgb(" + colors.background + ")")

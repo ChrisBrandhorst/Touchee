@@ -48,7 +48,7 @@ define([
 
     // Gets the container this item belongs to
     getContainer: function() {
-      return this.collection.container;
+      return this.collection && this.collection.container || this.container;
     },
 
 
@@ -61,7 +61,7 @@ define([
     // 
     artworkUrl: function(params) {
       return Touchee.getUrl(
-        [this.collection.container.url(), "artwork/id", this.id].join('/'),
+        [this.getContainer().url(), "artwork/id", this.id].join('/'),
         params
       );
     },

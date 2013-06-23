@@ -110,7 +110,7 @@ namespace Touchee {
             // These watch the Medium instances and generate Containers
             _mediumWatchers = PluginManager.GetComponent<IMediumWatcher>().ToList();
             Medium.AfterCreate += Medium_AfterCreate;
-            Medium.AfterDispose += Medium_AfterDispose;
+            Medium.AfterDispose += Medium_BeforeDispose;
 
             // Watch for container changes
             Container.AfterCreate += ContainersChanged;
@@ -124,9 +124,8 @@ namespace Touchee {
             Device.AfterUpdate += DeviceChanged;
 
             // Init local and web media
-            string name = Program.Config.GetString("name", System.Environment.MachineName);
-            LocalMedium.Init(name);
-            WebMedium.Init("Webcasts");
+            LocalMedium.Init( Program.Config.GetString("name", System.Environment.MachineName) );
+            WebMedium.Init( Program.Config.GetString("webcastsName", "Webcasts") );
             
             // Instantiate all available MediaWatchers
             // These generate Medium instances
@@ -149,7 +148,6 @@ namespace Touchee {
         /// </summary>
         void Revised() {
             this.Revision++;
-            //_server.Broadcast(GetRevisionResponse());
         }
 
 
@@ -172,7 +170,7 @@ namespace Touchee {
         /// Called when a medium has been removed. Presents this medium to all watchers.
         /// If any watcher watches was watching the medium, the media list is broadcasted.
         /// </summary>
-        void Medium_AfterDispose(object sender, Collectable<Medium>.ItemEventArgs e) {
+        void Medium_BeforeDispose(object sender, Collectable<Medium>.ItemEventArgs e) {
             _mediumWatchers.ForEach(w => w.UnWatch(e.Item));
             this.Revised();
             _server.Broadcast(new MediaResponse());
@@ -183,6 +181,7 @@ namespace Touchee {
         /// Called when a container has been created or disposed
         /// </summary>
         void ContainersChanged(object sender, Collectable<Container>.ItemEventArgs e) {
+            this.Revised();
             _server.Broadcast(new ContainersResponse(e.Item.Medium));
         }
 
@@ -191,6 +190,7 @@ namespace Touchee {
         /// Called when a container has been updated
         /// </summary>
         void ContainerChanged(object sender, Collectable<Container>.ItemEventArgs e) {
+            this.Revised();
             _server.Broadcast("container", e.Item);
         }
 
@@ -212,7 +212,7 @@ namespace Touchee {
             _server.Broadcast(new DevicesResponse());
         }
 
-
+         
         /// <summary>
         /// Called when a device has been changed
         /// </summary>
@@ -706,6 +706,13 @@ namespace Touchee {
         /// </summary>
         /// <param name="player">The player that has been updated</param>
         void Player_StatusUpdated(IPlayer player) {
+
+            // (de)activate devices based on player status
+            foreach (var device in Device.Where(d => d.SupportsCapability(DeviceCapabilities.AutoSetActive))) {
+                device.AutoSetActive(player.Playing);
+            }
+
+            // Broadcast status to clients
             _server.Broadcast(new PlaybackResponse(player));
         }
 

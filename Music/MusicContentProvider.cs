@@ -43,6 +43,7 @@ namespace Music {
             if (!(container is Playlist)) return null;
 
             IEnumerable<ITrack> ret = null;
+
             var allTracks = ((Playlist)container).Tracks;
 
             string view = filter.ContainsKey("view") ? filter["view"] : null;
@@ -55,7 +56,7 @@ namespace Music {
                     if (group != null) group = group.ToLower();
                     switch (view) {
                         case "artist": ret = allTracks.Where(t => t.IsByArtist(group)); break;
-                        case "genre":  ret = allTracks.Where(t => t.IsOfGenre(group)); break;
+                        case "genre": ret = allTracks.Where(t => t.IsOfGenre(group)); break;
                     }
                     ret = ret
                         .OrderByOrdinal(t => t.AlbumArtistSort)
@@ -80,14 +81,14 @@ namespace Music {
             // Order by disc number, track number and track name
             // TODO: do not sort non-masterplaylist
             if (view != "track") {
-                ret = ret
-                    .OrderBy(t => t.DiscNumber == 0)
+                ret = ((IOrderedEnumerable<ITrack>)ret)
+                    .ThenBy(t => t.DiscNumber == 0)
                     .ThenBy(t => t.DiscNumber)
                     .ThenBy(t => t.TrackNumber == 0)
                     .ThenBy(t => t.TrackNumber)
                     .ThenByOrdinal(t => t.TitleSort);
             }
-            
+
             return ret;
         }
 

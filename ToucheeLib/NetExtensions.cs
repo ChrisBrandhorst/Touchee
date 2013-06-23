@@ -14,7 +14,7 @@ using System.ComponentModel;
 
 namespace Touchee {
 
-    public static class Extensions {
+    public static class NetExtensions {
 
 
         /// <summary>
@@ -218,6 +218,41 @@ namespace Touchee {
         }
 
 
+        /// <summary>
+        /// Return unique Int64 value for input string
+        /// 
+        /// Author: Composition4
+        /// Source: http://www.codeproject.com/KB/library/String_To_64bit_Int.aspx
+        /// License: COPL
+        /// </summary>
+        /// <param name="strText">Input string</param>
+        /// <returns>64-bits hash output</returns>
+        static SHA256CryptoServiceProvider _crypt = new SHA256CryptoServiceProvider();
+        public static string GetInt64HashCode(this string strText) {
+            Int64 hashCode = 0;
+            if (!string.IsNullOrEmpty(strText)) {
+                //Unicode Encode Covering all characterset
+                byte[] byteContents = Encoding.Unicode.GetBytes(strText);
+                byte[] hashText;
+                lock (_crypt)
+                    hashText = _crypt.ComputeHash(byteContents);
+                //32Byte hashText separate
+                //hashCodeStart = 0~7  8Byte
+                //hashCodeMedium = 8~23  8Byte
+                //hashCodeEnd = 24~31  8Byte
+                //and Fold
+                Int64 hashCodeStart = BitConverter.ToInt64(hashText, 0);
+                Int64 hashCodeMedium = BitConverter.ToInt64(hashText, 8);
+                Int64 hashCodeEnd = BitConverter.ToInt64(hashText, 24);
+                hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
+            }
+            return hashCode.ToString("x16");
+        }
+
+
+        // ===========================================================
+        // === Items below this line are not used ====================
+        // ===========================================================
 
 
 
@@ -266,37 +301,6 @@ namespace Touchee {
 
         public static string ToStringShort(this TimeSpan timeSpan) {
             return timeSpan.ToString(timeSpan.Hours > 0 ? @"%h\:mm\h" : @"%m\:ss");
-        }
-
-        /// <summary>
-        /// Return unique Int64 value for input string
-        /// 
-        /// Author: Composition4
-        /// Source: http://www.codeproject.com/KB/library/String_To_64bit_Int.aspx
-        /// License: COPL
-        /// </summary>
-        /// <param name="strText">Input string</param>
-        /// <returns>64-bits hash output</returns>
-        static SHA256CryptoServiceProvider _crypt = new SHA256CryptoServiceProvider();
-        public static string GetInt64HashCode(this string strText) {
-            Int64 hashCode = 0;
-            if (!string.IsNullOrEmpty(strText)) {
-                //Unicode Encode Covering all characterset
-                byte[] byteContents = Encoding.Unicode.GetBytes(strText);
-                byte[] hashText;
-                lock(_crypt)
-                    hashText = _crypt.ComputeHash(byteContents);
-                //32Byte hashText separate
-                //hashCodeStart = 0~7  8Byte
-                //hashCodeMedium = 8~23  8Byte
-                //hashCodeEnd = 24~31  8Byte
-                //and Fold
-                Int64 hashCodeStart = BitConverter.ToInt64(hashText, 0);
-                Int64 hashCodeMedium = BitConverter.ToInt64(hashText, 8);
-                Int64 hashCodeEnd = BitConverter.ToInt64(hashText, 24);
-                hashCode = hashCodeStart ^ hashCodeMedium ^ hashCodeEnd;
-            }
-            return hashCode.ToString("x16");
         }
 
 

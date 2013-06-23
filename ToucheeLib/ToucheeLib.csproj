@@ -68,7 +68,7 @@
     <Compile Include="Config.cs" />
     <Compile Include="Debouncer.cs" />
     <Compile Include="Devices\WinLirc.cs" />
-    <Compile Include="Extensions.cs" />
+    <Compile Include="NetExtensions.cs" />
     <Compile Include="Server\IClient.cs" />
     <Compile Include="Server\IServer.cs" />
     <Compile Include="Logger.cs" />
@@ -107,6 +107,7 @@
     <Compile Include="Components\Services\ServiceResultStatus.cs" />
     <Compile Include="CacheObject.cs" />
     <Compile Include="Options.cs" />
+    <Compile Include="ToucheeLibExtensions.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,12 +16,20 @@ define([
     // 
     parse: function(response) {
       var models = [];
+
+      // Go through each item
       _.each(response.items, function(itemData){
+
+        // Get the container
         var container = Media.get(itemData.mediumID).containers.get(itemData.containerID);
+        // Make a copy of the model, especially for the queue
+        // We don't know from which contents object this item originated, so we can't find the item
         var model = new container.contentsItemModel(itemData.item);
+        // Set the container of the item
         model.container = container;
         models.push(model);
       });
+
       this.priorityCount = response.priorityCount;
       this.repeat = response.repeat;
       this.shuffle = response.shuffle;

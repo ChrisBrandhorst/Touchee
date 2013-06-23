@@ -34,6 +34,12 @@
       connecting:   "Connecting to %s...",
       reconnecting: "Connection lost. Reconnecting to %s...",
       moreViews:    "More..."
+    },
+
+    queue: {
+      add:      "Add",
+      edit:     "Edit",
+      history:  "History"
     }
   
   };

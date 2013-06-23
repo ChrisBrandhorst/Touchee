@@ -56,13 +56,14 @@ define([
     
     // Show the contents of a single container 
     container: function(mediumID, containerID, paramsStr) {
-      
+      paramsStr || (paramsStr = "");
+
       // Get the container
       var container = this.getContainer(mediumID, containerID);
       if (!container) return;
       
       // Build params object
-      params = Touchee.Params.parse(paramsStr || "");
+      params = Touchee.Params.parse(paramsStr);
       
       // If we were not given any specific type to show in the params, we get the first viewType
       var view = params.view || container.views[0];

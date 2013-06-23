@@ -6,8 +6,13 @@ define([
   'models/playback',
   'models/artwork',
   'models/collections/devices',
+  'views/queue/popup',
   'text!views/browser/_header.html'
-], function($, _, Backbone, Queue, Playback, Artwork, Devices, browserHeaderTemplate) {
+], function($, _, Backbone,
+            Queue, Playback, Artwork, Devices,
+            QueuePopup,
+            browserHeaderTemplate) {
+
   browserHeaderTemplate = _.template(browserHeaderTemplate);
 
   var BrowserHeaderView = Backbone.View.extend({
@@ -126,12 +131,18 @@ define([
 
     // Called when a button is pressed
     button: function(ev) {
-      var button = $(ev.currentTarget).attr('data-button');
+      var $button = $(ev.currentTarget),
+          button  = $button.attr('data-button');
 
       if (_.isFunction(Queue[button]))
         Queue[button]();
       else if (_.isFunction(Playback[button]))
         Playback[button]();
+      else {
+        switch(button) {
+          case 'queue':   QueuePopup.showRelativeTo($button); break;
+        }
+      }
     },
 
 

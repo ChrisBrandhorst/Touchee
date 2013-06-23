@@ -58,12 +58,16 @@ define([
         
         communicator.trigger('responseReceived', response);
       };
-      
     },
     
     // Returns whether the websocket has established a connection
     isConnected: function() {
       return this._websocket && this._websocket.readyState == 1;
+    },
+
+    // Returns whether the websocket is connected for the first time
+    isFirstConnection: function() {
+      return this.connectedCount == 1;
     },
     
     // Closes the websocket

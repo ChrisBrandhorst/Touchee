@@ -96,7 +96,9 @@ define([
         success:  function(data, textStatus, jqXHR) {
           artwork.colors = data;
           if (options.success) options.success(artwork, artwork.colors);
-          artwork.trigger('colors', artwork.colors, artwork);
+          artwork.trigger('colors', artwork);
+          if (options.triggerObject && options.triggerObject.trigger)
+            options.triggerObject.trigger('colors', artwork);
         },
         error: options.error
       });
@@ -121,7 +123,7 @@ define([
 
       // Get artwork from cache
       var artwork = this.fromCache(item);
-
+      
       // Build URL
       var query = {}, url;
       if (options.size) query.size = options.size;
@@ -132,13 +134,13 @@ define([
         // If the artwork does not exist
         if (!exists) {
           if (options.none) options.none(artwork);
-          return;
         }
         // If the artwork exists and the correct size is present
         else if (exists && artwork.hasSize(options.size)) {
-          if (options.success) options.success(artwork, artwork.url(query));
-          return;
+          if (options.success)                    options.success(artwork, artwork.url(query));
+          if (options.colors && !artwork.colors)  artwork.getColors({triggerObject:item});
         }
+        return artwork;
       }
       
       // Else, build new object
@@ -166,8 +168,8 @@ define([
         if (options.success)
           options.success(artwork, url, img);
         if (options.colors && !artwork.colors)
-          artwork.getColors();
-        artwork.trigger('artwork', artwork, item);
+          artwork.getColors({triggerObject:item});
+        item.trigger('artwork', artwork, item);
       };
       img.onerror = function(){
         artwork.set({
@@ -182,6 +184,7 @@ define([
       // Load the image
       img.src = artwork.url(query);
       
+      return artwork;
     },
     
     

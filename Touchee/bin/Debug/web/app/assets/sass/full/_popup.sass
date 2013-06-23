@@ -67,8 +67,19 @@ $popupBackground: #0C1934
     &:last-child
       margin-bottom: 0
 
-  // Popup with pages or list
-  > .pages, > .list
+  // Alternative button
+  > .contents button
+    @include      text-shadow(0 1px 0 white)
+    @include      border-img(PopoverButton, 0 4 0 4, retina remote)
+    line-height:  30px
+    font-size:    115%
+    &:active:not([disabled])
+      @include      border-img(PopoverButtonNP, 0 4 0 4, retina)
+    &[disabled]
+      opacity: .5
+
+  // Popup contents (default for pages and lists)
+  > .pages, > .list, > .contents
     @include  box-flex(1)
     position: relative
     // Inset shadow
@@ -82,6 +93,10 @@ $popupBackground: #0C1934
       @include        border-radius(5px)
       box-shadow:     inset 0 2px 3px 0px rgba(0,0,0,.3)
       pointer-events: none
+
+  // Popup with list or other contents
+  > .list, > .contents
+    @include    border-radius(5px)
 
   // Popup with pages
   > .pages
@@ -102,7 +117,7 @@ $popupBackground: #0C1934
       // @include    box-orient(vertical)
       @include    box-flex(1)
       @include    border-radius(5px)
-      background: white
+      background: $defaultBackgroundColor
       .list
         @include    box-flex(1)
         background: transparent
@@ -112,7 +127,6 @@ $popupBackground: #0C1934
   // Popup with list
   > .list
     // min-height: 4 * $listRowHeight
-    @include    border-radius(5px)
     > :first-child
       @include    border-radius(4px 4px 0 0)
     > :last-child
@@ -121,9 +135,6 @@ $popupBackground: #0C1934
   // Popup with action buttons
   > .actions
     width:  286px
-
-
-
 
 
 

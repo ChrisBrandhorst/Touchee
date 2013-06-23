@@ -99,7 +99,7 @@ namespace Touchee.Devices {
 
             // If we can write
             if (_stream != null && _stream.CanWrite) {
-                Log("Sending command to WinLirc: " + message, Logger.LogLevel.Info);
+                Log(String.Format("Sending command to WinLirc: '{0}'", message), Logger.LogLevel.Info);
                 try {
                     _streamWriter.WriteLine(message);
                     return true;
@@ -111,7 +111,7 @@ namespace Touchee.Devices {
             if (this.Connect())
                 return this.SendOnce(remote, command);
             else {
-                Log("Cannot send command to WinLirc. WinLirc not running? Command: " + message, Logger.LogLevel.Info);
+                Log(String.Format("Cannot send command to WinLirc. WinLirc not running? Command: '{0}'", message), Logger.LogLevel.Info);
                 return false;
             }
         }

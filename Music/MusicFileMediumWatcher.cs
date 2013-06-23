@@ -22,7 +22,6 @@ namespace Music {
 
         // Debounce function for cache saving
         //Debouncer _saveCache;
-        MasterPlaylist _masterPlaylist;
 
         #endregion
 
@@ -92,10 +91,9 @@ namespace Music {
         protected override void OnWatch(Medium medium) {
 
             // Create a master playlist for the medium
-            _masterPlaylist = new MasterPlaylist(medium);
-            _masterPlaylist.IsLoading = true;
-            _masterPlaylist.Save();
-            medium.Containers.Add(_masterPlaylist);
+            var masterPlaylist = new MasterPlaylist(medium);
+            masterPlaylist.Save();
+            medium.Containers.Add(masterPlaylist);
 
             //// Deserialize the cache of the local medium
             //if (medium == Medium.Local && File.Exists(CachePath))
@@ -118,7 +116,8 @@ namespace Music {
                 }
                 playlist.Dispose();
             }
-
+            medium.Containers.Clear();
+            
         }
 
 
@@ -130,9 +129,9 @@ namespace Music {
 
 
         /// <summary>
-        /// Gets the directory watcher for the given medium and directory.
+        /// Create a directory watcher for the given medium and directory.
         /// </summary>
-        protected override MusicDirectoryWatcher GetDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo) {
+        protected override MusicDirectoryWatcher CreateDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo) {
             var musicDirectoryWatcher = new MusicDirectoryWatcher(medium, directoryInfo, Plugin.Extensions);
 
             // If the directory is not collected yet, mark it as to collect
@@ -145,16 +144,20 @@ namespace Music {
         }
 
 
-
+        /// <summary>
+        /// Called when a DirectoryWatcher has completed collecting
+        /// </summary>
+        /// <param name="watcher">The watcher that has completed collecting</param>
+        /// <param name="count">The number of items found</param>
         void musicDirectoryWatcher_CollectingCompleted(DirectoryWatcher watcher, int count) {
             watcher.CollectingCompleted -= musicDirectoryWatcher_CollectingCompleted;
-            var done = _directoryWatchers.Where(dw => dw.Medium == watcher.Medium).All(dw => dw.CollectionState == CollectionState.Collected);
+            var done = DirectoryWatchers.Where(dw => dw.Medium == watcher.Medium).All(dw => dw.CollectionState == CollectionState.Collected);
             if (done) {
-                _masterPlaylist.IsLoading = false;
-                _masterPlaylist.Save();
+                var masterPlaylist = watcher.Medium.GetMasterContainer();
+                masterPlaylist.Loaded = true;
+                masterPlaylist.Save();
             }
         }
-
 
 
         /// <summary>
@@ -162,7 +165,7 @@ namespace Music {
         /// </summary>
         public IEnumerable<DirectoryInfo> CollectedLocalDirectories {
             get {
-                return _directoryWatchers.Where(dw => dw.Medium == _localMedium && dw.CollectionState == CollectionState.Collected).Select(dw => dw.Directory);
+                return DirectoryWatchers.Where(dw => dw.Medium == _localMedium && dw.CollectionState == CollectionState.Collected).Select(dw => dw.Directory);
             }
         }
 

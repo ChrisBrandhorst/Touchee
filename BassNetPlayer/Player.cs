@@ -83,7 +83,7 @@ namespace BassNetPlayer {
         public void Play(IItem item) {
             
             // Stop playing current stream
-            //this.Stop();
+            this.StopAndClearCurrentStream();
             
             // Create stream
             this.CreateStream((IAudioItem)item);
@@ -99,8 +99,7 @@ namespace BassNetPlayer {
         /// Pauses the current playback
         /// </summary>
         public void Pause() {
-            //Bass.BASS_Pause();
-            Bass.BASS_ChannelPause(_mixer);
+            Bass.BASS_Pause();
             this.OnStatusUpdated();
         }
 
@@ -109,8 +108,7 @@ namespace BassNetPlayer {
         /// Resums playback if paused
         /// </summary>
         public void Play() {
-            //Bass.BASS_Start();
-            Bass.BASS_ChannelPlay(_mixer, false);
+            Bass.BASS_Start();
             this.OnStatusUpdated();
         }
 
@@ -119,13 +117,7 @@ namespace BassNetPlayer {
         /// Stop the current playback
         /// </summary>
         public void Stop() {
-            Bass.BASS_ChannelStop(_mixer);
-            BassMix.BASS_Mixer_ChannelRemove(_currentStream);
-            Bass.BASS_Stop();
-            Bass.BASS_StreamFree(_currentStream);
-            Bass.BASS_StreamFree(_mixer);
-            _currentStream = -1;
-            _mixer = -1;
+            this.StopAndClear();
             this.OnStatusUpdated();
         }
 
@@ -244,6 +236,32 @@ namespace BassNetPlayer {
 
 
         #region Stream handling
+
+
+        /// <summary>
+        /// Stops and clears the current stream (if any)
+        /// </summary>
+        void StopAndClearCurrentStream() {
+            if (_currentStream > -1) {
+                Bass.BASS_ChannelStop(_currentStream);
+                BassMix.BASS_Mixer_ChannelRemove(_currentStream);
+                Bass.BASS_StreamFree(_currentStream);
+                _currentStream = -1;
+            }
+        }
+
+
+        /// <summary>
+        /// Stops and clears the current stream (if any) and the mixer (if any0
+        /// </summary>
+        void StopAndClear() {
+            this.StopAndClearCurrentStream();
+            if (_mixer > -1) {
+                Bass.BASS_ChannelStop(_mixer);
+                Bass.BASS_StreamFree(_mixer);
+                _mixer = -1;
+            }
+        }
 
 
         /// <summary>

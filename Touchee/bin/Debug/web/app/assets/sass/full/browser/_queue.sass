@@ -1,0 +1,40 @@
+#queue_popup
+  
+  height: 3000px
+
+  > .contents
+    background-color: $defaultBackgroundColor
+    @include          display-box
+    @include          box-orient(vertical)
+
+    // background-image: url(../images/_screenshots/queue.png)
+    background-repeat: no-repeat
+    background-size: contain
+
+    > header
+      padding:  8px 8px 6px 8px
+      @include  display-box
+
+      > button
+        display:      block
+        @include      box-flex(1)
+        width:        1%
+        margin-right: 8px
+
+        &:last-child
+          margin-right: 0
+
+    > .list
+      @include    display-box
+      @include    box-flex(1)
+      background: transparent
+
+      &:before
+        content:  attr(data-message)
+        position:     absolute
+        width:        100%
+        top:          43%
+        font-weight:  normal
+        font-size:    14px // TODO
+        color:        #6e6e6e
+        text-align:   center

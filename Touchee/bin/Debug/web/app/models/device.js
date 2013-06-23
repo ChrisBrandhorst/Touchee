@@ -35,10 +35,10 @@ define([
     // @param active    A boolean or undefined for toggling the state
     setActive: function(active) {
       // Set on/off
-      if (this.can('onOff') && _.isBoolean(active))
+      if (this.can('setActive') && _.isBoolean(active))
         this._sendCommand('active', {value:active});
       // Toggle
-      else if (this.can('toggle') && _.isUndefined(active))
+      else if (this.can('toggleActive') && _.isUndefined(active))
         this._sendCommand('active');
       // Not supported
       else
@@ -49,10 +49,10 @@ define([
     // @param muted    A boolean or undefined for toggling the muted state
     setMuted: function(muted) {
       // Set on/off
-      if (this.can('muteOnOff') && _.isBoolean(muted))
+      if (this.can('setMuted') && _.isBoolean(muted))
         this._sendCommand('muted', {value:muted});
       // Toggle
-      else if (this.can('muteToggle') && _.isUndefined(muted))
+      else if (this.can('toggleMuted') && _.isUndefined(muted))
         this._sendCommand('muted');
       // Not supported
       else

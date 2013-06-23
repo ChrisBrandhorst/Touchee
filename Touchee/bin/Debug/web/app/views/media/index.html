@@ -1,6 +1,6 @@
 <%
 var loadingClass = function(container) {
-  return container.get('isLoading') === true ? 'loading' : '';
+  return container.get('loaded') ? '' : 'loading';
 };
 %>
 

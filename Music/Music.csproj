@@ -78,13 +78,13 @@
     <Compile Include="MusicFileMediumWatcher.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\ToucheeLib\ToucheeLib.csproj">
       <Project>{76b24f44-0f71-46f1-9d79-373ecfbc72bf}</Project>
       <Name>ToucheeLib</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

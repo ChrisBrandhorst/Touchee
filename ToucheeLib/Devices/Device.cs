@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Threading;
 using Newtonsoft.Json;
 
 namespace Touchee.Devices {
@@ -124,6 +125,12 @@ namespace Touchee.Devices {
         Dictionary<string, Tuple<string, string>> _winLircCommands = new Dictionary<string, Tuple<string, string>>();
 
 
+        /// <summary>
+        /// Timer for auto active setting
+        /// </summary>
+        Timer _autoSetActiveTimer;
+
+
         #endregion
 
 
@@ -174,9 +181,9 @@ namespace Touchee.Devices {
 
 
         /// <summary>
-        /// The timeout before the device is turned off automatically
+        /// The timeout before the device is deactivated automatically
         /// </summary>
-        public TimeSpan AutoOffTimeout { get; protected set; }
+        public TimeSpan AutoDeactivateTimeout { get; protected set; }
 
 
         #endregion
@@ -247,12 +254,14 @@ namespace Touchee.Devices {
             }
 
             if (this.SupportsCapability(DeviceCapabilities.AutoSetActive)) {
-                int autoOffTimeout;
-                config.TryGetInt("autoOff", out autoOffTimeout);
-                if (autoOffTimeout == 0)
-                    throw new InvalidDeviceConfigException("Capability autoOnOff was given, but no autoOff value supplied.");
+                if (!this.SupportsCapability(DeviceCapabilities.SetActive))
+                    throw new InvalidDeviceConfigException("Capability autoSetActive was given without capability setActive.");
+                int autoDeactivateTimeout;
+                config.TryGetInt("autoDeactivate", out autoDeactivateTimeout);
+                if (autoDeactivateTimeout == 0)
+                    throw new InvalidDeviceConfigException("Capability autoSetActive was given, but no autoDeactivate value supplied.");
                 else
-                    this.AutoOffTimeout = new TimeSpan(0, 0, autoOffTimeout);
+                    this.AutoDeactivateTimeout = new TimeSpan(0, 0, autoDeactivateTimeout);
             }
 
         }
@@ -407,7 +416,7 @@ namespace Touchee.Devices {
                 if (value == true && this.SupportsWinLircCommand(WinLircCommand.Activate))
                     this.SendWinLircCommand(WinLircCommand.Activate);
                 else if (value == false && this.SupportsWinLircCommand(WinLircCommand.Deactivate))
-                    this.SupportsWinLircCommand(WinLircCommand.Deactivate);
+                    this.SendWinLircCommand(WinLircCommand.Deactivate);
                 else
                     throw new NotImplementedException("Device has DeviceControlSupport.SetActive flag, but no DoActive set implementation");
             }
@@ -538,6 +547,34 @@ namespace Touchee.Devices {
                 throw new NotImplementedException("Device has DeviceControlSupport.LFEVolume flag, but no DoLFEVolume set implementation");
             }
         }
+
+
+
+        public void AutoSetActive(bool active) {
+            if (!this.Capabilities.HasFlag(DeviceCapabilities.AutoSetActive))
+                throw new DeviceCapabilityNotSupportedException(DeviceCapabilities.AutoSetActive);
+
+            // Cancel running timer (if any)
+            if (_autoSetActiveTimer != null) {
+                _autoSetActiveTimer.Change(Timeout.Infinite, Timeout.Infinite);
+                _autoSetActiveTimer.Dispose();
+                _autoSetActiveTimer = null;
+            }
+
+            // If the device should be activated, immediately do it
+            if (active) {
+                this.Active = active;
+            }
+
+            // Else, delay deactivation
+            else {
+                _autoSetActiveTimer = new Timer(obj => {
+                    _autoSetActiveTimer = null;
+                    this.Active = active;
+                }, null, this.AutoDeactivateTimeout, Timeout.InfiniteTimeSpan);
+            }
+        }
+
 
 
         #endregion

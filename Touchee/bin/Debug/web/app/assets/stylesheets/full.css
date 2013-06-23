@@ -208,7 +208,7 @@ h1.with_control_cluster > .control_cluster {
 
 /* line 3, ../sass/full/_list.sass */
 .list {
-  background: white;
+  background-color: #fafafa;
   font-weight: bold;
   font-size: 130%;
   margin-bottom: -1px;
@@ -510,15 +510,32 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   margin-bottom: 0;
 }
 /* line 71, ../sass/full/_popup.sass */
-.popup > .pages, .popup > .list {
+.popup > .contents button {
+  text-shadow: 0 1px 0 white;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/PopoverButton.png) 1x, url(../images/remote/PopoverButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+  line-height: 30px;
+  font-size: 115%;
+}
+/* line 76, ../sass/full/_popup.sass */
+.popup > .contents button:active:not([disabled]) {
+  -webkit-border-image: -webkit-image-set(url(../images/PopoverButtonNP.png) 1x, url(../images/PopoverButtonNP@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+}
+/* line 78, ../sass/full/_popup.sass */
+.popup > .contents button[disabled] {
+  opacity: 0.5;
+}
+/* line 82, ../sass/full/_popup.sass */
+.popup > .pages, .popup > .list, .popup > .contents {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
   position: relative;
 }
-/* line 75, ../sass/full/_popup.sass */
-.popup > .pages::before, .popup > .list::before {
+/* line 86, ../sass/full/_popup.sass */
+.popup > .pages::before, .popup > .list::before, .popup > .contents::before {
   content: "";
   position: absolute;
   top: 0px;
@@ -533,7 +550,15 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-shadow: inset 0 2px 3px 0px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
-/* line 87, ../sass/full/_popup.sass */
+/* line 98, ../sass/full/_popup.sass */
+.popup > .list, .popup > .contents {
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 102, ../sass/full/_popup.sass */
 .popup > .pages {
   display: -webkit-box;
   display: -moz-box;
@@ -544,11 +569,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -ms-box-orient: vertical;
   box-orient: vertical;
 }
-/* line 90, ../sass/full/_popup.sass */
+/* line 105, ../sass/full/_popup.sass */
 .popup > .pages > header {
   margin-top: -6px;
 }
-/* line 92, ../sass/full/_popup.sass */
+/* line 107, ../sass/full/_popup.sass */
 .popup > .pages > header > h1 {
   text-align: center;
   font-size: 150%;
@@ -557,7 +582,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   text-shadow: 0 -1px 1px rgba(0, 0, 0, 0.5);
   margin-top: 0;
 }
-/* line 100, ../sass/full/_popup.sass */
+/* line 115, ../sass/full/_popup.sass */
 .popup > .pages > div {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -568,9 +593,9 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  background: white;
+  background: #fafafa;
 }
-/* line 106, ../sass/full/_popup.sass */
+/* line 121, ../sass/full/_popup.sass */
 .popup > .pages > div .list {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -578,19 +603,11 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   box-flex: 1;
   background: transparent;
 }
-/* line 109, ../sass/full/_popup.sass */
+/* line 124, ../sass/full/_popup.sass */
 .popup > .pages::before {
   top: 37px;
 }
-/* line 113, ../sass/full/_popup.sass */
-.popup > .list {
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  border-radius: 5px;
-}
-/* line 116, ../sass/full/_popup.sass */
+/* line 130, ../sass/full/_popup.sass */
 .popup > .list > :first-child {
   -webkit-border-radius: 4px 4px 0 0;
   -moz-border-radius: 4px 4px 0 0;
@@ -598,7 +615,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
-/* line 118, ../sass/full/_popup.sass */
+/* line 132, ../sass/full/_popup.sass */
 .popup > .list > :last-child {
   -webkit-border-radius: 0 0 4px 4px;
   -moz-border-radius: 0 0 4px 4px;
@@ -606,15 +623,15 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -o-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
 }
-/* line 122, ../sass/full/_popup.sass */
+/* line 136, ../sass/full/_popup.sass */
 .popup > .actions {
   width: 286px;
 }
-/* line 131, ../sass/full/_popup.sass */
+/* line 142, ../sass/full/_popup.sass */
 .popup > .arrow {
   display: none;
 }
-/* line 136, ../sass/full/_popup.sass */
+/* line 147, ../sass/full/_popup.sass */
 .popup.arrow > .arrow {
   display: block;
   position: absolute;
@@ -623,7 +640,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   height: 37px;
   padding: 6px 0 0 6px;
 }
-/* line 145, ../sass/full/_popup.sass */
+/* line 156, ../sass/full/_popup.sass */
 .popup.arrow > .arrow::before {
   content: "";
   display: block;
@@ -633,17 +650,17 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   border-style: solid;
   border-width: 1px 0 0 1px;
 }
-/* line 156, ../sass/full/_popup.sass */
+/* line 167, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow, .popup.arrow.bottom > .arrow {
   left: 50%;
   margin-left: -19px;
 }
-/* line 161, ../sass/full/_popup.sass */
+/* line 172, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow {
   top: -19px;
   -webkit-mask-image: -webkit-linear-gradient(white 20px, transparent 20px);
 }
-/* line 164, ../sass/full/_popup.sass */
+/* line 175, ../sass/full/_popup.sass */
 .popup.arrow.top > .arrow::before {
   border-color: #363636;
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #b1b4bd), color-stop(55%, #78808f), color-stop(55%, transparent));
@@ -660,12 +677,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.2);
 }
-/* line 171, ../sass/full/_popup.sass */
+/* line 182, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow {
   bottom: -19px;
   -webkit-mask-image: -webkit-linear-gradient(bottom, white 20px, transparent 20px);
 }
-/* line 174, ../sass/full/_popup.sass */
+/* line 185, ../sass/full/_popup.sass */
 .popup.arrow.bottom > .arrow::before {
   border-color: #02060e;
   background: #0c1934;
@@ -678,22 +695,22 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 1px 1px 0 0 rgba(255, 255, 255, 0.05);
 }
-/* line 182, ../sass/full/_popup.sass */
+/* line 193, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow, .popup.arrow.right > .arrow {
   top: 50%;
   margin-top: -19px;
 }
-/* line 185, ../sass/full/_popup.sass */
+/* line 196, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before, .popup.arrow.right > .arrow::before {
   border-color: #3f3f3f;
   background: #0c1934;
 }
-/* line 190, ../sass/full/_popup.sass */
+/* line 201, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow {
   left: -19px;
   -webkit-mask-image: -webkit-linear-gradient(left, white 20px, transparent 20px);
 }
-/* line 193, ../sass/full/_popup.sass */
+/* line 204, ../sass/full/_popup.sass */
 .popup.arrow.left > .arrow::before {
   -webkit-transform: rotate(-45deg);
   -moz-transform: rotate(-45deg);
@@ -704,12 +721,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -moz-box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
   box-shadow: -1px -1px 0 0 rgba(255, 255, 255, 0.25), inset 0 1px 0 0 rgba(255, 255, 255, 0.3);
 }
-/* line 198, ../sass/full/_popup.sass */
+/* line 209, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow {
   right: -19px;
   -webkit-mask-image: -webkit-linear-gradient(right, white 20px, transparent 20px);
 }
-/* line 201, ../sass/full/_popup.sass */
+/* line 212, ../sass/full/_popup.sass */
 .popup.arrow.right > .arrow::before {
   -webkit-transform: rotate(135deg);
   -moz-transform: rotate(135deg);
@@ -1407,7 +1424,7 @@ body > section:not(.popup) {
 }
 /* line 25, ../sass/full/_layout.sass */
 .scrollable::-webkit-scrollbar-thumb {
-  background-color: white;
+  background-color: #fafafa;
   border-radius: 3px;
 }
 /* line 29, ../sass/full/_layout.sass */
@@ -1622,7 +1639,7 @@ body > section:not(.popup) {
 /* line 11, ../sass/full/browser/_header.sass */
 #browser > header #lcd [data-button=queue] {
   width: 42;
-  height: 42;
+  height: 32;
   background-image: -webkit-image-set(url(../images/remote/LCDqueue.png) 1x, url(../images/remote/LCDqueue@2x.png) 2x);
 }
 /* line 15, ../sass/full/browser/_header.sass */
@@ -2251,7 +2268,71 @@ body > section:not(.popup) {
   background-image: -webkit-image-set(url(../images/remote/SourceListmusicHighlight.png) 1x, url(../images/remote/SourceListmusicHighlight@2x.png) 2x);
 }
 
-/* line 16, ../sass/full/_browser.sass */
+/* line 1, ../sass/full/browser/_queue.sass */
+#queue_popup {
+  height: 3000px;
+}
+/* line 5, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents {
+  background-color: #fafafa;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+/* line 14, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents > header {
+  padding: 8px 8px 6px 8px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+}
+/* line 18, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents > header > button {
+  display: block;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  width: 1%;
+  margin-right: 8px;
+}
+/* line 24, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents > header > button:last-child {
+  margin-right: 0;
+}
+/* line 27, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents > .list {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: box;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  box-flex: 1;
+  background: transparent;
+}
+/* line 32, ../sass/full/browser/_queue.sass */
+#queue_popup > .contents > .list:before {
+  content: attr(data-message);
+  position: absolute;
+  width: 100%;
+  top: 43%;
+  font-weight: normal;
+  font-size: 14px;
+  color: #6e6e6e;
+  text-align: center;
+}
+
+/* line 18, ../sass/full/_browser.sass */
 #browser {
   background-color: #fafafa;
   background-repeat: no-repeat;
@@ -2266,7 +2347,7 @@ body > section:not(.popup) {
   max-height: 748px;
 }
 @media screen and (max-width: 900px) {
-  /* line 16, ../sass/full/_browser.sass */
+  /* line 18, ../sass/full/_browser.sass */
   #browser {
     width: 768px;
     height: 1004px;

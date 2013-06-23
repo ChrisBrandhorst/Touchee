@@ -30,6 +30,11 @@ define([
 
       this.render();
     },
+
+    // Default render resizes popup to content
+    render: function() {
+      this.resizeToContents()
+    },
     
     
     // Gets the required content height of this popup

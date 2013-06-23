@@ -9,7 +9,6 @@ define([
     
     
     // Backbone View options
-    className:  'pages',
     tagName:    'div',
     
     // Events
@@ -24,6 +23,7 @@ define([
     
     // Constructor
     initialize: function(options) {
+      this.$el.addClass('pages');
       this.render();
     },
     

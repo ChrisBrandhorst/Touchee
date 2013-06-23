@@ -35,7 +35,7 @@ namespace Touchee {
         /// Whether this container is busy loading
         /// </summary>
         [DataMember]
-        public virtual bool IsLoading { get; set; }
+        public virtual bool Loaded { get; set; }
 
         /// <summary>
         /// Whether this container is empty

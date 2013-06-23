@@ -21,23 +21,25 @@ define([
             Playback, Media, Devices) {
   
   var App = {
-    
-    
+
+
     // Init the app
     initialize: function(options) {
       
       // Set events on the communicator
-      // Communicator.on('connecting', this.connecting, this);
       Communicator.on('connected', this.connected, this);
       Communicator.on('cannotConnect disconnected', this.reconnect, this);
       Communicator.on('responseReceived', this.responseReceived, this);
       
+      // Set events on Media
+      Media.on('sync:containers:all', this.containersSynced, this);
+
       // Connect to the server
       this.connect();
       
     },
-    
-    
+
+
     // Connect to the server
     connect: function() {
       T.Log.info("Application:: connecting...")
@@ -56,21 +58,17 @@ define([
       });
       
     },
-    
-    
+
+
     // Called when the websocket is (re-)opened
     connected: function() {
-      var firstTime = Communicator.connectedCount == 1;
       
-      // If we have not connected before, get the sessionID from the cookie
-      if (firstTime) {
-        
-        // Get session ID from cookie
+      // If we have not connected before, get the session ID from the cookie
+      if (Communicator.isFirstConnection()) {
         var sessionID = document.cookie.match(/ToucheeSession=([a-f0-9-]+)/);
         if (!sessionID)
           return T.Log.error("Please enable cookies");
         this.sessionID = sessionID[1];
-        
       }
       
       // Link the websocket and HTTP session at the server
@@ -80,49 +78,38 @@ define([
       Devices.fetch();
       Playback.fetch();
 
-      // When all containers are loaded
-      Media.on('sync:containers:all', function(){
-        Queue.fetch();
-        if (Communicator.connectedCount == 1) {// TODO: weird, firstTime is always true here...
-          Router.initialize();
-          if (Media.length)
-            Backbone.history.navigate(Media.first().url(), {trigger:true});
-        }
-      }, this);
-
       // Wait until other Communicator connected callbacks have finished
       _.defer(_.bind(function(){
         Media.fetch();
       }, this));
     },
-    
-    
+
+
+    // Called when all containers have been synced
+    containersSynced: function() {
+      Queue.fetch();
+      if (Communicator.isFirstConnection()) {
+        Router.initialize();
+        if (Media.length)
+          Backbone.history.navigate(Media.first().url(), {trigger:true});
+      }
+      if (ServerInfo.changed.revision) {
+        T.Log.warn('New revision: update existing containers');
+      }
+    },
+
+
     // Reconnect with a delay of 2000 ms
     reconnect: function() {
       _.delay(function(){
         App.connect();
       }, 5000);
     },
-    
-    
+
+
     // Called when a message was received over the websocket
     responseReceived: function(response) {
       var obj;
-
-      // Revision update
-      if (obj = response.revision) {
-        var current = ServerInfo.get('revision'),
-            next    = obj.revision;
-        if (next > current + 1) {
-          // TODO: RELOAD ALL
-          console.warn('Skipped revision!');
-        }
-        else {
-          // Upcoming data belongs to this new revision
-        }
-        ServerInfo.set('revision', next);
-      }
-
 
       // The devices list has been updated
       if (obj = response.devices)

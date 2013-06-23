@@ -20,7 +20,7 @@ namespace Touchee.Components.FileSystem {
 
 
         // Directory watchers internal list
-        protected List<TDirectoryWatcher> _directoryWatchers = new List<TDirectoryWatcher>();
+        protected List<TDirectoryWatcher> DirectoryWatchers = new List<TDirectoryWatcher>();
 
         // Temporary list keeping local directories while the local medium has not yet been watched
         List<DirectoryInfo> _localFoldersTemp = new List<DirectoryInfo>();
@@ -53,7 +53,7 @@ namespace Touchee.Components.FileSystem {
         public bool Watch(Medium medium) {
 
             // Check if we are already watching this medium
-            if (_directoryWatchers.Any(dw => dw.Medium == medium)) return false;
+            if (DirectoryWatchers.Any(dw => dw.Medium == medium)) return false;
 
             // We got the local medium
             if (medium == Medium.Local) {
@@ -86,15 +86,15 @@ namespace Touchee.Components.FileSystem {
         public bool UnWatch(Medium medium) {
 
             // Get all directory watchers for the given medium
-            var directoryWatchers = _directoryWatchers.Where(dw => dw.Medium == medium).ToList();
+            var directoryWatchers = DirectoryWatchers.Where(dw => dw.Medium == medium).ToList();
 
             // Nothing found? Bail out
             if (directoryWatchers.Count() == 0) return false;
 
             // Stop and remove all found watchers
-            lock (_directoryWatchers) {
+            lock (DirectoryWatchers) {
                 foreach (var dw in directoryWatchers) {
-                    _directoryWatchers.Remove(dw);
+                    DirectoryWatchers.Remove(dw);
                     dw.Stop();
                 }
             }
@@ -118,7 +118,7 @@ namespace Touchee.Components.FileSystem {
         /// </summary>
         public bool UnWatchAll() {
             var ret = false;
-            foreach (var m in _directoryWatchers.Select(mf => mf.Medium))
+            foreach (var m in DirectoryWatchers.Select(mf => mf.Medium))
                 ret |= this.UnWatch(m);
             return ret;
         }
@@ -185,8 +185,8 @@ namespace Touchee.Components.FileSystem {
             // TODO: Check if dir is not already watched
             
             // Create directory watcher
-            var directoryWatcher = GetDirectoryWatcher(medium, directoryInfo);
-            _directoryWatchers.Add(directoryWatcher);
+            var directoryWatcher = CreateDirectoryWatcher(medium, directoryInfo);
+            DirectoryWatchers.Add(directoryWatcher);
             
             // Collect if required
             if (forceCollecting || directoryWatcher.CollectionState == CollectionState.CollectionRequired)
@@ -196,7 +196,7 @@ namespace Touchee.Components.FileSystem {
             else
                 directoryWatcher.Start();
         }
-        protected abstract TDirectoryWatcher GetDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo);
+        protected abstract TDirectoryWatcher CreateDirectoryWatcher(Medium medium, DirectoryInfo directoryInfo);
 
 
         /// <summary>
@@ -222,7 +222,7 @@ namespace Touchee.Components.FileSystem {
             directoryWatcher.Start();
 
             // Get next watcher to collect
-            var toCollect = _directoryWatchers.FirstOrDefault(dw => dw.CollectionState == CollectionState.CollectionRequired);
+            var toCollect = DirectoryWatchers.FirstOrDefault(dw => dw.CollectionState == CollectionState.CollectionRequired);
             if (toCollect != null)
                 CollectSequentially(toCollect);
         }
@@ -233,7 +233,7 @@ namespace Touchee.Components.FileSystem {
         /// </summary>
         /// <returns></returns>
         bool IsCollecting() {
-            return _directoryWatchers.Any(dw => dw.CollectionState == CollectionState.Collecting);
+            return DirectoryWatchers.Any(dw => dw.CollectionState == CollectionState.Collecting);
         }
 
 

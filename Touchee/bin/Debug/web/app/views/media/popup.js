@@ -23,7 +23,7 @@ define([
     render: function() {
       this.$el.append( MediaPagesView.$el );
       MediaPagesView.addPage( MediaIndexView );
-      this.resizeToContents();
+      PopupView.prototype.render.apply(this, arguments);
     },
     
     

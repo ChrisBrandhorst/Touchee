@@ -7,10 +7,10 @@
     &:active:not([disabled])
       @include background-img(Chrome#{$name}Pressed, remote retina)
 
-@mixin lcdButton($name, $size)
+@mixin lcdButton($name, $width, $height: $width)
   [data-button=#{$name}]
-    width:    $size
-    height:   $size
+    width:    $width
+    height:   $height
     @include  background-img(LCD#{$name}, remote retina)
     &:active
       @include  background-img(LCD#{$name}Pressed, remote retina)
@@ -103,7 +103,7 @@
         @include      ellipsis
       
       // LCD Buttons
-      @include lcdButton(queue, 42)
+      @include lcdButton(queue, 42, 32)
       [data-button=queue]
         margin: -1px 5px 0 0
         @media #{$portraitMedia}

@@ -4,10 +4,10 @@ define([
   'Backbone',
   'views/popup/base',
   'text!views/browser/_views_popup.html'
-], function($, _, Backbone, Popup, browserViewsPopupTemplate) {
+], function($, _, Backbone, PopupView, browserViewsPopupTemplate) {
   browserViewsPopupTemplate = _.template(browserViewsPopupTemplate);
 
-  var BrowserViewsPopup = Popup.extend({
+  var BrowserViewsPopup = PopupView.extend({
 
 
     id: 'views_popup',
@@ -26,7 +26,7 @@ define([
     // Constructor
     initialize: function(options) {
       this.viewsView = options.viewsView;
-      Popup.prototype.initialize.apply(this, arguments);
+      PopupView.prototype.initialize.apply(this, arguments);
     },
 
 
@@ -37,13 +37,13 @@ define([
       this.$el.append($list);
       $existing.remove();
       $list.touchscrollselect();
-      this.resizeToContents();
+      PopupView.prototype.render.apply(this, arguments);
     },
 
 
     // Do not trigger events on this hide
     hide: function(options) {
-      Popup.prototype.hide.call(this, _.extend({trigger:false}, options));
+      PopupView.prototype.hide.call(this, _.extend({trigger:false}, options));
     }
 
 
