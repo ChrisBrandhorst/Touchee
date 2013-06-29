@@ -2273,7 +2273,7 @@ body > section:not(.popup) {
   height: 3000px;
 }
 /* line 5, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents {
+#queue_popup .contents {
   background-color: #fafafa;
   display: -webkit-box;
   display: -moz-box;
@@ -2287,15 +2287,15 @@ body > section:not(.popup) {
   background-size: contain;
 }
 /* line 14, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents > header {
-  padding: 8px 8px 6px 8px;
+#queue_popup header {
+  padding: 8px 8px 5px 8px;
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
 }
 /* line 18, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents > header > button {
+#queue_popup header button {
   display: block;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -2305,11 +2305,11 @@ body > section:not(.popup) {
   margin-right: 8px;
 }
 /* line 24, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents > header > button:last-child {
+#queue_popup header button:last-child {
   margin-right: 0;
 }
 /* line 27, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents > .list {
+#queue_popup ul {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
@@ -2318,10 +2318,14 @@ body > section:not(.popup) {
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  box-orient: vertical;
   background: transparent;
 }
-/* line 32, ../sass/full/browser/_queue.sass */
-#queue_popup > .contents > .list:before {
+/* line 33, ../sass/full/browser/_queue.sass */
+#queue_popup ul:before {
   content: attr(data-message);
   position: absolute;
   width: 100%;
@@ -2330,6 +2334,45 @@ body > section:not(.popup) {
   font-size: 14px;
   color: #6e6e6e;
   text-align: center;
+}
+/* line 43, ../sass/full/browser/_queue.sass */
+#queue_popup h1 {
+  background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(1px, #f9f9f9), color-stop(1px, #ebebeb), color-stop(100%, #e7e7e7));
+  background: -webkit-linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7);
+  background: -moz-linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7);
+  background: -o-linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7);
+  background: linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7);
+  padding: 0 8px;
+  line-height: 30px;
+  border-top: 1px solid #d5d5d5;
+  border-bottom: 1px solid #cecece;
+  font-size: 120%;
+  text-shadow: 0 1px 0 white;
+}
+/* line 56, ../sass/full/browser/_queue.sass */
+#queue_popup li {
+  height: 45px;
+  padding: 4px 0 4px 52px;
+  border-bottom: 1px solid #e5e5e5;
+  background-size: 44px 44px;
+  background-repeat: no-repeat;
+}
+/* line 63, ../sass/full/browser/_queue.sass */
+#queue_popup li p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* line 65, ../sass/full/browser/_queue.sass */
+#queue_popup li p:first-child {
+  font-weight: bold;
+  color: #070707;
+  font-size: 125%;
+  line-height: 21px;
+}
+/* line 70, ../sass/full/browser/_queue.sass */
+#queue_popup li p:last-child {
+  color: #8b8b8b;
 }
 
 /* line 18, ../sass/full/_browser.sass */

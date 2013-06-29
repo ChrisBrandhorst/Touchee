@@ -81,6 +81,12 @@ namespace Music {
             // Order by disc number, track number and track name
             // TODO: do not sort non-masterplaylist
             if (view != "track") {
+
+                if (ret is IOrderedEnumerable<ITrack>)
+                    ret = ((IOrderedEnumerable<ITrack>)ret).ThenBy(t => t.DiscNumber == 0);
+                else
+                    ret = ret.OrderBy(t => t.DiscNumber == 0);
+
                 ret = ((IOrderedEnumerable<ITrack>)ret)
                     .ThenBy(t => t.DiscNumber == 0)
                     .ThenBy(t => t.DiscNumber)

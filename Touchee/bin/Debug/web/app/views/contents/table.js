@@ -26,14 +26,6 @@ define([
     // ScrollList overrides
     // --------------------
 
-    // Constructor
-    // Adds hold on row method callback
-    initialize: function() {
-      ScrollListView.prototype.initialize.apply(this, arguments);
-      this.$el.on('hold.delegateEvents' + this.cid, 'tr', _.bind(this._held, this));
-    },
-
-
     // Renders each item of the table
     // VIRTUAL
     renderItem: function(item, i) {
@@ -71,23 +63,8 @@ define([
     },
 
 
-    // An item has been held
-    // PRIVATE
-    _held: function(ev) {
-      var $row = $(ev.currentTarget);
-      this.held(item = this.getItemByElement($row), $row);
-    },
 
 
-    // An item has been held
-    // ABSTRACT
-    held: function(item, $row) {
-      throw("NotImplementedException");
-    },
-    
-    
-    
-    
     // Attribute value getting
     // -----------------------
     

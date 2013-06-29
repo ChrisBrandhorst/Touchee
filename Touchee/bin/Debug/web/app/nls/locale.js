@@ -39,7 +39,8 @@
     queue: {
       add:      "Add",
       edit:     "Edit",
-      history:  "History"
+      history:  "History",
+      empty:    "No upcoming items."
     }
   
   };

@@ -113,6 +113,7 @@ define([
 
       // Get the artwork
       var $artwork = this.$artwork;
+      
       if (first) {
         Artwork.fetch(first, {
           success:  function(artwork, url, img) {
@@ -126,6 +127,9 @@ define([
         this.$artwork.css('backgroundImage', "");
       }
 
+
+      // TODO : dev line
+      // QueuePopup.showRelativeTo( this.buttons['$queue'] );
     },
 
 

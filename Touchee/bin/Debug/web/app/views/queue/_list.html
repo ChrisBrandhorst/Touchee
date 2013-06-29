@@ -1,0 +1,10 @@
+<h1>Up Next</h1>
+<% queue.each(function(item, i){
+
+  if (i == 0) return;
+    
+  print(
+    itemTemplate({item:item})
+  );
+
+}); %>

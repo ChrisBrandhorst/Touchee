@@ -38,7 +38,7 @@ define([
       contentView:  PlayableGroupedTableView.extend({
         className:    'tracks',
         quickscroll:  true,
-        index:        function(item) { return item.get('album$') + " - " + item.get('albumArtist$'); },
+        index:        function(item, idx) { return item.get('album$') + " - " + item.get('albumArtist$'); },
         columns:      ['trackNumber', 'title', 'duration$'],
         artworkSize:  250
       })

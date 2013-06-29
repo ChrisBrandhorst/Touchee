@@ -66,6 +66,8 @@ define([
     // The render delay to use (after how many ms of no scrolling a re-render is done)
     renderDelay:    100,
     
+    // Dummy item (can be string or function)
+    dummy:          '<div/>',
     
     
     // Privates
@@ -88,10 +90,10 @@ define([
       this.calculated = {};
       this.data = {};
       
-      if (this.selectable)
+      if (this.selectable) {
         this.selection = _.extend({}, selectionDefaults, {selectable:this.selectable}, this.selection);
-
-      this.listenTo(this.model, 'reset add remove change', this._contentChanged);
+        this.$el.on('hold.delegateEvents' + this.cid, this.selectable, _.bind(this._held, this));
+      }
     },
     
     
@@ -128,6 +130,7 @@ define([
       this._bind();
       
       // Do first render
+      this.listenTo(this.model, 'reset add remove change', this._contentChanged);
       this._contentChanged();
     },
     
@@ -298,10 +301,10 @@ define([
     
     // Gets the index for the given item
     // VIRTUAL
-    getIndex: function(item) {
+    getIndex: function(item, idx) {
       return _.isString(this.index)
         ? (item.get(this.index)[0] || "{").toUpperCase()
-        : this.index.call(this, item);
+        : this.index.call(this, item, idx);
     },
     
     
@@ -382,7 +385,7 @@ define([
           prevIdx;
       
       _.each(models, function(model, i){
-        var idx = scrollList.getIndex(model);
+        var idx = scrollList.getIndex(model, i);
         
         if (idx > "Z") idx = Touchee.nonAlphaSortValue;
         
@@ -785,7 +788,20 @@ define([
 
     // An item has been selected
     // VIRTUAL
-    selected: function(item, idx, $el) { }
+    selected: function(item, idx, $el) { },
+
+
+    // An item has been held
+    // PRIVATE
+    _held: function(ev) {
+      var $row = $(ev.currentTarget);
+      this.held(item = this.getItemByElement($row), $row);
+    },
+
+
+    // An item has been held
+    // VIRTUAL
+    held: function(item, $row) { }
 
     
   });

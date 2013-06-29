@@ -34,14 +34,6 @@ define([
 
     // ScrollList overrides
     // --------------------
-    
-    // Constructor
-    // Adds hold on row method callback
-    initialize: function() {
-      ScrollListView.prototype.initialize.apply(this, arguments);
-      this.$el.on('hold.delegateEvents' + this.cid, 'tr', _.bind(this._held, this));
-    },
-
 
     // Additional calculation for the size of the artwork
     calculateSizes: function() {
@@ -117,7 +109,7 @@ define([
         this.indexToGroup[items.first],
         this.indexToGroup[items.first + items.count - 1],
         items.indices.above,
-        items.timestamp
+        this.data.lastRender.timestamp
       );
     },
 
@@ -163,10 +155,10 @@ define([
 
     // Gets the index for the given item
     // VIRTUAL
-    getIndex: function(item) {
+    getIndex: function(item, idx) {
       return _.isString(this.index)
         ? item.get(this.index)
-        : this.index.call(this, item);
+        : this.index.call(this, item, idx);
     },
 
 
@@ -177,21 +169,6 @@ define([
           $group          = $el.closest('li'),
           $groupsBefore   = $group.prevAll();
       return this.data.lastRender.first + $groupsBefore.find('tr').length + $el.prevAll().length;
-    },
-
-
-    // An item has been held
-    // PRIVATE
-    _held: function(ev) {
-      var $row = $(ev.currentTarget);
-      this.held(this.getItemByElement($row), $row);
-    },
-
-
-    // An item has been held
-    // ABSTRACT
-    held: function(item, $row) {
-      throw("NotImplementedException");
     },
 
 
@@ -311,7 +288,7 @@ define([
       var el = this.$inner[0].childNodes[groupIdx - groupsAbove].childNodes[0];
       
       // See if we already have an image
-      if (el.src) {
+      if (el.style.backgroundImage) {
         doNext();
       }
       

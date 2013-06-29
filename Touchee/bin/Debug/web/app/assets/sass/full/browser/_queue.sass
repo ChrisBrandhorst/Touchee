@@ -2,7 +2,7 @@
   
   height: 3000px
 
-  > .contents
+  .contents
     background-color: $defaultBackgroundColor
     @include          display-box
     @include          box-orient(vertical)
@@ -11,30 +11,61 @@
     background-repeat: no-repeat
     background-size: contain
 
-    > header
-      padding:  8px 8px 6px 8px
-      @include  display-box
+  header
+    padding:  8px 8px 5px 8px
+    @include  display-box
 
-      > button
-        display:      block
-        @include      box-flex(1)
-        width:        1%
-        margin-right: 8px
+    button
+      display:      block
+      @include      box-flex(1)
+      width:        1%
+      margin-right: 8px
 
-        &:last-child
-          margin-right: 0
+      &:last-child
+        margin-right: 0
 
-    > .list
-      @include    display-box
-      @include    box-flex(1)
-      background: transparent
+  ul
+    @include    display-box
+    @include    box-flex(1)
+    @include    box-orient(vertical)
+    background: transparent
 
-      &:before
-        content:  attr(data-message)
-        position:     absolute
-        width:        100%
-        top:          43%
-        font-weight:  normal
-        font-size:    14px // TODO
-        color:        #6e6e6e
-        text-align:   center
+    &:before
+      content:  attr(data-message)
+      position:     absolute
+      width:        100%
+      top:          43%
+      font-weight:  normal
+      font-size:    14px // TODO
+      color:        #6e6e6e
+      text-align:   center
+
+  h1
+    @include          background(linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7))
+
+    padding:          0 8px
+    line-height:      30px
+
+    border-top:       1px solid #d5d5d5
+    border-bottom:    1px solid #cecece
+
+    font-size:        120%
+    text-shadow:      0 1px 0 white
+
+
+  li
+    // display:  block
+    height:     45px
+    padding: 4px 0 4px 52px
+    border-bottom: 1px solid #e5e5e5
+    background-size:  44px 44px
+    background-repeat: no-repeat
+    p
+      @include ellipsis
+      &:first-child
+        font-weight:  bold
+        color:        $darkerTextColor
+        font-size:    125%
+        line-height:  21px
+      &:last-child
+        color: #8b8b8b
