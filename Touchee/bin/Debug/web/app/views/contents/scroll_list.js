@@ -17,10 +17,8 @@ define([
     // Whether to cancel the tap if the touch is held
     cancelOnHold: true
   };
-  
-  
-  
-  
+
+
   var ScrollList = Backbone.View.extend({
     
     
@@ -47,10 +45,10 @@ define([
     // Whether to show a scroller
     scroller:       false,
 
-    // Whether to show indices in the list
+    // Whether to show indices in the list. For indexes other then A-Z,# use 'custom'
     showIndex:      false,
-    // The attribute to use as index value. If set to falsy, the scroller will not be indexed
-    indexAttribute: null,
+    // The attribute to use as index value in the default index getter, or a function which proves the value
+    index:          null,
 
     // From which number of items the list is rendered in one piece
     min:            0,
@@ -387,7 +385,8 @@ define([
       _.each(models, function(model, i){
         var idx = scrollList.getIndex(model, i);
         
-        if (idx > "Z") idx = Touchee.nonAlphaSortValue;
+        if (scrollList.showIndex != 'custom' && idx > "Z")
+          idx = Touchee.nonAlphaSortValue;
         
         if (idx != prevIdx) {
           data.indices[data.indices.length] = idx;
@@ -805,7 +804,8 @@ define([
 
     
   });
-  
+
+
   return ScrollList;
   
   

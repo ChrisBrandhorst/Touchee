@@ -12,7 +12,6 @@ define([
     
     // ScrollList properties
     className:      'albums',
-    indexAttribute: 'albumArtistSort',
     
     
     // Tiles view properties

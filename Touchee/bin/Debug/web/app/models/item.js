@@ -52,6 +52,13 @@ define([
     },
 
 
+    // Gets the plugin key this item belongs to
+    getPluginKey: function() {
+      var container = this.getContainer();
+      return container && container.get('plugin');
+    },
+
+
     //
     url: function() {
       return this.collection.url() + "/item/" + this.id;
@@ -60,8 +67,9 @@ define([
 
     // 
     artworkUrl: function(params) {
-      return Touchee.getUrl(
-        [this.getContainer().url(), "artwork/id", this.id].join('/'),
+      var container = this.getContainer();
+      return container && Touchee.getUrl(
+        [container.url(), "artwork/id", this.id].join('/'),
         params
       );
     },

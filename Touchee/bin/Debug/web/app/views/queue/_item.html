@@ -1,4 +1,5 @@
-<li style="background-image:url(<%= item.artworkUrl() %>)">
-  <p><%= item.get('displayLine1$') %></p>
-  <p><%= item.get('displayLine2$') %></p>
+<% var au = artworkUrl(); %>
+<li>
+  <p data-item-plugin="<%= getPluginKey() %>"><%= get('displayLine1$') %></p>
+  <p<%= au ? ' style="background-image:url(' + au + ')"' : '' %>><%= get('displayLine2$') %></p>
 </li>

@@ -35,7 +35,9 @@ define([
     
     // 
     hasSize: function(size) {
-      return !_.isUndefined(this.sizes[size || null]);
+      return _.any( _.keys(this.sizes) , function(s){
+        return !s && !size || Number(s) == size;
+      });
     },
     
     
@@ -134,13 +136,14 @@ define([
         // If the artwork does not exist
         if (!exists) {
           if (options.none) options.none(artwork);
+          return artwork;
         }
         // If the artwork exists and the correct size is present
         else if (exists && artwork.hasSize(options.size)) {
           if (options.success)                    options.success(artwork, artwork.url(query));
           if (options.colors && !artwork.colors)  artwork.getColors({triggerObject:item});
+          return artwork;
         }
-        return artwork;
       }
       
       // Else, build new object

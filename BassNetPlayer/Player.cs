@@ -81,16 +81,17 @@ namespace BassNetPlayer {
         /// </summary>
         /// <param name="item">The item to play</param>
         public void Play(IItem item) {
-            
+
             // Stop playing current stream
             this.StopAndClearCurrentStream();
             
             // Create stream
             this.CreateStream((IAudioItem)item);
 
-            //
+            // Set current item
             this.Item = item;
-
+            
+            // Trigger status update event
             this.OnStatusUpdated();
         }
 
@@ -175,15 +176,15 @@ namespace BassNetPlayer {
 
 
         /// <summary>
-        /// Called when playback of the current item is finished
-        /// </summary>
-        public event PlayerPlaybackFinished PlaybackFinished;
-
-
-        /// <summary>
         /// Called when the status of the player is updated
         /// </summary>
         public event PlayerStatusUpdated StatusUpdated;
+
+
+        /// <summary>
+        /// Called when playback of the current item is finished
+        /// </summary>
+        public event PlayerItemFinished ItemFinished;
 
 
         /// <summary>
@@ -356,8 +357,8 @@ namespace BassNetPlayer {
         /// </summary>
         void ChannelEnd(int handle, int channel, int data, IntPtr user) {
             this.Item = null;
-            if (PlaybackFinished != null)
-                PlaybackFinished.Invoke(this, this.Item);
+            if (ItemFinished != null)
+                ItemFinished.Invoke(this, this.Item);
         }
 
 

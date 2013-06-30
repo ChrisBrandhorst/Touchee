@@ -114,17 +114,26 @@ define([
       // Get the artwork
       var $artwork = this.$artwork;
       
+      var setNoArtwork = function() {
+        $artwork.css('backgroundImage', "");
+      };
+      
       if (first) {
+        $artwork.attr('data-item-plugin', first.getPluginKey());
         Artwork.fetch(first, {
+          size:     $artwork.width(),
           success:  function(artwork, url, img) {
             if (artwork.exists()) {
               $artwork.css('backgroundImage', 'url(' + url + ')');
             }
-          }
+          },
+          none: setNoArtwork,
+          error: setNoArtwork
         });
       }
       else {
-        this.$artwork.css('backgroundImage', "");
+        $artwork.removeAttr('data-item-plugin');
+        setNoArtwork();
       }
 
 

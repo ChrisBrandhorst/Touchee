@@ -24,7 +24,7 @@
       &:last-child
         margin-right: 0
 
-  ul
+  .scroll_list
     @include    display-box
     @include    box-flex(1)
     @include    box-orient(vertical)
@@ -40,7 +40,7 @@
       color:        #6e6e6e
       text-align:   center
 
-  h1
+  .index
     @include          background(linear-gradient(#f9f9f9 1px, #ebebeb 1px, #e7e7e7))
 
     padding:          0 8px
@@ -51,21 +51,28 @@
 
     font-size:        120%
     text-shadow:      0 1px 0 white
-
+    font-weight:      bold
 
   li
-    // display:  block
-    height:     45px
-    padding: 4px 0 4px 52px
-    border-bottom: 1px solid #e5e5e5
-    background-size:  44px 44px
-    background-repeat: no-repeat
+    border-bottom:  1px solid #e5e5e5
     p
+      padding-left:       52px
+      background-size:    44px 44px
+      background-repeat:  no-repeat
       @include ellipsis
       &:first-child
         font-weight:  bold
         color:        $darkerTextColor
         font-size:    125%
         line-height:  21px
+        padding-top:  5px
+        height:       44px
       &:last-child
-        color: #8b8b8b
+        color:          #8b8b8b
+        padding-top:    26px
+        margin-top:     -44px
+        padding-bottom: 5px
+    &.selected
+      @include  background($defaultSelectionGradient)
+      p
+        color:    white

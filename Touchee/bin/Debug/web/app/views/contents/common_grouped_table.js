@@ -8,6 +8,8 @@ define([
   
   var CommonGroupedTableView = GroupedTableView.extend({
 
+    artworkSize:  250,
+    quickscroll:  true,
 
     // Get the available groups from the model
     // VIRTUAL

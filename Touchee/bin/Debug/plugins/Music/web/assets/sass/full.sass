@@ -6,3 +6,12 @@
 
 @import tracks
 @import albums
+
+
+// Default artwork for queue items
+#queue_popup li p[data-item-plugin=music]
+  @include background-img(WildcatNoArtPlaceholder-MusicMod, retina)
+
+// Default artwork for now playing item
+#browser > header #lcd #lcd_artwork[data-item-plugin=music]
+  @include background-img(missing-music-artwork, remote retina plugin)

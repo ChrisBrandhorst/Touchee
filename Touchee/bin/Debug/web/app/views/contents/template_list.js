@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/dummy_item',
   'views/contents/scroll_list'
-], function($, _, Backbone, ScrollListView) {
+], function($, _, Backbone, DummyItem, ScrollListView) {
   
   var TemplateListView = ScrollListView.extend({
     
@@ -11,11 +12,11 @@ define([
     // ScrollList properties
     listType:     'template',
     innerTagName: 'ul',
-    showIndex:    true,
+    showIndex:    false,
     quickscroll:  false,
     selectable:   'li:not(.index)',
     dummy:        function(){
-      return this.template({});
+      return this.template(new DummyItem);
     },
     
     
@@ -37,7 +38,7 @@ define([
     // Renders an index item
     // VIRTUAL
     renderIndex: function(index) {
-      return '<li class="index" data-index="' + index + '"></li>';
+      return '<li class="index" data-index="' + index + '">' + index + '</li>';
     },
 
 

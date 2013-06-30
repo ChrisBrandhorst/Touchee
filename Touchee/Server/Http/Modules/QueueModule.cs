@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Nancy;
 using Touchee.Server.Responses;
 using Touchee.Playback;
@@ -100,7 +101,13 @@ namespace Touchee.Server.Http.Modules {
         /// Appends items to the beginning of the queue, prioritizing them
         /// </summary>
         public Response Prioritize() {
-            return null;
+            if (Library.Queue == null)
+                return new ConflictResponse();
+            else {
+                var items = Library.GetItems(Container, Filter);
+                Library.Queue.Prioritize(items, Container);
+                return null;
+            }
         }
 
         /// <summary>
@@ -108,7 +115,13 @@ namespace Touchee.Server.Http.Modules {
         /// depending on whether the queue is running through the full container or not.
         /// </summary>
         public Response Push() {
-            return null;
+            if (Library.Queue == null)
+                return new ConflictResponse();
+            else {
+                var items = Library.GetItems(Container, Filter);
+                Library.Queue.Push(items, Container);
+                return null;
+            }
         }
 
         /// <summary>

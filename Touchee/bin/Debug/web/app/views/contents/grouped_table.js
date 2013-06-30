@@ -21,13 +21,13 @@ define([
 
     // Grouped Table properties
     // The columns to show
-    columns:  ['id'],
+    columns:      ['id'],
     // The attribute or function used for grouping
-    groupBy:  'id',
+    groupBy:      'id',
     // Whether artwork is to be loaded
-    artwork:        true,
+    artwork:      true,
     // Override the size of the artwork to be loaded for each tile
-    artworkSize:    null,
+    artworkSize:  null,
 
 
 

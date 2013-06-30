@@ -349,7 +349,9 @@ namespace Touchee.Devices {
         /// <param name="remote">The remote ID to use</param>
         /// <param name="command">The command to send</param>
         public void SendWinLircCommand(string remote, string command) {
-            WinLirc.Client.SendOnce(remote, command);
+            new System.Threading.Thread(() =>
+                WinLirc.Client.SendOnce(remote, command)
+            ).Start();
         }
 
 

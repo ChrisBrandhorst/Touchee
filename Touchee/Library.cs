@@ -64,7 +64,11 @@ namespace Touchee {
         /// Timespan representing the period that should be waited before retrying a non-available artwork
         /// </summary>
         TimeSpan _artworkRetryPeriod;
-        
+
+        /// <summary>
+        /// Keep track of whether we are playing
+        /// </summary>
+        bool _playing;
 
         #endregion
 
@@ -598,7 +602,7 @@ namespace Touchee {
         /// <param name="container">The container the items are located in</param>
         /// <param name="filter">The filter used to search for the items</param>
         /// <returns>An IEnumerable containing the requested items, or null if no ContentProvider was found for the given Container</returns>
-        IEnumerable<IItem> GetItems(Container container, Options filter) {
+        public IEnumerable<IItem> GetItems(Container container, Options filter) {
 
             // Get the plugin for the container
             var contentProvider = PluginManager.GetComponentFor<IContentProvider>(container);
@@ -669,7 +673,7 @@ namespace Touchee {
             if (Player == null && newPlayer != Player) {
                 ClearPlayer();
                 Player = newPlayer;
-                Player.PlaybackFinished += Player_PlaybackFinished;
+                Player.ItemFinished += Player_PlaybackFinished;
                 Player.StatusUpdated += Player_StatusUpdated;
             }
 
@@ -684,7 +688,7 @@ namespace Touchee {
         void ClearPlayer() {
             if (Player != null) {
                 Player.Stop();
-                Player.PlaybackFinished -= Player_PlaybackFinished;
+                Player.ItemFinished -= Player_PlaybackFinished;
                 Player.StatusUpdated -= Player_StatusUpdated;
                 Player = null;
             }
@@ -706,10 +710,13 @@ namespace Touchee {
         /// </summary>
         /// <param name="player">The player that has been updated</param>
         void Player_StatusUpdated(IPlayer player) {
-
+            
             // (de)activate devices based on player status
-            foreach (var device in Device.Where(d => d.SupportsCapability(DeviceCapabilities.AutoSetActive))) {
-                device.AutoSetActive(player.Playing);
+            if (player.Playing != _playing) {
+                _playing = player.Playing;
+                foreach (var device in Device.Where(d => d.SupportsCapability(DeviceCapabilities.AutoSetActive))) {
+                    device.AutoSetActive(_playing);
+                }
             }
 
             // Broadcast status to clients

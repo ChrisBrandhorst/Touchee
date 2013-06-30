@@ -385,6 +385,19 @@ namespace Touchee.Playback {
 
 
         /// <summary>
+        /// Appends the given items to the end of the queue
+        /// </summary>
+        /// <param name="items">The items to add</param>
+        /// <param name="container">The container the items belong to</param>
+        public void Push(IEnumerable<IItem> items, Container container) {
+            this.Push(
+                items.Select(i => new QueueItem(container, i))
+            );
+        }
+
+
+
+        /// <summary>
         /// Prepends the given item to the start of the priority queue
         /// </summary>
         /// <param name="item">The item to add</param>
@@ -401,6 +414,18 @@ namespace Touchee.Playback {
             EnlargePriority(items.Count());
             _items.InsertRange(_priorityStart, items);
             OnItemsUpdated();
+        }
+
+
+        /// <summary>
+        /// Prepends the given items to the start of the priority queue
+        /// </summary>
+        /// <param name="items">The items to add</param>
+        /// <param name="container">The container the items belong to</param>
+        public void Prioritize(IEnumerable<IItem> items, Container container) {
+            this.Prioritize(
+                items.Select(i => new QueueItem(container, i))
+            );
         }
 
 

@@ -23,7 +23,7 @@
 .scroll_list.table.tracks > table td:last-child {
   width: 135px;
 }
-@media #{$portraitMedia} {
+@media screen and (max-width: 900px) {
   /* line 11, ../sass/_tracks.sass */
   .scroll_list.table.tracks > table td:first-child {
     width: 46%;
@@ -214,4 +214,14 @@
 /* line 129, ../sass/_albums.sass */
 .scroll_list.albums .details .content ol + ol li:last-child {
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
+}
+
+/* line 12, ../sass/full.sass */
+#queue_popup li p[data-item-plugin=music] {
+  background-image: -webkit-image-set(url(../images/WildcatNoArtPlaceholder-MusicMod.png) 1x, url(../images/WildcatNoArtPlaceholder-MusicMod@2x.png) 2x);
+}
+
+/* line 16, ../sass/full.sass */
+#browser > header #lcd #lcd_artwork[data-item-plugin=music] {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/missing-music-artwork.png) 1x, url(../../../../assets/images/remote/missing-music-artwork@2x.png) 2x);
 }

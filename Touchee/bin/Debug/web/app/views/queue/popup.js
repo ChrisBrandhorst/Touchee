@@ -2,9 +2,12 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/queue',
   'views/popup/base',
-  'views/queue/index'
-], function($, _, Backbone, PopupView, QueueIndexView) {
+  'views/queue/list',
+  'text!views/queue/_popup.html'
+], function($, _, Backbone, Queue, PopupView, QueueListView, queuePopupTemplate) {
+  queuePopupTemplate = _.template(queuePopupTemplate);
   
   var QueuePopupView = PopupView.extend({
     
@@ -15,9 +18,20 @@ define([
 
     // Render
     render: function() {
-      QueueIndexView.render();
-      this.$el.append(QueueIndexView.$el);
+      this.list = new QueueListView({model:Queue});
+      this.$contents = $(queuePopupTemplate());
+      this.$contents.append(this.list.$el);
+      this.$el.append(this.$contents);
+
+      this.on('show', this.firstShow, this);
+
       PopupView.prototype.render.apply(this, arguments);
+    },
+
+
+    firstShow: function() {
+      this.list.render();
+      this.off('show', this.firstShow);
     },
     
     

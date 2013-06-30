@@ -52,19 +52,19 @@
         int Duration { get;  }
 
         /// <summary>
-        /// Called when playback of the current item is finished
-        /// </summary>
-        event PlayerPlaybackFinished PlaybackFinished;
-
-        /// <summary>
         /// Called when the status of the player is updated
         /// </summary>
         event PlayerStatusUpdated StatusUpdated;
 
+        /// <summary>
+        /// Called when playback of the current item is finished
+        /// </summary>
+        event PlayerItemFinished ItemFinished;
+
     }
 
-    public delegate void PlayerPlaybackFinished(IPlayer player, IItem item);
     public delegate void PlayerStatusUpdated(IPlayer player);
+    public delegate void PlayerItemFinished(IPlayer player, IItem item);
 
 
 

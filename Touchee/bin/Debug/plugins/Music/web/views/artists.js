@@ -37,10 +37,8 @@ define([
       // The actual detail list
       contentView:  PlayableGroupedTableView.extend({
         className:    'tracks',
-        quickscroll:  true,
         index:        'album$',
-        columns:      ['trackNumber', 'title', 'duration$'],
-        artworkSize:  250
+        columns:      ['trackNumber', 'title', 'duration$']
       })
       
     })
