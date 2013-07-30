@@ -572,27 +572,46 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Resets the current queue with a given set of items and starts playback from the given index
+        /// Builds a new queue with a given set of items and starts playback from the given index
         /// </summary>
         /// <param name="container">The container the items are located in</param>
         /// <param name="filter">The filter used to search for the items</param>
         /// <param name="start">The start index</param>
         /// <returns>The new queue</returns>
-        public Queue ResetQueue(Container container, Options filter, int start = 0) {
+        public Queue BuildQueue(Container container, Options filter, int start = 0) {
 
             // Get the queue items and bail out if no items
             var items = GetItems(container, filter);
             if (items == null || items.Count() == 0) return null;
 
             // Build the queue
-            var queue = new Queue(items, container);
-            queue.ItemsUpdated += QueueItemsUpdated;
-            queue.IndexChanged += QueueIndexChanged;
+            var queue = ApplyQueue(new Queue(items, container));
 
             // Set index, starting the queue
-            queue.Index = start;
+            if (start < queue.UpcomingCount) queue.Index = start;
 
-            return Queue = queue;
+            return queue;
+        }
+
+
+        /// <summary>
+        /// Builds a new, empty queue
+        /// </summary>
+        /// <returns></returns>
+        public Queue BuildQueue() {
+            return ApplyQueue(new Queue());
+        }
+
+
+        /// <summary>
+        /// Applies the given queue as the current queue
+        /// </summary>
+        /// <param name="queue">The queue to apply</param>
+        /// <returns>The applied queue</returns>
+        Queue ApplyQueue(Queue queue) {
+            queue.ItemsUpdated += QueueItemsUpdated;
+            queue.IndexChanged += QueueIndexChanged;
+            return this.Queue = queue;
         }
 
 
@@ -614,18 +633,6 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Skip to the next item in the current queue
-        /// </summary>
-        /// <exception cref="NoQueueException">If no queue is present</exception>
-        public void Next() {
-            if (Queue == null)
-                throw new NoQueueException();
-            else
-                Queue.GoNext();
-        }
-
-
-        /// <summary>
         /// Called when the contents of the current Queue are changed
         /// </summary>
         void QueueItemsUpdated(Queue queue) {
@@ -642,8 +649,11 @@ namespace Touchee {
 
             if (queue.Current != null)
                 Play(queue.Current.Item);
-            else
+            else {
                 ClearPlayer();
+                if (queue == this.Queue)
+                    this.Queue = null;
+            }
         }
 
 

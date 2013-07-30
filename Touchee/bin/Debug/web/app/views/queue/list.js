@@ -2,9 +2,10 @@ define([
   'jquery',
   'underscore',
   'Backbone',
+  'models/queue',
   'views/contents/template_list',
   'text!views/queue/_item.html'
-], function($, _, Backbone, TemplateListView, queueItemTemplate) {
+], function($, _, Backbone, Queue, TemplateListView, queueItemTemplate) {
 
   var QueueListView = TemplateListView.extend({
     
@@ -30,7 +31,7 @@ define([
     
     // An item from the queue was selected
     selected: function(item, idx, $row) {
-      
+      Queue.advance(idx + 1);
     }
     
     

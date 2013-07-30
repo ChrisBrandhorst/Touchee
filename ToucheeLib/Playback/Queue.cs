@@ -71,7 +71,7 @@ namespace Touchee.Playback {
                 return start > _items.Count ? new List<QueueItem>() : _items.GetRange(start, _items.Count - start);
             }
         }
-
+        
 
         /// <summary>
         /// Returns the current item in the queue
@@ -181,6 +181,16 @@ namespace Touchee.Playback {
 
 
         /// <summary>
+        /// The number of items in the upcoming queue
+        /// </summary>
+        public int UpcomingCount {
+            get {
+                return _items.Count - _index - 1;
+            }
+        }
+
+
+        /// <summary>
         /// The number of items in the upcoming queue which are priority items
         /// </summary>
         public int UpcomingPriorityCount {
@@ -208,7 +218,7 @@ namespace Touchee.Playback {
         /// <summary>
         /// Whether the current item is the last item of the queue
         /// </summary>
-        public bool IsAtLastItem { get { return _index == Items.Count() - 1; } }
+        public bool IsAtLastItem { get { return _index == _items.Count - 1; } }
 
 
         /// <summary>
@@ -518,6 +528,22 @@ namespace Touchee.Playback {
 
             // Set index and return current item
             Index = nextIndex;
+            return Current;
+        }
+
+
+        /// <summary>
+        /// Move the queue forward
+        /// </summary>
+        /// <param name="count">The number of items to advance</param>
+        /// <exception cref="ArgumentOutOfRangeException">When the upcoming items list is smaller than the given count or smaller than 0</exception>
+        /// <returns>The new current item, or null if none</returns>
+        public QueueItem Advance(int count) {
+            if (count > this.UpcomingCount)
+                throw new ArgumentOutOfRangeException("The upcoming items list is smaller than the given count");
+            else if (count < 1)
+                throw new ArgumentOutOfRangeException("Cannot advance 0 items");
+            Index += count;
             return Current;
         }
 

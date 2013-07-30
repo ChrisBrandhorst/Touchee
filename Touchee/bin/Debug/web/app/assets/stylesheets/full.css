@@ -417,7 +417,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
   -ms-box-orient: vertical;
   box-orient: vertical;
   width: 334px;
-  min-height: 82px;
+  min-height: 56px;
   padding: 6px;
   border: 1px solid #101010;
   border-top-color: #404040;

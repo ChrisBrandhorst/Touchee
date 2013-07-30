@@ -18,6 +18,7 @@ namespace Touchee.Server.Http.Modules {
 
             Put["/prev"] = _ => Prev();
             Put["/next"] = _ => Next();
+            Put["/advance/{count}"] = _ => Advance(_);
 
             Put["/shuffle"] = _ => Shuffle();
             Put["/repeat"] = _ => Repeat();
@@ -66,6 +67,23 @@ namespace Touchee.Server.Http.Modules {
         }
 
         /// <summary>
+        /// Advance
+        /// </summary>
+        public Response Advance(dynamic parameters) {
+            if (Library.Queue == null)
+                return new ConflictResponse();
+            else {
+                try {
+                    Library.Queue.Advance(parameters.count);
+                    return null;
+                }
+                catch (ArgumentOutOfRangeException) {
+                    return new BadRequestResponse();
+                }
+            }
+        }
+
+        /// <summary>
         /// Set shuffling on/off
         /// </summary>
         public Response Shuffle() {
@@ -93,7 +111,7 @@ namespace Touchee.Server.Http.Modules {
             int start = 0;
             if (Request.Form.ContainsKey("start"))
                 start = Request.Form["start"];
-            Library.ResetQueue(Container, Filter, start);
+            Library.BuildQueue(Container, Filter, start);
             return null;
         }
 
@@ -102,7 +120,7 @@ namespace Touchee.Server.Http.Modules {
         /// </summary>
         public Response Prioritize() {
             if (Library.Queue == null)
-                return new ConflictResponse();
+                return Reset();
             else {
                 var items = Library.GetItems(Container, Filter);
                 Library.Queue.Prioritize(items, Container);
@@ -116,7 +134,7 @@ namespace Touchee.Server.Http.Modules {
         /// </summary>
         public Response Push() {
             if (Library.Queue == null)
-                return new ConflictResponse();
+                return Reset();
             else {
                 var items = Library.GetItems(Container, Filter);
                 Library.Queue.Push(items, Container);

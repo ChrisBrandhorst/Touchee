@@ -87,6 +87,7 @@ define([
     enable: function(enabled) {
       this.enabled = enabled;
       this.updateHeader();
+      if (!enabled) QueuePopup.hide();
     },
 
 

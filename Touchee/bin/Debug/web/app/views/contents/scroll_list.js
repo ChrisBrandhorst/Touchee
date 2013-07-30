@@ -51,7 +51,7 @@ define([
     index:          null,
 
     // From which number of items the list is rendered in one piece
-    min:            0,
+    min:            50,
     // The number of extra rows to render outside the visible portion
     extraRows:      80,
     // Sets the quickscroll: false for none, true for default and 'alpha' for alpha version

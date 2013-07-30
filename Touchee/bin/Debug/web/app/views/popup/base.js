@@ -295,6 +295,7 @@ define([
     
     // Hides or removes the popup
     hide: function(options) {
+      options = _.extend({trigger:true}, options || {});
 
       var removeFunc = _.bind(function() {
         if (options.remove || this.removeOnHide)
@@ -304,8 +305,6 @@ define([
       }, this);
 
       if (!this.$overlay) return removeFunc();
-
-      options = _.extend({trigger:true}, options || {});
 
       if (options.trigger)
         this.trigger('beforeHide');

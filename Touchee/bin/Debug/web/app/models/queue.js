@@ -64,15 +64,21 @@ define([
     },
 
 
+    //
+    prev: function() {
+      this._sendCommand('prev');
+    },
+
+
     // 
     next: function() {
       this._sendCommand('next');
     },
 
 
-    //
-    prev: function() {
-      this._sendCommand('prev');
+    // 
+    advance: function(count) {
+      this._sendCommand('advance', count);
     },
 
 
