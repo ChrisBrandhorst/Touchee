@@ -52,7 +52,7 @@ namespace BassNetPlayer {
         /// <param name="config">The configuration object for this plugin</param>
         /// <param name="context">The context for this plugin</param>
         /// <returns>Always true</returns>
-        public bool StartPlugin(dynamic config, IPluginContext context) {
+        public bool StartPlugin(Config config, IPluginContext context) {
             var path = Path.Combine(new FileInfo(this.GetType().Assembly.Location).DirectoryName, @"lib\Bass.Net");
             Bass.LoadMe(path);
             BassMix.LoadMe(path);

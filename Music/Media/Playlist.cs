@@ -125,7 +125,7 @@ namespace Music.Media {
         /// String array containing names of views by which the contents can be viewed
         /// The first view should be the default one
         /// </summary>
-        public override string[] ViewTypes {
+        public override string[] Views {
             get {
                 return new string[]{
                     Music.ViewTypes.Track

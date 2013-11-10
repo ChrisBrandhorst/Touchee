@@ -16,7 +16,7 @@ define([
     quickscroll:  false,
     selectable:   'li:not(.index)',
     dummy:        function(){
-      return this.template(new DummyItem);
+      return this.template(new DummyItem());
     },
     
     
@@ -27,6 +27,20 @@ define([
     
     // ScrollList overrides
     // --------------------
+    
+    
+    // Gets the model count
+    // VIRTUAL
+    getCount: function() {
+      return this.model.length;
+    },
+    
+    
+    // Gets the models
+    // VIRTUAL
+    getItems: function(first, count) {
+      return this.model.models.slice(first, first + count);
+    },
 
     // Renders each item of the list
     // VIRTUAL

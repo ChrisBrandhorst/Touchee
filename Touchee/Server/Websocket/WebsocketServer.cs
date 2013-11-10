@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using Fleck;
 using System.Text.RegularExpressions;
 
 namespace Touchee.Server.Websocket {
@@ -16,6 +17,7 @@ namespace Touchee.Server.Websocket {
         // Private vars
         Fleck.WebSocketServer _server;
         int _port;
+        Dictionary<IWebSocketConnection, Client> _clients = new Dictionary<IWebSocketConnection, Client>();
         
         /// <summary>
         /// Instantiates a websocket server
@@ -34,22 +36,38 @@ namespace Touchee.Server.Websocket {
         public void Start() {
             _server.Start(socket => {
                 socket.OnOpen = () => {
-                    new Client(socket).Save();
+                    var client = new Client();
+                    client.Save();
+                    _clients[socket] = client;
                     Log("Client connected: " + socket.ConnectionInfo.ClientIpAddress.ToString());
                 };
                 socket.OnClose = () => {
-                    var client = Client.FindByWebSocketConnection(socket);
-                    if (client != null) {
+                    if (_clients.ContainsKey(socket)) {
+                        var client = _clients[socket];
+                        _clients.Remove(socket);
                         client.Dispose();
                         Log("Client disconnected: " + socket.ConnectionInfo.ClientIpAddress.ToString());
                     }
                 };
                 socket.OnMessage = (message) => {
-                    var client = Client.FindByWebSocketConnection(socket);
-                    if (client != null)
+                    if (_clients.ContainsKey(socket)) {
+                        var client = _clients[socket];
                         this.OnMessage(client, message);
+                    }
                 };
             });
+        }
+
+
+        /// <summary>
+        /// Send a message over the websocket connection
+        /// </summary>
+        /// <param name="client">The client to send the message to</param>
+        /// <param name="message">The message to send</param>
+        public void Send(IClient client, string message) {
+            var socket = _clients.FirstOrDefault(c => c.Value == client).Key;
+            if (socket != null)
+                socket.Send(message);
         }
 
 
@@ -89,9 +107,6 @@ namespace Touchee.Server.Websocket {
         void Identify(Client client, string args) {
             client.SessionId = args;
         }
-
-
-
 
 
         class Actions {

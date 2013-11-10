@@ -5,7 +5,9 @@ using Nancy.Bootstrapper;
 using Nancy.Conventions;
 using Nancy.Diagnostics;
 using Nancy.Session;
+using Nancy.TinyIoc;
 
+using Newtonsoft.Json;
 using Touchee.Components;
 
 namespace Touchee.Server.Http {
@@ -15,12 +17,21 @@ namespace Touchee.Server.Http {
     /// </summary>
     public class ToucheeNancyBootStrapper : DefaultNancyBootstrapper {
 
-        protected override void ApplicationStartup(Nancy.TinyIoc.TinyIoCContainer container, IPipelines pipelines) {
+
+        protected override void ApplicationStartup(TinyIoCContainer container, IPipelines pipelines) {
             StaticConfiguration.Caching.EnableRuntimeViewDiscovery = true;
             StaticConfiguration.Caching.EnableRuntimeViewUpdates = true;
 
             pipelines.AfterRequest += new GzipCompressionFilter();
         }
+
+
+        protected override void ConfigureApplicationContainer(TinyIoCContainer container) {
+            base.ConfigureApplicationContainer(container);
+            
+            container.Register(typeof(JsonSerializer), typeof(ToucheeJsonSerializer));
+        }
+
 
         protected override void ConfigureConventions(NancyConventions conventions) {
             
@@ -40,6 +51,7 @@ namespace Touchee.Server.Http {
                 }
             );
         }
+
 
         protected override DiagnosticsConfiguration DiagnosticsConfiguration {
             get { return new DiagnosticsConfiguration { Password = "dashboard" }; }

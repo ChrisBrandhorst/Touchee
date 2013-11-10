@@ -14,11 +14,12 @@ define([
   'models/collections/media',
   'models/collections/devices',
 
-  'views/browser/index'
+  'views/config/general'
 ], function($, _, Backbone,
             Communicator, Router, Library,
             ServerInfo, Queue,
-            Playback, Media, Devices) {
+            Playback, Media, Devices,
+            GeneralConfigView) {
   
   var App = {
 
@@ -33,6 +34,13 @@ define([
       
       // Set events on Media
       Media.on('sync:containers:all', this.containersSynced, this);
+
+      // TODO: nettere plek?
+      Touchee.Config.register({
+        id:   'general',
+        name: i18n.t('config.general'),
+        view: 'views/config/general'
+      });
 
       // Connect to the server
       this.connect();
@@ -173,6 +181,12 @@ define([
 
 
       return;
+
+
+      if (obj = response.plugin) {
+        
+      }
+
 
       if (response.contents) {
         var container = Container.get(response.contents.containerID);

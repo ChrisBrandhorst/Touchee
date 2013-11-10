@@ -23,7 +23,7 @@ define([
     // 
     getBackButton: function() {
       return {
-        text:       I18n.back,
+        text:       i18n.t('back'),
         className:  'dark'
       };
     },

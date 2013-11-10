@@ -2,16 +2,22 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-//using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 
 using Touchee;
 using SpotiFire;
 
 namespace Spotify {
-    
+
+
+    public enum SessionState {
+        LoggedOut,
+        LoggingIn,
+        LoggedIn
+    }
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -21,36 +27,38 @@ namespace Spotify {
 
         #region Statics
 
-        static string Cache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Touchee", "Spotify", "cache");
-        static string Settings = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Touchee", "Spotify", "settings");
-        static string UserAgent = "Touchee";
-
         #endregion
 
 
 
         #region Privates
 
-        Session _session;
-
         Error _loginError;
 
         bool _loggingIn;
 
+        byte[] _key;
+
         #endregion
 
 
+
+        internal Session Session;
+        internal SessionState State = SessionState.LoggedOut;
 
 
         #region Constructor
 
+
         /// <summary>
         /// Constructor
         /// </summary>
-        public SessionHandler() { }
+        public SessionHandler(byte[] key) {
+            _key = key;
+        }
+
 
         #endregion
-
 
 
         /// <summary>
@@ -59,24 +67,28 @@ namespace Spotify {
         /// <param name="username"></param>
         /// <param name="password"></param>
         /// <param name="key"></param>
-        public async Task<Session> Init(string username, string password, byte[] key) {
+        public async Task<Session> Init() {
             
             // Create a session
-            _session = await SpotiFire.Spotify.CreateSession(key, Cache, Settings, UserAgent);
+            Session = await SpotiFire.Spotify.CreateSession(
+                _key,
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Touchee", "Spotify", "cache"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Touchee", "Spotify", "settings"),
+                "Touchee"
+            );
 
             // Set props
-            _session.PreferredBitrate = BitRate.Bitrate320k;
+            Session.PreferredBitrate = BitRate.Bitrate320k;
 
             // Set callbacks
-            _session.ConnectionError += ConnectionError;
-            _session.ConnectionstateUpdated += ConnectionstateUpdated;
+            Session.ConnectionError += ConnectionError;
+            Session.ConnectionstateUpdated += ConnectionstateUpdated;
+            Session.UserinfoUpdated += _session_UserinfoUpdated;
             
-            // We don't wait for login
-            this.Login(username, password);
-
             // But return the session directly
-            return _session;
+            return Session;
         }
+
 
 
         /// <summary>
@@ -84,32 +96,26 @@ namespace Spotify {
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        async void Login(string username, string password) {
-            if (!_loggingIn) {
-                _loggingIn = true;
-                _loginError = await _session.Login(username, password, true);
+        public async Task<Error> Login(string username, string password) {
+            if (Session == null) {
+                Session = await this.Init();
+                if (Session == null)
+                    return Error.OTHER_TRANSIENT;
             }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        async void Login() {
+            
+            if (Session.ConnectionState == ConnectionState.LoggedIn)
+                return Error.OK;
+            
             if (!_loggingIn) {
-                _loggingIn = true;
-                _loginError = await _session.Relogin();
+                State = SessionState.LoggingIn;
+                this.OnStateUpdated();
+                var err = await Session.Login(username, password, true);
+                State = err == Error.OK ? SessionState.LoggedIn : SessionState.LoggedOut;
+                this.OnStateUpdated();
+                return err;
             }
-        }
 
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ConnectionError(Session sender, SessionEventArgs e) {
-            throw new NotImplementedException();
+            return Error.OTHER_TRANSIENT;
         }
 
 
@@ -122,9 +128,13 @@ namespace Spotify {
             Log("Connection state: " + sender.ConnectionState.ToString());
             Log("Loggin error:     " + _loginError.ToString());
 
+            this.OnStateUpdated();
+
+            return;
+
             // We are not logged in (anymore)
             if (sender.ConnectionState != ConnectionState.LoggedIn && !_loggingIn) {
-                
+
                 // If any of these login errors have occured, we can try again
                 // Using a delay of 5 seconds
                 if (_loginError == Error.OK ||
@@ -132,9 +142,9 @@ namespace Spotify {
                     _loginError == Error.OTHER_TRANSIENT ||
                     _loginError == Error.NETWORK_DISABLED ||
                     _loginError == Error.SYSTEM_FAILURE) {
-                        new Timer(o => this.Login(), null, 5000, -1);
+                    new Timer(o => this.Login(), null, 5000, -1);
                 }
-                    
+
                 // Else, permanent failure which may be overcome by user interaction
                 else {
                     // TODO: broadcast error
@@ -145,6 +155,46 @@ namespace Spotify {
 
             _loggingIn = false;
 
+        }
+
+
+        public delegate void StateUpdatedEventHandler(SessionHandler sender);
+        public event StateUpdatedEventHandler StateUpdated;
+
+        void OnStateUpdated() {
+            if (this.StateUpdated != null)
+                this.StateUpdated.Invoke(this);
+        }
+
+        void _session_UserinfoUpdated(Session sender, SessionEventArgs e) {
+            this.OnStateUpdated();
+        }
+
+
+
+
+
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        async void Login() {
+            if (!_loggingIn) {
+                _loggingIn = true;
+                _loginError = await Session.Relogin();
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        void ConnectionError(Session sender, SessionEventArgs e) {
+            throw new NotImplementedException();
         }
 
 

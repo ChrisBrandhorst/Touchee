@@ -1,0 +1,35 @@
+/* line 89, ../../../../../web/app/assets/sass/_mixins.sass */
+#config > :first-child a.spotify::before {
+  background-image: -webkit-image-set(url(../images/SourceListSpotifyGray.png) 1x, url(../images/SourceListSpotifyGray@2x.png) 2x);
+}
+/* line 92, ../../../../../web/app/assets/sass/_mixins.sass */
+#config > :first-child a.spotify.selected::before {
+  background-image: -webkit-image-set(url(../images/SourceListSpotifyGray.png) 1x, url(../images/SourceListSpotifyGray@2x.png) 2x);
+}
+
+/* line 4, ../sass/_config.sass */
+#spotify_config {
+  position: relative;
+  background-color: #373737;
+  color: white;
+  text-shadow: 0 1px black;
+}
+/* line 7, ../sass/_config.sass */
+#spotify_config::before {
+  content: "";
+  background: url(../images/logo.png) no-repeat;
+  background-size: 100%;
+  width: 300px;
+  height: 300px;
+  opacity: 0.2;
+  position: absolute;
+  bottom: -72px;
+  right: -72px;
+}
+/* line 18, ../sass/_config.sass */
+#spotify_config h1 {
+  text-indent: -1000em;
+  height: 45px;
+  background-repeat: no-repeat;
+  background-image: -webkit-image-set(url(../images/ConfigHeader.png) 1x, url(../images/ConfigHeader@2x.png) 2x);
+}

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Touchee.Components {
 
@@ -10,7 +11,7 @@ namespace Touchee.Components {
         string Name { get; }
         string Description { get; }
         Version Version { get; }
-        bool StartPlugin(dynamic config, IPluginContext context);
+        bool StartPlugin(Config config, IPluginContext context);
         bool StopPlugin();
     }
 

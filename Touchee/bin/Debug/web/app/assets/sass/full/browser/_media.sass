@@ -18,20 +18,23 @@
   .list
     min-height: 4 * $listRowHeight
     > *
-      
       // Default folder icon
       &::before
         @include  background-img(SourceListFolderGray, remote retina)
       &.selected::before
         @include  background-img(SourceListFolderHighlight, remote retina)
       
-      // Icons for different media types
-      @include medium_icon(local, HomeSharing)
-      @include medium_icon(web, Radio)
-      @include medium_icon(bluray_video, BlurayDisc, true)
-      @include medium_icon(removeable_drive, RemoveableDrive, true)
-      
-      @include medium_icon(music)
-      // @include source_icon(movies)
-      // @include source_icon(tv)
-      // @include source_icon(sharedlibrary)
+
+// Icons for different containers
+@include container_icon(config,           PlaylistSmart,    remote retina)
+@include container_icon(local,            HomeSharing,      remote retina)
+@include container_icon(web,              Radio,            remote retina)
+@include container_icon(bluray_video,     BlurayDisc,       retina)
+@include container_icon(removeable_drive, RemoveableDrive,  retina)
+
+
+
+
+// @include source_icon(movies)
+// @include source_icon(tv)
+// @include source_icon(sharedlibrary)

@@ -65,18 +65,45 @@
       &:active
         background-image: image-value(#{$image}#{$alt}, $options)
 
-// Medium icon
-@mixin medium_icon($class, $icon:'', $custom:false)
+// Container icon
+@mixin container_icon($class, $icon:'', $options: ())
+  @if type-of($icon) != 'string'
+    $options: $icon
+    $icon: ''
   @if $icon == ''
     $icon: $class
-  &.#{$class}
+  #media_popup .list > *.#{$class}
     &::before
-      @if $custom == true
-        @include  background-img(SourceList#{$icon}Gray, retina)
-      @else
-        @include  background-img(SourceList#{$icon}Gray, remote retina)
+      @include  background-img(SourceList#{$icon}Gray, $options)
     &.selected::before
-      @if $custom == true
-        @include  background-img(SourceList#{$icon}Highlight, retina)
-      @else
-        @include  background-img(SourceList#{$icon}Highlight, remote retina)
+      @include  background-img(SourceList#{$icon}Highlight, $options)
+  #browser > footer [data-button=nav].#{$class}
+    @include  background-img(SourceList#{$icon}Gray, $options)
+
+// Configuration icons
+@mixin config_icon($class, $icon, $selected:'', $options: ())
+  @if type-of($selected) != 'string'
+    $options: $selected
+    $selected: ''
+  #config > :first-child a
+    &.#{$class}::before
+      @include  background-img(#{$icon}, $options)
+    @if $selected != ''
+      &.#{$class}.selected::before
+        @include  background-img(#{$selected}, $options)
+
+// Default queue artwork
+@mixin default_queue_artwork($type, $image, $options: ())
+  #queue_popup li p[data-item-plugin=#{$type}]
+    @include background-img($image, $options)
+
+// Default now playing artwork
+@mixin default_now_playing_artwork($type, $image, $options: ())
+  #browser > header #lcd #lcd_artwork[data-item-plugin=music]
+    @include background-img($image, $options)
+
+
+
+
+
+

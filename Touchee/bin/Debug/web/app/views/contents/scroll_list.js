@@ -42,6 +42,8 @@ define([
     $inner:         null,
     // The tag for the inner element
     innerTagName:   'div',
+    // The class(es) for the inner element
+    innerClass:     null,
     // Whether to show a scroller
     scroller:       false,
 
@@ -104,13 +106,17 @@ define([
       if (!this.$el.is(':visible'))
         return Touchee.Log.error("Cannot render ScrollList if it is not visible yet!");
       
+      // Set classes
+      if (this.quickscroll)
+        this.$el.addClass('quickscroll');
+
       // Create contents container
       this.$scroller = $('<div class="scrollable"/>').prependTo(this.$el);
       this.scroller = this.$scroller[0];
       
       // Create inner element
       if (!this.$inner)
-        this.$inner = $('<' + (this.innerTagName || 'div') + '/>').appendTo(this.$scroller);
+        this.$inner = $('<' + (this.innerTagName || 'div') + '/>').addClass(this.innerClass).appendTo(this.$scroller);
       
       // Build the floating index if required
       if (this.index && this.showIndex)

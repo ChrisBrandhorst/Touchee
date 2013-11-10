@@ -131,7 +131,11 @@ define([
       var file = "app/plugins/" + name + "/assets/stylesheets/" + cssFile + ".css?_=" + new Date().getTime();
       $('head').append('<link rel="stylesheet" href="'+file+'" type="text/css" />');
     });
-    
+
+    // Inject locale
+    // if (_.isObject(this.locale))
+    //   $.extend(true, i18n, this.locale);
+
     // Init the plugin
     this.initialize.apply(this, arguments);
   };
@@ -153,7 +157,7 @@ define([
     
     
     // The CSS files(s) for this plugin. All relative to app/plugins/:plugin/assets/stylesheets
-    css: [],
+    css:    [],
     
     
     // Initialize is an empty function by default. Override it with your own
@@ -190,11 +194,55 @@ define([
       return _.map(
         _.keys(params),//.sort(),
         function(key) {
-          return key + "/" + encodeURIComponent(params[key] || "");
+          return key + "/" + encodeURIComponent(encodeURIComponent(params[key] || ""));
         }
       ).join('/');
     }
   };
+
+
+
+  // Mobile.i18n
+  // -----------------
+  var i18n = Touchee.i18n = {
+
+
+    // Registreer nieuwe set aan translations
+    r: function(obj) {
+      if (!_.isUndefined(obj.r) || !_.isUndefined(obj.t) || !_.isUndefined(obj.l))
+        return Log.error("'r', 't' and 'l' cannot be used as top-level translation keys (reserved)");
+      $.extend(true, i18n, obj);
+    },
+
+
+    // Translate functie
+    t: function(item, options) {
+      options || (options = {});
+      
+      var trans = _.getRef(this, item);
+      
+      if (_.isObject(trans) && _.isNumber(options.count))
+        trans = trans[options.count == 1 ? 'one' : 'more'];
+      else if (trans == null)
+        trans = item;
+      
+      return trans;
+    },
+
+
+    // Localize functie
+    l: function(item, options) {
+    }
+
+
+  };
+  root.i18n = i18n;
+
+
+
+  // Touchee.CustomContainers
+  // -----------------
+  Touchee.CustomContainers = new Backbone.Collection();
   
   
   
@@ -204,7 +252,8 @@ define([
   Touchee.getUrl = function(base, params) {
     var url = base;
     if (params) {
-      params = encodeURIComponent(Touchee.Params.compose(params));
+      // params = encodeURI(Touchee.Params.compose(params));
+      params = Touchee.Params.compose(params);
       if (params.length)
         url += (base.charAt(base.length - 1) == '/' ? '' : '/') + params;
     }
@@ -236,7 +285,30 @@ define([
   
   
   // Configuration object
-  Touchee.Config = new Backbone.Model();
+  Touchee.Config = new (Backbone.Model.extend({
+
+    register: function(options) {
+      Touchee.Config.sections.build(options, {add:true});
+    },
+
+    sections: new (Backbone.Collection.extend({
+
+      url:    "config",
+      model:  Backbone.Model.extend({
+        initialize: function(attributes) {
+          var view = this.get('view'), section = this;
+          if (_.isString(view))
+            require([view], function(v){ section.view = v; });
+          else {
+            this.unset('view');
+            this.view = view;
+          }
+        }
+      })
+
+    }))
+
+  }));
   
   
   // Handy constants

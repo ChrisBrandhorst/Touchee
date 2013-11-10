@@ -5,11 +5,12 @@ $listRowHeight: 44px
   font-weight:      bold
   font-size:        130%
   margin-bottom:    -1px
+  text-shadow:      none
   
   > *
     @include          display-box
     height:           $listRowHeight
-    line-height:      $listRowHeight - 1px
+    line-height:      $listRowHeight // - 1px
     border-bottom:    1px solid #ccc
     padding:          0 6px
     @include          ellipsis
@@ -37,8 +38,8 @@ $listRowHeight: 44px
       @include  content-img(UITableViewCheck, retina)
 
     &.selected
-      @include  background($defaultSelectionGradient)
-      color:    white
+      @include      background($defaultSelectionGradient)
+      color:        white
       &.more::after
         @include  content-img(UITableViewNextHighlight, retina)
       &.loading::after
@@ -51,6 +52,6 @@ $listRowHeight: 44px
       content:        ''
       display:        block
       width:          33px
-      margin:         0 7px 0 0
+      margin:         -1px 7px 0 0
       vertical-align: middle
       background:     no-repeat center center

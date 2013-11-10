@@ -106,8 +106,7 @@ namespace Touchee {
             _server = server;
 
             // Set retry period from config
-            int period;
-            Program.Config.TryGetInt("artwork.retryPeriod", out period);
+            int period = Program.Config.Get("artwork.retryPeriod") ?? 2592000;
             _artworkRetryPeriod = new TimeSpan(0, 0, period);
 
             // Instantiate all available MediumWatchers
@@ -128,8 +127,8 @@ namespace Touchee {
             Device.AfterUpdate += DeviceChanged;
 
             // Init local and web media
-            LocalMedium.Init( Program.Config.GetString("name", System.Environment.MachineName) );
-            WebMedium.Init( Program.Config.GetString("webcastsName", "Webcasts") );
+            LocalMedium.Init( Program.Config.Get("name", System.Environment.MachineName) );
+            WebMedium.Init( Program.Config.Get("webcastsName", "Webcasts") );
             
             // Instantiate all available MediaWatchers
             // These generate Medium instances

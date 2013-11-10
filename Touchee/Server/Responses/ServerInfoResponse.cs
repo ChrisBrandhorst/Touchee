@@ -58,7 +58,7 @@ namespace Touchee.Server.Responses {
         public ServerInfoResponse(ToucheeServer server, Library library) {
             DateTime now = DateTime.Now;
             this.Name           = Medium.Local == null ? System.Environment.MachineName : Medium.Local.Name;
-            this.WelcomeMessage = Program.Config.GetString("welcomeMessage", "Welcome to Touchee");
+            this.WelcomeMessage = Program.Config.Get("welcomeMessage") ?? "Welcome to Touchee";
             this.WebsocketPort  = server.WebsocketPort;
             this.UtcTime        = (long)now.TimeStamp();
             this.UtcOffset      = (long)TimeZone.CurrentTimeZone.GetUtcOffset(now).TotalMinutes;

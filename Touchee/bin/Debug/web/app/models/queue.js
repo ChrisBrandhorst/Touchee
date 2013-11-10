@@ -110,7 +110,7 @@ define([
         path = null;
       }
       return Backbone.ajax({
-        url:  _.compact([_.result(this, 'url'), command, path]).join('/'),
+        url:  encodeURI( _.compact([_.result(this, 'url'), command, path]).join('/') ),
         type: 'PUT',
         data: data
       });

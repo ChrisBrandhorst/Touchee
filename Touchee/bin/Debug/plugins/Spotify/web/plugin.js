@@ -1,16 +1,24 @@
 define([
   'underscore',
   'Touchee',
-  '../music/module',
+  '../music/contents_module',
   'i18n!./nls/locale'
-], function(_, Touchee, MusicModule, Locale) {
+], function(_, Touchee, MusicContentsModule, Locale) {
   
   var SpotifyPlugin = Touchee.Plugin.extend({
     
     name:   "Spotify",
-    module: new MusicModule,
+    module: new MusicContentsModule,
     locale: Locale,
-    css:    'full'
+    css:    'full',
+
+    initialize: function() {
+      Touchee.Config.register({
+        id:   'spotify',
+        name: i18n.t('spotify.spotify'),
+        view: 'plugins/spotify/views/config'
+      });
+    }
     
   });
   

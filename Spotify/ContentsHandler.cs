@@ -60,19 +60,22 @@ namespace Spotify {
         /// listeners are attached to the playlist collection list.
         /// </summary>
         async void ConnectionstateUpdated(Session sender, SessionEventArgs e) {
-            
+
             if (sender.ConnectionState == ConnectionState.LoggedIn) {
                 await _session.PlaylistContainer;
-                
+
                 // Track initial set of playlists
                 this.TrackPlaylists(_session.PlaylistContainer.Playlists);
-
+                
                 // Track starred playlist
                 this.TrackPlaylist(_session.Starred);
 
                 // Remove and then add playlist container callback
                 _session.PlaylistContainer.Playlists.CollectionChanged -= Playlists_CollectionChanged;
                 _session.PlaylistContainer.Playlists.CollectionChanged += Playlists_CollectionChanged;
+
+                // Remove callback
+                _session.ConnectionstateUpdated -= ConnectionstateUpdated;
             }
 
         }

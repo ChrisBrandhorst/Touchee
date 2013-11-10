@@ -1,9 +1,9 @@
 define([
   'underscore',
   'Backbone',
-  'models/container',
+  'models/contents_container',
   'models/server_info'
-], function(_, Backbone, Container, ServerInfo){
+], function(_, Backbone, ContentsContainer, ServerInfo){
   
   var Containers = Backbone.Collection.extend({
     

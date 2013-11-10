@@ -1,14 +1,14 @@
 define([
   'underscore',
   'Touchee',
-  './module',
+  './contents_module',
   'i18n!./nls/locale'
-], function(_, Touchee, MusicModule, Locale) {
+], function(_, Touchee, MusicContentsModule, Locale) {
   
   var MusicPlugin = Touchee.Plugin.extend({
     
     name:   "Music",
-    module: new MusicModule,
+    module: new MusicContentsModule,
     locale: Locale,
     css:    'full'
     

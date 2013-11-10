@@ -24,8 +24,8 @@ namespace Touchee.Server {
 
         Server.Http.HttpServer _httpServer;
         Server.Websocket.WebsocketServer _websocketServer;
-        Nancy.ISerializer _serializer;
         int _httpServerPort;
+        ToucheeJsonSerializer _serializer;
 
         #endregion
 
@@ -55,7 +55,9 @@ namespace Touchee.Server {
             this.WebsocketPort = websocketPort;
 
             // Init serializer
-            _serializer = new Http.JsonNetSerializer();
+            // TODO: WEIRD SHIT! No idea why, but if you omit the following line, everything goes AWOL
+            new Nancy.Serialization.JsonNet.JsonNetSerializer();
+            _serializer = new ToucheeJsonSerializer();
         }
 
 
@@ -118,10 +120,12 @@ namespace Touchee.Server {
             dict[key] = obj;
 
             string serialized;
-            using (var stream = new MemoryStream()) {
-                _serializer.Serialize("application/json", dict, stream);
-                stream.Position = 0;
-                serialized = new StreamReader(stream).ReadToEnd();
+            
+            using (var writer = new StringWriter()) {
+                using (var jsonWriter = new JsonTextWriter(writer)) {
+                    _serializer.Serialize(jsonWriter, dict);
+                    serialized = writer.ToString();
+                }
             }
 
             return serialized;
@@ -135,22 +139,52 @@ namespace Touchee.Server {
 
 
         /// <summary>
+        /// Sends the given string message to a client over the websocket
+        /// </summary>
+        /// <param name="client">The client to send the message to</param>
+        /// <param name="message">The message to send</param>
+        public void Send(IClient client, string message) {
+            _websocketServer.Send(client, message);
+        }
+
+
+        /// <summary>
+        /// Sends a message to a client as JSON over the websocket
+        /// </summary>
+        /// <param name="client">The client to send the message to</param>
+        /// <param name="key">The root key</param>
+        /// <param name="obj">The object to send</param>
+        public void Send(IClient client, string key, object obj) {
+            var serialized = Serialize(key, obj);
+            _websocketServer.Send(client, serialized);
+        }
+
+
+        /// <summary>
         /// Sends a message to a client as JSON over the websocket
         /// </summary>
         /// <param name="client">The client to send the message to</param>
         /// <param name="message">The response to send</param>
         public void Send(IClient client, object response) {
-            client.Send(Serialize(response));
+            var serialized = Serialize(response);
+            _websocketServer.Send(client, serialized);
         }
 
 
         /// <summary>
         /// Sends a message to all clients as JSON over the websocket
         /// </summary>
-        /// <param name="response">The response to send</param>
-        public void Broadcast(object response) {
-            var serialized = Serialize(response);
-            Client.ForEach(c => c.Send(serialized));
+        /// <param name="message">The message to send</param>
+        public void Broadcast(string message) {
+            Client.ForEach(c => this.Send(c, message));
+        }
+
+        /// <summary>
+        /// Sends a message to all clients as JSON over the websocket
+        /// </summary>
+        /// <param name="obj">The object to send</param>
+        public void Broadcast(object obj) {
+            Client.ForEach(c => this.Send(c, obj));
         }
 
 
@@ -158,10 +192,9 @@ namespace Touchee.Server {
         /// Sends a JSON string to all clients as JSON over the websocket
         /// </summary>
         /// <param name="key">The root key</param>
-        /// <param name="obj">The object to sendd</param>
+        /// <param name="obj">The object to send</param>
         public void Broadcast(string key, object obj) {
-            var serialized = Serialize(key, obj);
-            Client.ForEach(c => c.Send(serialized));
+            Client.ForEach(c => this.Send(c, key, obj));
         }
 
         #endregion

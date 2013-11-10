@@ -4,7 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Threading;
+
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using Touchee;
 
 namespace Touchee.Devices {
 
@@ -29,12 +32,13 @@ namespace Touchee.Devices {
         /// </summary>
         /// <param name="devicesConfig">The configuration</param>
         /// <returns>A List of Devices which could be parsed</returns>
-        public static List<Device> Parse(List<dynamic> devicesConfig) {
+        public static IEnumerable<Device> Parse(IEnumerable devicesConfig) {
             var devices = new List<Device>();
 
             foreach (var deviceConfig in devicesConfig) {
                 try {
-                    devices.Add( Device.Parse(deviceConfig) );
+                    if (deviceConfig is JObject)
+                        devices.Add( Device.Parse(deviceConfig) );
                 }
                 catch (InvalidDeviceConfigException e) {
                     var message = e.Message;
@@ -54,13 +58,14 @@ namespace Touchee.Devices {
         /// <param name="deviceConfig">The configuration of the device</param>
         /// <returns>The parsed device</returns>
         /// <exception cref="InvalidDeviceConfigException">If the configuration is invalid</exception>
-        public static Device Parse(dynamic deviceConfig) {
+        static Device Parse(dynamic deviceConfig) {
             Device device = null;
-
+            
             // Collect values from config
-            string type = deviceConfig.GetString("type", null);
-            string name = deviceConfig.GetString("name", null);
-            string[] capabilitiesStrings = deviceConfig.GetStringArray("capabilities");
+            string type = deviceConfig.type;
+            string name = deviceConfig.name;
+            dynamic caps = deviceConfig.capabilities;
+            IEnumerable<string> capabilitiesStrings = caps is IList ? caps.Values<string>() : new string[0];
 
             // Check if we have a type
             if (type == null) throw new InvalidDeviceConfigException("Invalid Device config: supplying a type is required");
@@ -211,29 +216,32 @@ namespace Touchee.Devices {
         /// TODO: cleanup
         /// </summary>
         /// <param name="config">The config to apply</param>
-        void ApplyConfigBase(dynamic config) {
+        void ApplyConfigBase(JObject config) {
 
             if (this.SupportsControlThroughWinLirc) {
 
                 // Check if config remote exists
-                if (!config.ContainsKey("remote"))
-                    throw new InvalidDeviceConfigException("Capability winLirc was given, but no remote value supplied.");
+                JObject remoteConfig;
+                try {
+                    remoteConfig = (JObject)(config.Get("remote"));
+                }
+                catch (Exception) {
+                    throw new InvalidDeviceConfigException("Capability winLirc was given, but no valid remote object supplied.");
+                }
+                
+                // Get all keys
+                List<string> keys = (remoteConfig as JObject).Properties().Select(p => p.Name).ToList();
 
-                dynamic remoteConfig = config["remote"];
-                List<string> keys = remoteConfig.Keys;
-
-                if (keys.Count == 0)
+                // If no keys, 
+                if (keys.Count() == 0)
                     throw new InvalidDeviceConfigException("Capability winLirc was given, but no or empty remote value supplied.");
                 else {
 
-                    string mainRemoteID = null;
-                    if (remoteConfig.ContainsKey("id")) {
-                        mainRemoteID = (string)remoteConfig["id"];
-                        keys.Remove("id");
-                    }
+                    string mainRemoteID = remoteConfig.Get("id");
+                    if (mainRemoteID != null) keys.Remove("id");
 
                     foreach (var k in keys) {
-                        var command = (string)remoteConfig[k];
+                        var command = remoteConfig[k].ToString();
                         string remoteID;
 
                         var remoteAndCommand = command.Split(' ');
@@ -257,7 +265,7 @@ namespace Touchee.Devices {
                 if (!this.SupportsCapability(DeviceCapabilities.SetActive))
                     throw new InvalidDeviceConfigException("Capability autoSetActive was given without capability setActive.");
                 int autoDeactivateTimeout;
-                config.TryGetInt("autoDeactivate", out autoDeactivateTimeout);
+                autoDeactivateTimeout = config.Get("autoDeactivate") ?? 0;
                 if (autoDeactivateTimeout == 0)
                     throw new InvalidDeviceConfigException("Capability autoSetActive was given, but no autoDeactivate value supplied.");
                 else

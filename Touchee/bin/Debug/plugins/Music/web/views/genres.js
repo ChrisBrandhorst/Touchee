@@ -29,7 +29,7 @@ define([
     }),
 
     // Combined view for the right details
-    detailView:   PlayableSplitDetailsView.extend({
+    detailViewClass:   PlayableSplitDetailsView.extend({
       className:    'genre',
       viewModel:    GroupedTracks.extend({ groupByAttr:'genre' }),
       header:       _.template(genreHeaderTemplate),

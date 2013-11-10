@@ -29,7 +29,7 @@ define([
     }),
 
     // Combined view for the right details
-    detailView:   PlayableSplitDetailsView.extend({
+    detailViewClass:   PlayableSplitDetailsView.extend({
       className:    'artist',
       viewModel:    GroupedTracks.extend({ groupByAttr:'artist' }),
       header:       _.template(artistHeaderTemplate),

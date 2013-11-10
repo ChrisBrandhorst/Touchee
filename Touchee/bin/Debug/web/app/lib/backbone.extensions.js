@@ -48,6 +48,17 @@ define([
     
     
   });
+
+
+  // // Modify extractParameters to not decode URIs when it's not necessary
+  // _.extend(Backbone.Router.prototype, {
+  //   _extractParameters: function(route, fragment) {
+  //     var params = route.exec(fragment).slice(1);
+  //     return _.map(params, function(param) {
+  //       return param ? decodeURI(param) : null;
+  //     });
+  //   }
+  // });
   
   
 });

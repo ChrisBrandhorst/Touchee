@@ -13,7 +13,7 @@ define([
 ], function($, _, Backbone,
             Communicator, ServerInfo, Status,
             MediaPopupView, BrowserHeaderView, BrowserViewsView,
-            I18n,
+            i18n,
             browserTemplate) {
   
   browserTemplate = _.template(browserTemplate);
@@ -100,7 +100,7 @@ define([
     // Called when the websocket has disconnected
     disconnected: function() {
       this.$connecting.find('> span').html(
-        I18n.browser[ Communicator.connectedCount == 0 ? 'connecting' : 'reconnecting' ].replace('%s', ServerInfo.getName())
+        i18n.browser[ Communicator.connectedCount == 0 ? 'connecting' : 'reconnecting' ].replace('%s', ServerInfo.getName())
       );
       this.$el.addClass('disconnected');
       BrowserHeaderView.enable(false);
@@ -125,10 +125,10 @@ define([
       
       // Set the nav button
       this.$nav
-        .attr('className', "")
+        .removeClass()
         .addClass(container.get('contentType'))
         .children()
-        .html(container.get('name'));
+        .html(container.get('name') || "&nbsp;");
       
       // Update views view
       BrowserViewsView.update(container, view);
@@ -150,8 +150,7 @@ define([
     
     
     // Sets the given view in the browser
-    setView: function(view, options) {
-      options || (options = {});
+    setView: function(view, container, selectedView) {
       
       // If this view is already selected, do nothing
       if (view == this.selectedView) return;
@@ -160,19 +159,17 @@ define([
       // Store the view
       this.views[view.fragment] = view;
       
-      // Put in DOM if not yet
-      if (view.el.parentNode != this.$contents[0])
+      // Put in DOM and render if not yet
+      if (view.el.parentNode != this.$contents[0]) {
         this.$contents.append(view.$el);
+        view.render();
+      }
       
       // Show view, hide siblings
       view.$el.show().siblings().hide();
       
-      // Render if not excluded
-      if (options.render !== false)
-        view.render();
-
       // Set the selected container
-      // this.setSelectedContainer(view.model.contents.container, view.model.params.view);
+      this.setSelectedContainer(container, selectedView);
 
     },
     

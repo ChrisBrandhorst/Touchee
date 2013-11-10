@@ -27,10 +27,6 @@ namespace Spotify.Media {
 
         #endregion
 
-
-
-
-
         public MasterPlaylist MasterPlaylist { get; private set; }
 
     }

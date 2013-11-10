@@ -15,6 +15,8 @@ define([
 
     // Events
     events: {
+      // TODO: click vs tap?
+      'click a':                  'checkEdge',
       'tap [data-button=more]': 'showMoreViews'
     },
 
@@ -54,7 +56,7 @@ define([
 
       if (removedButtons.length) {
         removedButtons.push( buttons.pop() );
-        var $more = $('<button data-button="more">' + I18n.browser.moreViews + '</button>').appendTo($nav).toggleClass('selected', selectedRemoved);
+        var $more = $('<button data-button="more">' + i18n.browser.moreViews + '</button>').appendTo($nav).toggleClass('selected', selectedRemoved);
         this.hiddenViews = _.map(removedButtons, function(b){
           b.parentNode.removeChild(b);
           return b.getAttribute('data-view');
@@ -68,16 +70,20 @@ define([
     }, 100),
 
 
-    // Gets the view text for the given container and view
+    // Gets the view text for the given view
     getViewText: function(view) {
       var key   = 'views.' + view,
-          text  = I18n.t(key);
+          text  = i18n.t(key);
       
       if (key == text) {
-        key   = 'models.'+view;
-        text  = I18n.t(key, {count:2});
-        if (key == text)
-          text = view;
+        key   = 'models.' + view;
+        text  = i18n.t(key, {count:2});
+        if (key == text) {
+          key   = view + '.title';
+          text  = i18n.t(key);
+          if (key == text)
+            text = view;
+        }
       }
       
       return text.toTitleCase();
@@ -92,6 +98,19 @@ define([
       if (this.popup)
         this.popup.render();
     }, 
+
+
+    //
+    checkEdge: function(ev) {
+      var $button = $(ev.target),
+          $prev   = $button.prev();
+          first   = !$prev.length;
+      if (!first && (ev.gesture ? ev.gesure.center.pageX : ev.pageX) - $button.offset().left < 4) {
+        ev.stopPropagation();
+        ev.preventDefault();
+        Backbone.history.navigate($prev.attr('href'), {trigger:true});
+      }
+    },
 
 
     // Open the more views popup

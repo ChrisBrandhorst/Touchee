@@ -1,7 +1,8 @@
 define([
+  'jquery',
   'underscore',
-  'Backbone'
-], function(_, Backbone){
+  'Backbone',
+], function($, _, Backbone){
   
   // ServerInfo object
   var ServerInfo = Backbone.Model.extend({
@@ -55,9 +56,6 @@ define([
           Touchee.Log.info("ServerInfo:: Plugin loaded: " + key);
           plugins[key] = plugin;
           plugin.id = key;
-          
-          // Merge in locale
-          if (_.isObject(plugin.locale)) _.deepExtend(I18n, plugin.locale);
           
           loadedCount++;
           if (loadedCount == pluginCount && _.isFunction(success))

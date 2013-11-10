@@ -1,25 +1,26 @@
 define([
   'underscore',
   'Backbone',
-  'models/container',
+  'models/contents_container',
   'views/browser/index',
-  'views/contents/split'
-], function(_, Backbone, Container, BrowserView, SplitView) {
+  'views/contents/split',
+  'views/config/index'
+], function(_, Backbone, ContentsContainer, BrowserView, SplitView, ConfigView) {
   
   
-  // Touchee.Module
+  // Touchee.ContentsModule
   // -----------------
   
   // Modules receive requests for content pages from the user interface and process them
   // specificly for the module type
-  var Module = Touchee.Module = function() {
+  var ContentsModule = Touchee.ContentsModule = function() {
     this.initialize.apply(this, arguments);
   };
-  Module.extend = Backbone.Model.extend;
+  ContentsModule.extend = Backbone.Model.extend;
   
 
-  // Set up all inheritable **Touchee.Module** properties and methods.
-  _.extend(Module.prototype, Backbone.Events, {
+  // Set up all inheritable **Touchee.ContentsModule** properties and methods.
+  _.extend(ContentsModule.prototype, Backbone.Events, {
     
     
     // Logger
@@ -29,12 +30,13 @@ define([
     // The different views that are available for this module, together
     // with the corresponding view class.
     views: {
-      // viewID: ViewClass
+      // viewID: ViewClass`
+      config: ConfigView
     },
 
 
-    // The default container model
-    containerModel: Container,
+    // The default contents container model
+    contentscontentsContainerModel: ContentsContainer,
 
     
     // Initialize is an empty function by default. Override it with your own
@@ -45,7 +47,7 @@ define([
     // Build the container object for the given container attributes
     // VIRTUAL
     buildContainer: function(attrs, options) {
-      return new this.containerModel(attrs, options);
+      return new this.contentsContainerModel(attrs, options);
     },
     
     
@@ -54,11 +56,11 @@ define([
     // - Sets the view in the browser view;
     // - Fetch the contents of the view model;
     // - Start the inner navigation of the view.
-    showContents: function(container, params, fragment) {
+    showContents: function(fragment, params, container) {
       var existingView = this.getView(fragment);
       var view = existingView || this.buildView(container, params, fragment);
       if (!view) return;
-      this.setView(view);
+      this.setView(view, params);
       if (existingView)
         this.navigate(view, params, fragment);
       else
@@ -74,23 +76,16 @@ define([
     
     // Build the view object for the given container and params.
     buildView: function(container, params, fragment, viewClass) {
-      var view            = params.view,
-          viewClass       = viewClass || this.views[view],
-          viewModelClass  = viewClass && viewClass.prototype.viewModel;
+      var viewClass = viewClass || this.views[params.view];
 
       if (!viewClass)
-        return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
-      if (!viewModelClass)
-        return this.Log.error("No valid view model class specified for module " + (container.get('plugin') || 'base') + " (" + params.view + ")");
+        return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " and view " + params.view);
 
-      var viewModel = new viewModelClass(null, {
-        contents: container.buildContents(params),
-        params:   params
-      });
+      var options = {};
+      if (_.isFunction(container.buildViewModel))
+        options.model = container.buildViewModel(params, viewClass);
 
-      var viewInstance = new viewClass({
-        model:  viewModel
-      });
+      var viewInstance = viewClass.prototype ? new viewClass(options) : viewClass;
       viewInstance.fragment = fragment;
       
       return viewInstance;
@@ -98,8 +93,8 @@ define([
     
     
     // Sets the given view in the browser view
-    setView: function(view) {
-      BrowserView.setView(view);
+    setView: function(view, params) {
+      BrowserView.setView(view, view.model.contents.container, params.view);
     },
     
     
@@ -120,7 +115,7 @@ define([
   });
   
   
-  return Module;
+  return ContentsModule;
   
   
 });

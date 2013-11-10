@@ -3,15 +3,9 @@
 @import ../../../../../web/app/assets/sass/mixins
 
 @import views
-
 @import tracks
 @import albums
 
-
-// Default artwork for queue items
-#queue_popup li p[data-item-plugin=music]
-  @include background-img(WildcatNoArtPlaceholder-MusicMod, retina)
-
-// Default artwork for now playing item
-#browser > header #lcd #lcd_artwork[data-item-plugin=music]
-  @include background-img(missing-music-artwork, remote retina plugin)
+@include container_icon(music, remote retina plugin)
+@include default_queue_artwork(music, WildcatNoArtPlaceholder-MusicMod, retina)
+@include default_now_playing_artwork(music, missing-music-artwork, remote retina plugin)

@@ -38,15 +38,8 @@ define([
         model.containers.fetch();
       }
 
-    },
-
-
-    getLocal: function() {
-      return this.find(function(medium){
-        return medium.isLocal();
-      });
     }
-    
+
   }));
   
   return Media;

@@ -30,7 +30,7 @@ define([
     
     // Gets the header for this page
     getHeader: function() {
-      return I18n.models.media.more;
+      return i18n.t('models.media.more');
     },
     
     

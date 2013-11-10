@@ -9,8 +9,8 @@ require.config({
     underscore: 'lib/underscore.amd',
     Backbone:   'lib/backbone.amd',
     Touchee:    'lib/touchee',
-    text:       '../lib/text-2.0.3',
-    i18n:       '../lib/i18n-2.0.1',
+    text:       '../lib/text-2.0.6',
+    i18n:       'lib/i18n-2.0.4.mod',
     jquery:     '../lib/jquery-1.8.2.min'
   },
   
@@ -79,10 +79,8 @@ require([
     prevent_mouseevents:    Touchee.touch
   });
   
-  // Load the locale file so we can place it in the gloval scope (we are lazy)
-  require(['i18n!nls/locale'], function(I18n){
-    this.I18n = I18n;
-    // Then, load the app
+  // Load the locale file
+  require(['i18n!nls/locale'], function(){
     require(['app'], function(App){
       App.initialize();
     });

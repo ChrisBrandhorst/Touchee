@@ -74,14 +74,17 @@ namespace Music {
         /// <param name="config">The configuration object for this plugin</param>
         /// <param name="context">The context for this plugin</param>
         /// <returns>True if the plugin was successfully started</returns>
-        public bool StartPlugin(dynamic config, IPluginContext context) {
+        public bool StartPlugin(Config config, IPluginContext context) {
 
             // Get folders
-            string[] folders = config.GetStringArray("folders");
+            dynamic foldersConfig = config.Get("folders");
+            IEnumerable<string> folders = foldersConfig is IList ? foldersConfig.Values<string>() : new string[0];
 
             // Get extensions
-            TrackExtensions = config.GetStringArray("extensions.tracks");
-            PlaylistExtensions = config.GetStringArray("extensions.playlists");
+            dynamic trackExtensionsConfig = config.Get("extensions.tracks");
+            TrackExtensions = trackExtensionsConfig is IList ? trackExtensionsConfig.Values<string>() : new string[0];
+            dynamic playlistExtensionsConfig = config.Get("extensions.tracks");
+            PlaylistExtensions = playlistExtensionsConfig is IList ? playlistExtensionsConfig.Values<string>() : new string[0];
             Extensions = TrackExtensions.Concat(PlaylistExtensions).ToArray();
 
             // Create the watcher and add folders to it

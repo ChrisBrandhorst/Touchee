@@ -3,23 +3,24 @@ define([
   'underscore',
   'Backbone',
   
-  'models/module',
+  'models/contents_module',
   
   'models/server_info',
   
   'models/collections/media',
-  'models/collections/containers',
+  'models/collections/contents_containers',
   
-  'models/contents',
+  'models/config_container',
     
   'views/browser/index',
-  'views/media/popup'
+  'views/media/popup',
+  'views/config/index'
 ], function($, _, Backbone,
-            BaseModule,
+            BaseContentsModule,
             ServerInfo,
-            Media, Containers,
-            Contents,
-            BrowserView, MediaPopupView
+            Media, ContentsContainers,
+            ConfigContainer,
+            BrowserView, MediaPopupView, ConfigView
 ){
   
   var AppRouter = Backbone.Router.extend({
@@ -28,14 +29,16 @@ define([
     routes: {
       "media/:mid":                                 "medium",
       "media/:mid/containers/:cid":                 "container",
-      "media/:mid/containers/:cid/*params":         "container"
+      "media/:mid/containers/:cid/*params":         "container",
+      "config":                                     "config",
+      "config/:id":                                 "config"
     },
     
     
     initialize: function() {
       
       // Create base module instance
-      this.baseModule = new BaseModule;
+      this.baseContentsModule = new BaseContentsModule;
       
       // Always go to root
       window.location.hash = "";
@@ -66,29 +69,32 @@ define([
       params = Touchee.Params.parse(paramsStr);
       
       // If we were not given any specific type to show in the params, we get the first viewType
-      var view = params.view || container.views[0];
+      var view = params.view || container.get('views')[0];
       
       // Find the base and full fragments
       delete params.view;
       var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/[^\/]+/)[0] + "/view/" + view,
-          fragment      = viewFragment + (paramsStr && paramsStr.length ? "/" : "") + paramsStr;
+          fragment      = viewFragment + Touchee.Params.compose(params);
       params.view = view;
       Backbone.history.navigate(fragment, {replace:true});
       
       // Get the module for this container
       var plugin = ServerInfo.getPlugin(container.get('plugin')),
-          module = (plugin && plugin.module) || this.baseModule;
-      
-      // Set selection of container in browser
-      BrowserView.setSelectedContainer(container, view);
+          module = (plugin && plugin.module) || this.baseContentsModule;
       
       // Build the view
-      module.showContents(container, params, viewFragment);
-      
-      
-      // TODO: necessary?
-      // Check if we navigated from within a container view or from the media list or view type buttons
-      // Unset 'view' in params, count attributes, re-set 'view'
+      module.showContents(viewFragment, params, container);
+    },
+
+
+    // Show config
+    config: function(id) {
+      BrowserView.setView(ConfigView, ConfigContainer);
+      if (id) {
+        var section = Touchee.Config.sections.get(id);
+        section.view.section = section;
+        ConfigView.setRight(section.view);
+      }
     },
     
     

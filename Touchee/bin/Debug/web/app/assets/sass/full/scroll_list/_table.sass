@@ -28,7 +28,7 @@
         
         // Last column aligned to the right
         &:last-child
-          padding-right: 85px
+          padding-right: 13px
           &:not(:first-child)
             text-align:   right
 
@@ -41,10 +41,15 @@
 
       // Selected row
       &.selected td
-        border-bottom-color:  #6285A6
-        border-top-color:     #E5ECF4
+        border-bottom-color:  #6285a6
+        border-top-color:     #e5ecf4
         @include  background($defaultSelectionGradient)
         color:                white
+        text-shadow:          0 1px $selectedTextShadowColor
+
+  // Make way for quickscroll
+  &.quickscroll td:last-child
+    padding-right: 85px
 
   // Floating index
   .scroll_list-table-index
@@ -66,11 +71,11 @@
     @include              background(linear-gradient(#ddd, #d7d7d7))
 
 
-// When in spliy view, do not use background color
+// When in split view, do not use background color
 // and change the spacing for the quickscroll
-.split_view > .scroll_list.table:first-child table
-  tr
-    &:not(.odd):not(.index) td
-      background-color: transparent
-    td:last-child
-      padding-right: 50px
+.split_view > .scroll_list.table
+  &:first-child table tr:not(.index) td
+    background-color: transparent
+    border-top-color: #fbfbfb
+  &.quickscroll:first-child table td:last-child
+    padding-right: 50px

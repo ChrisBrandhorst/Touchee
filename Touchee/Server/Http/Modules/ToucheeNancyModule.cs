@@ -16,11 +16,11 @@ namespace Touchee.Server.Http.Modules {
         /// <summary>
         /// Construct a new ToucheeNancyModule
         /// </summary>
-        public ToucheeNancyModule() : this(string.Empty) { }
+        public ToucheeNancyModule() : base() { }
 
 
         /// <summary>
-        /// Construct a new ToucheeNancyModule with the given base path
+        /// Construct a new ToucheeNancyModule with a base path
         /// </summary>
         /// <param name="modulePath">The base path for this module</param>
         public ToucheeNancyModule(string modulePath) : base(modulePath) {
@@ -38,7 +38,7 @@ namespace Touchee.Server.Http.Modules {
         /// <summary>
         /// Gets the Client object associated with the current request
         /// </summary>
-        public Client Client { get; private set; }
+        public IClient Client { get; private set; }
 
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Touchee.Server.Http.Modules {
 
 
         /// <summary>
-        /// Gets the filter assosicated with the current reques t(if any)
+        /// Gets the filter assosicated with the current request (if any)
         /// </summary>
         public Options Filter { get; private set; }
 
@@ -63,7 +63,7 @@ namespace Touchee.Server.Http.Modules {
             // Get client from session ID
             if (Request.Cookies.ContainsKey(CookieKey)) {
                 var sessionId = Request.Cookies[CookieKey];
-                this.Client = Client.FindBySessionID(sessionId);
+                this.Client = Touchee.Server.Client.FindBySessionID(sessionId);
             }
             else
                 this.Client = null;

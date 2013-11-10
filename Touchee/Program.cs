@@ -10,6 +10,8 @@ using System.Collections;
 
 using Touchee.Components;
 using Touchee.Server;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Touchee {
 
@@ -20,7 +22,7 @@ namespace Touchee {
 
 
         // The configuration of the app
-        internal static dynamic Config { get; private set; }
+        internal static Config Config { get; private set; }
 
         // 
         static List<string> PluginFilesNotLoaded = new List<string>();
@@ -54,28 +56,19 @@ namespace Touchee {
 
 
             // Get port for the http server
-            int httpPort;
-            ok = Config.TryGetInt("httpPort", out httpPort, 80);
-            if (!ok || httpPort <= 0)
-                Logger.Log("Could not parse a valid value for httpPort setting. Using default: " + httpPort.ToString(), Logger.LogLevel.Warn);
+            int httpPort = Config.Get("httpPort") ?? 80;
 
             // Get port for the websocket server
-            int websocketPort;
-            ok = Config.TryGetInt("websocketPort", out websocketPort, 81);
-            if (!ok || websocketPort <= 0)
-                Logger.Log("Could not parse a valid value for websocketPort setting. Using default: " + websocketPort.ToString(), Logger.LogLevel.Warn);
+            int websocketPort = Config.Get("websocketPort") ?? 81;
 
             // Get the media detector polling interval
-            int mediaPollingInterval;
-            ok = Config.TryGetInt("mediaPollingInterval", out mediaPollingInterval, 3000);
-            if (!ok || mediaPollingInterval <= 0)
-                Logger.Log("Could not parse a valid value for mediaPollingInterval setting. Using default: " + mediaPollingInterval.ToString(), Logger.LogLevel.Warn);
+            int mediaPollingInterval = Config.Get("mediaPollingInterval") ?? 3000;
             
 
             // Load devices from config
-            if (Config.ContainsKey("devices"))
-                Devices.Device.Parse(Config["devices"]);
-
+            var devices = Config.Get("devices");
+            if (devices is IEnumerable<JToken>)
+                Devices.Device.Parse(devices as IEnumerable);
 
             // Init the server
             var server = new Server.ToucheeServer(httpPort, websocketPort);
@@ -120,19 +113,33 @@ namespace Touchee {
         /// (re)parses the config file.
         /// </summary>
         /// <returns>true if the config file was successfully parsed.</returns>
-        static dynamic LoadConfig() {
+        static Config LoadConfig() {
+
             try {
-                dynamic config = ConfigObject.Load(Path.Combine(
+                var configPath = Path.Combine(
                     Path.GetDirectoryName(Application.ExecutablePath),
-                    "config.yaml"
-                ));
-                return config;
+                    "config.json"
+                );
+                return Config.Load(configPath);
             }
             catch (Exception e) {
                 Logger.Log(e, Logger.LogLevel.Fatal);
-                ShowError("Cannot load configuration. Incorrect YAML? :: " + e.Message, true);
+                ShowError("Cannot load configuration. Incorrect JSON? :: " + e.Message, true);
                 return null;
             }
+
+            //try { 
+            //    dynamic config = ConfigObject.Load(Path.Combine(
+            //        Path.GetDirectoryName(Application.ExecutablePath),
+            //        "config.yaml"
+            //    ));
+            //    return config;
+            //}
+            //catch (Exception e) {
+            //    Logger.Log(e, Logger.LogLevel.Fatal);
+            //    ShowError("Cannot load configuration. Incorrect YAML? :: " + e.Message, true);
+            //    return null;
+            //}
         }
 
 
@@ -144,8 +151,12 @@ namespace Touchee {
         static bool LoadPlugins(IPluginContext context) {
             
             // Get the plugins config section
-            dynamic pluginsConfig;
-            Config.TryGetValue("plugins", out pluginsConfig);
+            var pluginsConfig = Config.Sub("plugins");
+            if (pluginsConfig == null) {
+                Logger.Log("Invalid plugins config block", Logger.LogLevel.Fatal);
+                ShowError("Invalid plugins config block", true);
+                return false;
+            }
 
             // First, process plugins in the app and main lib assembly
             try {
@@ -209,7 +220,7 @@ namespace Touchee {
         /// <param name="assembly">The assembly to get the plugins from</param>
         /// <param name="config">Plugins config section</param>
         /// <param name="context">The plugin context to feed the plugin</param>
-        static void LoadPlugins(Assembly assembly, dynamic config, IPluginContext context) {
+        static void LoadPlugins(Assembly assembly, Config config, IPluginContext context) {
 
             // Get reference to plugin interface
             Type pluginType = typeof(IPlugin);
@@ -230,13 +241,13 @@ namespace Touchee {
                 IPlugin plugin;
 
                 // Get the configuration
-                dynamic pluginConfig = null;
+                Config pluginConfig = null;
                 var name = type.Assembly == thisAssembly ? type.Name : type.Assembly.GetName().Name;
                 bool disabled = false;
                 if (config != null) {
-                    config.TryGetValue(name, out pluginConfig);
+                    pluginConfig = config.Sub(name);
                     if (pluginConfig != null)
-                        disabled = pluginConfig.ContainsKey("disabled");
+                        disabled = pluginConfig.Contains("disabled");
                 }
 
                 // Do next if disabled

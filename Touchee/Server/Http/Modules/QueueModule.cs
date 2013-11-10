@@ -12,7 +12,7 @@ namespace Touchee.Server.Http.Modules {
     public class QueueModule : ToucheeNancyModule {
 
         public QueueModule() : base("/queue") {
-            var path = "/media/{mediaID}/containers/{containerID}/{filter}";
+            var path = "/media/{mediaID}/containers/{containerID}/{filter*}";
             
             Get["/"] = _ => GetQueue();
 

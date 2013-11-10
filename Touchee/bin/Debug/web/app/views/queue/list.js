@@ -16,6 +16,8 @@ define([
         : "Up Next";
     },
     template:   _.template(queueItemTemplate),
+    model:      Queue,
+    
     
     // Gets the model count
     getCount: function() {

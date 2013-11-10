@@ -26,7 +26,18 @@ namespace Touchee {
         public virtual Medium Medium { get; protected set; }
 
         /// <summary>
-        /// Whether this container is busy loading
+        /// If this container is a sub-container, this property returns
+        /// the master container.
+        /// </summary>
+        public virtual Container Master { get; protected set; }
+
+        /// <summary>
+        /// Whether this container is a master container
+        /// </summary>
+        public virtual bool IsMaster { get { return this.Master == null; } }
+
+        /// <summary>
+        /// The ID of the Medium this Container belongs to
         /// </summary>
         [DataMember]
         int MediumID { get { return Medium.Id; } }
@@ -44,21 +55,10 @@ namespace Touchee {
         public virtual bool IsEmpty { get { return false; } }
 
         /// <summary>
-        /// If this container is a sub-container, this property returns
-        /// the master container.
-        /// </summary>
-        public virtual Container Master { get; protected set; }
-
-        /// <summary>
         /// The ID of the master container when this object is serialized
         /// </summary>
         [DataMember(Name = "MasterID")]
         protected virtual object OutputMasterID { get { return this.IsMaster ? null : this.Master.OutputId; } }
-
-        /// <summary>
-        /// Whether this container is a master container
-        /// </summary>
-        public virtual bool IsMaster { get { return this.Master == null; } }
 
         /// <summary>
         /// The type of the container, e.g. what the container 'looks like'
@@ -76,7 +76,7 @@ namespace Touchee {
         /// String array containing names of views by which the contents can be viewed
         /// </summary>
         [DataMember]
-        public abstract string[] ViewTypes { get; }
+        public abstract string[] Views { get; }
 
         /// <summary>
         /// The name of the plugin this Container resides in

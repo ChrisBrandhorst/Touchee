@@ -25,7 +25,7 @@ namespace Spotify.Media {
             var link = spPlaylist.GetLink();
             this.AltId = link.ToString();
             link.Dispose();
-
+            
             this.Master = medium.Containers.FirstOrDefault(c => c.IsMaster);
         }
 

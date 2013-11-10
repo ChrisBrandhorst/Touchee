@@ -35,11 +35,11 @@ define([
 
       // If we have nothing yet, try the "unknown ..."
       if (!val) {
-        val = I18n.models[ attr ];
+        val = i18n.models[ attr ];
         if (_.isObject(val))
           val = val.one;
         if (val)
-          val = I18n.unknown + " " + val.toTitleCase();
+          val = i18n.unknown + " " + val.toTitleCase();
       }
 
       return val;

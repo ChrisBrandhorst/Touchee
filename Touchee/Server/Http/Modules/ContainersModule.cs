@@ -21,8 +21,8 @@ namespace Touchee.Server.Http.Modules {
         public ContainersModule() : base("/media/{mediaID}/containers") {
             Get["/"] = _ => Index(_);
             Get["/{containerID}"] = _ => GetContents(_);
-            Get["/{containerID}/{filter}"] = _ => GetContents(_);
-            Get["/{containerID}/artwork/{filter}"] = _ => GetArtwork(_);
+            Get["/{containerID}/{filter*}"] = _ => GetContents(_);
+            Get["/{containerID}/artwork/{filter*}"] = _ => GetArtwork(_);
         }
 
 
@@ -114,7 +114,7 @@ namespace Touchee.Server.Http.Modules {
         void SetArtworkCache(Response response) {
             int seconds = artworkcacheDuration;
             if (seconds < 0) {
-                Program.Config.TryGetInt("artwork.cacheDuration", out seconds);
+                seconds = Program.Config.Get("artwork.cacheDuration") ?? 2592000;
                 artworkcacheDuration = Math.Max(seconds, 0);
             }
             response.Headers.Add("Cache-Control", "max-age=" + seconds.ToString());

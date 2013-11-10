@@ -1,0 +1,22 @@
+// When in split view, adjust styling of the default list
+.split_view > :first-child .list
+  background-color: transparent
+  font-size:        inherit
+
+  > *
+    height:         40px
+    line-height:    37px
+    padding:        1px 0 0 6px
+    border-top:     1px solid #fbfbfb
+    border-bottom-color: #dcdcdc
+    color:          $darkerTextColor
+    font-weight:    bold
+    font-size:      110%
+    text-shadow:    0 1px white
+
+    &.selected
+      border-bottom-color:  #6285a6
+      border-top-color:     #e5ecf4
+      @include  background($defaultSelectionGradient)
+      color:                white
+      text-shadow:          0 1px $selectedTextShadowColor

@@ -1,0 +1,84 @@
+{
+
+  "name":                 null,
+  "welcomeMessage":       null,
+  "httpPort":             null,
+  "websocketPort":        null,
+  "mediaPollingInterval": null,
+  "webcastsName":         "Webcasts",
+
+
+  "artwork": {
+    "retryPeriod":    2592000,
+    "cacheDuration":  2592000
+  },
+
+
+  "devices": [{
+    "type":           "amplifier",
+    "name":           "Amplifier",
+    "capabilities":   [ "setActive", "autoSetActive", "toggleMuted", "winLirc" ],
+    "autoDeactivate": 300,
+    "remote": {
+      "id":           "Onkyo_RC-447M",
+      "activate":     "power",
+      "deactivate":   "standby",
+      "toggleMuted":  "muting"
+    }
+  },{
+    "type":           "speaker",
+    "name":           "Area A",
+    "capabilities":   [ "toggleActive", "winLirc" ],
+    "remote": {
+      "id":           "Onkyo_RC-447M",
+      "toggleActive": 7
+    }
+  },{
+    "type":           "speaker",
+    "name":           "Area B",
+    "capabilities":   [ "toggleActive", "winLirc" ],
+    "remote": {
+      "id":           "Onkyo_RC-447M",
+      "toggleActive": 8
+    }
+  },{
+    "type":           "television",
+    "name":           "Television",
+    "capabilities":   [ "toggleActive", "winLirc" ],
+    "remote": {
+      "id":           "Sony_RM-ED016_12bits",
+      "toggleActive": "power"
+    }
+  }],
+
+
+  "plugins": {
+
+
+    "Music": {
+      "folders":      [ "D:\\Music\\Storage2" ],
+      "extensions": {
+        "tracks":     [ "aac", "ac3", "dts", "flac", "m4a", "mp3", "ogg", "wav", "wma" ],
+        "playlists":  [ "m3u", "cue" ]
+      }
+    },
+
+
+    "Videos": {
+      "disabled": true,
+      "folders": {
+        "films":  [ "D:\\Videos\\Films" ],
+        "series": [ "D:\\Videos\\Series" ],
+        "other":  [ "D:\\Videos\\Other" ]
+      },
+      "extensions": [ "3gp", "avi", "mkv", "mov", "mp4", "mpg", "mpeg", "wmv" ]
+    },
+
+
+    "Spotify": {
+    }
+
+
+  }
+
+}

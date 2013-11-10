@@ -76,7 +76,7 @@
           display: block
 
     // LCD Buttons
-    @include lcdButton(queue, 42, 32)
+    @include lcdButton(queue, 42, 42)
     [data-button=queue]
       margin: -1px 5px 0 0
       @media #{$portraitMedia}
@@ -171,8 +171,8 @@
     [data-button=airplay]
       display:              none
       height:               47px
-      width:                47px
-      margin:               6px 0 0 -11px
+      width:                36px
+      margin:               6px 0 0 0
       @include              background-img(VolumeAirPlay, remote retina)
       background-position:  right center
       background-repeat:    no-repeat
@@ -185,7 +185,7 @@
           @include  background-img(VolumeAirPlayPressedOn, remote retina)
     
     // If we have airplay class, show the button
-    &
+    &.airplay
       padding-right:  0
       > [data-button=airplay]
         display:  block

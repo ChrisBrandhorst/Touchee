@@ -1,5 +1,5 @@
 #browser
-  
+
   > footer
     @include  background-img(ChromeBottom, remote retina)
     padding:  8px 8px 0 8px
@@ -25,22 +25,20 @@
     
     // Nav button
     [data-button=nav]
-      line-height:  30px
-      margin-top:   -1px
-      min-width:    100px
-      padding:      0 11px 0 31px
-      max-width:    100%
-      @include      text-shadow(0 1px 0 white)
-      @include      border-img(ChromeButton, 0 4 0 4, retina remote)
+      line-height:      30px
+      margin-top:       -1px
+      min-width:        100px
+      padding:          0 11px 0 31px
+      max-width:        100%
+      @include          text-shadow(0 1px 0 white)
+      @include          border-img(ChromeButton, 0 4 0 4, retina remote)
+      background:       no-repeat 6px 5px
+      background-size:  20px
       span
         display:  block
         @include  ellipsis
       &:active
-        @include    border-img(ChromeButtonSelected, 0 4 0 4, retina remote)
-      &.music
-        background:       no-repeat 6px 5px
-        @include          background-img(SourceListMusicGray, remote retina)
-        background-size:  20px
+        @include  border-img(ChromeButtonSelected, 0 4 0 4, retina remote)
 
 
     // 

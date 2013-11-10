@@ -15,12 +15,18 @@ model.each(function(m){
     case 1:
       var c = masters[0];
       if (c.isNew()) return;
-      %><a href="#<%= c.url() %>" class="<%=c.get('contentType')%> <%=loadingClass(c)%>"><span><%=c.get('name')%></span></a><%
+      %><a href="#<%=_.result(c,'url')%>" class="<%=c.get('contentType')%> <%=loadingClass(c)%>"><span><%=c.get('name')%></span></a><%
       break;
     default:
-      %><a href="#<%= m.url() %>" class="more <%=m.get('type')%>"><span><%=m.get('name')%></span></a><%
+      %><a href="#<%=_.result(m,'url')%>" class="more <%=m.get('type')%>"><span><%=m.get('name')%></span></a><%
       break;
   }
 
 });
+%>
+
+<%
+Touchee.CustomContainers.each(function(c){
+  %><a href="#<%=_.result(c,'url')%>" class="<%=c.get('contentType')%>"><span><%=c.get('name')%></span></a><%
+})
 %>

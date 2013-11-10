@@ -1,12 +1,12 @@
 ﻿define([
   'underscore',
-  './module.js'
-], function(_, ListenLiveModule) {
+  './contents_module.js'
+], function(_, ListenLiveContentsModule) {
   
   var ListenLivePlugin = Touchee.Plugin.extend({
     
     name:   "ListenLive.eu",
-    module: new ListenLiveModule
+    module: new ListenLiveContentsModule
     
   });
   

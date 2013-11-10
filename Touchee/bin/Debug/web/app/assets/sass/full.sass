@@ -19,8 +19,12 @@
 @import full/layout
 @import full/browser
 
+@import full/basic_content
+
 
 #svg_defs
   position: absolute
   left:     -10000px
   z-index:  -1
+
+@include config_icon(general, SourceListPlaylistSmartGray, SourceListPlaylistSmartHighlight, remote retina)

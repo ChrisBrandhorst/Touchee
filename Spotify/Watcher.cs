@@ -57,19 +57,15 @@ namespace Spotify {
 
 
         /// <summary>
-        /// Start watching the given medium. Only if a medium with type Local or FileStorage
+        /// Start watching the given medium. Only if the SpotifyMedium
         /// is given, is it going to be watched.
         /// </summary>
         /// <param name="medium">The Medium to watch</param>
         public bool Watch(Medium medium) {
-            //if (medium == Medium.Local && _localMedium == null) {
-            //    _localMedium = medium;
             if (medium == SpotifyMedium.Instance) {
                 if (this.StartedWatching != null)
                     this.StartedWatching.Invoke(this, medium);
-
                 SpotifyMedium.Instance.MasterPlaylist.Save();
-
                 return true;
             }
             else

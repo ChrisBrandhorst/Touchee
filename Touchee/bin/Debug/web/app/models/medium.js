@@ -1,15 +1,15 @@
 define([
   'underscore',
   'Backbone',
-  'models/collections/containers'
-], function(_, Backbone, Containers){
+  'models/collections/contents_containers'
+], function(_, Backbone, ContentsContainers){
   
   var Medium = Backbone.Model.extend({
     
     
     // Constructor
     initialize: function(attributes, options) {
-      this.containers = new Containers([], {medium:this});
+      this.containers = new ContentsContainers([], {medium:this});
 
       // If the containers collection is changed, trigger event on the medium
       this
