@@ -48,7 +48,7 @@ define([
     buildContents: function(params) {
       var contents;
       
-      if (this._contents)
+      if (this.singleContents && this._contents)
         contents = this._contents;
       else {
         contents = new this.contentsModel(null, {

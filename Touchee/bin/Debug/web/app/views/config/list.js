@@ -2,19 +2,16 @@ define([
   'jquery',
   'underscore',
   'Backbone',
-  'views/contents/template_list',
+  'views/contents/common_list',
   'text!./_item.html'
-], function($, _, Backbone, TemplateListView, configItemTemplate) {
+], function($, _, Backbone, CommonListView, configItemTemplate) {
 
-  var ConfigListView = TemplateListView.extend({
+  var ConfigListView = CommonListView.extend({
     
     innerTagName: 'nav',
-    selectable:   'a',
-    selection:    {
-      keep: true
-    },
     innerClass:   'list icons',
-    template:     _.template(configItemTemplate),
+    selectable:   'a',
+    selection:    { keep: true },
     model:        Touchee.Config.sections
     
   });

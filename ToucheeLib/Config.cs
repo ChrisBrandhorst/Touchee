@@ -22,7 +22,7 @@ namespace Touchee {
 
         public static dynamic Get(this JObject obj, string key, object def) {
             var token = JsonExtensions.GetToken(obj, key.Split(_splitChars));
-            return token is JValue ? (token as JValue).Value : def;
+            return token is JValue && (token as JValue).Value != null ? token : def;
         }
 
         public static bool Contains(this JObject obj, string key) {
@@ -55,16 +55,32 @@ namespace Touchee {
 
     public class Config {
 
+        static dynamic _root;
+        static string _filename;
+        
+
         public static Config Load(string filename) {
             try {
                 var sr = new StreamReader(filename);
                 var reader = new JsonTextReader(sr);
                 var serializer = new JsonSerializer();
-                dynamic parsedConfig = serializer.Deserialize(reader);
-                return new Config(parsedConfig);
+                _root = serializer.Deserialize(reader);
+                _filename = filename;
+                return new Config(_root);
             }
             catch (Exception e) {
                 throw new ArgumentException("Cannot load configuration. Incorrect filename or JSON? :: " + e.Message);
+            }
+        }
+
+        static void _Save() {
+            Config._Save(_filename);
+        }
+
+        static void _Save(string filename) {
+            string json = JsonConvert.SerializeObject(_root, Formatting.Indented);
+            lock(_root) {
+                File.WriteAllText(filename, json);
             }
         }
 
@@ -74,8 +90,24 @@ namespace Touchee {
             _config = (JObject)config;
         }
 
+        public void Save() {
+            Config._Save();
+        }
+
+        public void Save(string filename) {
+            Config._Save(filename);
+        }
+
         public dynamic Get(string key) {
             return _config.Get(key);
+        }
+
+        public dynamic Set(string key, object def) {
+            return ((dynamic)_config)[key] = new JValue(def);
+        }
+
+        public void Remove(string key) {
+            _config.Remove(key);
         }
 
         public dynamic this[string key] {

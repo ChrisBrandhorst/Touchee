@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json;
 using Touchee.Playback;
 
 namespace Touchee.Server.Responses {
@@ -18,11 +19,13 @@ namespace Touchee.Server.Responses {
         /// <summary>
         /// The number of upcoming items which belong to the priority count
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public int PriorityCount { get; protected set; }
 
         /// <summary>
         /// Whether shuffling is enabled
         /// </summary>
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public bool Shuffle { get; protected set; }
 
         /// <summary>

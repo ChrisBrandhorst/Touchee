@@ -1,4 +1,5 @@
 ﻿using Touchee.Components.Playback;
+using Newtonsoft.Json;
 
 namespace Touchee.Server.Responses {
 
@@ -7,8 +8,11 @@ namespace Touchee.Server.Responses {
     /// </summary>
     public class PlaybackResponse : ToucheeResponse {
 
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public int Duration { get; protected set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public int Position { get; protected set; }
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Populate)]
         public bool Playing { get; protected set; }
 
         public PlaybackResponse(IPlayer player) {

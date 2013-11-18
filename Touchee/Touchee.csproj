@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Fleck">
-      <HintPath>lib\Fleck.dll</HintPath>
+      <HintPath>..\packages\Fleck.0.9.7.24\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\ToucheeLib\lib\HtmlAgilityPack.dll</HintPath>
@@ -139,6 +139,7 @@
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows.Forms" />
@@ -153,6 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Plugins\" />
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

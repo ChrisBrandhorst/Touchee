@@ -13,7 +13,7 @@ model.each(function(m){
     case 0:
       return;
     case 1:
-      var c = masters[0];
+      var c = masters.first();
       if (c.isNew()) return;
       %><a href="#<%=_.result(c,'url')%>" class="<%=c.get('contentType')%> <%=loadingClass(c)%>"><span><%=c.get('name')%></span></a><%
       break;

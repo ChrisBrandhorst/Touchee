@@ -9,16 +9,16 @@ using System.Drawing;
 
 namespace Touchee.Meta {
 
-    [DataContract(Namespace = "")]
+    //[DataContract(Namespace = "")]
     public class ArtworkColors {
 
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
         public Color Background { get; protected set; }
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
         public Color Foreground { get; protected set; }
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
         public Color Foreground2 { get; protected set; }
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
         public bool BackgroundIsLight { get; protected set; }
 
         Bitmap _bitmap;

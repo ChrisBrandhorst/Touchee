@@ -11,7 +11,7 @@ require.config({
     Touchee:    'lib/touchee',
     text:       '../lib/text-2.0.6',
     i18n:       'lib/i18n-2.0.4.mod',
-    jquery:     '../lib/jquery-1.8.2.min'
+    jquery:     '../lib/jquery'
   },
   
   shim: {

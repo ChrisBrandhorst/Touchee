@@ -25,9 +25,11 @@ define([
 
     //
     masters: function() {
-      return this.select(function(c){
-        return c.isMaster();
-      });
+      return new Backbone.Collection(
+        this.select(function(c){
+          return c.isMaster();
+        })
+      );
     }
     
     

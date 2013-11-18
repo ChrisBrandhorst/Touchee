@@ -292,7 +292,7 @@ h1.with_control_cluster > .control_cluster {
 }
 
 /* line 1, ../sass/full/_button.sass */
-button, .button {
+button, .button, input[type=button], input[type=submit] {
   display: inline-block;
   border: none;
   background-color: transparent;
@@ -302,7 +302,15 @@ button, .button {
   font-weight: bold;
 }
 /* line 11, ../sass/full/_button.sass */
-button.ios, .button.ios {
+button.basic, .button.basic, input[type=button].basic, input[type=submit].basic {
+  text-shadow: 0 1px 0 white;
+  -webkit-border-image: -webkit-image-set(url(../images/remote/PopoverButton.png) 1x, url(../images/remote/PopoverButton@2x.png) 2x) 0 4 0 4 stretch;
+  border-width: 0px 4px 0px 4px;
+  line-height: 30px;
+  font-size: 115%;
+}
+/* line 19, ../sass/full/_button.sass */
+button.ios, .button.ios, input[type=button].ios, input[type=submit].ios {
   line-height: 30px;
   vertical-align: middle;
   overflow: hidden;
@@ -313,95 +321,95 @@ button.ios, .button.ios {
   border-width: 0px 4px 0px 4px;
   text-shadow: 0 1px 0 white;
 }
-/* line 20, ../sass/full/_button.sass */
-button.ios.black, button.ios.dark, button.ios.blue, .button.ios.black, .button.ios.dark, .button.ios.blue {
+/* line 28, ../sass/full/_button.sass */
+button.ios.black, button.ios.dark, button.ios.blue, .button.ios.black, .button.ios.dark, .button.ios.blue, input[type=button].ios.black, input[type=button].ios.dark, input[type=button].ios.blue, input[type=submit].ios.black, input[type=submit].ios.dark, input[type=submit].ios.blue {
   color: white;
   text-shadow: 0 -1px 0 black;
 }
-/* line 25, ../sass/full/_button.sass */
-button.ios:active, .button.ios:active {
+/* line 33, ../sass/full/_button.sass */
+button.ios:active, .button.ios:active, input[type=button].ios:active, input[type=submit].ios:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonPressed.png) 1x, url(../images/remote/ScreenButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 29, ../sass/full/_button.sass */
-button.ios.back, .button.ios.back {
+/* line 37, ../sass/full/_button.sass */
+button.ios.back, .button.ios.back, input[type=button].ios.back, input[type=submit].ios.back {
   padding-left: 0;
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 32, ../sass/full/_button.sass */
-button.ios.back:active, button.ios.back.active, .button.ios.back:active, .button.ios.back.active {
+/* line 40, ../sass/full/_button.sass */
+button.ios.back:active, button.ios.back.active, .button.ios.back:active, .button.ios.back.active, input[type=button].ios.back:active, input[type=button].ios.back.active, input[type=submit].ios.back:active, input[type=submit].ios.back.active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 36, ../sass/full/_button.sass */
-button.ios.chrome, .button.ios.chrome {
+/* line 44, ../sass/full/_button.sass */
+button.ios.chrome, .button.ios.chrome, input[type=button].ios.chrome, input[type=submit].ios.chrome {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 38, ../sass/full/_button.sass */
-button.ios.chrome:active, .button.ios.chrome:active {
+/* line 46, ../sass/full/_button.sass */
+button.ios.chrome:active, .button.ios.chrome:active, input[type=button].ios.chrome:active, input[type=submit].ios.chrome:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 40, ../sass/full/_button.sass */
-button.ios.chrome.back, .button.ios.chrome.back {
+/* line 48, ../sass/full/_button.sass */
+button.ios.chrome.back, .button.ios.chrome.back, input[type=button].ios.chrome.back, input[type=submit].ios.chrome.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBack.png) 1x, url(../images/remote/ChromeButtonBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 42, ../sass/full/_button.sass */
-button.ios.chrome.back:active, .button.ios.chrome.back:active {
+/* line 50, ../sass/full/_button.sass */
+button.ios.chrome.back:active, .button.ios.chrome.back:active, input[type=button].ios.chrome.back:active, input[type=submit].ios.chrome.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonBackSelected.png) 1x, url(../images/remote/ChromeButtonBackSelected@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 46, ../sass/full/_button.sass */
-button.ios.black, .button.ios.black {
+/* line 54, ../sass/full/_button.sass */
+button.ios.black, .button.ios.black, input[type=button].ios.black, input[type=submit].ios.black {
   -webkit-border-image: -webkit-image-set(url(../images/remote/NowPlayingButton.png) 1x, url(../images/remote/NowPlayingButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 48, ../sass/full/_button.sass */
-button.ios.black:active, .button.ios.black:active {
+/* line 56, ../sass/full/_button.sass */
+button.ios.black:active, .button.ios.black:active, input[type=button].ios.black:active, input[type=submit].ios.black:active {
   -webkit-border-image: -webkit-image-set(url(../images/NowPlayingButtonPressed.png) 1x, url(../images/NowPlayingButtonPressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 50, ../sass/full/_button.sass */
-button.ios.black.back, .button.ios.black.back {
+/* line 58, ../sass/full/_button.sass */
+button.ios.black.back, .button.ios.black.back, input[type=button].ios.black.back, input[type=submit].ios.black.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueBack.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueBack@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 52, ../sass/full/_button.sass */
-button.ios.black.back:active, .button.ios.black.back:active {
+/* line 60, ../sass/full/_button.sass */
+button.ios.black.back:active, .button.ios.black.back:active, input[type=button].ios.black.back:active, input[type=submit].ios.black.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackBackPressed.png) 1x, url(../images/remote/UINavigationBarBlackBackPressed@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 54, ../sass/full/_button.sass */
-button.ios.black.forward, .button.ios.black.forward {
+/* line 62, ../sass/full/_button.sass */
+button.ios.black.forward, .button.ios.black.forward, input[type=button].ios.black.forward, input[type=submit].ios.black.forward {
   padding-right: 0;
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackOpaqueForward.png) 1x, url(../images/remote/UINavigationBarBlackOpaqueForward@2x.png) 2x) 0 13 0 4 stretch;
   border-width: 0px 13px 0px 4px;
 }
-/* line 57, ../sass/full/_button.sass */
-button.ios.black.forward:active, .button.ios.black.forward:active {
+/* line 65, ../sass/full/_button.sass */
+button.ios.black.forward:active, .button.ios.black.forward:active, input[type=button].ios.black.forward:active, input[type=submit].ios.black.forward:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarBlackForwardPressed.png) 1x, url(../images/remote/UINavigationBarBlackForwardPressed@2x.png) 2x) 0 13 0 4 stretch;
   border-width: 0px 13px 0px 4px;
 }
-/* line 61, ../sass/full/_button.sass */
-button.ios.blue, .button.ios.blue {
+/* line 69, ../sass/full/_button.sass */
+button.ios.blue, .button.ios.blue, input[type=button].ios.blue, input[type=submit].ios.blue {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDone.png) 1x, url(../images/remote/ScreenButtonDone@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 63, ../sass/full/_button.sass */
-button.ios.blue:active, .button.ios.blue:active {
+/* line 71, ../sass/full/_button.sass */
+button.ios.blue:active, .button.ios.blue:active, input[type=button].ios.blue:active, input[type=submit].ios.blue:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ScreenButtonDonePressed.png) 1x, url(../images/remote/ScreenButtonDonePressed@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 68, ../sass/full/_button.sass */
-button.ios.darkblue.back, .button.ios.darkblue.back {
+/* line 76, ../sass/full/_button.sass */
+button.ios.darkblue.back, .button.ios.darkblue.back, input[type=button].ios.darkblue.back, input[type=submit].ios.darkblue.back {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBack_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBack_OS5@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
-/* line 70, ../sass/full/_button.sass */
-button.ios.darkblue.back:active, .button.ios.darkblue.back:active {
+/* line 78, ../sass/full/_button.sass */
+button.ios.darkblue.back:active, .button.ios.darkblue.back:active, input[type=button].ios.darkblue.back:active, input[type=submit].ios.darkblue.back:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/UINavigationBarDefaultBackPressed_OS5.png) 1x, url(../images/remote/UINavigationBarDefaultBackPressed_OS5@2x.png) 2x) 0 4 0 13 stretch;
   border-width: 0px 4px 0px 13px;
 }
@@ -1438,41 +1446,50 @@ section.split_view > *:last-child:not(:first-child) > header > div {
   -webkit-box-sizing: border-box;
 }
 
-/* line 6, ../sass/full/_layout.sass */
+/* line 5, ../sass/full/_layout.sass */
+html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* line 11, ../sass/full/_layout.sass */
 body {
   width: 100%;
   height: 100%;
+  max-width: 1024px;
+  max-height: 748px;
   margin: 0;
   background: black;
   overflow: hidden;
 }
-/* line 14, ../sass/full/_layout.sass */
+/* line 21, ../sass/full/_layout.sass */
 body > section:not(.popup) {
   width: 100%;
   height: 100%;
 }
 
-/* line 19, ../sass/full/_layout.sass */
+/* line 26, ../sass/full/_layout.sass */
 .scrollable {
   overflow: auto;
   overflow-x: hidden;
 }
-/* line 22, ../sass/full/_layout.sass */
+/* line 29, ../sass/full/_layout.sass */
 .scrollable::-webkit-scrollbar {
   width: 5px;
   display: none;
 }
-/* line 25, ../sass/full/_layout.sass */
+/* line 32, ../sass/full/_layout.sass */
 .scrollable::-webkit-scrollbar-thumb {
   background-color: #fafafa;
   border-radius: 3px;
 }
-/* line 29, ../sass/full/_layout.sass */
+/* line 36, ../sass/full/_layout.sass */
 .scrollable:hover::-webkit-scrollbar-thumb {
   background-color: #7f7f7f !important;
 }
 
-/* line 32, ../sass/full/_layout.sass */
+/* line 39, ../sass/full/_layout.sass */
 .overlay {
   position: absolute;
   top: 0;
@@ -1999,35 +2016,46 @@ body > section:not(.popup) {
   text-shadow: 0 1px 0 white;
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
-  background: no-repeat 6px 5px;
+  position: relative;
+}
+/* line 36, ../sass/full/browser/_footer.sass */
+#browser > footer [data-button=nav]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 31px;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center center;
   background-size: 20px;
 }
-/* line 37, ../sass/full/browser/_footer.sass */
+/* line 46, ../sass/full/browser/_footer.sass */
 #browser > footer [data-button=nav] span {
   display: block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-/* line 40, ../sass/full/browser/_footer.sass */
+/* line 49, ../sass/full/browser/_footer.sass */
 #browser > footer [data-button=nav]:active {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 0 4 0 4 stretch;
   border-width: 0px 4px 0px 4px;
 }
-/* line 45, ../sass/full/browser/_footer.sass */
+/* line 54, ../sass/full/browser/_footer.sass */
 #browser > footer h1 {
   font-size: 120%;
   text-shadow: 0 1px 0 white;
   line-height: 28px;
 }
-/* line 52, ../sass/full/browser/_footer.sass */
+/* line 61, ../sass/full/browser/_footer.sass */
 #browser > footer nav {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: box;
 }
-/* line 56, ../sass/full/browser/_footer.sass */
+/* line 65, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button, #browser > footer nav > button {
   display: block;
   text-shadow: 0 1px 0 white;
@@ -2043,12 +2071,12 @@ body > section:not(.popup) {
   padding-left: 14px;
 }
 @media screen and (max-width: 900px) {
-  /* line 56, ../sass/full/browser/_footer.sass */
+  /* line 65, ../sass/full/browser/_footer.sass */
   #browser > footer nav > a.button, #browser > footer nav > button {
     min-width: 90px;
   }
 }
-/* line 76, ../sass/full/browser/_footer.sass */
+/* line 85, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button::before, #browser > footer nav > button::before {
   content: "";
   display: block;
@@ -2059,7 +2087,7 @@ body > section:not(.popup) {
   width: 9px;
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonDivider.png) 1x, url(../images/remote/ChromeButtonDivider@2x.png) 2x);
 }
-/* line 87, ../sass/full/browser/_footer.sass */
+/* line 96, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button::after, #browser > footer nav > button::after {
   content: "";
   display: block;
@@ -2072,61 +2100,61 @@ body > section:not(.popup) {
   border-width: 1px 4px 1px 4px;
   border-width: 1px 0 !important;
 }
-/* line 99, ../sass/full/browser/_footer.sass */
+/* line 108, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button:first-child, #browser > footer nav > button:first-child {
   padding-left: 10px;
   min-width: 99px;
 }
-/* line 102, ../sass/full/browser/_footer.sass */
+/* line 111, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button:first-child::before, #browser > footer nav > button:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x);
   width: 4px;
 }
-/* line 105, ../sass/full/browser/_footer.sass */
+/* line 114, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button:first-child::after, #browser > footer nav > button:first-child::after {
   left: 4px;
 }
 @media screen and (max-width: 900px) {
-  /* line 99, ../sass/full/browser/_footer.sass */
+  /* line 108, ../sass/full/browser/_footer.sass */
   #browser > footer nav > a.button:first-child, #browser > footer nav > button:first-child {
     min-width: 86px;
   }
 }
-/* line 111, ../sass/full/browser/_footer.sass */
+/* line 120, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button:last-child, #browser > footer nav > button:last-child {
   padding-right: 9px;
   min-width: 108px;
 }
-/* line 114, ../sass/full/browser/_footer.sass */
+/* line 123, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button:last-child::after, #browser > footer nav > button:last-child::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButton.png) 1x, url(../images/remote/ChromeButton@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
   border-width: 1px 4px 1px 0 !important;
 }
 @media screen and (max-width: 900px) {
-  /* line 111, ../sass/full/browser/_footer.sass */
+  /* line 120, ../sass/full/browser/_footer.sass */
   #browser > footer nav > a.button:last-child, #browser > footer nav > button:last-child {
     min-width: 94px;
   }
 }
-/* line 122, ../sass/full/browser/_footer.sass */
+/* line 131, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button.selected::before, #browser > footer nav > button.selected::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedRight.png) 1x, url(../images/remote/ChromeButtonSelectedRight@2x.png) 2x);
 }
-/* line 124, ../sass/full/browser/_footer.sass */
+/* line 133, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button.selected::after, #browser > footer nav > button.selected::after {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x) 1 4 1 4 stretch;
   border-width: 1px 4px 1px 4px;
 }
-/* line 126, ../sass/full/browser/_footer.sass */
+/* line 135, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button.selected + *::before, #browser > footer nav > button.selected + *::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelectedLeft.png) 1x, url(../images/remote/ChromeButtonSelectedLeft@2x.png) 2x);
 }
-/* line 128, ../sass/full/browser/_footer.sass */
+/* line 137, ../sass/full/browser/_footer.sass */
 #browser > footer nav > a.button.selected:first-child::before, #browser > footer nav > button.selected:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/ChromeButtonSelected.png) 1x, url(../images/remote/ChromeButtonSelected@2x.png) 2x);
 }
-/* line 133, ../sass/full/browser/_footer.sass */
+/* line 142, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search] {
   float: right;
   width: 100%;
@@ -2137,18 +2165,18 @@ body > section:not(.popup) {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearch.png) 1x, url(../images/remote/ChromeSearch@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 141, ../sass/full/browser/_footer.sass */
+/* line 150, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search][disabled] {
   -webkit-border-image: -webkit-image-set(url(../images/remote/ChromeSearchDisabled.png) 1x, url(../images/remote/ChromeSearchDisabled@2x.png) 2x) 0 17 0 25 stretch;
   border-width: 0px 17px 0px 25px;
 }
-/* line 143, ../sass/full/browser/_footer.sass */
+/* line 152, ../sass/full/browser/_footer.sass */
 #browser > footer input[name=search].filled {
   padding-right: 8px;
   -webkit-border-image: -webkit-image-set(url(../images/ChromeSearchClear.png) 1x, url(../images/ChromeSearchClear@2x.png) 2x) 0 24 0 25 stretch;
   border-width: 0px 24px 0px 25px;
 }
-/* line 150, ../sass/full/browser/_footer.sass */
+/* line 159, ../sass/full/browser/_footer.sass */
 #browser.disconnected > footer > * {
   display: none;
 }
@@ -2223,8 +2251,10 @@ body > section:not(.popup) {
   -moz-box-flex: 1;
   -ms-box-flex: 1;
   box-flex: 1;
+  width: 100%;
+  height: 100%;
 }
-/* line 9, ../sass/full/browser/_contents.sass */
+/* line 11, ../sass/full/browser/_contents.sass */
 #browser.disconnected > #contents {
   display: none;
 }
@@ -2254,83 +2284,50 @@ body > section:not(.popup) {
 #media_popup .list {
   min-height: 176px;
 }
-/* line 22, ../sass/full/browser/_media.sass */
-#media_popup .list > *::before {
-  background-image: -webkit-image-set(url(../images/remote/SourceListFolderGray.png) 1x, url(../images/remote/SourceListFolderGray@2x.png) 2x);
-}
-/* line 24, ../sass/full/browser/_media.sass */
-#media_popup .list > *.selected::before {
-  background-image: -webkit-image-set(url(../images/remote/SourceListFolderHighlight.png) 1x, url(../images/remote/SourceListFolderHighlight@2x.png) 2x);
-}
 
-/* line 76, ../sass/_mixins.sass */
-#media_popup .list > *.config::before {
-  background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartgray.png) 1x, url(../images/remote/SourceListPlaylistSmartgray@2x.png) 2x);
+/* line 75, ../sass/_mixins.sass */
+.icons > *.config::before, .icon.config::before, table.icons td:first-child.config::before, table td.icon.config:first-child::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartGray.png) 1x, url(../images/remote/SourceListPlaylistSmartGray@2x.png) 2x);
 }
-/* line 78, ../sass/_mixins.sass */
-#media_popup .list > *.config.selected::before {
+/* line 77, ../sass/_mixins.sass */
+.icons > *.config.selected::before, .icon.config.selected::before, table.icons td:first-child.config.selected::before, table td.icon.config:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartHighlight.png) 1x, url(../images/remote/SourceListPlaylistSmartHighlight@2x.png) 2x);
 }
 
-/* line 80, ../sass/_mixins.sass */
-#browser > footer [data-button=nav].config {
-  background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartgray.png) 1x, url(../images/remote/SourceListPlaylistSmartgray@2x.png) 2x);
+/* line 75, ../sass/_mixins.sass */
+.icons > *.local::before, .icon.local::before, table.icons td:first-child.local::before, table td.icon.local:first-child::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharingGray.png) 1x, url(../images/remote/SourceListHomeSharingGray@2x.png) 2x);
 }
-
-/* line 76, ../sass/_mixins.sass */
-#media_popup .list > *.local::before {
-  background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharinggray.png) 1x, url(../images/remote/SourceListHomeSharinggray@2x.png) 2x);
-}
-/* line 78, ../sass/_mixins.sass */
-#media_popup .list > *.local.selected::before {
+/* line 77, ../sass/_mixins.sass */
+.icons > *.local.selected::before, .icon.local.selected::before, table.icons td:first-child.local.selected::before, table td.icon.local:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharingHighlight.png) 1x, url(../images/remote/SourceListHomeSharingHighlight@2x.png) 2x);
 }
 
-/* line 80, ../sass/_mixins.sass */
-#browser > footer [data-button=nav].local {
-  background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharinggray.png) 1x, url(../images/remote/SourceListHomeSharinggray@2x.png) 2x);
+/* line 75, ../sass/_mixins.sass */
+.icons > *.web::before, .icon.web::before, table.icons td:first-child.web::before, table td.icon.web:first-child::before {
+  background-image: -webkit-image-set(url(../images/remote/SourceListRadioGray.png) 1x, url(../images/remote/SourceListRadioGray@2x.png) 2x);
 }
-
-/* line 76, ../sass/_mixins.sass */
-#media_popup .list > *.web::before {
-  background-image: -webkit-image-set(url(../images/remote/SourceListRadiogray.png) 1x, url(../images/remote/SourceListRadiogray@2x.png) 2x);
-}
-/* line 78, ../sass/_mixins.sass */
-#media_popup .list > *.web.selected::before {
+/* line 77, ../sass/_mixins.sass */
+.icons > *.web.selected::before, .icon.web.selected::before, table.icons td:first-child.web.selected::before, table td.icon.web:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListRadioHighlight.png) 1x, url(../images/remote/SourceListRadioHighlight@2x.png) 2x);
 }
 
-/* line 80, ../sass/_mixins.sass */
-#browser > footer [data-button=nav].web {
-  background-image: -webkit-image-set(url(../images/remote/SourceListRadiogray.png) 1x, url(../images/remote/SourceListRadiogray@2x.png) 2x);
+/* line 75, ../sass/_mixins.sass */
+.icons > *.bluray_video::before, .icon.bluray_video::before, table.icons td:first-child.bluray_video::before, table td.icon.bluray_video:first-child::before {
+  background-image: -webkit-image-set(url(../images/SourceListBlurayDiscGray.png) 1x, url(../images/SourceListBlurayDiscGray@2x.png) 2x);
 }
-
-/* line 76, ../sass/_mixins.sass */
-#media_popup .list > *.bluray_video::before {
-  background-image: -webkit-image-set(url(../images/SourceListBlurayDiscgray.png) 1x, url(../images/SourceListBlurayDiscgray@2x.png) 2x);
-}
-/* line 78, ../sass/_mixins.sass */
-#media_popup .list > *.bluray_video.selected::before {
+/* line 77, ../sass/_mixins.sass */
+.icons > *.bluray_video.selected::before, .icon.bluray_video.selected::before, table.icons td:first-child.bluray_video.selected::before, table td.icon.bluray_video:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListBlurayDiscHighlight.png) 1x, url(../images/SourceListBlurayDiscHighlight@2x.png) 2x);
 }
 
-/* line 80, ../sass/_mixins.sass */
-#browser > footer [data-button=nav].bluray_video {
-  background-image: -webkit-image-set(url(../images/SourceListBlurayDiscgray.png) 1x, url(../images/SourceListBlurayDiscgray@2x.png) 2x);
+/* line 75, ../sass/_mixins.sass */
+.icons > *.removeable_drive::before, .icon.removeable_drive::before, table.icons td:first-child.removeable_drive::before, table td.icon.removeable_drive:first-child::before {
+  background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveGray.png) 1x, url(../images/SourceListRemoveableDriveGray@2x.png) 2x);
 }
-
-/* line 76, ../sass/_mixins.sass */
-#media_popup .list > *.removeable_drive::before {
-  background-image: -webkit-image-set(url(../images/SourceListRemoveableDrivegray.png) 1x, url(../images/SourceListRemoveableDrivegray@2x.png) 2x);
-}
-/* line 78, ../sass/_mixins.sass */
-#media_popup .list > *.removeable_drive.selected::before {
+/* line 77, ../sass/_mixins.sass */
+.icons > *.removeable_drive.selected::before, .icon.removeable_drive.selected::before, table.icons td:first-child.removeable_drive.selected::before, table td.icon.removeable_drive:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveHighlight.png) 1x, url(../images/SourceListRemoveableDriveHighlight@2x.png) 2x);
-}
-
-/* line 80, ../sass/_mixins.sass */
-#browser > footer [data-button=nav].removeable_drive {
-  background-image: -webkit-image-set(url(../images/SourceListRemoveableDrivegray.png) 1x, url(../images/SourceListRemoveableDrivegray@2x.png) 2x);
 }
 
 /* line 1, ../sass/full/browser/_queue.sass */
@@ -2465,12 +2462,11 @@ body > section:not(.popup) {
   background-size: 100%;
   background-position: 0 -20px;
   position: relative;
+  overflow: hidden;
   width: 1024px;
   height: 748px;
   width: 100%;
   height: 100%;
-  max-width: 1024px;
-  max-height: 748px;
 }
 @media screen and (max-width: 900px) {
   /* line 18, ../sass/full/_browser.sass */
@@ -2509,11 +2505,11 @@ section.basic_content p {
   z-index: -1;
 }
 
-/* line 89, ../sass/_mixins.sass */
-#config > :first-child a.general::before {
+/* line 75, ../sass/_mixins.sass */
+#config > .scroll_list .icons > *.general::before, #config > .scroll_list .icon.general::before, #config > .scroll_list table.icons td:first-child.general::before, #config > .scroll_list table td.icon.general:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartGray.png) 1x, url(../images/remote/SourceListPlaylistSmartGray@2x.png) 2x);
 }
-/* line 92, ../sass/_mixins.sass */
-#config > :first-child a.general.selected::before {
+/* line 77, ../sass/_mixins.sass */
+#config > .scroll_list .icons > *.general.selected::before, #config > .scroll_list .icon.general.selected::before, #config > .scroll_list table.icons td:first-child.general.selected::before, #config > .scroll_list table td.icon.general:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartHighlight.png) 1x, url(../images/remote/SourceListPlaylistSmartHighlight@2x.png) 2x);
 }

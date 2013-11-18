@@ -11,12 +11,6 @@ using SpotiFire;
 namespace Spotify {
 
 
-    public enum SessionState {
-        LoggedOut,
-        LoggingIn,
-        LoggedIn
-    }
-
 
     /// <summary>
     /// 
@@ -24,35 +18,43 @@ namespace Spotify {
     public class SessionHandler : Base {
 
 
-
-        #region Statics
-
-        #endregion
-
-
-
         #region Privates
 
+
+        /// <summary>
+        /// The most recent login error
+        /// </summary>
         Error _loginError;
 
+
+        /// <summary>
+        /// The API key that is to be used
+        /// </summary>
+        byte[] _key;
+
+
+        /// <summary>
+        /// Whether we are loggin in at the moment
+        /// </summary>
         bool _loggingIn;
 
-        byte[] _key;
 
         #endregion
 
 
-
+        /// <summary>
+        /// Internal Session storage
+        /// </summary>
         internal Session Session;
-        internal SessionState State = SessionState.LoggedOut;
 
 
         #region Constructor
 
 
         /// <summary>
-        /// Constructor
+        /// Constructs a new SessionHandler instance
         /// </summary>
+        /// <param name="key">The API key to use</param>
         public SessionHandler(byte[] key) {
             _key = key;
         }
@@ -61,12 +63,14 @@ namespace Spotify {
         #endregion
 
 
+
+        #region Initialization
+
+
         /// <summary>
-        /// Initialises the Spotify handler
+        /// Initialises the Spotify Session
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <param name="key"></param>
+        /// <returns>The new Session instance</returns>
         public async Task<Session> Init() {
             
             // Create a session
@@ -83,36 +87,60 @@ namespace Spotify {
             // Set callbacks
             Session.ConnectionError += ConnectionError;
             Session.ConnectionstateUpdated += ConnectionstateUpdated;
-            Session.UserinfoUpdated += _session_UserinfoUpdated;
+            Session.CredentialsBlobUpdated += Session_CredentialsBlobUpdated;
             
-            // But return the session directly
+            // Login if we have a username and credentials
+            if (this.CredentialsStored) {
+                string username = Plugin.Config.Get("username");
+                string credentials = Plugin.Config.Get("credentials");
+                this.Login(username, null, credentials);
+            }
+
+            // Return the session
             return Session;
         }
 
 
+        /// <summary>
+        /// Called when a connection error occurs
+        /// </summary>
+        void ConnectionError(Session sender, SessionEventArgs e) {
+            Log("Spotify: Connection Error: " + e.Error.ToString(), Logger.LogLevel.Error);
+        }
+
+
+        #endregion
+
+
+
+        #region Login
+
 
         /// <summary>
-        /// 
+        /// Login into Spotify with the given username and password or username and credentials.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        public async Task<Error> Login(string username, string password) {
+        /// <param name="username">The username to login</param>
+        /// <param name="password">The password to use</param>
+        /// <param name="credentials">The stored credentials to use</param>
+        /// <returns>The resulting error code</returns>
+        public async Task<Error> Login(string username, string password, string credentials = null) {
             if (Session == null) {
                 Session = await this.Init();
                 if (Session == null)
                     return Error.OTHER_TRANSIENT;
             }
-            
+
             if (Session.ConnectionState == ConnectionState.LoggedIn)
                 return Error.OK;
-            
+
             if (!_loggingIn) {
-                State = SessionState.LoggingIn;
-                this.OnStateUpdated();
-                var err = await Session.Login(username, password, true);
-                State = err == Error.OK ? SessionState.LoggedIn : SessionState.LoggedOut;
-                this.OnStateUpdated();
-                return err;
+                _loggingIn = true;
+                if (credentials == null)
+                    _loginError = await Session.Login(username, password, true);
+                else
+                    _loginError = await Session.Login(username, credentials);
+                _loggingIn = false;
+                return _loginError;
             }
 
             return Error.OTHER_TRANSIENT;
@@ -120,85 +148,117 @@ namespace Spotify {
 
 
         /// <summary>
-        /// 
+        /// Relogin the user. Only works if the user was previously logged in
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        async void ConnectionstateUpdated(Session sender, SessionEventArgs e) {
-            Log("Connection state: " + sender.ConnectionState.ToString());
-            Log("Loggin error:     " + _loginError.ToString());
+        /// <returns>The resulting error code</returns>
+        public async Task<Error> Relogin() {
+            if (!_loggingIn) {
+                _loggingIn = true;
+                _loginError = await Session.Relogin();
+                _loggingIn = false;
+                return _loginError;
+            }
+            return Error.OTHER_TRANSIENT;
+        }
 
+        
+        /// <summary>
+        /// Logout the current user
+        /// </summary>
+        public async void Logout() {
+            if (Session != null) {
+                Session.ForgetMe();
+                Plugin.Config.Remove("username");
+                Plugin.Config.Remove("credentials");
+                Plugin.Config.Save();
+                await Session.Logout();
+            }
+        }
+
+
+        /// <summary>
+        /// Returns whether the username and credentials have been stored
+        /// </summary>
+        public bool CredentialsStored {
+            get {
+                string username = Plugin.Config.Get("username");
+                string credentials = Plugin.Config.Get("credentials");
+                return !String.IsNullOrWhiteSpace(username) && !String.IsNullOrWhiteSpace(credentials);
+            }
+        }
+
+
+        /// <summary>
+        /// Called when the credentials blob has been updated from the Spotify session.
+        /// Stores the username and these credentials into the Spotify plugin config.
+        /// </summary>
+        void Session_CredentialsBlobUpdated(Session sender, SessionEventArgs e) {
+            Plugin.Config.Set("username", sender.UserName);
+            Plugin.Config.Set("credentials", e.Message);
+            Plugin.Config.Save();
+        }
+        
+
+        #endregion
+
+
+
+        #region Status updates
+
+
+        /// <summary>
+        /// Called when the Session connection status is updated
+        /// </summary>
+        async void ConnectionstateUpdated(Session sender, SessionEventArgs e) {
+            Log("Spotify: Connection state: " + sender.ConnectionState.ToString());
             this.OnStateUpdated();
 
-            return;
 
-            // We are not logged in (anymore)
-            if (sender.ConnectionState != ConnectionState.LoggedIn && !_loggingIn) {
+            switch (sender.ConnectionState) {
+                
+                // Logged out
+                case ConnectionState.LoggedOut:
+                    break;
 
-                // If any of these login errors have occured, we can try again
-                // Using a delay of 5 seconds
-                if (_loginError == Error.OK ||
-                    _loginError == Error.UNABLE_TO_CONTACT_SERVER ||
-                    _loginError == Error.OTHER_TRANSIENT ||
-                    _loginError == Error.NETWORK_DISABLED ||
-                    _loginError == Error.SYSTEM_FAILURE) {
-                    new Timer(o => this.Login(), null, 5000, -1);
-                }
+                // Offline state (when logged in, but not completely yet)
+                case ConnectionState.Offline:
+                    break;
 
-                // Else, permanent failure which may be overcome by user interaction
-                else {
-                    // TODO: broadcast error
-                    Log(String.Format("Cannot login: {0}. Will NOT try again", _loginError.ToString()));
-                }
+                // User has logged in
+                case ConnectionState.LoggedIn:
+                    break;
+
+                // User has been disconnected after having been logged in
+                case ConnectionState.Disconnected:
+                    break;
+
+                // No clue
+                case ConnectionState.Undefined:
+                    throw new NotImplementedException();
 
             }
-
-            _loggingIn = false;
 
         }
 
 
-        public delegate void StateUpdatedEventHandler(SessionHandler sender);
-        public event StateUpdatedEventHandler StateUpdated;
 
+        /// <summary>
+        /// Invoke the StateUpdated event
+        /// </summary>
         void OnStateUpdated() {
             if (this.StateUpdated != null)
                 this.StateUpdated.Invoke(this);
         }
 
-        void _session_UserinfoUpdated(Session sender, SessionEventArgs e) {
-            this.OnStateUpdated();
-        }
 
 
+        public delegate void StateUpdatedEventHandler(SessionHandler sender);
+        public event StateUpdatedEventHandler StateUpdated;
 
 
+        #endregion
 
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        async void Login() {
-            if (!_loggingIn) {
-                _loggingIn = true;
-                _loginError = await Session.Relogin();
-            }
-        }
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void ConnectionError(Session sender, SessionEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-
-
+        
     }
 
 }

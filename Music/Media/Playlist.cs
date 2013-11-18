@@ -40,6 +40,10 @@ namespace Music.Media {
         /// <param name="medium">The Medium the playlist resides in</param>
         public Playlist(string name, Medium medium) : base(name, medium) { }
 
+        public Playlist(string name, Medium medium, Container master) : base(name, medium) {
+            this.Master = master;
+        }
+
 
         #endregion
 

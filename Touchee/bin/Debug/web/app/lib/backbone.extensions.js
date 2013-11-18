@@ -4,6 +4,39 @@ define([
 ], function(_, Backbone){
   
   
+  // Backbone.Singleton
+  // -----------------
+
+  // Een singleton resource. Hiervan wordt uitgegaan dat deze altijd op de server bestaat.
+  var singleton = Backbone.Model.extend({
+
+    // Als deze ID op null wordt gezet, dan wordt bij een save een POST request gedaan.
+    // Anders wordt bij een save een PUT gedaan.
+    id: 1,
+
+    // URL aanpassen zodat er nooit een ID wordt aangeplakt
+    url: function() {
+      var id = this.id;
+      this.id = null;
+      var str = Backbone.Model.prototype.url.apply(this, arguments);
+      this.id = id;
+      return str;
+    },
+
+    // 
+    destroy: function() {
+      var id = this.id;
+      this.id = 1;
+      var ret = Backbone.Model.prototype.destroy.apply(this, arguments);
+      this.id = id;
+      return ret;
+    }
+
+  });
+  Backbone.Singleton = function(obj){ return new (singleton.extend(obj)); };
+  Backbone.Singleton.prototype = singleton.prototype;
+
+
   // View removal callback
   var viewRemove = Backbone.View.prototype.remove;
   Backbone.View.prototype.remove = function(){

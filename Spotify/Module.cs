@@ -15,8 +15,9 @@ namespace Spotify {
 
         public SpotifyModule() : base("/spotify") {
             Get["/config"] = _ => Config(_);
-            //Post["/login"] = _ => Login(_);
-            Post["/login", true] = async (_, ct) => await Login(_, ct);
+            Get["/session"] = _ => SessionStatus(_);
+            Post["/session", true] = async (_, ct) => await Login(_, ct);
+            Delete["/session", true] = async (_, ct) => await Logout(_, ct);
         }
 
 
@@ -30,34 +31,50 @@ namespace Spotify {
         }
 
 
+        public Response SessionStatus(dynamic parameters) {
+            return Response.AsJson(
+                new SessionStatus(Plugin.SessionHandler)
+            );
+        }
+
+
         public async Task<Response> Login(dynamic parameters, CancellationToken ct) {
-            var response = new Response();
+            HttpStatusCode status;
 
             string username = Request.Form.username;
             string password = Request.Form.password;
 
             if (String.IsNullOrWhiteSpace(username) || String.IsNullOrWhiteSpace(password))
-                response.StatusCode = HttpStatusCode.UnprocessableEntity;
+                status = HttpStatusCode.UnprocessableEntity;
 
             else {
                 Error err = await Plugin.SessionHandler.Login(Request.Form.username, Request.Form.password);
                 switch (err) {
                     case Error.OK:
-                        response.StatusCode = HttpStatusCode.OK;
+                        status = HttpStatusCode.OK;
                         break;
                     case Error.BAD_USERNAME_OR_PASSWORD:
-                        response.StatusCode = HttpStatusCode.Unauthorized;
+                        status = HttpStatusCode.Unauthorized;
                         break;
                     default:
-                        response.StatusCode = HttpStatusCode.BadRequest;
+                        status = HttpStatusCode.BadRequest;
                         break;
                 }
                 
             }
-
-            return response;
-
+            
+            return Response.AsJson(
+                new { status = Enum.GetName(typeof(HttpStatusCode), status) },
+                status
+            );
         }
+
+
+        public async Task<Response> Logout(dynamic parameters, CancellationToken ct) {
+            Plugin.SessionHandler.Logout();
+            return new Response();
+        }
+
 
     }
 

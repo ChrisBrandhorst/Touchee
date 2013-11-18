@@ -22,9 +22,9 @@ namespace Spotify.Media {
         /// <param name="spPlaylist"></param>
         public Playlist(SpotiFire.Playlist spPlaylist, Medium medium) : base(spPlaylist.Name, medium) {
 
-            var link = spPlaylist.GetLink();
+            var link = "";// spPlaylist.GetLink();
             this.AltId = link.ToString();
-            link.Dispose();
+            //link.Dispose();
             
             this.Master = medium.Containers.FirstOrDefault(c => c.IsMaster);
         }

@@ -35,9 +35,10 @@ define([
     render: _.debounce(function() {
 
       // Render the buttons
-      this.$el.html(
-        browserViewsTemplate(this)
-      );
+      if (this.container)
+        this.$el.html(
+          browserViewsTemplate(this)
+        );
 
       // Collect the items which must be out of view and hide them
       var $nav            = this.$('> nav'),

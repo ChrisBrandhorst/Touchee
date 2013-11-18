@@ -1,4 +1,4 @@
-button, .button
+button, .button, input[type=button], input[type=submit]
   display:          inline-block
   border:           none
   background-color: transparent
@@ -6,6 +6,14 @@ button, .button
   padding:          0 4px
   font-size:        12px
   font-weight:      bold
+
+  // Default button
+  &.basic
+    text-shadow:          0 1px 0 white
+    -webkit-border-image: -webkit-image-set(url(../images/remote/PopoverButton.png) 1x, url(../images/remote/PopoverButton@2x.png) 2x) 0 4 0 4 stretch
+    border-width:         0px 4px 0px 4px
+    line-height:          30px
+    font-size:            115%
   
   // iOS style button
   &.ios

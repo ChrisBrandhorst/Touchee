@@ -217,26 +217,30 @@
   background-image: -webkit-linear-gradient(right, transparent, rgba(255, 255, 255, 0.15) 50%), -webkit-linear-gradient(right, transparent, transparent);
 }
 
-/* line 76, ../../../../../web/app/assets/sass/_mixins.sass */
-#media_popup .list > *.music::before {
-  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListmusicgray.png) 1x, url(../../../../assets/images/remote/SourceListmusicgray@2x.png) 2x);
+/* line 75, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.music::before, .icon.music::before, table.icons td:first-child.music::before, table td.icon.music:first-child::before {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListMusicGray.png) 1x, url(../../../../assets/images/remote/SourceListMusicGray@2x.png) 2x);
 }
-/* line 78, ../../../../../web/app/assets/sass/_mixins.sass */
-#media_popup .list > *.music.selected::before {
-  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListmusicHighlight.png) 1x, url(../../../../assets/images/remote/SourceListmusicHighlight@2x.png) 2x);
-}
-
-/* line 80, ../../../../../web/app/assets/sass/_mixins.sass */
-#browser > footer [data-button=nav].music {
-  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListmusicgray.png) 1x, url(../../../../assets/images/remote/SourceListmusicgray@2x.png) 2x);
+/* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.music.selected::before, .icon.music.selected::before, table.icons td:first-child.music.selected::before, table td.icon.music:first-child.selected::before {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListMusicHighlight.png) 1x, url(../../../../assets/images/remote/SourceListMusicHighlight@2x.png) 2x);
 }
 
-/* line 97, ../../../../../web/app/assets/sass/_mixins.sass */
+/* line 75, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.playlist::before, .icon.playlist::before, table.icons td:first-child.playlist::before, table td.icon.playlist:first-child::before {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListPlaylistGray.png) 1x, url(../../../../assets/images/remote/SourceListPlaylistGray@2x.png) 2x);
+}
+/* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.playlist.selected::before, .icon.playlist.selected::before, table.icons td:first-child.playlist.selected::before, table td.icon.playlist:first-child.selected::before {
+  background-image: -webkit-image-set(url(../../../../assets/images/remote/SourceListPlaylistHighlight.png) 1x, url(../../../../assets/images/remote/SourceListPlaylistHighlight@2x.png) 2x);
+}
+
+/* line 83, ../../../../../web/app/assets/sass/_mixins.sass */
 #queue_popup li p[data-item-plugin=music] {
   background-image: -webkit-image-set(url(../images/WildcatNoArtPlaceholder-MusicMod.png) 1x, url(../images/WildcatNoArtPlaceholder-MusicMod@2x.png) 2x);
 }
 
-/* line 102, ../../../../../web/app/assets/sass/_mixins.sass */
+/* line 88, ../../../../../web/app/assets/sass/_mixins.sass */
 #browser > header #lcd #lcd_artwork[data-item-plugin=music] {
   background-image: -webkit-image-set(url(../../../../assets/images/remote/missing-music-artwork.png) 1x, url(../../../../assets/images/remote/missing-music-artwork@2x.png) 2x);
 }

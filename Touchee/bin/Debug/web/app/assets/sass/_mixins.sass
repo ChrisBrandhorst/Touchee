@@ -65,32 +65,18 @@
       &:active
         background-image: image-value(#{$image}#{$alt}, $options)
 
-// Container icon
-@mixin container_icon($class, $icon:'', $options: ())
-  @if type-of($icon) != 'string'
-    $options: $icon
-    $icon: ''
-  @if $icon == ''
-    $icon: $class
-  #media_popup .list > *.#{$class}
-    &::before
-      @include  background-img(SourceList#{$icon}Gray, $options)
-    &.selected::before
-      @include  background-img(SourceList#{$icon}Highlight, $options)
-  #browser > footer [data-button=nav].#{$class}
-    @include  background-img(SourceList#{$icon}Gray, $options)
 
-// Configuration icons
-@mixin config_icon($class, $icon, $selected:'', $options: ())
+// Generic icon
+@mixin icon($class, $icon, $selected:'', $options:())
   @if type-of($selected) != 'string'
-    $options: $selected
-    $selected: ''
-  #config > :first-child a
-    &.#{$class}::before
+    $options:   $selected
+    $selected:  $icon
+  .icons > *.#{$class}, .icon.#{$class}, table.icons td:first-child.#{$class}, table td.icon.#{$class}:first-child
+    &::before
       @include  background-img(#{$icon}, $options)
-    @if $selected != ''
-      &.#{$class}.selected::before
-        @include  background-img(#{$selected}, $options)
+    &.selected::before
+      @include  background-img(#{$selected}, $options)
+
 
 // Default queue artwork
 @mixin default_queue_artwork($type, $image, $options: ())

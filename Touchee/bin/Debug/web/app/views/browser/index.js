@@ -126,7 +126,7 @@ define([
       // Set the nav button
       this.$nav
         .removeClass()
-        .addClass(container.get('contentType'))
+        .addClass("icon " + container.get('contentType'))
         .children()
         .html(container.get('name') || "&nbsp;");
       
@@ -160,17 +160,17 @@ define([
       this.views[view.fragment] = view;
       
       // Put in DOM and render if not yet
-      if (view.el.parentNode != this.$contents[0]) {
-        this.$contents.append(view.$el);
-        view.render();
-      }
+      var inDOM = view.el.parentNode == this.$contents[0];
+      if (!inDOM) this.$contents.append(view.$el);
       
       // Show view, hide siblings
       view.$el.show().siblings().hide();
       
+      // Render view if new
+      if (!inDOM) view.render();
+
       // Set the selected container
       this.setSelectedContainer(container, selectedView);
-
     },
     
     

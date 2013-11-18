@@ -593,29 +593,33 @@ namespace Touchee.Devices {
 
         #region Serialized properties
 
-        [DataMember(Name = "Active", EmitDefaultValue = false)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //[DataMember(Name = "Active", EmitDefaultValue = false)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Active")]
         bool? ActiveSerialized {
             get {
                 return this.SupportsCapability(DeviceCapabilities.GetActive) ? (bool?)this.Active : null;
             }
         }
-        [DataMember(Name = "Volume", EmitDefaultValue = false)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //[DataMember(Name = "Volume", EmitDefaultValue = false)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Volume")]
         int? VolumeSerialized {
             get {
                 return this.SupportsCapability(DeviceCapabilities.Volume) ? (int?)this.Volume : null;
             }
         }
-        [DataMember(Name = "LFEVolume", EmitDefaultValue = false)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //[DataMember(Name = "LFEVolume", EmitDefaultValue = false)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "LFEVolume")]
         int? LFEVolumeSerialized {
             get {
                 return this.SupportsCapability(DeviceCapabilities.LFEVolume) ? (int?)this.LFEVolume : null;
             }
         }
-        [DataMember(Name = "Muted", EmitDefaultValue = false)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        //[DataMember(Name = "Muted", EmitDefaultValue = false)]
+        //[JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Name = "Muted")]
         bool? MutedSerialized {
             get {
                 return this.SupportsCapability(DeviceCapabilities.GetMuted) ? (bool?)this.Muted : null;

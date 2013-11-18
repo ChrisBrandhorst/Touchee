@@ -50,10 +50,10 @@ define([
       var medium = this.getMedium(mediumID);
       if (!medium) return;
       
-      if (medium.containers.length > 1)
+      var masters = medium.containers.masters();
+      if (masters.length > 1)
         MediaPopupView.showMedium(medium);
-      else
-        Backbone.history.navigate(medium.containers.first().url(), {trigger:true});
+      Backbone.history.navigate(masters.first().url(), {trigger:true});
     },
     
     
@@ -74,7 +74,7 @@ define([
       // Find the base and full fragments
       delete params.view;
       var viewFragment  = Backbone.history.fragment.match(/media\/\d+\/containers\/[^\/]+/)[0] + "/view/" + view,
-          fragment      = viewFragment + Touchee.Params.compose(params);
+          fragment      = viewFragment + "/" + Touchee.Params.compose(params);
       params.view = view;
       Backbone.history.navigate(fragment, {replace:true});
       

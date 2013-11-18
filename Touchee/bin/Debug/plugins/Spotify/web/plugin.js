@@ -2,8 +2,11 @@ define([
   'underscore',
   'Touchee',
   '../music/contents_module',
+  // 'models/communicator',
+  './models/session',
+  './views/config',
   'i18n!./nls/locale'
-], function(_, Touchee, MusicContentsModule, Locale) {
+], function(_, Touchee, MusicContentsModule, Session, Locale) {
   
   var SpotifyPlugin = Touchee.Plugin.extend({
     
@@ -13,11 +16,26 @@ define([
     css:    'full',
 
     initialize: function() {
+
+
       Touchee.Config.register({
         id:   'spotify',
         name: i18n.t('spotify.spotify'),
         view: 'plugins/spotify/views/config'
       });
+
+      Session.fetch();
+
+    },
+
+
+    responseReceived: function(response) {
+      var obj;
+
+      if (obj = response.session) {
+        Session.set(obj);
+      }
+
     }
     
   });

@@ -32,8 +32,17 @@
       max-width:        100%
       @include          text-shadow(0 1px 0 white)
       @include          border-img(ChromeButton, 0 4 0 4, retina remote)
-      background:       no-repeat 6px 5px
-      background-size:  20px
+      position:         relative
+      &::before
+        content:              ''
+        position:             absolute
+        top:                  0
+        left:                 0
+        width:                31px
+        height:               100%
+        background-repeat:    no-repeat
+        background-position:  center center
+        background-size:      20px
       span
         display:  block
         @include  ellipsis

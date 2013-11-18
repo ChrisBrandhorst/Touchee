@@ -30,7 +30,7 @@ define([
     // The different views that are available for this module, together
     // with the corresponding view class.
     views: {
-      // viewID: ViewClass`
+      // viewID: ViewClass
       config: ConfigView
     },
 

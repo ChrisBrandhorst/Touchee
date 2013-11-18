@@ -198,16 +198,16 @@ namespace Touchee {
             // Loop through all plugin files
             PluginFilesNotLoaded.AddRange(pluginFiles);
             foreach (string filename in pluginFiles) {
-                try {
+                //try {
                     PluginFilesNotLoaded.Remove(filename);
                     // Load the assembly
                     var assembly = Assembly.LoadFile(filename);
                     // Load the plugins from the assembly
                     LoadPlugins(assembly, pluginsConfig, context);
-                }
-                catch(Exception e) {
-                    Logger.Log("Unable to load DLL as Touchee plugin: " + filename + " : " + e.Message, Logger.LogLevel.Error);
-                }
+                //}
+                //catch(Exception e) {
+                    //Logger.Log("Unable to load DLL as Touchee plugin: " + filename + " : " + e.Message, Logger.LogLevel.Error);
+                //}
             }
 
             return true;

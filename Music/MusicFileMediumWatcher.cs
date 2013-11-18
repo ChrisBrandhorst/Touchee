@@ -95,6 +95,12 @@ namespace Music {
             masterPlaylist.Save();
             medium.Containers.Add(masterPlaylist);
 
+
+            var pl1 = new Playlist("Playlist Test 1", medium, masterPlaylist);
+            pl1.Save();
+            var pl2 = new Playlist("Playlist Test 2", medium, masterPlaylist);
+            pl2.Save();
+
             //// Deserialize the cache of the local medium
             //if (medium == Medium.Local && File.Exists(CachePath))
             //    Cache.Deserialize(CachePath);

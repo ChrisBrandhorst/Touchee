@@ -30,7 +30,8 @@ namespace Music.Media {
                     Music.ViewTypes.Track,
                     Music.ViewTypes.Artist,
                     Music.ViewTypes.Album,
-                    Music.ViewTypes.Genre
+                    Music.ViewTypes.Genre,
+                    Music.ViewTypes.Playlist
                 };
             }
         }

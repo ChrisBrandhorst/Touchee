@@ -113,12 +113,6 @@ namespace Spotify {
             Plugin.Config = config;
             Plugin.Context = context;
 
-            SessionHandler = new SessionHandler(APIKey);
-            SessionHandler.StateUpdated += SessionHandler_StateUpdated;
-            SessionHandler.Init();
-
-            return true;
-            
             // Add content provider
             ContentProvider = new ContentProvider();
             PluginManager.Register(ContentProvider);
@@ -142,17 +136,15 @@ namespace Spotify {
         /// <summary>
         /// Called when the local medium has arrived.
         /// </summary>
-        void StartedWatching(IMediumWatcher watcher, Medium medium) {
+        async void StartedWatching(IMediumWatcher watcher, Medium medium) {
 
-            
-
-            return;
             // Start session handler
-            //_sessionHandler = new SessionHandler();
-            //var session = _sessionHandler.Init("", "", APIKey).Result;
+            SessionHandler = new SessionHandler(APIKey);
+            SessionHandler.StateUpdated += SessionHandler_StateUpdated;
+            var session = await SessionHandler.Init();
 
             // Start contents handler
-            //_contentsHandler = new ContentsHandler(session);
+            _contentsHandler = new ContentsHandler(session);
 
         }
 
@@ -182,7 +174,9 @@ namespace Spotify {
             Context.Server.Broadcast(
                 "plugin",
                 new {
-                    spotify = new Status(SessionHandler)
+                    spotify = new {
+                        session = new SessionStatus(SessionHandler)
+                    }
                 }
             );
         }

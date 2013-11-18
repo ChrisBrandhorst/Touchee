@@ -175,17 +175,25 @@ define([
         Playback.set(obj);
 
 
+      // Plugin stuff
+      if (obj = response.plugin) {
+        for (pluginKey in obj) {
+          var plugin = ServerInfo.plugins[pluginKey];
+          if (plugin)
+            plugin.responseReceived(obj[pluginKey]);
+          else
+            T.Log.error("Message received for unknown plugin '" + pluginKey + "'");
+        }
+      }
+
+
+
 
 
 
 
 
       return;
-
-
-      if (obj = response.plugin) {
-        
-      }
 
 
       if (response.contents) {

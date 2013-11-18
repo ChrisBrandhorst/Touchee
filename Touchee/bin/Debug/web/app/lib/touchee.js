@@ -223,7 +223,7 @@ define([
       
       if (_.isObject(trans) && _.isNumber(options.count))
         trans = trans[options.count == 1 ? 'one' : 'more'];
-      else if (trans == null)
+      if (!_.isString(trans))
         trans = item;
       
       return trans;

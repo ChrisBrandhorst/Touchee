@@ -70,7 +70,8 @@ namespace Music.Media {
         /// If TitleSort is null when this value is set, the TitleSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string Title {
             get { return _title; }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _title = value; }
@@ -80,7 +81,8 @@ namespace Music.Media {
         /// If ArtistSort is null when this value is set, the ArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string Artist {
             get { return _artist ?? _albumArtist; }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _artist = value; }
@@ -90,7 +92,8 @@ namespace Music.Media {
         /// If AlbumSort is null when this value is set, the AlbumSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string Album {
             get { return _album; }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _album = value; }
@@ -100,7 +103,8 @@ namespace Music.Media {
         /// If AlbumArtistSort is null when this value is set, the AlbumArtistSort value is automatically set
         /// to a sort variant of the given value (see String#ToSortName).
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string AlbumArtist {
             get { return _albumArtist; }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _albumArtist = value; }
@@ -110,7 +114,8 @@ namespace Music.Media {
         /// <summary>
         /// The sorted title of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string TitleSort {
             get { return Util.ToSortName(_titleSort ?? Title); }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _titleSort = value; }
@@ -118,7 +123,8 @@ namespace Music.Media {
         /// <summary>
         /// The sort value of the performing artist of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string ArtistSort {
             get { return Util.ToSortName(_artistSort ?? Artist); }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _artistSort = value; }
@@ -126,7 +132,8 @@ namespace Music.Media {
         /// <summary>
         /// The sorted album this track appears on
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string AlbumSort {
             get { return Util.ToSortName(_albumSort ?? Album); }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _albumSort = value; }
@@ -134,7 +141,8 @@ namespace Music.Media {
         /// <summary>
         /// The sort value of the album artist of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string AlbumArtistSort {
             get { return Util.ToSortName(_albumArtistSort ?? AlbumArtist); }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _albumArtistSort = value; }
@@ -144,7 +152,8 @@ namespace Music.Media {
         /// <summary>
         /// The genre of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string Genre {
             get { return _genre; }
             protected set { if (!string.IsNullOrWhiteSpace(value)) _genre = value; }
@@ -152,7 +161,8 @@ namespace Music.Media {
         /// <summary>
         /// The sort value of the genre of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public string GenreSort { get { return Util.ToSortName(Genre); } }
 
 
@@ -160,7 +170,8 @@ namespace Music.Media {
         /// <summary>
         /// The publish year of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public uint Year { get; protected set; }
 
 
@@ -181,12 +192,14 @@ namespace Music.Media {
         /// <summary>
         /// The track number of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public uint TrackNumber { get; protected set; }
         /// <summary>
         /// The disc number of this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public uint DiscNumber { get; protected set; }
 
 
@@ -212,7 +225,8 @@ namespace Music.Media {
         /// <summary>
         /// The album ID for this track
         /// </summary>
-        [DataMember(EmitDefaultValue = false)]
+        //[DataMember(EmitDefaultValue = false)]
+        [DataMember]
         public virtual string AlbumID { get {
             return ((Album ?? Util.NullSortValue) + "|" + (AlbumArtist ?? Artist ?? Util.NullSortValue)).ToLower().GetInt64HashCode();
         } }

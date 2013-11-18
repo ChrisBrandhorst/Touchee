@@ -12,7 +12,7 @@ namespace Touchee {
         /// Returns the first Container for this Medium for which the property IsMaster returns true.
         /// </summary>
         public static Container GetMasterContainer(this Medium medium) {
-            return medium.Containers.First(c => c.IsMaster);
+            return medium.Containers.FirstOrDefault(c => c.IsMaster);
         }
 
     }

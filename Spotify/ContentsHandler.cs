@@ -60,10 +60,10 @@ namespace Spotify {
         /// listeners are attached to the playlist collection list.
         /// </summary>
         async void ConnectionstateUpdated(Session sender, SessionEventArgs e) {
-
+            return;
             if (sender.ConnectionState == ConnectionState.LoggedIn) {
                 await _session.PlaylistContainer;
-
+                
                 // Track initial set of playlists
                 this.TrackPlaylists(_session.PlaylistContainer.Playlists);
                 
@@ -126,7 +126,7 @@ namespace Spotify {
         /// <param name="playlists">The set of playlists to remove</param>
         void RemovePlaylists(IList<Playlist> playlists) {
             foreach (var playlist in playlists) {
-                var altID = playlist.GetLink().ToString();
+                var altID = playlist.ToLink().ToString();
                 if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
                     var toucheePlaylist = Spotify.Media.Playlist.FindByAltID(altID);
                     toucheePlaylist.Dispose();
@@ -149,7 +149,7 @@ namespace Spotify {
                 Spotify.Media.Playlist playlist;
 
                 // Get the alt ID
-                var altID = sender.GetLink().ToString();
+                var altID = sender.ToLink().ToString();
                 
                 // If we already have this playlist, update it
                 if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
@@ -179,6 +179,7 @@ namespace Spotify {
 
 
         async void Tracks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
+            return;
             if (e.NewItems != null)
                 await this.AddTracks((Playlist)sender, e.NewItems.Cast<Track>().ToList());
             if (e.OldItems != null)

@@ -127,8 +127,10 @@ namespace Touchee {
             Device.AfterUpdate += DeviceChanged;
 
             // Init local and web media
-            LocalMedium.Init( Program.Config.Get("name", System.Environment.MachineName) );
-            WebMedium.Init( Program.Config.Get("webcastsName", "Webcasts") );
+            string localMediumName = Program.Config.Get("name", System.Environment.MachineName);
+            LocalMedium.Init(localMediumName);
+            string webCastsName = Program.Config.Get("webcastsName", "Webcasts");
+            WebMedium.Init(webCastsName);
             
             // Instantiate all available MediaWatchers
             // These generate Medium instances

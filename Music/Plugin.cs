@@ -17,6 +17,7 @@ namespace Music {
         public const string Artist = "artist";
         public const string Album = "album";
         public const string Genre = "genre";
+        public const string Playlist = "playlist";
     }
 
 

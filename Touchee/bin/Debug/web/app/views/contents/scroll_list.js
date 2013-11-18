@@ -44,8 +44,6 @@ define([
     innerTagName:   'div',
     // The class(es) for the inner element
     innerClass:     null,
-    // Whether to show a scroller
-    scroller:       false,
 
     // Whether to show indices in the list. For indexes other then A-Z,# use 'custom'
     showIndex:      false,
