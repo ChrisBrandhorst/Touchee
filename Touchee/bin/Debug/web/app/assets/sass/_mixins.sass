@@ -71,7 +71,7 @@
   @if type-of($selected) != 'string'
     $options:   $selected
     $selected:  $icon
-  .icons > *.#{$class}, .icon.#{$class}, table.icons td:first-child.#{$class}, table td.icon.#{$class}:first-child
+  .icons > *.#{$class}, .icon.#{$class}, table.icons tr.#{$class}:not(.index) td:first-child, table tr.icon.#{$class}:not(.index) td:first-child
     &::before
       @include  background-img(#{$icon}, $options)
     &.selected::before

@@ -5,7 +5,7 @@ define([
   'models/server_info'
 ], function(_, Backbone, ContentsContainer, ServerInfo){
   
-  var Containers = Backbone.Collection.extend({
+  var ContentsContainers = Backbone.Collection.extend({
     
     
     // The URL for retrieving the collection of containers
@@ -22,7 +22,8 @@ define([
     initialize: function(models, options) {
       this.medium = options.medium;
     },
-
+    
+    
     //
     masters: function() {
       return new Backbone.Collection(
@@ -35,6 +36,6 @@ define([
     
   });
   
-  return Containers;
+  return ContentsContainers;
   
 });

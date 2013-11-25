@@ -90,11 +90,11 @@
   display: inline-block;
 }
 
-/* line 101, ../../../../../web/app/assets/sass/_mixins.sass */
-.icons > *.spotify::before, .icon.spotify::before {
+/* line 75, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.spotify::before, .icon.spotify::before, table.icons td:first-child.spotify::before, table td.icon.spotify:first-child::before {
   background-image: -webkit-image-set(url(../images/SourceListSpotifyGray.png) 1x, url(../images/SourceListSpotifyGray@2x.png) 2x);
 }
-/* line 103, ../../../../../web/app/assets/sass/_mixins.sass */
-.icons > *.spotify.selected::before, .icon.spotify.selected::before {
+/* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.spotify.selected::before, .icon.spotify.selected::before, table.icons td:first-child.spotify.selected::before, table td.icon.spotify:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListSpotifyHighlight.png) 1x, url(../images/SourceListSpotifyHighlight@2x.png) 2x);
 }

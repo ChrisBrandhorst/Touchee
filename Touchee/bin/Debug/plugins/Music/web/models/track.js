@@ -9,8 +9,10 @@ define([
 
     // The artwork URL for this track (and thus, the album)
     artworkUrl: function(params) {
-      return Touchee.getUrl(
-        [this.getContainer().url(), "artwork/album", this.get('albumID')].join('/'),
+      return Touchee.buildUrl(
+        this.getContainer().url(),
+        "artwork/album",
+        this.get('albumID'),
         params
       );
     },

@@ -47,6 +47,20 @@
         color:                white
         text-shadow:          0 1px $selectedTextShadowColor
 
+    // Icons in table
+    &.icons tr:not(.index) td, & tr:not(.index).icon > td
+      &:first-child
+        padding-left: 6px
+        &::before
+          content:              ''
+          display:              inline-block
+          width:                33px
+          height:               33px
+          margin:               -1px 4px 0 0
+          vertical-align:       middle
+          background-repeat:    no-repeat
+          background-position:  center center
+
   // Make way for quickscroll
   &.quickscroll td:last-child
     padding-right: 85px
@@ -69,7 +83,6 @@
     border-top-color:     #e6e6e6
     border-bottom-color:  #a9a9a9
     @include              background(linear-gradient(#ddd, #d7d7d7))
-
 
 // When in split view, do not use background color
 // and change the spacing for the quickscroll

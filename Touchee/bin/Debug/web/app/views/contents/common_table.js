@@ -20,7 +20,7 @@ define([
     },
     
     
-    // 
+    // An item has been selected
     // VIRTUAL
     selected: function(item, idx, $row) {
       Backbone.history.navigate(this.model.getUrlFor(item), {trigger:true});

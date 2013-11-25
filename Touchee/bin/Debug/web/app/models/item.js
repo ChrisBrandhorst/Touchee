@@ -68,8 +68,10 @@ define([
     // 
     artworkUrl: function(params) {
       var container = this.getContainer();
-      return container && Touchee.getUrl(
-        [container.url(), "artwork/id", this.id].join('/'),
+      return container && Touchee.buildUrl(
+        container.url(),
+        "artwork/id",
+        this.id,
         params
       );
     },

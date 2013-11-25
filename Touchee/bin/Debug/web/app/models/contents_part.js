@@ -74,6 +74,12 @@ define([
     // Override this for getting the URL for the given item
     getUrlFor: function(item) {
       throw("NotImplementedException");
+    },
+
+
+    // Return the contents container for this model
+    getContentsContainer: function() {
+      return this.contents.container;
     }
     
     

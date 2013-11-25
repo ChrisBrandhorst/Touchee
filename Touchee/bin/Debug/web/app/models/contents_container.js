@@ -26,7 +26,10 @@ define([
     
     // Gets the URL for the contents container, optionally appended by params
     url: function(params) {
-      return Touchee.getUrl(Backbone.Model.prototype.url.call(this), params);
+      return Touchee.buildUrl(
+        Backbone.Model.prototype.url.call(this),
+        params
+      );
     },
     
     
@@ -74,6 +77,12 @@ define([
     // Whether this contents container is a master contents container
     isMaster: function() {
       return !_.isNumber(this.get('masterID'));
+    },
+
+
+    // Gets the master contents container for this contents container
+    getMaster: function() {
+      return this.collection.get(this.get('masterID'));
     }
 
     

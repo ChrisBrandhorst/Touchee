@@ -12,32 +12,22 @@ define([
 
     // Constructor
     initialize: function() {
-      this.on('sync add', this.fetchContainers, this);
+      this.toFetch = 0;
+      this.on('add', this.fetchContainers, this);
     },
 
 
-    // Called after each sync
+    // Called when a Medium is added to this collection.
+    // Continues fetching the Containers for the new Media, until
+    // all are fetched.
     fetchContainers: function(model) {
-
-      // If the collection has been synced, call sync for each container
-      // and trigger event when completed
-      if (model == Media) {
-        var containersFetched = 0;
-        this.each(function(medium){
-          medium.containers.fetch({
-            success: function() {
-              if (++containersFetched == Media.length)
-                Media.trigger('sync:containers:all');
-            }
-          });
-        });
-      }
-      
-      // Else, sync the containers for the medium added
-      else {
-        model.containers.fetch();
-      }
-
+      this.toFetch++;
+      model.containers.fetch({
+        success: function() {
+          if (--Media.toFetch == 0)
+            Media.trigger('sync:containers:all');
+        }
+      });
     }
 
   }));

@@ -31,7 +31,7 @@ define([
       if (!params.view || _.isUndefined(params[params.view])) return;
 
       // Build the detail view
-      var detailView = module.buildView( this.model.contents.container, params, fragment, this.detailViewClass );
+      var detailView = module.buildView( this.model.getContentsContainer(), params, fragment, this.detailViewClass );
       if (!detailView) return;
       detailView.model.fetch();
       

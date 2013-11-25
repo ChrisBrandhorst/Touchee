@@ -249,14 +249,25 @@ define([
   // Utils
   // -----------------
   
-  Touchee.getUrl = function(base, params) {
-    var url = base;
+  Touchee.buildUrl = function() {
+    var params, base, url;
+
+    // Get the last argument if it is an object
+    var lastArg = arguments[arguments.length - 1];
+    if (_.isObject(lastArg))
+      params = Array.prototype.pop.call(arguments);
+
+    // Create base url
+    base = url = Array.prototype.join.call(arguments, '/');
+
+    // Append params
     if (params) {
       // params = encodeURI(Touchee.Params.compose(params));
       params = Touchee.Params.compose(params);
       if (params.length)
         url += (base.charAt(base.length - 1) == '/' ? '' : '/') + params;
     }
+    
     return url;
   };
 

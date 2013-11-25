@@ -315,7 +315,7 @@ namespace Touchee {
             if (contentProvider == null) return null;
 
             var contents = contentProvider.GetContents(container, filter);
-            return new ContentsResponse(container, contents);
+            return contents == null ? null : new ContentsResponse(container, contents);
         }
 
 

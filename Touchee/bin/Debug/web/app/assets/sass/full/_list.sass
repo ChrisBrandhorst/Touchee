@@ -47,11 +47,12 @@ $listRowHeight: 44px
       &.checked::after
         @include  content-img(UITableViewCheckHighlight, retina)
   
-  &.icons > *
+  &.icons > *, & > .icon
     &::before
-      content:        ''
-      display:        block
-      width:          33px
-      margin:         -1px 7px 0 0
-      vertical-align: middle
-      background:     no-repeat center center
+      content:              ''
+      display:              block
+      width:                33px
+      margin:               -1px 7px 0 0
+      vertical-align:       middle
+      background-repeat:    no-repeat
+      background-position:  center center

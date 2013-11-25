@@ -9,9 +9,7 @@ define([
 
   var CommonListView = TemplateListView.extend({
     
-    innerTagName:   'nav',
     innerClass:     'list icons',
-    selectable:     'a',
     selection:      { keep: true },
     template:       _.template(commonListItemTemplate),
     classAttribute: 'id',
@@ -30,7 +28,12 @@ define([
         view:   this
       });
     },
-    
+
+    selected: function(item, idx, $row) {
+      var url = this.model.getUrlFor ? this.model.getUrlFor(item) : _.result(item, 'url');
+      Backbone.history.navigate(url, {trigger:true});
+    }
+
   });
   
   return CommonListView;

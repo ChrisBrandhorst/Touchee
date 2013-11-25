@@ -785,7 +785,7 @@ define([
     // PRIVATE
     _selected: function(ev, $el) {
       var index = this.getItemIndexByElement($el);
-      this.selected( this.data.selectedItem = this.getItem(index), index, $el );
+      return this.selected( this.data.selectedItem = this.getItem(index), index, $el );
     },
 
 

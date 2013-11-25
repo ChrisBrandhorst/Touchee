@@ -47,13 +47,15 @@ namespace Music {
             var allTracks = ((Playlist)container).Tracks;
 
             string view = filter.ContainsKey("view") ? filter["view"] : null;
+            string group = view == null ? null : (filter.ContainsKey(view) ? filter[view] : null);
+
             switch (view) {
                 
                 // All tracks for the given artist or genre
                 case "artist":
                 case "genre":
-                    string group = filter[view];
-                    if (group != null) group = group.ToLower();
+                    if (group == null) return null;
+                    group = group.ToLower();
                     switch (view) {
                         case "artist": ret = allTracks.Where(t => t.IsByArtist(group)); break;
                         case "genre": ret = allTracks.Where(t => t.IsOfGenre(group)); break;
@@ -65,7 +67,8 @@ namespace Music {
 
                 // All tracks for the given album
                 case "album":
-                    ret = Track.Where(t => t.AlbumID == filter["album"]);
+                    if (group == null) return null;
+                    ret = Track.Where(t => t.AlbumID == group);
                     break;
 
                 // All tracks

@@ -282,13 +282,14 @@ h1.with_control_cluster > .control_cluster {
   content: -webkit-image-set(url(../images/UITableViewCheckHighlight.png) 1x, url(../images/UITableViewCheckHighlight@2x.png) 2x);
 }
 /* line 51, ../sass/full/_list.sass */
-.list.icons > *::before {
+.list.icons > *::before, .list > .icon::before {
   content: "";
   display: block;
   width: 33px;
   margin: -1px 7px 0 0;
   vertical-align: middle;
-  background: no-repeat center center;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 
 /* line 1, ../sass/full/_button.sass */
@@ -902,11 +903,26 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active, input[type=bu
   color: white;
   text-shadow: 0 1px #425164;
 }
-/* line 51, ../sass/full/scroll_list/_table.sass */
+/* line 52, ../sass/full/scroll_list/_table.sass */
+.scroll_list.table table.icons tr:not(.index) td:first-child, .scroll_list.table table tr:not(.index).icon > td:first-child {
+  padding-left: 6px;
+}
+/* line 54, ../sass/full/scroll_list/_table.sass */
+.scroll_list.table table.icons tr:not(.index) td:first-child::before, .scroll_list.table table tr:not(.index).icon > td:first-child::before {
+  content: "";
+  display: inline-block;
+  width: 33px;
+  height: 33px;
+  margin: -1px 4px 0 0;
+  vertical-align: middle;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+/* line 65, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table.quickscroll td:last-child {
   padding-right: 85px;
 }
-/* line 55, ../sass/full/scroll_list/_table.sass */
+/* line 69, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table .scroll_list-table-index {
   line-height: 23px;
   border-style: solid;
@@ -915,7 +931,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active, input[type=bu
   padding: 1px 0 0 13px;
   color: #070707;
 }
-/* line 64, ../sass/full/scroll_list/_table.sass */
+/* line 78, ../sass/full/scroll_list/_table.sass */
 .scroll_list.table .scroll_list-table-index, .scroll_list.table tr.index td {
   height: 27px;
   font-size: 130%;
@@ -930,12 +946,12 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active, input[type=bu
   background: linear-gradient(#dddddd, #d7d7d7);
 }
 
-/* line 77, ../sass/full/scroll_list/_table.sass */
+/* line 90, ../sass/full/scroll_list/_table.sass */
 .split_view > .scroll_list.table:first-child table tr:not(.index) td {
   background-color: transparent;
   border-top-color: #fbfbfb;
 }
-/* line 80, ../sass/full/scroll_list/_table.sass */
+/* line 93, ../sass/full/scroll_list/_table.sass */
 .split_view > .scroll_list.table.quickscroll:first-child table td:last-child {
   padding-right: 50px;
 }
@@ -1074,7 +1090,7 @@ button.ios.darkblue.back:active, .button.ios.darkblue.back:active, input[type=bu
 .split_view > :first-child .list > * {
   height: 40px;
   line-height: 37px;
-  padding: 1px 0 0 6px;
+  padding-top: 1px;
   border-top: 1px solid #fbfbfb;
   border-bottom-color: gainsboro;
   color: #070707;
@@ -2286,47 +2302,47 @@ body > section:not(.popup) {
 }
 
 /* line 75, ../sass/_mixins.sass */
-.icons > *.config::before, .icon.config::before, table.icons td:first-child.config::before, table td.icon.config:first-child::before {
+.icons > *.config::before, .icon.config::before, table.icons tr.config:not(.index) td:first-child::before, table tr.icon.config:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartGray.png) 1x, url(../images/remote/SourceListPlaylistSmartGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-.icons > *.config.selected::before, .icon.config.selected::before, table.icons td:first-child.config.selected::before, table td.icon.config:first-child.selected::before {
+.icons > *.config.selected::before, .icon.config.selected::before, table.icons tr.config:not(.index) td:first-child.selected::before, table tr.icon.config:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartHighlight.png) 1x, url(../images/remote/SourceListPlaylistSmartHighlight@2x.png) 2x);
 }
 
 /* line 75, ../sass/_mixins.sass */
-.icons > *.local::before, .icon.local::before, table.icons td:first-child.local::before, table td.icon.local:first-child::before {
+.icons > *.local::before, .icon.local::before, table.icons tr.local:not(.index) td:first-child::before, table tr.icon.local:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharingGray.png) 1x, url(../images/remote/SourceListHomeSharingGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-.icons > *.local.selected::before, .icon.local.selected::before, table.icons td:first-child.local.selected::before, table td.icon.local:first-child.selected::before {
+.icons > *.local.selected::before, .icon.local.selected::before, table.icons tr.local:not(.index) td:first-child.selected::before, table tr.icon.local:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListHomeSharingHighlight.png) 1x, url(../images/remote/SourceListHomeSharingHighlight@2x.png) 2x);
 }
 
 /* line 75, ../sass/_mixins.sass */
-.icons > *.web::before, .icon.web::before, table.icons td:first-child.web::before, table td.icon.web:first-child::before {
+.icons > *.web::before, .icon.web::before, table.icons tr.web:not(.index) td:first-child::before, table tr.icon.web:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListRadioGray.png) 1x, url(../images/remote/SourceListRadioGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-.icons > *.web.selected::before, .icon.web.selected::before, table.icons td:first-child.web.selected::before, table td.icon.web:first-child.selected::before {
+.icons > *.web.selected::before, .icon.web.selected::before, table.icons tr.web:not(.index) td:first-child.selected::before, table tr.icon.web:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListRadioHighlight.png) 1x, url(../images/remote/SourceListRadioHighlight@2x.png) 2x);
 }
 
 /* line 75, ../sass/_mixins.sass */
-.icons > *.bluray_video::before, .icon.bluray_video::before, table.icons td:first-child.bluray_video::before, table td.icon.bluray_video:first-child::before {
+.icons > *.bluray_video::before, .icon.bluray_video::before, table.icons tr.bluray_video:not(.index) td:first-child::before, table tr.icon.bluray_video:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/SourceListBlurayDiscGray.png) 1x, url(../images/SourceListBlurayDiscGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-.icons > *.bluray_video.selected::before, .icon.bluray_video.selected::before, table.icons td:first-child.bluray_video.selected::before, table td.icon.bluray_video:first-child.selected::before {
+.icons > *.bluray_video.selected::before, .icon.bluray_video.selected::before, table.icons tr.bluray_video:not(.index) td:first-child.selected::before, table tr.icon.bluray_video:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListBlurayDiscHighlight.png) 1x, url(../images/SourceListBlurayDiscHighlight@2x.png) 2x);
 }
 
 /* line 75, ../sass/_mixins.sass */
-.icons > *.removeable_drive::before, .icon.removeable_drive::before, table.icons td:first-child.removeable_drive::before, table td.icon.removeable_drive:first-child::before {
+.icons > *.removeable_drive::before, .icon.removeable_drive::before, table.icons tr.removeable_drive:not(.index) td:first-child::before, table tr.icon.removeable_drive:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveGray.png) 1x, url(../images/SourceListRemoveableDriveGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-.icons > *.removeable_drive.selected::before, .icon.removeable_drive.selected::before, table.icons td:first-child.removeable_drive.selected::before, table td.icon.removeable_drive:first-child.selected::before {
+.icons > *.removeable_drive.selected::before, .icon.removeable_drive.selected::before, table.icons tr.removeable_drive:not(.index) td:first-child.selected::before, table tr.icon.removeable_drive:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListRemoveableDriveHighlight.png) 1x, url(../images/SourceListRemoveableDriveHighlight@2x.png) 2x);
 }
 
@@ -2506,10 +2522,10 @@ section.basic_content p {
 }
 
 /* line 75, ../sass/_mixins.sass */
-#config > .scroll_list .icons > *.general::before, #config > .scroll_list .icon.general::before, #config > .scroll_list table.icons td:first-child.general::before, #config > .scroll_list table td.icon.general:first-child::before {
+#config > .scroll_list .icons > *.general::before, #config > .scroll_list .icon.general::before, #config > .scroll_list table.icons tr.general:not(.index) td:first-child::before, #config > .scroll_list table tr.icon.general:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartGray.png) 1x, url(../images/remote/SourceListPlaylistSmartGray@2x.png) 2x);
 }
 /* line 77, ../sass/_mixins.sass */
-#config > .scroll_list .icons > *.general.selected::before, #config > .scroll_list .icon.general.selected::before, #config > .scroll_list table.icons td:first-child.general.selected::before, #config > .scroll_list table td.icon.general:first-child.selected::before {
+#config > .scroll_list .icons > *.general.selected::before, #config > .scroll_list .icon.general.selected::before, #config > .scroll_list table.icons tr.general:not(.index) td:first-child.selected::before, #config > .scroll_list table tr.icon.general:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/remote/SourceListPlaylistSmartHighlight.png) 1x, url(../images/remote/SourceListPlaylistSmartHighlight@2x.png) 2x);
 }

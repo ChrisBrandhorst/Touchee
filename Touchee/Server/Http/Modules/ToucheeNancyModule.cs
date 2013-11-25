@@ -59,14 +59,15 @@ namespace Touchee.Server.Http.Modules {
         /// <param name="context">The request context</param>
         /// <returns>Null</returns>
         Response FetchContext(NancyContext context) {
-            
+            Client = null;
+            Container = null;
+            Filter = null;
+
             // Get client from session ID
             if (Request.Cookies.ContainsKey(CookieKey)) {
                 var sessionId = Request.Cookies[CookieKey];
-                this.Client = Touchee.Server.Client.FindBySessionID(sessionId);
+                Client = Touchee.Server.Client.FindBySessionID(sessionId);
             }
-            else
-                this.Client = null;
 
             // Get container
             if (context.Parameters.containerID != null) {
@@ -83,6 +84,8 @@ namespace Touchee.Server.Http.Modules {
                     filterStr = "id/" + filterStr;
                 Filter = Touchee.Options.Build(filterStr);
             }
+            else
+                Filter = new Touchee.Options();
             
             return null;
         }

@@ -79,11 +79,14 @@ define([
       var viewClass = viewClass || this.views[params.view];
 
       if (!viewClass)
-        return this.Log.error("No valid view class specified for module " + (container.get('plugin') || 'base') + " and view " + params.view);
+        return this.Log.error("No valid view class specified (module: " + (container.get('plugin') || 'base') + ", view: " + params.view + ")");
 
       var options = {};
       if (_.isFunction(container.buildViewModel))
         options.model = container.buildViewModel(params, viewClass);
+
+      if (options.model && !_.isFunction(options.model.getContentsContainer))
+        return this.Log.error("View model does not contain function getContentsContainer (module: " + (container.get('plugin') || 'base') + ", view: " + params.view + ")");
 
       var viewInstance = viewClass.prototype ? new viewClass(options) : viewClass;
       viewInstance.fragment = fragment;
@@ -94,7 +97,7 @@ define([
     
     // Sets the given view in the browser view
     setView: function(view, params) {
-      BrowserView.setView(view, view.model.contents.container, params.view);
+      BrowserView.setView(view, view.model.getContentsContainer(), params.view);
     },
     
     
