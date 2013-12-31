@@ -51,7 +51,6 @@ namespace Spotify {
         /// </summary>
         /// <param name="medium">The medium to check</param>
         public bool CanWatch(Medium medium) {
-            //return medium == Medium.Local;
             return medium == SpotifyMedium.Instance;
         }
 
@@ -65,7 +64,6 @@ namespace Spotify {
             if (medium == SpotifyMedium.Instance) {
                 if (this.StartedWatching != null)
                     this.StartedWatching.Invoke(this, medium);
-                SpotifyMedium.Instance.MasterPlaylist.Save();
                 return true;
             }
             else
@@ -82,6 +80,8 @@ namespace Spotify {
                 // TODO: clear containers
                 // For now, we can assume this call is never made, since the local
                 // medium will never be ejected
+                if (this.StoppedWatching != null)
+                    this.StoppedWatching.Invoke(this, medium);
                 return true;
             }
             return false;
@@ -103,9 +103,15 @@ namespace Spotify {
 
 
         /// <summary>
-        /// Called when the watcher starts to watch a medium.
+        /// Started watching event
         /// </summary>
         public event MediumWatcherStartedWatching StartedWatching;
+
+
+        /// <summary>
+        /// Stopped watching event
+        /// </summary>
+        public event MediumWatcherStoppedWatching StoppedWatching;
 
 
         #endregion

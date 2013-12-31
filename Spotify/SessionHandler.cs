@@ -213,7 +213,6 @@ namespace Spotify {
             Log("Spotify: Connection state: " + sender.ConnectionState.ToString());
             this.OnStateUpdated();
 
-
             switch (sender.ConnectionState) {
                 
                 // Logged out

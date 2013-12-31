@@ -2,9 +2,12 @@
 
 namespace Touchee.Server.Responses {
 
-    public class ContainersResponse : List<Container> {
+    public class ContainersResponse : ToucheeResponse {
+        public int MediumID;
+        public List<Container> Containers;
         public ContainersResponse(Medium medium) {
-            this.AddRange(medium.Containers);
+            this.MediumID = medium.Id;
+            this.Containers = new List<Container>(medium.Containers);
         }
     }
 

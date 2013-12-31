@@ -41,10 +41,21 @@ namespace Touchee {
         /// <summary>
         /// Gets all containers for this medium
         /// </summary>
-        public SortedSet<Container> Containers { get {
-            var mediumContainers = Container.Where(c => c.Medium == this);
-            return new SortedSet<Container>( mediumContainers );
-        } }
+        public SortedSet<Container> Containers {
+            get {
+                var mediumContainers = Container.Where(c => c.Medium == this);
+                return new SortedSet<Container>( mediumContainers );
+            }
+        }
+
+        /// <summary>
+        /// Gets the first master container for this medium
+        /// </summary>
+        public Container MasterContainer {
+            get {
+                return this.Containers.FirstOrDefault(c => c.IsMaster);
+            }
+        }
 
         /// <summary>
         /// The local medium
@@ -55,7 +66,6 @@ namespace Touchee {
         /// The web medium
         /// </summary>
         public static Medium Web { get { return WebMedium.Instance; } }
-
     }
 
 

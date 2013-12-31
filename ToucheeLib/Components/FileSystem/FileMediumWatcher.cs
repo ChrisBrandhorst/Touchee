@@ -74,6 +74,9 @@ namespace Touchee.Components.FileSystem {
                 return false;
             }
 
+            // Trigger event
+            if (this.StartedWatching != null)
+                this.StartedWatching.Invoke(this, medium);
             return true;
         }
         protected virtual void OnWatch(Medium medium) { }
@@ -108,6 +111,9 @@ namespace Touchee.Components.FileSystem {
                 _localFoldersTemp.Clear();
             }
 
+            // Trigger event
+            if (this.StoppedWatching != null)
+                this.StoppedWatching.Invoke(this, medium);
             return true;
         }
         protected virtual void OnUnWatch(Medium medium) { }
@@ -122,6 +128,18 @@ namespace Touchee.Components.FileSystem {
                 ret |= this.UnWatch(m);
             return ret;
         }
+
+
+        /// <summary>
+        /// Started watching event
+        /// </summary>
+        public event MediumWatcherStartedWatching StartedWatching;
+
+
+        /// <summary>
+        /// Stopped watching event
+        /// </summary>
+        public event MediumWatcherStoppedWatching StoppedWatching;
 
 
         #endregion
@@ -239,10 +257,6 @@ namespace Touchee.Components.FileSystem {
 
 
         #endregion
-
-
-
-
     }
 
 

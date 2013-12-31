@@ -42,12 +42,10 @@ namespace Touchee.Server.Websocket {
                     Log("Client connected: " + socket.ConnectionInfo.ClientIpAddress.ToString());
                 };
                 socket.OnClose = () => {
-                    if (_clients.ContainsKey(socket)) {
-                        var client = _clients[socket];
-                        _clients.Remove(socket);
-                        client.Dispose();
-                        Log("Client disconnected: " + socket.ConnectionInfo.ClientIpAddress.ToString());
-                    }
+                    this.RemoveClient(socket);
+                };
+                socket.OnError = (e) => {
+                    this.RemoveClient(socket);
                 };
                 socket.OnMessage = (message) => {
                     if (_clients.ContainsKey(socket)) {
@@ -60,14 +58,34 @@ namespace Touchee.Server.Websocket {
 
 
         /// <summary>
+        /// Remove the client belonging to the given socket
+        /// </summary>
+        /// <param name="socket">The socket</param>
+        void RemoveClient(IWebSocketConnection socket) {
+            if (_clients.ContainsKey(socket)) {
+                var client = _clients[socket];
+                _clients.Remove(socket);
+                client.Dispose();
+                Log("Client disconnected: " + socket.ConnectionInfo.ClientIpAddress.ToString());
+            }
+        }
+
+
+        /// <summary>
         /// Send a message over the websocket connection
         /// </summary>
         /// <param name="client">The client to send the message to</param>
         /// <param name="message">The message to send</param>
         public void Send(IClient client, string message) {
             var socket = _clients.FirstOrDefault(c => c.Value == client).Key;
-            if (socket != null)
-                socket.Send(message);
+            if (socket != null) {
+                if (!socket.IsAvailable) {
+                    socket.Close();
+                    this.RemoveClient(socket);
+                }
+                else
+                    socket.Send(message);
+            }
         }
 
 

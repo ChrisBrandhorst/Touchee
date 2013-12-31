@@ -37,7 +37,7 @@ namespace Music {
         /// <param name="directory">The directory to watch</param>
         /// <param name="collectionRequired">Whether an initial collection is required</param>
         public MusicDirectoryWatcher(Medium medium, DirectoryInfo directory, IEnumerable<string> extensions) : base(medium, directory, extensions) {
-            _masterPlaylist = (MasterPlaylist)medium.Containers.FirstOrDefault(c => c.IsMaster);
+            _masterPlaylist = (MasterPlaylist)medium.MasterContainer;
             if (_masterPlaylist == null)
                 throw new ArgumentException("The medium " + medium.Name + " does not have a master playlist (yet)");
         }

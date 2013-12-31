@@ -115,10 +115,10 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Fleck">
-      <HintPath>..\packages\Fleck.0.9.7.24\lib\net40\Fleck.dll</HintPath>
+      <HintPath>..\packages\Fleck.0.9.8.25\lib\net40\Fleck.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>..\ToucheeLib\lib\HtmlAgilityPack.dll</HintPath>
+      <HintPath>..\packages\HtmlAgilityPack.1.4.6\lib\Net45\HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Nancy">

@@ -116,9 +116,8 @@ namespace Touchee {
             Medium.AfterDispose += Medium_BeforeDispose;
 
             // Watch for container changes
-            Container.AfterCreate += ContainersChanged;
+            Container.AfterSave += ContainersChanged;
             Container.AfterDispose += ContainersChanged;
-            Container.AfterUpdate += ContainerChanged;
             Container.ContentsChanged += ContainerContentsChanged;
 
             // Watch for device changes
@@ -183,7 +182,7 @@ namespace Touchee {
 
 
         /// <summary>
-        /// Called when a container has been created or disposed
+        /// Called when a container has been created, updated or disposed
         /// </summary>
         void ContainersChanged(object sender, Collectable<Container>.ItemEventArgs e) {
             this.Revised();
@@ -191,13 +190,13 @@ namespace Touchee {
         }
 
 
-        /// <summary>
-        /// Called when a container has been updated
-        /// </summary>
-        void ContainerChanged(object sender, Collectable<Container>.ItemEventArgs e) {
-            this.Revised();
-            _server.Broadcast("container", e.Item);
-        }
+        ///// <summary>
+        ///// Called when a container has been updated
+        ///// </summary>
+        //void ContainerChanged(object sender, Collectable<Container>.ItemEventArgs e) {
+        //    this.Revised();
+        //    _server.Broadcast("container", e.Item);
+        //}
 
 
         /// <summary>

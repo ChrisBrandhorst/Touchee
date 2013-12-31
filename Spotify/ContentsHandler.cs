@@ -1,4 +1,4 @@
-﻿//using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 using Touchee;
 using SpotiFire;
+using Spotify.Media;
 
 namespace Spotify {
     
@@ -60,6 +61,33 @@ namespace Spotify {
         /// listeners are attached to the playlist collection list.
         /// </summary>
         async void ConnectionstateUpdated(Session sender, SessionEventArgs e) {
+
+            switch (sender.ConnectionState) {
+
+                // Logged out
+                case ConnectionState.LoggedOut:
+                    MasterPlaylist.Instance.Dispose();
+                    break;
+
+                // Offline state (when logged in, but not completely yet)
+                case ConnectionState.Offline:
+                    break;
+
+                // User has logged in
+                case ConnectionState.LoggedIn:
+                    MasterPlaylist.Instance.Save();
+                    break;
+
+                // User has been disconnected after having been logged in
+                case ConnectionState.Disconnected:
+                    break;
+
+                // No clue
+                case ConnectionState.Undefined:
+                    break;
+
+            }
+
             return;
             if (sender.ConnectionState == ConnectionState.LoggedIn) {
                 await _session.PlaylistContainer;
@@ -88,9 +116,9 @@ namespace Spotify {
         /// </summary>
         void Playlists_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             if (e.NewItems != null)
-                this.TrackPlaylists(e.NewItems.Cast<Playlist>().ToList());
+                this.TrackPlaylists(e.NewItems.Cast<SpotiFire.Playlist>().ToList());
             if (e.OldItems != null)
-                this.RemovePlaylists(e.OldItems.Cast<Playlist>().ToList());
+                this.RemovePlaylists(e.OldItems.Cast<SpotiFire.Playlist>().ToList());
         }
 
 
@@ -101,7 +129,7 @@ namespace Spotify {
         /// the playlist is presented to the StateChanged method for further processing.
         /// </summary>
         /// <param name="playlist">The playlist to track</param>
-        void TrackPlaylist(Playlist playlist) {
+        void TrackPlaylist(SpotiFire.Playlist playlist) {
             this.playlist_StateChanged(playlist, new PlaylistEventArgs());
             playlist.MetadataUpdated += playlist_StateChanged;
             playlist.StateChanged += playlist_StateChanged;
@@ -114,7 +142,7 @@ namespace Spotify {
         /// the playlist is presented to the StateChanged method for further processing.
         /// </summary>
         /// <param name="playlists">The set of playlists to track</param>
-        void TrackPlaylists(IList<Playlist> playlists) {
+        void TrackPlaylists(IList<SpotiFire.Playlist> playlists) {
             foreach (var playlist in playlists)
                 this.TrackPlaylist(playlist);
         }
@@ -124,7 +152,7 @@ namespace Spotify {
         /// Removes the set of playlists
         /// </summary>
         /// <param name="playlists">The set of playlists to remove</param>
-        void RemovePlaylists(IList<Playlist> playlists) {
+        void RemovePlaylists(IList<SpotiFire.Playlist> playlists) {
             foreach (var playlist in playlists) {
                 var altID = playlist.ToLink().ToString();
                 if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
@@ -142,7 +170,7 @@ namespace Spotify {
         /// Called when the state of a playlist changes.
         /// This method checks if the playlist is completely loaded and then updates or adds the playlist.
         /// </summary>
-        async void playlist_StateChanged(Playlist sender, PlaylistEventArgs e) {
+        async void playlist_StateChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
 
             // Only continue if the playlist is completely loaded, including all tracks
             if (sender.IsLoaded && sender.AllTracksLoaded()) {
@@ -181,12 +209,12 @@ namespace Spotify {
         async void Tracks_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             return;
             if (e.NewItems != null)
-                await this.AddTracks((Playlist)sender, e.NewItems.Cast<Track>().ToList());
+                await this.AddTracks((SpotiFire.Playlist)sender, e.NewItems.Cast<SpotiFire.Track>().ToList());
             if (e.OldItems != null)
-                this.RemoveTracks((Playlist)sender, e.OldItems.Cast<Track>().ToList());
+                this.RemoveTracks((SpotiFire.Playlist)sender, e.OldItems.Cast<SpotiFire.Track>().ToList());
         }
 
-        async Task AddTracks(Playlist playlist, IList<Track> tracks) {
+        async Task AddTracks(SpotiFire.Playlist playlist, IList<SpotiFire.Track> tracks) {
             foreach (var track in tracks) {
                 await track;
                 var altID = track.GetLink().ToString();
@@ -198,7 +226,7 @@ namespace Spotify {
             }
         }
 
-        void RemoveTracks(Playlist playlist, IList<Track> tracks) {
+        void RemoveTracks(SpotiFire.Playlist playlist, IList<Track> tracks) {
         }
 
 

@@ -347,11 +347,12 @@ namespace Touchee {
         /// </summary>
         public virtual void Save() {
             bool isNew = this.IsNew;
+            bool wasDisposed = this.IsDisposed;
 
             // Do save and create or update before callbacks
             if (Collectable<T>.BeforeSave != null)
                 Collectable<T>.BeforeSave.Invoke(this, new ItemEventArgs(ItemChangeTypes.Saved, this));
-            if (isNew) {
+            if (isNew || wasDisposed) {
                 if (Collectable<T>.BeforeCreate != null)
                     Collectable<T>.BeforeCreate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Created, this));
             }
@@ -367,9 +368,10 @@ namespace Touchee {
                 if (AltId != null)
                     _altTable[AltId] = this;
             }
-            
+            this.IsDisposed = false;
+
             // Do create or update and save after callbacks
-            if (isNew) {
+            if (isNew || wasDisposed) {
                 if (Collectable<T>.AfterCreate != null && Id > 0)
                     Collectable<T>.AfterCreate.Invoke(this, new ItemEventArgs(ItemChangeTypes.Created, this));
             }

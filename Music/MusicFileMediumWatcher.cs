@@ -159,7 +159,7 @@ namespace Music {
             watcher.CollectingCompleted -= musicDirectoryWatcher_CollectingCompleted;
             var done = DirectoryWatchers.Where(dw => dw.Medium == watcher.Medium).All(dw => dw.CollectionState == CollectionState.Collected);
             if (done) {
-                var masterPlaylist = watcher.Medium.GetMasterContainer();
+                var masterPlaylist = watcher.Medium.MasterContainer;
                 masterPlaylist.Loaded = true;
                 masterPlaylist.Save();
             }

@@ -17,7 +17,6 @@ namespace Spotify.Media {
         /// Private constructor
         /// </summary>
         SpotifyMedium() : base("Spotify") {
-            this.MasterPlaylist = new MasterPlaylist(this);
         }
 
         /// <summary>
@@ -26,8 +25,6 @@ namespace Spotify.Media {
         public static SpotifyMedium Instance = new SpotifyMedium();
 
         #endregion
-
-        public MasterPlaylist MasterPlaylist { get; private set; }
 
     }
 
