@@ -10,6 +10,7 @@ define({root:{
         logout:     "Logout",
 
         loggingIn:    "Logging in...",
+        loggingOff:   "Logging off...",
         offline:      "Connecting...",
         loggedIn:     "Logged in as <em>%s</em>",
         disconnected: "Disconnected, reconnecting...",

@@ -172,12 +172,9 @@ namespace Spotify {
 
         public void SendStatus() {
             Context.Server.Broadcast(
-                "plugin",
-                new {
-                    spotify = new {
-                        session = new SessionStatus(SessionHandler)
-                    }
-                }
+                "spotify",
+                "session",
+                new SessionStatus(SessionHandler)
             );
         }
 

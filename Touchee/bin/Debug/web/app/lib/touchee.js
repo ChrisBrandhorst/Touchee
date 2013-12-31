@@ -250,15 +250,15 @@ define([
   // -----------------
   
   Touchee.buildUrl = function() {
-    var params, base, url;
+    var args = _.compact(arguments), params, base, url;
 
     // Get the last argument if it is an object
-    var lastArg = arguments[arguments.length - 1];
+    var lastArg = args[args.length - 1];
     if (_.isObject(lastArg))
-      params = Array.prototype.pop.call(arguments);
+      params = args.pop();
 
     // Create base url
-    base = url = Array.prototype.join.call(arguments, '/');
+    base = url = args.join.call(args, '/');
 
     // Append params
     if (params) {

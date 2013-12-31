@@ -8,9 +8,7 @@ define([
 
   var ConfigListView = CommonListView.extend({
     
-    innerTagName: 'nav',
     innerClass:   'list icons',
-    selectable:   'a',
     selection:    { keep: true },
     model:        Touchee.Config.sections
     

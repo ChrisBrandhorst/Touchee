@@ -16,6 +16,12 @@ define([
     model:  function(attrs, options) {
       return ServerInfo.getPlugin(attrs.plugin).module.buildContainer(attrs, options);
     },
+
+
+    // 
+    parse: function(response) {
+      return response.containers;
+    },
     
     
     // Constructor

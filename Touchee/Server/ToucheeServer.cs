@@ -179,6 +179,7 @@ namespace Touchee.Server {
             Client.ForEach(c => this.Send(c, message));
         }
 
+
         /// <summary>
         /// Sends a message to all clients as JSON over the websocket
         /// </summary>
@@ -196,6 +197,26 @@ namespace Touchee.Server {
         public void Broadcast(string key, object obj) {
             Client.ForEach(c => this.Send(c, key, obj));
         }
+
+
+        /// <summary>
+        /// Sends a plugin-specific object to all clients as JSON over the websocket
+        /// </summary>
+        /// <param name="plugin">The name of the plugin</param>
+        /// <param name="key">The root key</param>
+        /// <param name="obj">The object to send</param>
+        public void Broadcast(string plugin, string key, object obj) {
+            var pluginDict = new Dictionary<string, object>();
+            var dict = new Dictionary<string, object>();
+            pluginDict[key] = obj;
+            dict[plugin] = pluginDict;
+
+            this.Broadcast(
+                "plugin",
+                dict
+            );
+        }
+
 
         #endregion
 

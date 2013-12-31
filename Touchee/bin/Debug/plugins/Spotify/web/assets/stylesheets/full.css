@@ -23,11 +23,11 @@
   background-repeat: no-repeat;
   background-image: -webkit-image-set(url(../images/ConfigHeader.png) 1x, url(../images/ConfigHeader@2x.png) 2x);
 }
-/* line 24, ../sass/_config.sass */
+/* line 23, ../sass/_config.sass */
 #spotify_config h2 {
   font-size: 1.4em;
 }
-/* line 27, ../sass/_config.sass */
+/* line 26, ../sass/_config.sass */
 #spotify_config form {
   background: dimgrey;
   padding: 1em;
@@ -40,7 +40,7 @@
   -moz-box-shadow: 0px 1px 5px 0 rgba(0, 0, 0, 0.2);
   box-shadow: 0px 1px 5px 0 rgba(0, 0, 0, 0.2);
 }
-/* line 33, ../sass/_config.sass */
+/* line 32, ../sass/_config.sass */
 #spotify_config input {
   height: 2.25em;
   padding: 0.2em 1em;
@@ -54,7 +54,7 @@
   -o-border-radius: 2em;
   border-radius: 2em;
 }
-/* line 42, ../sass/_config.sass */
+/* line 41, ../sass/_config.sass */
 #spotify_config #spotify_session #spotify_session_message {
   display: inline-block;
   line-height: 2.4em;
@@ -64,37 +64,37 @@
 #spotify_config #spotify_session #spotify_session_message.error, #spotify_config #spotify_session em {
   color: #a9d03f;
 }
-/* line 48, ../sass/_config.sass */
+/* line 49, ../sass/_config.sass */
 #spotify_config #spotify_session input[disabled] {
   color: #aaaaaa;
   background-color: #dddddd;
 }
-/* line 51, ../sass/_config.sass */
+/* line 53, ../sass/_config.sass */
 #spotify_config #spotify_session button, #spotify_config #spotify_session #spotify_logout {
   float: right;
 }
-/* line 53, ../sass/_config.sass */
+/* line 56, ../sass/_config.sass */
 #spotify_config #spotify_session #spotify_logout {
   display: none;
 }
-/* line 56, ../sass/_config.sass */
+/* line 60, ../sass/_config.sass */
 #spotify_config #spotify_session.busy button, #spotify_config #spotify_session.busy #spotify_logout {
   display: none;
 }
-/* line 59, ../sass/_config.sass */
+/* line 64, ../sass/_config.sass */
 #spotify_config #spotify_session.logged_in input, #spotify_config #spotify_session.logged_in button {
   display: none;
 }
-/* line 61, ../sass/_config.sass */
+/* line 66, ../sass/_config.sass */
 #spotify_config #spotify_session.logged_in #spotify_logout {
   display: inline-block;
 }
 
 /* line 75, ../../../../../web/app/assets/sass/_mixins.sass */
-.icons > *.spotify::before, .icon.spotify::before, table.icons td:first-child.spotify::before, table td.icon.spotify:first-child::before {
+.icons > *.spotify::before, .icon.spotify::before, table.icons tr.spotify:not(.index) td:first-child::before, table tr.icon.spotify:not(.index) td:first-child::before {
   background-image: -webkit-image-set(url(../images/SourceListSpotifyGray.png) 1x, url(../images/SourceListSpotifyGray@2x.png) 2x);
 }
 /* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
-.icons > *.spotify.selected::before, .icon.spotify.selected::before, table.icons td:first-child.spotify.selected::before, table td.icon.spotify:first-child.selected::before {
+.icons > *.spotify.selected::before, .icon.spotify.selected::before, table.icons tr.spotify:not(.index) td:first-child.selected::before, table tr.icon.spotify:not(.index) td:first-child.selected::before {
   background-image: -webkit-image-set(url(../images/SourceListSpotifyHighlight.png) 1x, url(../images/SourceListSpotifyHighlight@2x.png) 2x);
 }

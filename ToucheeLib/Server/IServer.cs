@@ -27,11 +27,21 @@ namespace Touchee.Server {
 
 
         /// <summary>
-        /// Sends a JSON string to all clients as JSON over the websocket
+        /// Sends an object to all clients as JSON over the websocket
         /// </summary>
         /// <param name="key">The root key</param>
-        /// <param name="obj">The object to sendd</param>
+        /// <param name="obj">The object to send</param>
         void Broadcast(string key, object obj);
+
+
+        /// <summary>
+        /// Sends a plugin-specific object to all clients as JSON over the websocket
+        /// </summary>
+        /// <param name="plugin">The name of the plugin</param>
+        /// <param name="key">The root key</param>
+        /// <param name="obj">The object to send</param>
+        void Broadcast(string plugin, string key, object obj);
+
 
     }
 

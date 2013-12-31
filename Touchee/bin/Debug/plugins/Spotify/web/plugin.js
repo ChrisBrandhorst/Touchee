@@ -2,9 +2,8 @@ define([
   'underscore',
   'Touchee',
   '../music/contents_module',
-  // 'models/communicator',
   './models/session',
-  './views/config',
+  // './views/config',
   'i18n!./nls/locale'
 ], function(_, Touchee, MusicContentsModule, Session, Locale) {
   
