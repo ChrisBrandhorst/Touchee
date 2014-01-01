@@ -44,7 +44,11 @@ namespace Spotify {
         public ContentsHandler(Session session) {
             _session = session;
             _session.ConnectionstateUpdated += ConnectionstateUpdated;
-            _masterPlaylist = (Music.Media.MasterPlaylist)Touchee.Medium.Local.Containers.First(c => c is Music.Media.MasterPlaylist);
+            var masterContainer = Touchee.Medium.Local.MasterContainer;
+            if (masterContainer == null)
+                Log("Master container for local medium not found. This should not happen!", Logger.LogLevel.Error);
+            else
+                _masterPlaylist = (Music.Media.MasterPlaylist)masterContainer;
         }
 
 

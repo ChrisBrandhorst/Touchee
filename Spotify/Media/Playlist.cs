@@ -21,7 +21,7 @@ namespace Spotify.Media {
         /// <param name="medium"></param>
         /// <param name="spPlaylist"></param>
         public Playlist(SpotiFire.Playlist spPlaylist, Medium medium) : base(spPlaylist.Name, medium) {
-
+            
             var link = "";// spPlaylist.GetLink();
             this.AltId = link.ToString();
             //link.Dispose();
