@@ -19,6 +19,6 @@ define([
     
   });
   
-  return Container;
+  return Container.including(Backbone.SmartGet);
 
 });

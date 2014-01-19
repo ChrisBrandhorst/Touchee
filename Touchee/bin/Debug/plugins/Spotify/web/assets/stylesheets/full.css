@@ -96,5 +96,14 @@
 }
 /* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
 .icons > *.spotify.selected::before, .icon.spotify.selected::before, table.icons tr.spotify:not(.index) td:first-child.selected::before, table tr.icon.spotify:not(.index) td:first-child.selected::before {
-  background-image: -webkit-image-set(url(../images/SourceListSpotifyHighlight.png) 1x, url(../images/SourceListSpotifyHighlight@2x.png) 2x);
+  background-image: -webkit-image-set(url(../images/SourceListSpotifyGray.png) 1x, url(../images/SourceListSpotifyGray@2x.png) 2x);
+}
+
+/* line 75, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.starred_playlist::before, .icon.starred_playlist::before, table.icons tr.starred_playlist:not(.index) td:first-child::before, table tr.icon.starred_playlist:not(.index) td:first-child::before {
+  background-image: -webkit-image-set(url(../images/SourceListStar.png) 1x, url(../images/SourceListStar@2x.png) 2x);
+}
+/* line 77, ../../../../../web/app/assets/sass/_mixins.sass */
+.icons > *.starred_playlist.selected::before, .icon.starred_playlist.selected::before, table.icons tr.starred_playlist:not(.index) td:first-child.selected::before, table tr.icon.starred_playlist:not(.index) td:first-child.selected::before {
+  background-image: -webkit-image-set(url(../images/SourceListStar.png) 1x, url(../images/SourceListStar@2x.png) 2x);
 }

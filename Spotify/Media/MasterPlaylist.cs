@@ -24,23 +24,13 @@ namespace Spotify.Media {
         /// <summary>
         /// Private constructor
         /// </summary>
-        MasterPlaylist() : base(SpotifyMedium.Instance.Name, SpotifyMedium.Instance) { }
+        MasterPlaylist() : base(SpotifyMedium.Instance.Name, SpotifyMedium.Instance) {
+        }
 
         /// <summary>
         /// The singleton instance of the library
         /// </summary>
         public static MasterPlaylist Instance = new MasterPlaylist();
-
-        #endregion
-
-
-        #region Constructor
-
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="medium"></param>
-        //public MasterPlaylist(Medium medium) : base(medium.Name, medium) { }
 
         #endregion
 

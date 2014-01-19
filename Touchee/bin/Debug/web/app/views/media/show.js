@@ -18,7 +18,7 @@ define([
     // Constructor
     initialize: function(options) {
       PageView.prototype.initialize.apply(this, arguments);
-      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'change set:containers', this.render);
     },
     
     

@@ -115,7 +115,7 @@ namespace Spotify {
 
         #region Login
 
-
+        
         /// <summary>
         /// Login into Spotify with the given username and password or username and credentials.
         /// </summary>
@@ -130,8 +130,9 @@ namespace Spotify {
                     return Error.OTHER_TRANSIENT;
             }
 
-            if (Session.ConnectionState == ConnectionState.LoggedIn)
+            if (Session.ConnectionState == ConnectionState.LoggedIn) {
                 return Error.OK;
+            }
 
             if (!_loggingIn) {
                 _loggingIn = true;

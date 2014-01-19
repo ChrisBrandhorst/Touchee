@@ -12,9 +12,7 @@ define([
       this.containers = new ContentsContainers([], {medium:this});
 
       // If the containers collection is changed, trigger event on the medium
-      this
-        .listenTo(this.containers, 'sync', function(){ this.trigger('sync:containers', this); })
-        .listenTo(this.containers, 'change', function(){ this.trigger('change:containers',  this); });
+      this.listenTo(this.containers, 'set', function(){ this.trigger('set:containers', this); });
     },
     
     

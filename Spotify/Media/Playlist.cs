@@ -22,9 +22,9 @@ namespace Spotify.Media {
         /// <param name="spPlaylist"></param>
         public Playlist(SpotiFire.Playlist spPlaylist, Medium medium) : base(spPlaylist.Name, medium) {
             
-            var link = "";// spPlaylist.GetLink();
+            var link = spPlaylist.GetLink();
             this.AltId = link.ToString();
-            //link.Dispose();
+            link.Dispose();
             
             this.Master = medium.MasterContainer;
         }
@@ -33,5 +33,21 @@ namespace Spotify.Media {
         #endregion
 
     }
+
+
+
+
+
+    public class StarredPlaylist : Playlist {
+        public StarredPlaylist(SpotiFire.Playlist spPlaylist, Medium medium) : base(spPlaylist, medium) { }
+        public override string Type { get { return "starred_playlist"; } }
+        public override string Name { get { return "Starred"; } }
+    }
+
+
+
+
+
+
 
 }

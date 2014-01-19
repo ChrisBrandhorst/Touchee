@@ -185,8 +185,11 @@ namespace Touchee {
         /// Called when a container has been created, updated or disposed
         /// </summary>
         void ContainersChanged(object sender, Collectable<Container>.ItemEventArgs e) {
-            this.Revised();
-            _server.Broadcast(new ContainersResponse(e.Item.Medium));
+            var medium = e.Item.Medium;
+            ThrottledBroadcast(medium, () => {
+                this.Revised();
+                _server.Broadcast(new ContainersResponse(medium));
+            }, new TimeSpan(0,0,2));
         }
 
 
@@ -204,8 +207,10 @@ namespace Touchee {
         /// </summary>
         /// <param name="container">The container which is modified</param>
         void ContainerContentsChanged(Container container) {
-            this.Revised();
-            _server.Broadcast(new ContentsChangedResponse(container));
+            ThrottledBroadcast(container, () => {
+                this.Revised();
+                _server.Broadcast(new ContentsChangedResponse(container));
+            }, new TimeSpan(0, 0, 10));
         }
 
 
@@ -235,21 +240,6 @@ namespace Touchee {
         Dictionary<object, Timer> _broadcastTimers = new Dictionary<object, Timer>();
 
 
-        /// <summary>
-        /// Broadcasts the containers of a medium to the clients.
-        /// Call is throttled.
-        /// </summary>
-        /// <param name="medium">The medium to send the containers of</param>
-        void BroadcastContainers(Medium medium) {
-            ThrottledBroadcast(medium, () => {
-                this.Revised();
-                _server.Broadcast(new ContainersResponse(medium));
-            });
-        }
-
-
-
-
         void BroadcastQueue(Queue queue) {
             //ThrottledBroadcast(queue, () => {
                 _server.Broadcast(new QueueResponse(queue));
@@ -262,7 +252,7 @@ namespace Touchee {
         /// </summary>
         /// <param name="obj">The scope of the action</param>
         /// <param name="action">The action to throttle</param>
-        void ThrottledBroadcast(object obj, Action action) {
+        void ThrottledBroadcast(object obj, Action action, TimeSpan timeout) {
 
             lock (_broadcastTimers) {
 
@@ -281,6 +271,15 @@ namespace Touchee {
 
             }
 
+        }
+
+        /// <summary>
+        /// Throttles the given action in the scope of the given object.
+        /// </summary>
+        /// <param name="obj">The scope of the action</param>
+        /// <param name="action">The action to throttle</param>
+        void ThrottledBroadcast(object obj, Action action) {
+            this.ThrottledBroadcast(obj, action, new TimeSpan(0,0,1));
         }
 
 

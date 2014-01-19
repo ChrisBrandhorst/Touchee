@@ -139,7 +139,7 @@ define([
       if (obj = response.containers) {
         var medium = Media.get(obj.mediumID);
         if (medium)
-          medium.containers.set(obj.items);
+          medium.containers.set(obj.containers);
       }
 
 

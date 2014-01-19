@@ -40,7 +40,6 @@ define([
       this._websocket.onerror = function(ev) {
         T.Log.error("Communicator:: ERROR on websocket: " + ev.data);
         communicator.trigger('error', ev.data);
-        alert("Error: what now? Websocket ready? " + communicator.isConnected());
       };
       this._websocket.onclose = function(ev) {
         T.Log.warn("Communicator:: websocket closed");

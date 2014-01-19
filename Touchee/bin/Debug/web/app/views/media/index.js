@@ -23,7 +23,7 @@ define([
       PageView.prototype.initialize.apply(this, arguments);
 
       this
-        .listenTo(this.model, 'reset add change remove sync:containers change:containers', this.render)
+        .listenTo(this.model, 'set set:containers', this.render)
         .listenTo(this, 'back', this.removeSelection);
     },
     

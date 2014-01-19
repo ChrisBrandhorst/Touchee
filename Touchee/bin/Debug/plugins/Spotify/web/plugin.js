@@ -16,7 +16,6 @@ define([
 
     initialize: function() {
 
-
       Touchee.Config.register({
         id:   'spotify',
         name: i18n.t('spotify.spotify'),

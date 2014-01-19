@@ -1,11 +1,12 @@
 define([
   'underscore',
   'Backbone',
+  'models/container',
   'models/contents',
   'models/item'
-], function(_, Backbone, Contents, Item){
+], function(_, Backbone, Container, Contents, Item){
   
-  var ContentsContainer = Backbone.Model.extend({
+  var ContentsContainer = Container.extend({
     
     
     // The model used for the contents object
@@ -14,10 +15,6 @@ define([
     
     // The model used for the items within the contents object
     contentsItemModel:  Item,
-    
-    
-    // The different views that are available for this contents container
-    views:              [],
     
     
     // Whether this contents container has one single set of contents, regardless of params

@@ -47,8 +47,7 @@ namespace Spotify.Media {
         /// <param name="spTrack">The Spotify track to update to</param>
         public void Update(SpotiFire.Track spTrack) {
             this.Title = spTrack.Name;
-            if (spTrack.Artists.Count > 0)
-                this.Artist = spTrack.Artists.First().Name;
+            this.Artist = spTrack.FirstArtist();
             this.Album = spTrack.Album.Name;
             this.AlbumArtist = spTrack.Album.Artist.Name;
             this.DiscNumber = (uint)spTrack.Disc;

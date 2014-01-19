@@ -24,11 +24,10 @@ namespace Spotify {
         /// The session
         /// </summary>
         Session _session;
-
+        
 
         Music.Media.MasterPlaylist _masterPlaylist;
-
-
+        ConnectionState _previousConnectionState;
 
         #endregion
 
@@ -56,7 +55,7 @@ namespace Spotify {
 
 
 
-        #region Playlist handling
+        #region Connection State Updated
 
 
         /// <summary>
@@ -70,7 +69,18 @@ namespace Spotify {
 
                 // Logged out
                 case ConnectionState.LoggedOut:
-                    MasterPlaylist.Instance.Dispose();
+
+                    if (_previousConnectionState == ConnectionState.LoggedIn) {
+                        
+                        // Remove all playlists
+                        MasterPlaylist.Instance.Dispose();
+                        var playlists = Touchee.Medium.Local.Containers.OfType<Spotify.Media.Playlist>();
+                        lock (playlists) {
+                            foreach (var playlist in playlists)
+                                playlist.Dispose();
+                        }
+                    }
+
                     break;
 
                 // Offline state (when logged in, but not completely yet)
@@ -79,9 +89,22 @@ namespace Spotify {
 
                 // User has logged in
                 case ConnectionState.LoggedIn:
-                    MasterPlaylist.Instance.Save();
-                    break;
 
+                    // Save the master playlist
+                    MasterPlaylist.Instance.Save();
+
+                    // Wait for the playlist container
+                    await _session.PlaylistContainer;
+
+                    // Track initial set of playlists and starred list
+                    this.AddPlaylists(_session.PlaylistContainer.Playlists);
+                    this.AddPlaylist(_session.Starred);
+
+                    // Add event handler for removal/adding of playlists
+                    _session.PlaylistContainer.Playlists.CollectionChanged += Playlists_CollectionChanged;
+
+                    break;
+                    
                 // User has been disconnected after having been logged in
                 case ConnectionState.Disconnected:
                     break;
@@ -92,39 +115,58 @@ namespace Spotify {
 
             }
 
-            return;
-            if (sender.ConnectionState == ConnectionState.LoggedIn) {
-                await _session.PlaylistContainer;
-                
-                // Track initial set of playlists
-                this.TrackPlaylists(_session.PlaylistContainer.Playlists);
-                
-                // Track starred playlist
-                this.TrackPlaylist(_session.Starred);
-
-                // Remove and then add playlist container callback
-                _session.PlaylistContainer.Playlists.CollectionChanged -= Playlists_CollectionChanged;
-                _session.PlaylistContainer.Playlists.CollectionChanged += Playlists_CollectionChanged;
-
-                // Remove callback
-                _session.ConnectionstateUpdated -= ConnectionstateUpdated;
-            }
+            _previousConnectionState = sender.ConnectionState;
 
         }
 
+
+        #endregion
+
+
+
+        #region PlaylistContainer CollectionChanged
 
 
         /// <summary>
-        /// Called when one or more playlists are removed from Spotify.
-        /// The Touchee representations of these playlists are then added / removed.
+        /// Called when one or more playlists are changed in Spotify.
+        /// Since it is possible that playlists are added / removed whilst the app is not connected,
+        /// we just perform a sync instead of adding/removing playlists based on these calls.
         /// </summary>
         void Playlists_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e) {
             if (e.NewItems != null)
-                this.TrackPlaylists(e.NewItems.Cast<SpotiFire.Playlist>().ToList());
+                this.AddPlaylists(e.NewItems.Cast<SpotiFire.Playlist>());
             if (e.OldItems != null)
-                this.RemovePlaylists(e.OldItems.Cast<SpotiFire.Playlist>().ToList());
+                this.RemovePlaylists(e.OldItems.Cast<SpotiFire.Playlist>());
+        }
+        
+
+        /// <summary>
+        /// Tracks the given set of playlists.
+        /// When the state or track meta data of the given playlists is changed,
+        /// the playlist is presented to the StateChanged method for further processing.
+        /// </summary>
+        /// <param name="playlists">The set of playlists to track</param>
+        void AddPlaylists(IEnumerable<SpotiFire.Playlist> playlists) {
+            foreach (var playlist in playlists)
+                this.AddPlaylist(playlist);
         }
 
+
+        /// <summary>
+        /// Removes the set of playlists
+        /// </summary>
+        /// <param name="playlists">The set of playlists to remove</param>
+        void RemovePlaylists(IEnumerable<SpotiFire.Playlist> playlists) {
+            foreach (var playlist in playlists)
+                this.RemovePlaylist(playlist);
+        }
+
+
+        #endregion
+
+
+
+        #region Playlist adding / updating
 
 
         /// <summary>
@@ -133,38 +175,124 @@ namespace Spotify {
         /// the playlist is presented to the StateChanged method for further processing.
         /// </summary>
         /// <param name="playlist">The playlist to track</param>
-        void TrackPlaylist(SpotiFire.Playlist playlist) {
-            this.playlist_StateChanged(playlist, new PlaylistEventArgs());
-            playlist.MetadataUpdated += playlist_StateChanged;
+        void AddPlaylist(SpotiFire.Playlist playlist) {
+            Log("TR: " + (playlist.IsLoaded ? playlist.Name : "?"));
+
+            if (playlist.IsLoaded)
+                this.CreateOrUpdate(playlist);
+
             playlist.StateChanged += playlist_StateChanged;
+            //playlist.MetadataUpdated += playlist_MetadataUpdated;
+        }
+
+        
+        /// <summary>
+        /// Called when the state of a playlist changes.
+        /// This method checks if the playlist is completely loaded and then updates or adds the playlist.
+        /// </summary>
+        void playlist_StateChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            Log("SC: " + (sender.IsLoaded ? sender.Name : "?"));
+            if (sender.IsLoaded && sender.AllTracksLoaded())
+                this.CreateOrUpdate(sender);
         }
 
 
-        /// <summary>
-        /// Tracks the given set of playlists.
-        /// When the state or track meta data of the given playlists is changed,
-        /// the playlist is presented to the StateChanged method for further processing.
-        /// </summary>
-        /// <param name="playlists">The set of playlists to track</param>
-        void TrackPlaylists(IList<SpotiFire.Playlist> playlists) {
-            foreach (var playlist in playlists)
-                this.TrackPlaylist(playlist);
+        void playlist_MetadataUpdated(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            Log("MU: " + (sender.IsLoaded ? sender.Name : "?"));
         }
 
 
+        Spotify.Media.Playlist CreateOrUpdate(SpotiFire.Playlist playlist) {
+            Spotify.Media.Playlist toucheePlaylist = null;
+
+            // Get the alt ID
+            var altID = playlist.GetLink().ToString();
+
+            // If we already have this playlist, update it
+            if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
+                toucheePlaylist = (Spotify.Media.Playlist)Spotify.Media.Playlist.FindByAltID(altID);
+                Log("UP: " + toucheePlaylist.Name);
+            }
+
+            // Else, add as new playlist and listen to track events
+            else {
+
+                toucheePlaylist = playlist == _session.Starred
+                    ? new StarredPlaylist(playlist, Touchee.Medium.Local)
+                    : new Spotify.Media.Playlist(playlist, Touchee.Medium.Local);
+                toucheePlaylist.Save();
+                Log("CR: " + toucheePlaylist.Name + (playlist.IsAlbum() ? " Album" : " Playlist"));
+                //await this.AddTracks(sender, sender.Tracks);
+                //sender.Tracks.CollectionChanged += Tracks_CollectionChanged;
+            }
+            return null;
+        }
+
+
+        #endregion
+
+
+
+        #region Playlist removal
+
+
         /// <summary>
-        /// Removes the set of playlists
+        /// Removes the playlist
         /// </summary>
-        /// <param name="playlists">The set of playlists to remove</param>
-        void RemovePlaylists(IList<SpotiFire.Playlist> playlists) {
-            foreach (var playlist in playlists) {
-                var altID = playlist.ToLink().ToString();
-                if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
-                    var toucheePlaylist = Spotify.Media.Playlist.FindByAltID(altID);
-                    toucheePlaylist.Dispose();
-                    playlist.Tracks.CollectionChanged -= Tracks_CollectionChanged;
-                    playlist.MetadataUpdated -= playlist_StateChanged;
-                    playlist.StateChanged -= playlist_StateChanged;
+        /// <param name="playlist">The playlist to remove</param>
+        void RemovePlaylist(SpotiFire.Playlist playlist) {
+            var altID = playlist.GetLink().ToString();
+            if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
+                playlist.StateChanged -= playlist_StateChanged;
+                //playlist.MetadataUpdated -= playlist_MetadataUpdated;
+                var toucheePlaylist = Spotify.Media.Playlist.FindByAltID(altID);
+                toucheePlaylist.Dispose();
+                Log("RM: " + toucheePlaylist.Name);
+                //playlist.Tracks.CollectionChanged -= Tracks_CollectionChanged;
+            }
+        }
+
+
+        #endregion
+
+
+
+
+        void SyncPlaylists() {
+            var plc = _session.PlaylistContainer;
+            var spotifyPlaylists = plc.Playlists;
+            lock (spotifyPlaylists) {
+                if (plc.AllPlaylistsLoaded()) {
+
+                    var spotifyAltIDs = new List<string>();
+                    var toucheePlaylists = Spotify.Media.Playlist.All<Spotify.Media.Playlist>();
+
+                    foreach (var spotifyPlaylist in spotifyPlaylists) {
+                        var altID = spotifyPlaylist.GetLink().ToString();
+                        spotifyAltIDs.Add(altID);
+
+                        var toucheePlaylist = Spotify.Media.Playlist.ExistsByAltID(altID) ? (Spotify.Media.Playlist)Spotify.Media.Playlist.FindByAltID(altID) : null;
+                        if (toucheePlaylist == null) {
+                            toucheePlaylist = spotifyPlaylist == _session.Starred
+                                ? new StarredPlaylist(spotifyPlaylist, Touchee.Medium.Local)
+                                : new Spotify.Media.Playlist(spotifyPlaylist, Touchee.Medium.Local);
+                            toucheePlaylist.Save();
+                            Log("Created: " + toucheePlaylist.Name);
+                        }
+                        else {
+                            Log("Updated: " + toucheePlaylist.Name);
+                        }
+
+                    }
+
+                    var removedPlaylists = toucheePlaylists.Where((p, i) => !spotifyAltIDs.Contains(p.AltId));
+                    lock (removedPlaylists) {
+                        foreach (var playlist in removedPlaylists) {
+                            Log("Dispose: " + playlist.Name);
+                            playlist.Dispose();
+                        }
+                    }
+
                 }
             }
         }
@@ -174,36 +302,43 @@ namespace Spotify {
         /// Called when the state of a playlist changes.
         /// This method checks if the playlist is completely loaded and then updates or adds the playlist.
         /// </summary>
-        async void playlist_StateChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+        Spotify.Media.Playlist CreateOrUpdatePlaylist(SpotiFire.Playlist playlist) {
+            Spotify.Media.Playlist toucheePlaylist = null;
 
-            // Only continue if the playlist is completely loaded, including all tracks
-            if (sender.IsLoaded && sender.AllTracksLoaded()) {
-                Spotify.Media.Playlist playlist;
+            lock (playlist) {
+                // Only continue if the playlist is completely loaded, including all tracks
+                if (playlist.IsLoaded && playlist.AllTracksLoaded()) {
 
-                // Get the alt ID
-                var altID = sender.ToLink().ToString();
-                
-                // If we already have this playlist, update it
-                if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
-                    playlist = null;
+                    // Get the alt ID
+                    var altID = playlist.GetLink().ToString();
+
+                    // If we already have this playlist, update it
+                    if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
+                        toucheePlaylist = (Spotify.Media.Playlist)Spotify.Media.Playlist.FindByAltID(altID);
+                        Log("Updated");
+                    }
+
+                    // Else, add as new playlist and listen to track events
+                    else {
+
+                        toucheePlaylist = playlist == _session.Starred
+                            ? new StarredPlaylist(playlist, Touchee.Medium.Local)
+                            : new Spotify.Media.Playlist(playlist, Touchee.Medium.Local);
+                        toucheePlaylist.Save();
+                        Log("Created");
+                        //await this.AddTracks(sender, sender.Tracks);
+                        //sender.Tracks.CollectionChanged += Tracks_CollectionChanged;
+                    }
+
                 }
-                
-                // Else, add as new playlist and listen to track events
-                else {
-
-                    playlist = new Spotify.Media.Playlist(sender, Touchee.Medium.Local);
-                    playlist.Save();
-                    Log(playlist.Name + " " + altID.ToString());
-                    
-                    await this.AddTracks(sender, sender.Tracks);
-                    sender.Tracks.CollectionChanged += Tracks_CollectionChanged;
-                }
-
+                else
+                    Log("Not loaded");
             }
 
+            return toucheePlaylist;
         }
 
-        #endregion
+
 
 
 

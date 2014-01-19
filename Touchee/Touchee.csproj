@@ -158,7 +158,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(TargetDir)lib\"
+    <PostBuildEvent>IF NOT EXIST "$(TargetDir)lib\" mkdir "$(TargetDir)lib\"
 move "$(TargetDir)*.dll" "$(TargetDir)lib\"
 
 del "$(TargetDir)ToucheeLib.*"

@@ -92,8 +92,9 @@ define([
       BrowserView.setView(ConfigView, ConfigContainer);
       if (id) {
         var section = Touchee.Config.sections.get(id);
-        section.view.section = section;
-        ConfigView.setRight(section.view);
+        var view = _.isFunction(section.view) ? new section.view : section.view;
+        view.section = section;
+        ConfigView.setRight(view);
       }
     },
     

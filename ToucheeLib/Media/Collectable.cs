@@ -362,12 +362,11 @@ namespace Touchee {
             }
 
             // Set ID and store in tables
-            if (isNew) {
+            if (isNew)
                 Id = _nextId++;
-                _table[Id] = this;
-                if (AltId != null)
-                    _altTable[AltId] = this;
-            }
+            _table[Id] = this;
+            if (AltId != null)
+                _altTable[AltId] = this;
             this.IsDisposed = false;
 
             // Do create or update and save after callbacks
