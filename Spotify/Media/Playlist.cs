@@ -32,6 +32,18 @@ namespace Spotify.Media {
 
         #endregion
 
+
+
+        protected internal bool Collaborative { get; protected set; }
+
+
+        internal virtual bool Update(SpotiFire.Playlist spPlaylist) {
+            this.Name = spPlaylist.Name;
+            this.Collaborative = spPlaylist.IsCollaborative;
+            return true;
+        }
+
+
     }
 
 
@@ -42,6 +54,9 @@ namespace Spotify.Media {
         public StarredPlaylist(SpotiFire.Playlist spPlaylist, Medium medium) : base(spPlaylist, medium) { }
         public override string Type { get { return "starred_playlist"; } }
         public override string Name { get { return "Starred"; } }
+        internal override bool Update(SpotiFire.Playlist spPlaylist) {
+            return false;
+        }
     }
 
 
