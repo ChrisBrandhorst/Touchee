@@ -77,14 +77,16 @@ namespace Spotify {
 
         //}
 
-        public struct PlaylistHandlerStatus {
+        class PlaylistHandlerStatus {
             public bool UpdateInProgress;
             public bool TrackingTracks;
         }
 
-
         static Dictionary<SpotiFire.Playlist, PlaylistHandlerStatus> _playlistStatus = new Dictionary<SpotiFire.Playlist, PlaylistHandlerStatus>();
-        
+
+        public static bool IsKnown(this SpotiFire.Playlist playlist) {
+            return _playlistStatus.ContainsKey(playlist);
+        }
         public static void SetKnown(this SpotiFire.Playlist playlist, bool known) {
             if (known) {
                 if (!playlist.IsKnown())
@@ -93,19 +95,19 @@ namespace Spotify {
             else
                 _playlistStatus.Remove(playlist);
         }
-        public static bool IsKnown(this SpotiFire.Playlist playlist) {
-            return _playlistStatus.ContainsKey(playlist);
-        }
-        public static PlaylistHandlerStatus GetHandlerStatus(this SpotiFire.Playlist playlist) {
-            return _playlistStatus[playlist];
-        }
 
         public static bool IsUpdateInProgress(this SpotiFire.Playlist playlist) {
             return playlist.IsKnown() && _playlistStatus[playlist].UpdateInProgress;
         }
         public static void SetUpdateInProgress(this SpotiFire.Playlist playlist, bool inProgress) {
-            var status = _playlistStatus[playlist];
-            status.UpdateInProgress = inProgress;
+            _playlistStatus[playlist].UpdateInProgress = inProgress;
+        }
+
+        public static bool IsTrackingTracks(this SpotiFire.Playlist playlist) {
+            return playlist.IsKnown() && _playlistStatus[playlist].TrackingTracks;
+        }
+        public static void SetTrackingTracks(this SpotiFire.Playlist playlist, bool tracking) {
+            _playlistStatus[playlist].TrackingTracks = tracking;
         }
 
 

@@ -36,7 +36,6 @@ namespace Spotify.Media {
 
         protected internal bool Collaborative { get; protected set; }
 
-
         internal virtual bool Update(SpotiFire.Playlist spPlaylist) {
             this.Name = spPlaylist.Name;
             this.Collaborative = spPlaylist.IsCollaborative;

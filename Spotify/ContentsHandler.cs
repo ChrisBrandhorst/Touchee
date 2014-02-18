@@ -11,6 +11,7 @@ using Spotify.Media;
 
 namespace Spotify {
     
+
     /// <summary>
     /// Manages the content present for a Spotify session.
     /// All tracks present in playlists is arranged into albums and playlists.
@@ -167,92 +168,64 @@ namespace Spotify {
 
 
 
-        #region Playlist adding / updating
+        #region Playlist adding / updating / removing
 
 
         /// <summary>
-        /// Tracks the given playlist.
-        /// When the state or track meta data of the given playlist is changed,
-        /// the playlist is presented to the StateChanged method for further processing.
+        /// Called when a playlist is added to the playlist container.
+        /// When the playlist is fully loaded, the playlist is 'introduced', meaning events
+        /// changing the meta-data of this playlist will be tracked.
+        /// If no pending changes are present, the playlist will be stored.
+        /// Also, every playlist that is added will have its state changes tracked.
         /// </summary>
-        /// <param name="playlist">The playlist to track</param>
         void AddPlaylist(SpotiFire.Playlist playlist) {
-            //LogPlaylist(playlist, "added");
-            //if (playlist.IsFullyLoaded())
-            //    this.CreateOrUpdate(playlist);
-            //playlist.StateChanged += playlist_StateChanged;
-            //playlist.MetadataUpdated += playlist_MetadataUpdated;
-            //playlist.Renamed += playlist_Renamed;
-            //playlist.UpdateInProgress += playlist_UpdateInProgress;
-
             lock (playlist) {
-                LogPlaylist(playlist, "added");
-
+                //LogPlaylist(playlist, "added");
                 if (playlist.IsFullyLoaded()) {
-                    playlist.SetKnown(true);
-                    Bind(playlist);
+                    Introduce(playlist);
                     if (!playlist.HasPendingChanges)
                         CreateOrUpdate(playlist);
                 }
-
                 playlist.StateChanged += playlist_StateChanged;
             }
-
         }
 
         
         /// <summary>
         /// Called when the state of a playlist changes.
-        /// This method checks if the playlist is completely loaded and then updates or adds the playlist.
+        /// If the playlist is in the playlist container and fully loaded, it introduces the 
+        /// playlist if that has not happened before.
+        /// If no pending changes are present and no update is in progress, the playlist
+        /// will be stored / updated.
         /// </summary>
         void playlist_StateChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
-            //LogPlaylist(sender, "state changed");
-            //if (this.IsInContainer(sender) && sender.IsFullyLoaded())
-            //    this.CreateOrUpdate(sender);
-
             lock (sender) {
-                LogPlaylist(sender, "state changed");
-
+                //LogPlaylist(sender, "state changed");
                 if (this.IsInContainer(sender) && sender.IsFullyLoaded()) {
-
-                    if (!sender.IsKnown()) {
-                        sender.SetKnown(true);
-                        Bind(sender);
-                    }
-
-                    if (!sender.HasPendingChanges) {
-                        if (!sender.IsKnown()) {
-                            CreateOrUpdate(sender);
-                        }
-                        else if (!sender.GetHandlerStatus().UpdateInProgress) {
-                            CreateOrUpdate(sender);
-                        }
-
-                    }
-                }
-
-            }
-            
-        }
-
-
-
-        void playlist_UpdateInProgress(SpotiFire.Playlist sender, PlaylistEventArgs e) {
-            //LogPlaylist(sender, "update in progress", e);
-
-            lock (sender) {
-                LogPlaylist(sender, "update in progress", e);
-                var status = sender.GetHandlerStatus();
-                status.UpdateInProgress = !e.UpdateComplete;
-                if (this.IsInContainer(sender)) {
-                    if (e.UpdateComplete)
+                    if (!sender.IsKnown())
+                        Introduce(sender);
+                    if (!sender.HasPendingChanges && !sender.IsUpdateInProgress())
                         CreateOrUpdate(sender);
                 }
             }
         }
 
 
-        
+        /// <summary>
+        /// Called when an update action of a introduced playlist is started or has ended.
+        /// If the playlist is in the playlist container and the update is completed,
+        /// the playlist will be stored / updated.
+        /// </summary>
+        void playlist_UpdateInProgress(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            lock (sender) {
+                //LogPlaylist(sender, "update in progress", e);
+                sender.SetUpdateInProgress(!e.UpdateComplete);
+                if (this.IsInContainer(sender) && e.UpdateComplete)
+                    CreateOrUpdate(sender);
+            }
+        }
+
+
         /// <summary>
         /// Creates or updates the Touchee data for the given SpotiFire playlist
         /// </summary>
@@ -263,7 +236,7 @@ namespace Spotify {
 
             // Process only 'real' playlists
             if (playlist.Type != PlaylistType.Playlist) {
-                Log("IGNORING PLAYLIST: " + playlist.Type.ToString());
+                //Log("IGNORING PLAYLIST: " + playlist.Type.ToString());
                 return null;
             }
 
@@ -276,15 +249,16 @@ namespace Spotify {
                 // This playlist is not known yet, so the tracks for this playlist should be tracked.
                 // This can occur more than once!
                 if (toucheePlaylist == null) {
-                    //Log("TT: " + (playlist.HasPendingChanges ? "... " : "") + playlist.Name);
-                    LogPlaylist(playlist, "track tracks");
-                    //this.TrackTracks(playlist);
+                    if (!playlist.IsTrackingTracks()) {
+                        //LogPlaylistSimple(playlist, "track tracks");
+                        playlist.SetTrackingTracks(true);
+                        //this.TrackTracks(playlist);
+                    }
                 }
                 // If the playlist is known, it means that the playlist "has become an album".
                 // So we delete the playlist. The track events are already bound
                 else {
-                    //Log("RP: " + (playlist.HasPendingChanges ? "... " : "") + toucheePlaylist.Name);
-                    LogPlaylist(playlist, "playlist became album");
+                    //LogPlaylistSimple(playlist, "playlist became album");
                     toucheePlaylist.Dispose();
                 }
             }
@@ -295,52 +269,69 @@ namespace Spotify {
                     ? new StarredPlaylist(playlist, Touchee.Medium.Local)
                     : new Spotify.Media.Playlist(playlist, Touchee.Medium.Local);
                 toucheePlaylist.Save();
-                //Log("CR: " + (playlist.HasPendingChanges ? "... " : "") + toucheePlaylist.Name);
-                LogPlaylist(playlist, "create");
+                //LogPlaylistSimple(playlist, "create");
                 //this.TrackTracks(playlist);
             }
 
             // We have to update the playlist
             else {
-                var changed = toucheePlaylist.Update(playlist);
-                if (changed)
-                    toucheePlaylist.Save();
-                //Log("UP: " + (playlist.HasPendingChanges ? "... " : "") + toucheePlaylist.Name);
-                LogPlaylist(playlist, "update");
+                toucheePlaylist.Update(playlist);
+                //LogPlaylistSimple(playlist, "update");
             }
 
             return toucheePlaylist;
         }
 
-
-        #endregion
-
-
-
-        #region Playlist removal
-
-
+        
         /// <summary>
         /// Removes the playlist
         /// </summary>
         /// <param name="playlist">The playlist to remove</param>
         void RemovePlaylist(SpotiFire.Playlist playlist) {
-            var altID = playlist.GetLink().ToString();
-            if (Spotify.Media.Playlist.ExistsByAltID(altID)) {
-                playlist.StateChanged -= playlist_StateChanged;
-                //playlist.MetadataUpdated -= playlist_MetadataUpdated;
-                var toucheePlaylist = Spotify.Media.Playlist.FindByAltID(altID);
+            var toucheePlaylist = GetToucheePlaylist(playlist);
+            if (toucheePlaylist != null)
                 toucheePlaylist.Dispose();
-                Log("RM: " + toucheePlaylist.Name);
-                //playlist.Tracks.CollectionChanged -= Tracks_CollectionChanged;
-            }
+            Forget(playlist);
         }
 
 
         #endregion
 
 
-        
+
+        #region Playlist other events
+
+
+        /// <summary>
+        /// Called when the metadata of one or more tracks of a playlist is changed.
+        /// </summary>
+        void playlist_MetadataUpdated(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            //LogPlaylist(sender, "metadata updated");
+        }
+
+
+        /// <summary>
+        /// Called when a playlist is removed
+        /// </summary>
+        void playlist_Renamed(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            var toucheePlaylist = GetToucheePlaylist(sender);
+            if (toucheePlaylist != null)
+                toucheePlaylist.Update(sender);
+        }
+
+
+        /// <summary>
+        /// Called when the image of a playlist is changed
+        /// </summary>
+        void playlist_ImageChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
+            throw new NotImplementedException();
+        }
+
+
+        #endregion
+
+
+
         #region Track handling
 
 
@@ -375,71 +366,35 @@ namespace Spotify {
         #endregion
 
 
+
+
+
+
+
+        #region Utility
+
+
         /// <summary>
-        /// Called when the metadata of one or more tracks of a playlist is changed.
+        /// Introduce a playlist to the environment. This sets the Known value of the playlist
+        /// to true and binds the necessary events.
+        /// TODO: move content-related change binds to somewhere else, so they are only called
+        /// when we already have a touchee representation of the playlist
         /// </summary>
-        void playlist_MetadataUpdated(SpotiFire.Playlist sender, PlaylistEventArgs e) {
-            var loaded = sender.IsFullyLoaded();
-            var ready = sender.IsFullyReady();
-            //LogPlaylist(sender, "metadata updated");
-        }
-
-
-
-        //Dictionary<SpotiFire.Playlist, bool> _playlistUpdateStatus = new Dictionary<SpotiFire.Playlist, bool>();
-
-        //bool IsUpdateInProgress(SpotiFire.Playlist playlist) {
-        //    return _playlistUpdateStatus[playlist];
-        //}
-        //void SetUpdateInProgress(SpotiFire.Playlist playlist, bool inProgress) {
-        //    _playlistUpdateStatus[playlist] = inProgress;
-        //}
-        //void RemoveUpdateStatus(SpotiFire.Playlist playlist) {
-        //    _playlistUpdateStatus.Remove(playlist);
-        //}
-
-
-
-        void playlist_Renamed(SpotiFire.Playlist sender, PlaylistEventArgs e) {
-            LogPlaylist(sender, "renamed");
-        }
-
-        void LogPlaylist(SpotiFire.Playlist playlist, string ev, PlaylistEventArgs e = null) {
-            lock (this) {
-                Console.WriteLine(ev.ToUpper());
-                Console.WriteLine("  Playlist: " + (playlist.IsLoaded ? playlist.Name : "<unknown>"));
-                Console.WriteLine("  - Loaded:             " + playlist.IsLoaded.ToString());
-                Console.WriteLine("  - Known:              " + playlist.IsKnown().ToString());
-                if (playlist.IsLoaded) {
-                    Console.WriteLine("  - IsCollaborative:    " + playlist.IsCollaborative.ToString());
-                    Console.WriteLine("  - HasPendingChanges:  " + playlist.HasPendingChanges.ToString());
-                    Console.WriteLine("  - IsUpdateInProgress: " + playlist.IsUpdateInProgress().ToString());
-                    Console.WriteLine("  - AllTracksLoaded:    " + playlist.AllTracksLoaded().ToString());
-                }
-                if (e != null) {
-                    Console.WriteLine("  - Update completed:   " + e.UpdateComplete.ToString());
-                }
-            }
-        }
-
-
-
-        void playlist_ImageChanged(SpotiFire.Playlist sender, PlaylistEventArgs e) {
-            throw new NotImplementedException();
-        }
-
-
-
-        // TODO: move content-related change binds to somewhere else, so they are only called
-        // when we already have a touchee representation of the playlist
-        void Bind(SpotiFire.Playlist playlist) {
+        void Introduce(SpotiFire.Playlist playlist) {
+            playlist.SetKnown(true);
             playlist.ImageChanged += playlist_ImageChanged;
             playlist.MetadataUpdated += playlist_MetadataUpdated;
             playlist.Renamed += playlist_Renamed;
             playlist.UpdateInProgress += playlist_UpdateInProgress;
         }
 
-        void UnBind(SpotiFire.Playlist playlist) {
+
+        /// <summary>
+        /// Forget a playlist. This sets the Known value of the Playlist to false and unbinds
+        /// all the events.
+        /// </summary>
+        void Forget(SpotiFire.Playlist playlist) {
+            playlist.SetKnown(false);
             playlist.ImageChanged -= playlist_ImageChanged;
             playlist.MetadataUpdated -= playlist_MetadataUpdated;
             playlist.Renamed -= playlist_Renamed;
@@ -448,7 +403,11 @@ namespace Spotify {
         }
 
 
-        
+        /// <summary>
+        /// Gets the Touchee Playlist corresponding to eht given SpotiFire playlist
+        /// </summary>
+        /// <param name="playlist">The SpotiFire playlist to look for</param>
+        /// <returns>The corresponding Touchee playlist, or null of none is found</returns>
         Spotify.Media.Playlist GetToucheePlaylist(SpotiFire.Playlist playlist) {
             Spotify.Media.Playlist toucheePlaylist = null;
 
@@ -469,6 +428,41 @@ namespace Spotify {
         bool IsInContainer(SpotiFire.Playlist playlist) {
             return _session.PlaylistContainer.Playlists.Contains(playlist);
         }
+
+
+        #endregion
+
+
+
+        #region Debug logging
+
+
+        void LogPlaylist(SpotiFire.Playlist playlist, string ev, PlaylistEventArgs e = null) {
+            return;
+            lock (this) {
+                Console.WriteLine(ev.ToUpper());
+                Console.WriteLine("  Playlist: " + (playlist.IsLoaded ? playlist.Name : "<unknown>"));
+                Console.WriteLine("  - Loaded:             " + playlist.IsLoaded.ToString());
+                Console.WriteLine("  - Known:              " + playlist.IsKnown().ToString());
+                if (playlist.IsLoaded) {
+                    Console.WriteLine("  - IsCollaborative:    " + playlist.IsCollaborative.ToString());
+                    Console.WriteLine("  - HasPendingChanges:  " + playlist.HasPendingChanges.ToString());
+                    Console.WriteLine("  - IsUpdateInProgress: " + playlist.IsUpdateInProgress().ToString());
+                    Console.WriteLine("  - AllTracksLoaded:    " + playlist.AllTracksLoaded().ToString());
+                }
+                if (e != null) {
+                    Console.WriteLine("  - Update completed:   " + e.UpdateComplete.ToString());
+                }
+            }
+        }
+        void LogPlaylistSimple(SpotiFire.Playlist playlist, string ev, PlaylistEventArgs e = null) {
+            lock (this) {
+                Console.WriteLine("= " + ev.ToUpper() + " - " + (playlist.IsLoaded ? playlist.Name : "<unknown>"));
+            }
+        }
+
+
+        #endregion
 
     }
 
