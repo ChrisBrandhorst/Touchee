@@ -311,6 +311,28 @@ namespace Touchee {
             return ExistsByAltID(id) && FindByAltID(id) is R;
         }
 
+
+        /// <summary>
+        /// Gets a stored instance of the base type by the alternative ID
+        /// </summary>
+        /// <param name="id">The ID to search for</param>
+        /// <returns>The instance with the corresponding alternative ID, or the default value
+        /// for the type if is not present.</returns>
+        public static T FindOrDefaultByAltID(object id) {
+            return ExistsByAltID(id) ? FindByAltID(id) : default(T);
+        }
+
+
+        /// <summary>
+        /// Gets a stored instance of the base type by the alternative ID
+        /// </summary>
+        /// <param name="id">The ID to search for</param>
+        /// <returns>The instance with the corresponding alternative ID, or the default value
+        /// for the type if is not present.</returns>
+        public static R FindOrDefaultByAltID<R>(object id) where R : T {
+            return ExistsByAltID<R>(id) ? FindByAltID<R>(id) : default(R);
+        }
+
         #endregion
 
 

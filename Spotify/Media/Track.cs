@@ -12,7 +12,7 @@ namespace Spotify.Media {
     /// <summary>
     /// Representation of a Spotify track
     /// </summary>
-    public class SpotifyTrack : Music.Media.Track {
+    public class Track : Music.Media.Track {
 
 
         #region Statics
@@ -29,7 +29,7 @@ namespace Spotify.Media {
         /// Constructs a new Track object
         /// </summary>
         /// <param name="file">The FileInfo object of the music file</param>
-        public SpotifyTrack(SpotiFire.Track spTrack) {
+        public Track(SpotiFire.Track spTrack) {
             this.Update(spTrack);
         }
 

@@ -19,7 +19,8 @@ require.config({
     'lib/jquery.extensions':              ['jquery'],
     'lib/jquery.touchscrollselect':       ['jquery'],
     '../lib/jquery.hammer':               ['jquery'],
-    '../lib/jquery-ui-1.9.2.custom.min':  ['jquery']
+    '../lib/jquery-ui-1.10.4.custom.min': ['jquery'],
+    '../lib/jquery-ui.touch-punch-0.2.3': ['jquery']
   }
   
 });
@@ -44,6 +45,7 @@ require([
   'lib/jquery.touchscrollselect',
   '../lib/jquery.hammer',
   '../lib/jquery-ui-1.9.2.custom.min',
+  '../lib/jquery-ui.touch-punch-0.2.3',
   
   // Other
   'lib/underscore.extensions',

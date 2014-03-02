@@ -72,7 +72,7 @@
     <Compile Include="Media\MasterPlaylist.cs" />
     <Compile Include="Media\Playlist.cs" />
     <Compile Include="Media\SpotifyMedium.cs" />
-    <Compile Include="Media\SpotifyTrack.cs" />
+    <Compile Include="Media\Track.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
