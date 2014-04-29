@@ -21,7 +21,7 @@ define([
       options || (options = {});
       this.container = options.container;
       this.params = options.params;
-      this.listenTo(this.container, 'notifyContentsChanged', this.notifyContentsChanged);
+      this.listenTo(this.container, 'notifyContentsChanged', this.containerContentsChanged);
     },
     
     
@@ -47,8 +47,8 @@ define([
 
     // Called when the server notifies the client of the changing of the contents of the container
     // VIRTUAL
-    notifyContentsChanged: function() {
-      this.fetch({update:true});
+    containerContentsChanged: function() {
+      this.fetch();
       // this.trigger('notifyContentsChanged');
     }
     

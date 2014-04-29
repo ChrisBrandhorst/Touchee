@@ -23,12 +23,6 @@ define([
       this.listenTo(this.contents, 'reset change add remove', _.debounce(this._contentsReset, 10));
       this._contentsReset();
     },
-
-
-    // Remove listeners on disposal of this object
-    onDispose: function() {
-      this.stopListening();
-    },
     
     
     // Redirect fetch call to the underlying contents
@@ -66,7 +60,8 @@ define([
     // filtered by the sieve method
     _contentsReset: function() {
       var models = this.sieve(this.contents.models);
-      if (models != this.contents.models || this.length == 0 && models.length != 0)
+      // if (models != this.contents.models || this.length == 0 && models.length != 0)
+      if (!(this.length == 0 && models.length == 0))
         this.reset(models);
     },
     

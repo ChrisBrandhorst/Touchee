@@ -27,6 +27,17 @@ namespace Touchee.Devices {
 
 
 
+        #region Constants
+
+        /// <summary>
+        /// The maximum LFE Volume
+        /// </summary>
+        public const float MAX_LFE_VOLUME = 2F;
+
+        #endregion
+
+
+
         #region Singleton constructor
 
         /// <summary>
@@ -86,7 +97,7 @@ namespace Touchee.Devices {
                 return _lfeVolume;
             }
             set {
-                _lfeVolume = Math.Min(Math.Max(0F, value), 2F);
+                _lfeVolume = Math.Min(Math.Max(0F, value), MAX_LFE_VOLUME);
                 this.Save();
             }
         }

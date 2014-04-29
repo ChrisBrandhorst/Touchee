@@ -35,7 +35,6 @@ define([
     
     // Custom view options
     views:              [],
-    selectedContainer:  null,
     selectedView:       null,
     
     
@@ -132,9 +131,6 @@ define([
       
       // Update views view
       BrowserViewsView.update(container, view);
-      
-      // Remember selected container
-      this.selectedContainer = container;
     },
 
 
@@ -170,7 +166,7 @@ define([
       if (!inDOM) view.render();
 
       // Set the selected container
-      this.setSelectedContainer(container, selectedView);
+      this.setSelectedContainer(container.getMaster(), selectedView);
     },
     
     

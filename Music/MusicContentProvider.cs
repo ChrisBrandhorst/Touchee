@@ -73,17 +73,21 @@ namespace Music {
 
                 // All tracks
                 case "track":
-                default:
                     ret = allTracks
                         .OrderByOrdinal(t => t.TitleSort)
                         .ThenByOrdinal(t => t.ArtistSort);
+                    break;
+
+                // No default sorting
+                default:
+                    ret = allTracks;
                     break;
 
             }
 
             // Order by disc number, track number and track name
             // TODO: do not sort non-masterplaylist
-            if (view != "track") {
+            if (view is String && view != "track") {
 
                 if (ret is IOrderedEnumerable<ITrack>)
                     ret = ((IOrderedEnumerable<ITrack>)ret).ThenBy(t => t.DiscNumber == 0);

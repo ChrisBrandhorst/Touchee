@@ -83,7 +83,7 @@ define([
           module = (plugin && plugin.module) || this.baseContentsModule;
       
       // Build the view
-      module.showContents(viewFragment, params, container);
+      module.showContents(container, params, viewFragment);
     },
 
 

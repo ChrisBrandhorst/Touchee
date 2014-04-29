@@ -56,7 +56,7 @@ define([
     // - Sets the view in the browser view;
     // - Fetch the contents of the view model;
     // - Start the inner navigation of the view.
-    showContents: function(fragment, params, container) {
+    showContents: function(container, params, fragment) {
       var existingView = this.getView(fragment);
       var view = existingView || this.buildView(container, params, fragment);
       if (!view) return;

@@ -226,8 +226,7 @@ namespace BassNetPlayer {
         /// Called when the master volume is changed: used to modify the LFE value for this player
         /// </summary>
         void MasterVolume_Changed(object sender, Collectable<Device>.ItemEventArgs e) {
-            var mv = (MasterVolume)e.Item;
-            _lfeVolume = Math.Max(0F, Math.Min(2F, mv.LFEVolume));
+            _lfeVolume = ((MasterVolume)e.Item).LFEVolume;
             if (_currentStream != 0)
                 SetMatrix(_currentStream);
         }

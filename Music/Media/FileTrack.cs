@@ -76,7 +76,7 @@ namespace Music.Media {
                 
                 this.TitleSort = tag.TitleSort;
                 this.Title = tag.Title;
-
+                
                 this.ArtistSort = tag.JoinedPerformersSort;
                 this.Artist = tag.JoinedPerformers;
 

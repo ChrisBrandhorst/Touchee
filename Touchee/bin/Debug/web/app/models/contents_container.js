@@ -38,14 +38,14 @@ define([
         return this.Log.error("No valid view model class specified for module " + (this.get('plugin') || 'base') + " and view " + params.view);
 
       return new viewModelClass(null, {
-        contents: this.buildContents(params),
+        contents: this.getContents(params),
         params:   params
       });
     },
 
 
     // Builds an instance of the Contents for the given params
-    buildContents: function(params) {
+    getContents: function(params) {
       var contents;
       
       if (this.singleContents && this._contents)
@@ -79,7 +79,7 @@ define([
 
     // Gets the master contents container for this contents container
     getMaster: function() {
-      return this.collection.get(this.get('masterID'));
+      return this.isMaster() ? this : this.collection.get(this.get('masterID'));
     }
 
     

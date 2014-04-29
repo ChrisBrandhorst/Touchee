@@ -11,7 +11,8 @@ require.config({
     Touchee:    'lib/touchee',
     text:       '../lib/text-2.0.6',
     i18n:       'lib/i18n-2.0.4.mod',
-    jquery:     '../lib/jquery'
+    jquery:     '../lib/jquery',
+    jqueryUI:   '../lib/jquery-ui-1.10.4.custom.min'
   },
   
   shim: {
@@ -19,7 +20,7 @@ require.config({
     'lib/jquery.extensions':              ['jquery'],
     'lib/jquery.touchscrollselect':       ['jquery'],
     '../lib/jquery.hammer':               ['jquery'],
-    '../lib/jquery-ui-1.10.4.custom.min': ['jquery'],
+    'jqueryUI':                           ['jquery'],
     '../lib/jquery-ui.touch-punch-0.2.3': ['jquery']
   }
   
@@ -44,7 +45,7 @@ require([
   'lib/jquery.extensions',
   'lib/jquery.touchscrollselect',
   '../lib/jquery.hammer',
-  '../lib/jquery-ui-1.9.2.custom.min',
+  'jqueryUI',
   '../lib/jquery-ui.touch-punch-0.2.3',
   
   // Other

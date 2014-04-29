@@ -1865,13 +1865,14 @@ body > section:not(.popup) {
 /* line 156, ../sass/full/browser/_header.sass */
 #browser #lcd_position > a {
   position: absolute;
-  height: 11px;
-  width: 11px;
+  height: 21px;
+  width: 21px;
   top: 0;
-  margin: -2px 0 0 -4px;
+  margin: -7px 0 0 -9px;
+  background: center no-repeat;
   background-image: -webkit-image-set(url(../images/remote/LCDTrackThumb.png) 1x, url(../images/remote/LCDTrackThumb@2x.png) 2x);
 }
-/* line 165, ../sass/full/browser/_header.sass */
+/* line 166, ../sass/full/browser/_header.sass */
 #browser #output {
   width: 198px;
   display: -webkit-box;
@@ -1880,7 +1881,7 @@ body > section:not(.popup) {
   display: box;
   padding-right: 20px;
 }
-/* line 171, ../sass/full/browser/_header.sass */
+/* line 172, ../sass/full/browser/_header.sass */
 #browser #output [data-button=airplay] {
   display: none;
   height: 47px;
@@ -1890,27 +1891,27 @@ body > section:not(.popup) {
   background-position: right center;
   background-repeat: no-repeat;
 }
-/* line 180, ../sass/full/browser/_header.sass */
+/* line 181, ../sass/full/browser/_header.sass */
 #browser #output [data-button=airplay]:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressed.png) 1x, url(../images/remote/VolumeAirPlayPressed@2x.png) 2x);
 }
-/* line 182, ../sass/full/browser/_header.sass */
+/* line 183, ../sass/full/browser/_header.sass */
 #browser #output [data-button=airplay].on {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayOn.png) 1x, url(../images/remote/VolumeAirPlayOn@2x.png) 2x);
 }
-/* line 184, ../sass/full/browser/_header.sass */
+/* line 185, ../sass/full/browser/_header.sass */
 #browser #output [data-button=airplay].on:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeAirPlayPressedOn.png) 1x, url(../images/remote/VolumeAirPlayPressedOn@2x.png) 2x);
 }
-/* line 188, ../sass/full/browser/_header.sass */
+/* line 189, ../sass/full/browser/_header.sass */
 #browser #output.airplay {
   padding-right: 0;
 }
-/* line 190, ../sass/full/browser/_header.sass */
+/* line 191, ../sass/full/browser/_header.sass */
 #browser #output.airplay > [data-button=airplay] {
   display: block;
 }
-/* line 194, ../sass/full/browser/_header.sass */
+/* line 195, ../sass/full/browser/_header.sass */
 #browser #volume {
   width: 178px;
   height: 21px;
@@ -1924,7 +1925,7 @@ body > section:not(.popup) {
   -ms-box-flex: 1;
   box-flex: 1;
 }
-/* line 204, ../sass/full/browser/_header.sass */
+/* line 205, ../sass/full/browser/_header.sass */
 #browser #volume > div {
   height: 100%;
   margin-left: -11px;
@@ -1934,7 +1935,7 @@ body > section:not(.popup) {
   -webkit-border-image: -webkit-image-set(url(../images/remote/VolumeTrackFilled.png) 1x, url(../images/remote/VolumeTrackFilled@2x.png) 2x) 0 11 0 11 repeat;
   border-width: 0px 11px 0px 11px;
 }
-/* line 211, ../sass/full/browser/_header.sass */
+/* line 212, ../sass/full/browser/_header.sass */
 #browser #volume > a {
   position: absolute;
   height: 32px;
@@ -1943,19 +1944,19 @@ body > section:not(.popup) {
   margin: -5px 0 0 -16px;
   background-image: -webkit-image-set(url(../images/remote/VolumeKnob.png) 1x, url(../images/remote/VolumeKnob@2x.png) 2x);
 }
-/* line 218, ../sass/full/browser/_header.sass */
+/* line 219, ../sass/full/browser/_header.sass */
 #browser #volume > a:active {
   background-image: -webkit-image-set(url(../images/remote/VolumeKnobPressed.png) 1x, url(../images/remote/VolumeKnobPressed@2x.png) 2x);
 }
-/* line 227, ../sass/full/browser/_header.sass */
+/* line 228, ../sass/full/browser/_header.sass */
 #browser.disconnected > header [data-button=play], #browser > header.not_playing [data-button=play] {
   display: block !important;
 }
-/* line 229, ../sass/full/browser/_header.sass */
+/* line 230, ../sass/full/browser/_header.sass */
 #browser.disconnected > header [data-button=pause], #browser > header.not_playing [data-button=pause] {
   display: none !important;
 }
-/* line 233, ../sass/full/browser/_header.sass */
+/* line 234, ../sass/full/browser/_header.sass */
 #browser.disconnected > header #lcd::before, #browser > header.not_playing #lcd::before {
   content: "";
   display: block;
@@ -1967,15 +1968,15 @@ body > section:not(.popup) {
   margin-left: -13px;
   background-image: -webkit-image-set(url(../images/remote/LCDAppleLogo.png) 1x, url(../images/remote/LCDAppleLogo@2x.png) 2x);
 }
-/* line 246, ../sass/full/browser/_header.sass */
+/* line 247, ../sass/full/browser/_header.sass */
 #browser.disconnected > header #lcd > * {
   display: none !important;
 }
-/* line 248, ../sass/full/browser/_header.sass */
+/* line 249, ../sass/full/browser/_header.sass */
 #browser.disconnected > header #output > * {
   display: none;
 }
-/* line 253, ../sass/full/browser/_header.sass */
+/* line 254, ../sass/full/browser/_header.sass */
 #browser > header.not_playing #lcd > *:not([data-button=queue]) {
   -webkit-transform: translateY(-1000px);
   -moz-transform: translateY(-1000px);
